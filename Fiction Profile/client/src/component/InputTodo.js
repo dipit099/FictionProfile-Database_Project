@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
+
+
 function InputTodo() {
-    const [description, setDescription] = useState("ttty");
+    const [description, setDescription] = useState("");
     const onSubmitForm = async (event) => {
         event.preventDefault();
         try {
             const body = { description };
-            const response = await fetch("http://localhost:3000/todos", {
+            const response = await fetch("http://localhost:5197/todos", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
-            window.location = "/";
+            console.log(response);
+
         } catch (error) {
             console.log("error")
             console.error(error.message);
@@ -22,8 +25,7 @@ function InputTodo() {
             <form className="d-flex mt-5" onSubmit={onSubmitForm}>
                 <input
                     type="text"
-                    className="form-control"
-                    value={description}
+                    className="form-control" value={description}
                     onChange={event => setDescription(event.target.value)}
                 />
                 <button className="btn btn-success">Add</button>

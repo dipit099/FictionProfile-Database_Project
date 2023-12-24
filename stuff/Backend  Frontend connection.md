@@ -26,17 +26,9 @@ nodemon index
 
 add frontend
 -----------
-#first time
-npm create vite@latest
-select react,javascript
-cd client
-npm install
-npm run dev
-
-#for next times
-cd client
-npm run dev
-
+npx create-react-app client
+npm start 
+( everytime u enter)
 
 
 #1st
