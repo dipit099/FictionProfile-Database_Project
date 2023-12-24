@@ -1,0 +1,34 @@
+connect with backend
+--------------------
+
+#set postgre path in environment variables
+download postman app
+
+#nodemon install 
+npm install -g nodemon
+#run index.js file
+cd server
+node index.js (check if it is running)
+Ctrl C
+nodemon index( constantly updating)
+
+#if scripts not running, follow this link
+https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts-is-disabled-on-this-system
+** use different port number if any issue in postman like "404 not found"**
+
+add frontend
+-----------
+npx create-react-app client
+cd client
+npm start
+
+
+
+#1st
+git fetch origin
+git pull origin main
+
+#2nd
+git add .
+git commit -m "check"
+git push origin
