@@ -62,6 +62,6 @@ app.put("/todos/:id", async (req, res) => {
 });
 
 
-app.listen(6000, () => {
-    console.log("server started on port 6000");
+app.listen(3000, () => {
+    console.log("server started on port 3000");
 });
