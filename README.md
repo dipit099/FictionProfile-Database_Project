@@ -6,4 +6,3 @@ Our project, titled "Fiction Profile," is a dynamic platform designed for users 
 Not only does "Fiction Profile" cater to individual content discovery, but it also fosters a vibrant community by enabling user interactions. Users can engage with one another through the ability to follow, comment, and participate in dynamic discussions.
 
 
-Hi Dipit
