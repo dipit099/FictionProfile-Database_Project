@@ -21,7 +21,7 @@ add frontend
 npm create vite@latest
 select react,javascript
 cd client
-npm start
+npm install
 npm run dev
 
 
