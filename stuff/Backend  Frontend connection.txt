@@ -18,9 +18,11 @@ https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts
 
 add frontend
 -----------
-npx create-react-app client
+npm create vite@latest
+select react,javascript
 cd client
 npm start
+npm run dev
 
 
 
