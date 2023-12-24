@@ -24,6 +24,9 @@ cd client
 npm install
 npm run dev
 
+cd client
+npm run dev
+
 
 
 #1st

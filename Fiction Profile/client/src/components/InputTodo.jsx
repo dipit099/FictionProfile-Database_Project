@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 function InputTodo() {
-    const [description, setDescription] = React.useState("ttty");
+    const [description, setDescription] = useState("ttty");
     const onSubmitForm = async (event) => {
         event.preventDefault();
         try {
