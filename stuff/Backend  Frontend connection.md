@@ -43,3 +43,12 @@ git commit -m "check"
 git push origin
 
 done
+
+
+
+Postgres remote connection Credentials:
+
+Host : db.eocmqhvplptwmzerrcng.supabase.co
+Database Name : postgres
+User : postgres
+Password : dx$Q6*vWTnu!45j
