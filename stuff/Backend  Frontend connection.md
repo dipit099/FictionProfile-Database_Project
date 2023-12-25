@@ -27,9 +27,11 @@ nodemon index
 add frontend
 -----------
 npx create-react-app client
-npm start 
 ( everytime u enter)
+cd client
+npm start 
 
+npm install react-scripts --save ( if show "react-scripts" not found)
 
 #1st
 git fetch origin
