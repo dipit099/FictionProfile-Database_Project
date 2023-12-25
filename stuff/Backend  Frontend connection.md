@@ -48,6 +48,7 @@ done
 
 Postgres remote connection Credentials:
 
+
 // Hosted in Supabase
 Name : postgres
 Host : db.eocmqhvplptwmzerrcng.supabase.co

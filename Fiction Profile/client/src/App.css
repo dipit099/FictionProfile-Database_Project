@@ -1,38 +1,87 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.Inputdiv {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  margin-left: 30%;
+  margin-right: 30%;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  box-shadow: 5px 5px 5px 5px #888888;
+}
+
+.Inputdiv input {
+  width: 95%;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.Inputdiv button {
+  width: 105%;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #4CAF50;
   color: white;
+  font-weight: bold;
 }
 
-.App-link {
-  color: #61dafb;
+
+
+.Listdiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  margin-left: 30%;
+  margin-right: 30%;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  box-shadow: 5px 5px 5px 5px #888888;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Listdiv table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.Listdiv th {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  background-color: #000000;
+  color: white;
+
+}
+
+.Listdiv td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.Listdiv button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: rgb(175, 76, 76);
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+
 }
