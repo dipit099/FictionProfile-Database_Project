@@ -48,7 +48,19 @@ done
 
 Postgres remote connection Credentials:
 
+// Hosted in Supabase
 Host : db.eocmqhvplptwmzerrcng.supabase.co
+Port : 5432
 Database Name : postgres
 User : postgres
 Password : dx$Q6*vWTnu!45j
+
+//Hosted in Render
+Host : dpg-cm4p2dq1hbls73af6t9g-a
+Port : 5432
+Database Name : fictprofile
+User : fictp
+Password : gt5fhRprywckeSWOOpPv51FtLo8EwqgR
+Internal Database URL : postgres://fictp:gt5fhRprywckeSWOOpPv51FtLo8EwqgR@dpg-cm4p2dq1hbls73af6t9g-a/fictprofile
+External Database URL : postgres://fictp:gt5fhRprywckeSWOOpPv51FtLo8EwqgR@dpg-cm4p2dq1hbls73af6t9g-a.singapore-postgres.render.com/fictprofile
+
