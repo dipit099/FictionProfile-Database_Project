@@ -23,7 +23,7 @@
 }
 
 .Inputdiv button {
-  width: 105%;
+  width: 100%;
   padding: 10px;
   margin: 5px;
   border: 1px solid black;
@@ -42,8 +42,8 @@
   align-items: center;
   margin-top: 10%;
   margin-bottom: 10%;
-  margin-left: 30%;
-  margin-right: 30%;
+  margin-right: 10%;
+  margin-left: 10%;
   border: 1px solid black;
   border-radius: 10px;
   padding: 10px;
@@ -58,6 +58,7 @@
 }
 
 .Listdiv th {
+
   padding: 12px;
   text-align: center;
   border-bottom: 1px solid #ddd;
