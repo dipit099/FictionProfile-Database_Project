@@ -49,6 +49,7 @@ done
 Postgres remote connection Credentials:
 
 // Hosted in Supabase
+Name : postgres
 Host : db.eocmqhvplptwmzerrcng.supabase.co
 Port : 5432
 Database Name : postgres
@@ -56,6 +57,7 @@ User : postgres
 Password : dx$Q6*vWTnu!45j
 
 //Hosted in Render
+Name : Fiction Profile
 Host : dpg-cm4p2dq1hbls73af6t9g-a.singapore-postgres.render.com
 Port : 5432
 Database Name : fictprofile
