@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import EditTodo from './EditTodo';
+import './ListTodo.css';
 
 
 
-function ListTodos() {
+function ListTodo() {
 
     const [todos, setTodos] = useState([]);
     const getTodos = async () => {
@@ -35,7 +36,7 @@ function ListTodos() {
     return (
         <div className='Listdiv'>
             <h1>ListTodos</h1>
-            <table className="table">
+            <table>
                 <thead>
                     <tr>
                         <th>Description</th>
@@ -61,4 +62,4 @@ function ListTodos() {
 
     )
 }
-export default ListTodos;
+export default ListTodo;

@@ -1,0 +1,28 @@
+.InputTododiv h1 {
+    text-align: center;
+    margin-top: 3%;
+}
+
+.InputTododiv input {
+    width: 30%;
+    height: 40px;
+    border-radius: 5px;
+    border: 3px solid #2a2a2a;
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px;
+    margin-left: 30%;
+}
+
+.InputTododiv button {
+    width: 10%;
+    border-radius: 5px;
+    border: 3px solid #0ca016;
+    padding: 5px;
+    font-size: 20px;
+    margin: 20px;
+    background-color: #11da3a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}

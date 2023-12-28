@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
+import './InputTodo.css';
 
 
 function InputTodo() {
@@ -21,15 +22,16 @@ function InputTodo() {
         }
     }
     return (
-        <div className="Inputdiv">
-            <h1 className="text-center mt-5">Pern Todo List</h1>
-            <form className="Inputform" onSubmit={onSubmitForm}>
+        <div className='InputTododiv'>
+            <h1>Pern Todo List</h1>
+            <form onSubmit={onSubmitForm}>
                 <input
                     type="text"
-                    className="form-control" value={description}
+                    value={description}
+                    placeholder='Add Todo'
                     onChange={event => setDescription(event.target.value)}
                 />
-                <button className="Inputbutton">Add</button>
+                <button>Add</button>
             </form>
 
         </div>
