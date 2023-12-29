@@ -75,6 +75,26 @@ app.delete("/todos/:id", async (req, res) => {
 });
 
 
+
+app.get('/movies', async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT name, poster_path FROM "Fiction Profile"."TV Datasets" WHERE id>=1 AND id<=100');
+        const movies = result.rows.map(movie => ({
+            title: movie.name,
+            poster_path: `https://image.tmdb.org/t/p/original/${movie.poster_path}`
+        }));
+
+        res.json({ movies });
+    } catch (error) {
+        console.error('Error executing query:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
+
 app.listen(5197, () => {
     console.log("Server started on port 5197");
 });
