@@ -79,9 +79,9 @@ app.delete("/todos/:id", async (req, res) => {
 app.get('/movies', async (req, res) => {
     try {
         const result = await pool.query(
-            'SELECT name, poster_path FROM "Fiction Profile"."TV Datasets" WHERE id>=1 AND id<=100');
+            'SELECT title, poster_path FROM "Fiction Profile"."MOVIE" ORDER BY vote_count DESC LIMIT 10');
         const movies = result.rows.map(movie => ({
-            title: movie.name,
+            title: movie.title,
             poster_path: `https://image.tmdb.org/t/p/original/${movie.poster_path}`
         }));
 
