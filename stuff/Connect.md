@@ -68,3 +68,9 @@ Internal Database URL : postgres://fictp:gt5fhRprywckeSWOOpPv51FtLo8EwqgR@dpg-cm
 External Database URL : postgres://fictp:gt5fhRprywckeSWOOpPv51FtLo8EwqgR@dpg-cm4p2dq1hbls73af6t9g-a.singapore-postgres.render.com/fictprofile
 PSQL COMMAND : PGPASSWORD=gt5fhRprywckeSWOOpPv51FtLo8EwqgR psql -h dpg-cm4p2dq1hbls73af6t9g-a.singapore-postgres.render.com -U fictp fictprofile
 
+
+new
+--------
+npm install "react-router-dom"
+
+

@@ -1,0 +1,46 @@
+.App {
+    text-align: center;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    background-image: linear-gradient(79deg, #6b28e0, #525cb5 48%, #4d9cf7);
+  }
+  
+
+  /* @media screen and (min-width: 600px) {
+    .auth-form-container {
+      padding: 5rem;
+      border: 3px solid rgb(255, 255, 255);
+      border-radius: 10px;
+      margin: 0.5rem;
+    }
+  } */
+/*   
+  label {
+    text-align: left;
+    padding: 0.25rem 0;
+  }
+  
+  input {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+  }
+  
+  button {
+    border: none;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #7439db;
+  }
+  
+  .link-btn {
+    background: none;
+    color: white;
+    text-decoration: underline;
+  } */
