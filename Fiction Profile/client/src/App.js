@@ -16,20 +16,21 @@ function App() {
   }
 
   return (
-   
-      <div className="App">
-        {/* {
+
+    <div className="App">
+      {/* {
           currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : currentForm === "register" ? <Register onFormSwitch={toggleForm} /> : <></>
         } */}
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path="/movie" element={<Movie />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path="/movie" element={<Movie />} />
+        <Route path="/moderator" element={< ></>} />
+      </Routes>
+    </div>
 
 
-   
+
   );
 }
 

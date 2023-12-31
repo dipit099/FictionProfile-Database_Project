@@ -16,42 +16,51 @@
 }
 
 label {
-    text-align: left;   
+    text-align: left;
     font-size: 18px;
     margin: 0.5rem 0;
     color: white;
-   
+
 
 }
 
 input {
     margin: 0.5rem 0;
-    padding: 1rem;
+    padding: 8px;
     border: none;
     border-radius: 10px;
 }
 
 button {
     border: none;
-    width: 50%;
+    width: 100%;
     background-color: white;
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
     color: #7439db;
-    transition-duration: 0.4s;   
-    margin-top: 2%;
+    transition-duration: 0.4s;
+    margin-top: 2%;    
     font-weight: bold;
+
+
 }
+
 button:hover {
-    background-color: #000000; /* Green */
+    background-color: #000000;
+    /* Green */
     color: white;
-  }
-  
+}
+
 .link-btn {
     background: none;
     color: white;
     text-decoration: underline;
     width: 100%;
     font-weight: normal;
+}
+
+label {
+    display: block;
+    margin-right: 10px;
 }
