@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import './Login-register.css';
 
 
@@ -30,11 +31,19 @@ function Login(props) {
 
             if (response.ok) {
                 console.log('User login successfully');
+
+
+                 alert("Login successful");
+                
                 navigate('/movie');
+
                 // Optionally, you can redirect the user to a different page or perform other actions upon successful registration
             } else {
+
                 console.error('Error during login:', data.error);
-                // Handle registration errors (e.g., display an error message to the user)
+                alert("Login failed");
+                
+                
             }
         }
         catch (error) {
@@ -53,6 +62,7 @@ function Login(props) {
 
     return (
         <div className="auth-form-container">
+             
             <h2>Login</h2>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="email">Email</label>
@@ -83,9 +93,11 @@ function Login(props) {
                 As Moderator
             </label>
             <button type="submit" onClick={handleSubmit}>Sign In</button>
+
             {/* <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button> */}
             <Link to='/register'><button className="link-btn" >Don't have an account? Register here.</button></Link>
 
+           
         </div>
 
     )

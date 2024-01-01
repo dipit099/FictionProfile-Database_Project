@@ -64,3 +64,9 @@ label {
     display: block;
     margin-right: 10px;
 }
+
+alert {
+    color: red;
+    font-size: 12px;
+    
+}

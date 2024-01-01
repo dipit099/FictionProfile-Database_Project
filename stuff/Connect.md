@@ -72,5 +72,6 @@ PSQL COMMAND : PGPASSWORD=gt5fhRprywckeSWOOpPv51FtLo8EwqgR psql -h dpg-cm4p2dq1h
 new
 --------
 npm install "react-router-dom"
+npm i react-toastify
 
 
