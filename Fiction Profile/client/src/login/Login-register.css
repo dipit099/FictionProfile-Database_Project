@@ -3,70 +3,85 @@
 .register-form {
     display: flex;
     flex-direction: column;
+   
 }
 
 
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
     .auth-form-container {
         padding: 4rem;
         border: 3px solid rgb(255, 255, 255);
         border-radius: 10px;
         margin: 0.5rem;
     }
+} */
+.auth-form-container {
+    padding: 4rem;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+   
 }
 
-label {
+.auth-form-container label {
     text-align: left;
     font-size: 18px;
     margin: 0.5rem 0;
     color: white;
-
-
+    display: block;
 }
 
-input {
+.auth-form-container input {
     margin: 0.5rem 0;
     padding: 8px;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
+   
 }
 
-button {
+.auth-form-container select{
+    margin: 0.5rem 0;
+    padding: 8px;
     border: none;
-    width: 100%;
+    border-radius: 8px;
     background-color: white;
-    padding: 10px;
-    border-radius: 10px;
+    color: #000000;    
+    margin-left: 20px;
+}
+
+
+.sign-inup-button {
+    border: none;
+    width: 50%;    
+    background-color: white;
+    padding: 8px;
+    border-radius: 8px;
     cursor: pointer;
     color: #7439db;
-    transition-duration: 0.4s;
-    margin-top: 2%;    
-    font-weight: bold;
+    transition-duration: 0.6s;
+    font-weight: bold;    
+    margin: auto;
+    margin-top: 3%;
+    font-size: large;
 
-
-}
-
-button:hover {
-    background-color: #000000;
-    /* Green */
-    color: white;
 }
 
 .link-btn {
+    border: none;
+    width: 80%;
     background: none;
-    color: white;
-    text-decoration: underline;
-    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    transition-duration: 0.6s;
+    margin-top: 2%;
     font-weight: normal;
+    text-decoration: underline;
+    font-size: large;
 }
 
-label {
-    display: block;
-    margin-right: 10px;
+button:hover {
+    background-color: #000000;   
+    color: white;
 }
-
-alert {
-    color: red;
-    font-size: 12px;
-    
-}
+ 
