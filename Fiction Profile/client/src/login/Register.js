@@ -100,17 +100,17 @@ function Register(props) {
                 <div style={{ display: 'flex', justifyContent: "space-between" }}>
                     <div>
                         <label htmlFor="userName">Username <span>*</span></label>
-                        <input value={userName} name="userName" onChange={(e) => setUserName(e.target.value)} id="userName" placeholder="username"   />
+                        <input value={userName} name="userName" onChange={(e) => setUserName(e.target.value)} id="userName" placeholder="username" />
                     </div>
                     <div>
                         <label htmlFor="email">Email <span>*</span></label>
-                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="yourmail@gmail.com" id="email" name="email"   />
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="yourmail@gmail.com" id="email" name="email" />
                     </div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: "space-between" }}>
                     <div >
                         <label htmlFor="firstName">First name <span>*</span></label>
-                        <input value={firstName} name="firstName" onChange={(e) => setFirstName(e.target.value)} id="firstName" placeholder="your name"  />
+                        <input value={firstName} name="firstName" onChange={(e) => setFirstName(e.target.value)} id="firstName" placeholder="your name" />
                     </div>
                     <div>
                         <label htmlFor="lastName">Last name</label>
@@ -119,7 +119,7 @@ function Register(props) {
                 </div>
 
                 <label htmlFor="password">Password <span>*</span></label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="***************" id="password" name="password"   />
+                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="***************" id="password" name="password" />
 
             </form>
 
