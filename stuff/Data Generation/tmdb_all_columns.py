@@ -23,3 +23,6 @@ movies_df = pd.DataFrame(all_movies)
 excel_file = 'top_5000_movies_all_columns.xlsx'
 movies_df.to_excel(excel_file, index=False)
 print(f'Data extracted and saved to {excel_file}')
+
+
+#tmdb can fetch much more than movies and stuff
