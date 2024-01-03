@@ -126,7 +126,11 @@ To set up the frontend, follow these steps:
     ```bash
     npm install react-scripts --save
     ```
+4. If you encounter an issue that react-router-dom is not found, then paste this command in terminal:
 
+    ```bash
+    npm react-router-dom
+    ```
    This will add the necessary scripts for running and building your React app.
 
 # Git Commands
@@ -168,3 +172,13 @@ To set up the frontend, follow these steps:
     <br/>
 
    This will update the main branch on the remote repository with your local changes.
+
+
+**git-push-pull**
+
+git fetch origin
+git pull origin main
+
+git add .
+git commit -m "Check"
+git push origin
