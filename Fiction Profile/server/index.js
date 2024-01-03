@@ -84,20 +84,19 @@ app.post('/register', upload.single('profilePicture'), async (req, res) => {
         }
 
         // Generate a unique identifier for the new user
-        const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
+        // const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
 
-        const currentDate = new Date().toISOString().split('T')[0];
-        const profilePicturePath = req.file.path;
-        if (req.file) {
-            console.log('Profile picture saved at:', profilePicturePath);
-            // Save the path to the database or perform other actions
-        }
+        // const currentDate = new Date().toISOString().split('T')[0];
+        // const profilePicturePath = req.file.path;
+        // if (req.file) {
+        //     console.log('Profile picture saved at:', profilePicturePath);
+        //     // Save the path to the database or perform other actions
+        // }
 
         // If the username and email are unique, insert the new user into the database
         const insertUserQuery =
-            'INSERT INTO "Fiction Profile"."PEOPLE" (people_id, username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
+            'INSERT INTO "Fiction Profile"."PEOPLE" (username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
         await pool.query(insertUserQuery, [
-            ppid,
             userName,
             firstName,
             lastName,
