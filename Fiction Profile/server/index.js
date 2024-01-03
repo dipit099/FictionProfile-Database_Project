@@ -2,8 +2,33 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
+const multer = require('multer');
+const path = require('path');
+const { profile } = require("console");
+
 app.use(cors());
 app.use(express.json());
+
+// Set up Multer for handling file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Specify the destination folder for uploads
+    },
+    // filename: (req, file, cb) => {
+    //     // Generate a unique filename (you may use a library like uuid)
+    //     const uniqueFileName = Date.now() + '-' + file.originalname;
+    //     cb(null, uniqueFileName);
+
+
+    // },
+    filename: (req, file, callback) => {
+        // Use the people_id as the file name
+        const fileName = req.body.userName + '-' + Date.now(); // Assuming userName is unique
+        const ext = path.extname(file.originalname);
+        callback(null, `${fileName}${ext}`);
+    },
+});
+const upload = multer({ storage: storage });
 
 
 
@@ -23,7 +48,7 @@ app.get('/movies', async (req, res) => {
     }
 });
 
-app.post('/register', async (req, res) => {
+app.post('/register', upload.single('profilePicture'), async (req, res) => {
     const {
         userName,
         firstName,
@@ -62,10 +87,15 @@ app.post('/register', async (req, res) => {
         const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
 
         const currentDate = new Date().toISOString().split('T')[0];
+        const profilePicturePath = req.file.path;
+        if (req.file) {
+            console.log('Profile picture saved at:', profilePicturePath);
+            // Save the path to the database or perform other actions
+        }
 
         // If the username and email are unique, insert the new user into the database
         const insertUserQuery =
-            'INSERT INTO "Fiction Profile"."PEOPLE" (people_id, username, first_name, last_name, email, password, birthdate, gender, role, joined_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
+            'INSERT INTO "Fiction Profile"."PEOPLE" (people_id, username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
         await pool.query(insertUserQuery, [
             ppid,
             userName,
@@ -76,14 +106,23 @@ app.post('/register', async (req, res) => {
             birthdate,
             gender,
             role,
-            currentDate
-
+            currentDate,
+            profilePicturePath,
         ]);
         console.log('User registered successfully');
-        res.status(201).json({ message: 'User registered successfully' });
-    } catch (error) {
+        res.status(201).json({
+            message: 'User registered successfully',
+            //  role: storedRole,
+            //  profilePicPath: profilePicturePath,
+        });
+
+    }
+
+    catch (error) {
         console.error('Error during registration:', error.message);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({
+            error: 'Internal server error'
+        });
     }
 });
 

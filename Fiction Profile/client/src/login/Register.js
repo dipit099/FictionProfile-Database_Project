@@ -15,6 +15,8 @@ function Register(props) {
     const [role, setRole] = useState('user'); // Default to 'user'
     const navigate = useNavigate();
     const [profilePicture, setProfilePicture] = useState(null);
+
+    // Handle profile picture change
     const handleProfilePictureChange = (e) => {
         const file = e.target.files[0];
         setProfilePicture(file);
@@ -22,33 +24,34 @@ function Register(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!userName || !pass || !email || !gender || !birthdate) {
-            // Show warning if required fields are empty
-            alert("Please fillup all Mandatory fields");
-            return;
-        }
+
         console.log(userName);
         console.log(firstName);
         console.log(lastName);
         console.log(email);
         console.log(birthdate);
         console.log(role);
+        console.log(profilePicture);
+        if (!userName || !pass || !email || !gender || !birthdate) {
+            // Show warning if required fields are empty
+            alert("Please fillup all Mandatory fields");
+            return;
+        }
         try {
+            const formData = new FormData();
+            formData.append('userName', userName);
+            formData.append('firstName', firstName);
+            formData.append('lastName', lastName);
+            formData.append('email', email);
+            formData.append('pass', pass);
+            formData.append('birthdate', birthdate);
+            formData.append('gender', gender);
+            formData.append('role', role);
+            formData.append('profilePicture', profilePicture);
+
             const response = await fetch('http://localhost:5197/register', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userName,
-                    firstName,
-                    lastName,
-                    email,
-                    pass,
-                    birthdate,
-                    gender,
-                    role,
-                }),
+                body: formData,
             });
 
             const data = await response.json();
@@ -56,20 +59,16 @@ function Register(props) {
             if (response.ok) {
                 console.log('User registered successfully');
                 alert("Registration successful");
+                // setProfilePicPath(data.profilePicPath);
                 navigate('/');
-                // Optionally, you can redirect the user to a different page or perform other actions upon successful registration
             } else {
                 alert("Registration failed");
                 console.error('Error during registration:', data.error);
-                // Handle registration errors (e.g., display an error message to the user)
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error during sending register data:', error.message);
         }
-
-    }
-
+    };
 
     const handlePeopleTypeChange = (peopleType) => {
         // Set the selected user type in the component's state
@@ -90,7 +89,7 @@ function Register(props) {
 
 
 
-    // Handle profile picture change
+
 
 
     return (
