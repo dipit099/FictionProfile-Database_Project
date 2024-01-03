@@ -69,22 +69,22 @@ app.post('/register', upload.single('profilePicture'), async (req, res) => {
             return res.status(409).json({ error: 'Username or email already exists' });
         }
 
-        const getTotalRowsQuery = 'SELECT COUNT(*) FROM "Fiction Profile"."PEOPLE"';
-        const totalRowsResult = await pool.query(getTotalRowsQuery);
-        const totalRows = parseInt(totalRowsResult.rows[0].count);
+        // const getTotalRowsQuery = 'SELECT COUNT(*) FROM "Fiction Profile"."PEOPLE"';
+        // const totalRowsResult = await pool.query(getTotalRowsQuery);
+        // const totalRows = parseInt(totalRowsResult.rows[0].count);
 
-        // Generate a unique identifier based on the total number of rows
-        const getLastInsertedRowQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" ORDER BY people_id DESC LIMIT 1';
-        const lastInsertedRowResult = await pool.query(getLastInsertedRowQuery);
+        // // Generate a unique identifier based on the total number of rows
+        // const getLastInsertedRowQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" ORDER BY people_id DESC LIMIT 1';
+        // const lastInsertedRowResult = await pool.query(getLastInsertedRowQuery);
 
-        let lastId = 0;
-        if (lastInsertedRowResult.rows.length > 0) {
-            // Extract the last inserted ID
-            lastId = parseInt(lastInsertedRowResult.rows[0].people_id.slice(2)); // Assuming user_id is in the format 'pp000001'
-        }
+        // let lastId = 0;
+        // if (lastInsertedRowResult.rows.length > 0) {
+        //     // Extract the last inserted ID
+        //     lastId = parseInt(lastInsertedRowResult.rows[0].people_id.slice(2)); // Assuming user_id is in the format 'pp000001'
+        // }
 
-        // Generate a unique identifier for the new user
-        // const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
+        // // Generate a unique identifier for the new user
+        // // const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
 
         const currentDate = new Date().toISOString().split('T')[0];
         const profilePicturePath = req.file.path;
