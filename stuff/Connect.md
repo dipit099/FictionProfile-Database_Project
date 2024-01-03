@@ -165,13 +165,6 @@ To set up the frontend, follow these steps:
     git push origin
     ```
 
+    <br/>
+
    This will update the main branch on the remote repository with your local changes.
-
-
-
-
-Feel free to use these credentials for establishing remote connections to your PostgreSQL databases. If you have any questions or encounter issues, don't hesitate to reach out!
-
-
-
-
