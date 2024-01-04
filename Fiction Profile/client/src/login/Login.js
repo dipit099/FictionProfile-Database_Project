@@ -40,7 +40,12 @@ function Login(props) {
 
                 alert("Login successful");
 
-                navigate('/movie');
+                if (role === 'user') {
+                    navigate('/home', { state: { username: data.username,role:data.role } });
+                }
+                else if (role === 'moderator') {
+                    navigate('/moderator', { state: { username: data.username } });
+                }
 
                 // Optionally, you can redirect the user to a different page or perform other actions upon successful registration
             } else {

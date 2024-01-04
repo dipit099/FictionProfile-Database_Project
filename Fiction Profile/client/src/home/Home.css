@@ -1,0 +1,17 @@
+
+
+.home-container {
+    margin-top: 60px; /* Adjust the margin-top to accommodate the fixed navbar */
+    padding: 20px; /* Add padding as needed */
+    background-color: #063a41;
+}
+
+.home-content {
+    max-width: 800px; /* Set a maximum width for your content */
+    margin: 0 auto; /* Center the content horizontally */
+}
+
+h1 {
+    font-size: 2em; /* Adjust the font size as needed */
+    color: #333; /* Set the text color */
+}

@@ -5,7 +5,9 @@
     flex-direction: column;
 
 }
-
+.auth-form-container{
+    background-image: linear-gradient(79deg, #6b28e0, #525cb5 48%, #4d9cf7);
+}
 
 /* @media screen and (min-width: 600px) {
     .auth-form-container {
