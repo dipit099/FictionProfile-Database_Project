@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+
+.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    --tmdbDarkBlue: 3,37,65;
+    background-color: rgba(var(--tmdbDarkBlue),1);    
+    
+    /* Change the background color as needed */
+    padding: 10px 20px;
+    /* Adjust padding as needed */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    /* Add box shadow for a subtle effect */
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    /* Change text color as needed */
+}
+
+.navbar-left h1 {
+    margin: 0;
+    color: white;
+}
+
+.navbar-right button {
+    margin-left: 10px;
+    /* Add spacing between buttons */
+    background-color: #244d98;
+    /* Change button background color as needed */
+    color: white;
+    /* Change button text color as needed */
+    border: none;
+    padding: 8px 15px;
+    /* Adjust padding as needed */
+    cursor: pointer;
+}
+
+/* Add additional styles for navbar-middle or other elements if needed */

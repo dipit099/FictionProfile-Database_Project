@@ -60,7 +60,7 @@ function Register(props) {
                 console.log('User registered successfully');
                 alert("Registration successful");
                 // setProfilePicPath(data.profilePicPath);
-                navigate('/');
+                navigate('/home');
             } else {
                 alert("Registration failed");
                 console.error('Error during registration:', data.error);
@@ -183,7 +183,7 @@ function Register(props) {
 
             <button type="submit" className="sign-inup-button" onClick={handleSubmit} >Sign Up</button>
             {/* <button className="link-btn" onClick={() => props.onFormSwitch('login')}>Already have an account? Login here.</button> */}
-            <Link to='/'><button className="link-btn" >Already have an account? Login here.</button></Link>
+            <Link to='/login'><button className="link-btn" >Already have an account? Login here.</button></Link>
 
         </div>
     )

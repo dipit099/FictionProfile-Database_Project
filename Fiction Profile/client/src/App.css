@@ -1,14 +1,16 @@
 .App {
-  text-align: center;
+   /* text-align: center;
   display: flex;
   min-height: 100vh;
   align-items: center;
-  justify-content: center;
-  color: rgb(255, 255, 255);
-  background-image: linear-gradient(79deg, #6b28e0, #525cb5 48%, #4d9cf7);
+  justify-content: center; */
+  
+  
+  /*
+ 
   /* background-color: rgb(4, 26, 44); */
   /* background-color: rgba(var(--tmdbDarkBlue),1);    
-    --tmdbDarkBlue: 3,37,65; */
+    --tmdbDarkBlue: 3,37,65; */ 
 
 }
 

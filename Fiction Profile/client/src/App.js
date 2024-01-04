@@ -6,6 +6,7 @@ import ListTodos from './component/ListTodo';
 import Movie from './component/Movie';
 import Login from './login/Login';
 import Register from './login/Register';
+import Home from './home/Home';
 
 
 function App() {
@@ -22,10 +23,12 @@ function App() {
           currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : currentForm === "register" ? <Register onFormSwitch={toggleForm} /> : <></>
         } */}
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path="/movie" element={<Movie />} />
         <Route path="/moderator" element={< ></>} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </div>
 
