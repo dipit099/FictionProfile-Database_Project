@@ -189,3 +189,4 @@ git push origin
 **new**
 git checkout -b dipit
 git push -u origin dipit
+ctrl+shft+v  to preview md files

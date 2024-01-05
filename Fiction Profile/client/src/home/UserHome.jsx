@@ -4,7 +4,7 @@ import Movie from '../component/Movie';
 import './Home.css'; // Import your CSS file for styling
 import { useLocation } from 'react-router-dom';
 
-function Home() {
+function UserHome() {
     const location = useLocation();
     const email = location.state && location.state.email;
     const role = location.state && location.state.role;
@@ -21,4 +21,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default UserHome;

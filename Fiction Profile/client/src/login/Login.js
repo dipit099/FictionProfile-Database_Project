@@ -31,7 +31,7 @@ function Login(props) {
                     role
                 }),
             });
-            // console.log("data sent  " + email + pass);
+
             const data = await response.json();
 
             if (response.ok) {
@@ -41,11 +41,14 @@ function Login(props) {
                 alert("Login successful");
 
                 if (role === 'user') {
-                    navigate('/home', { state: { username: data.username,role:data.role } });
+                    console.log("in login page email " + email + " role " + role)
+                    navigate('/userhome', { state: { email: email, role: role } });
                 }
-                else if (role === 'moderator') {
-                    navigate('/moderator', { state: { username: data.username } });
+                // if (role === 'moderator') 
+                else {
+                    navigate('/moderatorhome', { state: { email: data.email } });
                 }
+
 
                 // Optionally, you can redirect the user to a different page or perform other actions upon successful registration
             } else {
@@ -64,7 +67,7 @@ function Login(props) {
     }
 
 
-    const handlePeopleTypeChange = (peopleType) => {
+    const handleSetRoleChange = (peopleType) => {
         // Set the selected user type in the component's state
         setRole(peopleType);
 
@@ -87,7 +90,7 @@ function Login(props) {
                         type="checkbox"
                         value="user"
                         checked={role === 'user'}
-                        onChange={() => handlePeopleTypeChange('user')}
+                        onChange={() => handleSetRoleChange('user')}
                     />
                     As User
                 </label>
@@ -98,7 +101,7 @@ function Login(props) {
                         type="checkbox"
                         value="moderator"
                         checked={role === 'moderator'}
-                        onChange={() => handlePeopleTypeChange('moderator')}
+                        onChange={() => handleSetRoleChange('moderator')}
                     />
                     As Moderator
                 </label>
@@ -107,6 +110,7 @@ function Login(props) {
             <button type="submit" className="sign-inup-button" onClick={handleSubmit} >
                 Sign In
             </button>
+            <button className="link-btn">Forget Password</button>
 
             {/* <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button> */}
             <Link to='/register'><button className="link-btn" >Don't have an account? Register here.</button></Link>

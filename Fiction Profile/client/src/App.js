@@ -7,6 +7,8 @@ import Movie from './component/Movie';
 import Login from './login/Login';
 import Register from './login/Register';
 import Home from './home/Home';
+import UserHome from './home/UserHome';
+import ModeratorHome from './home/ModeratorHome';
 
 
 function App() {
@@ -27,8 +29,8 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path="/movie" element={<Movie />} />
-        <Route path="/moderator" element={< ></>} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/moderatorhome" element={<ModeratorHome/>} />
+        <Route path="/userhome" element={<UserHome />} />
       </Routes>
     </div>
 
