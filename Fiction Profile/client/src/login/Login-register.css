@@ -5,8 +5,24 @@
     flex-direction: column;
 
 }
-.auth-form-container{
+.loginregister-full-page{
     background-image: linear-gradient(79deg, #6b28e0, #525cb5 48%, #4d9cf7);
+    text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+}
+.auth-form-container{
+    /* background-image: linear-gradient(79deg, #6b28e0, #525cb5 48%, #4d9cf7);
+    text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center; */
+
 }
 
 /* @media screen and (min-width: 600px) {

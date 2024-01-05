@@ -93,6 +93,7 @@ function Register(props) {
 
 
     return (
+        <div className="loginregister-full-page">
         <div className="auth-form-container">
             <h2>Register</h2>
             <form className="register-form" onSubmit={handleSubmit}>
@@ -185,6 +186,7 @@ function Register(props) {
             {/* <button className="link-btn" onClick={() => props.onFormSwitch('login')}>Already have an account? Login here.</button> */}
             <Link to='/login'><button className="link-btn" >Already have an account? Login here.</button></Link>
 
+        </div>
         </div>
     )
 }
