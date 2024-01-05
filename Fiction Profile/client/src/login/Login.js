@@ -46,7 +46,7 @@ function Login(props) {
                 }
                 // if (role === 'moderator') 
                 else {
-                    navigate('/moderatorhome', { state: { email: data.email } });
+                    navigate('/moderatorhome', { state: { email: data.email, role: role } });
                 }
 
 
