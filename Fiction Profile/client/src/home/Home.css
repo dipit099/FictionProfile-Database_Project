@@ -1,19 +1,15 @@
-
-
 .home-container {
-    margin-top: 60px; /* Adjust the margin-top to accommodate the fixed navbar */
-    padding: 20px; /* Add padding as needed */
-    /* background-color: #063a41; */
-    --tmdbDarkBlue: 3,37,65;
-    background-color: rgba(var(--tmdbDarkBlue),1);
+    margin-top: 80px;
+    padding: 20px;
+    background-color: rgba(3, 37, 65, 1);
 }
 
 .home-content {
-    max-width: 800px; /* Set a maximum width for your content */
-    margin: 0 auto; /* Center the content horizontally */
+    
+    margin: 0 auto;
 }
 
 h1 {
-    font-size: 2em; /* Adjust the font size as needed */
-    color: #333; /* Set the text color */
+    font-size: 2em;
+    color: #333;
 }
