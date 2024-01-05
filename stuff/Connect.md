@@ -70,6 +70,10 @@ To start the server, follow these steps:
     cd server
     ```
 
+    ```bash
+    npm install
+    ``` 
+
 2. Install nodemon globally (if not already installed):
 
     ```bash
@@ -112,7 +116,12 @@ To set up the frontend, follow these steps:
     ```bash
     cd client
     ```
+    Then install this package too
+    ```bash
+    npm i react-icons
 
+    ```
+    
 2. Start the development server:
 
     ```bash
