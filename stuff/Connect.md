@@ -181,6 +181,7 @@ git pull origin main
 
 git add .
 git commit -m "Check"
+git push -u origin dipit
 git push origin
 
 
@@ -188,3 +189,4 @@ git push origin
 **new**
 git checkout -b dipit
 git push -u origin dipit
+ctrl+shft+v  to preview md files

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css"; // Import your CSS file for styling
+import SideBar from "./SideBar";
 
 const Navbar = ({ role }) => {
 
@@ -16,6 +17,7 @@ const Navbar = ({ role }) => {
         <div className="navbar-container">
             <div className="navbar">
                 <div className="navbar-left">
+                    <SideBar/>
                     <Link to="/home">
                         <h1>Fiction Profile</h1>
                     </Link>
@@ -28,15 +30,15 @@ const Navbar = ({ role }) => {
                 <div className="navbar-right">
                     {role === "user" ? (
                         <>
-                            <button>Account</button>
-                            <button>Notification</button>
                             <button>Dashboard</button>
+                            <button>Notification</button>
+                            <button>Account</button>
                         </>
                     ) : role === "moderator" ? (
                         <>
-                            <button>Account</button>
-                            <button>Notification</button>
                             <button>Dashboard</button>
+                            <button>Notification</button>
+                            <button>Account</button>
                         </>
                     ) : (
                         <>
