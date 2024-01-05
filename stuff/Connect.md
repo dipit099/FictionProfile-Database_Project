@@ -179,14 +179,14 @@ To set up the frontend, follow these steps:
 git fetch origin
 git pull origin main
 
+
+**new**
 git add .
 git commit -m "Check"
 git push -u origin dipit
 git push origin
 
 
-
-**new**
 git checkout -b dipit
 git push -u origin dipit
 ctrl+shft+v  to preview md files
