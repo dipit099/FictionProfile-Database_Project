@@ -1,30 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Navbar.css"; // Import your CSS file for styling
 import SideBar from "./SideBar";
+import './Navbar.css';
 
 const Navbar = ({ role }) => {
 
-    // const openLoginPopup = () => {
-    //     // Specify the URL of your login page
-    //     const loginPageUrl = "/login";
-
-    //     // Open the login page in a popup window
-    //     window.open(loginPageUrl, "Login", "width=400,height=400");
-    // };
-
+    console.log("in navbar, role " + role);
     return (
         <div className="navbar-container">
             <div className="navbar">
                 <div className="navbar-left">
                     <SideBar/>
-                    <Link to="/home">
-                        <h1>Fiction Profile</h1>
-                    </Link>
+                    {role === "user" ? (
+                        <SideBar />
+                    ) : (
+                        <> </>
+                    )}                         
+                    <h1>Fiction Profile</h1>          
                 </div>
 
                 <div className="navbar-middle">
                     {/* Add your middle content here */}
+                    
                 </div>
 
                 <div className="navbar-right">

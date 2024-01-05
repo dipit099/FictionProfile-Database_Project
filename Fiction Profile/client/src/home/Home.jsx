@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './Navbar';
+import Navbar from '../navbar/Navbar';
 import Movie from '../component/Movie';
 import './Home.css'; // Import your CSS file for styling
 import { useLocation } from 'react-router-dom';

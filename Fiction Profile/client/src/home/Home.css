@@ -3,7 +3,9 @@
 .home-container {
     margin-top: 60px; /* Adjust the margin-top to accommodate the fixed navbar */
     padding: 20px; /* Add padding as needed */
-    background-color: #063a41;
+    /* background-color: #063a41; */
+    --tmdbDarkBlue: 3,37,65;
+    background-color: rgba(var(--tmdbDarkBlue),1);
 }
 
 .home-content {

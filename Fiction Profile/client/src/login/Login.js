@@ -74,6 +74,7 @@ function Login(props) {
     };
 
     return (
+        <div className="loginregister-full-page">
         <div className="auth-form-container">
 
             <h2>Login</h2>
@@ -116,6 +117,7 @@ function Login(props) {
             <Link to='/register'><button className="link-btn" >Don't have an account? Register here.</button></Link>
 
 
+        </div>
         </div>
 
     )
