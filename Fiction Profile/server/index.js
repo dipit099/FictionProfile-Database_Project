@@ -14,39 +14,33 @@ const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/'); // Specify the destination folder for uploads
     },
-    // filename: (req, file, cb) => {
-    //     // Generate a unique filename (you may use a library like uuid)
-    //     const uniqueFileName = Date.now() + '-' + file.originalname;
-    //     cb(null, uniqueFileName);
 
+    filename: async (req, file, cb) => {
+        try {
+            // // Generate a unique identifier based on the total number of rows
+            const getLastInsertedRowQuery = 'SELECT people_id FROM "Fiction Profile"."PEOPLE" ORDER BY people_id DESC LIMIT 1';
+            const lastInsertedRowResult = await pool.query(getLastInsertedRowQuery);
 
-    // },
-    filename: (req, file, callback) => {
-        // Use the people_id as the file name
-        const fileName = req.body.userName + '-' + Date.now(); // Assuming userName is unique
-        const ext = path.extname(file.originalname);
-        callback(null, `${fileName}${ext}`);
+            let lastId = 0;
+            if (lastInsertedRowResult.rows.length > 0) {
+                // Extract the last inserted ID
+                lastId = parseInt(lastInsertedRowResult.rows[0].people_id.slice(2)); // Assuming user_id is in the format 'pp000001'
+            }
+            const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
+            const fileName = ppid + '-' + Date.now(); // Assuming userName is unique
+            const ext = path.extname(file.originalname);
+            cb(null, `${fileName}${ext}`);
+        }
+        catch (error) {
+            console.error('Error getting the latest ppid for storing profile pic:', error.message);
+            cb(null, null);
+        }
     },
 });
+
+
+
 const upload = multer({ storage: storage });
-
-
-
-app.get('/movies', async (req, res) => {
-    try {
-        const result = await pool.query(
-            'SELECT title, poster_path FROM "Fiction Profile"."MOVIE" ORDER BY vote_count DESC LIMIT 10');
-        const movies = result.rows.map(movie => ({
-            title: movie.title,
-            poster_path: `https://image.tmdb.org/t/p/original/${movie.poster_path}`
-        }));
-
-        res.json({ movies });
-    } catch (error) {
-        console.error('Error executing query:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
 
 app.post('/register', upload.single('profilePicture'), async (req, res) => {
     const {
@@ -69,29 +63,10 @@ app.post('/register', upload.single('profilePicture'), async (req, res) => {
             return res.status(409).json({ error: 'Username or email already exists' });
         }
 
-        // const getTotalRowsQuery = 'SELECT COUNT(*) FROM "Fiction Profile"."PEOPLE"';
-        // const totalRowsResult = await pool.query(getTotalRowsQuery);
-        // const totalRows = parseInt(totalRowsResult.rows[0].count);
-
-        // // Generate a unique identifier based on the total number of rows
-        // const getLastInsertedRowQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" ORDER BY people_id DESC LIMIT 1';
-        // const lastInsertedRowResult = await pool.query(getLastInsertedRowQuery);
-
-        // let lastId = 0;
-        // if (lastInsertedRowResult.rows.length > 0) {
-        //     // Extract the last inserted ID
-        //     lastId = parseInt(lastInsertedRowResult.rows[0].people_id.slice(2)); // Assuming user_id is in the format 'pp000001'
-        // }
-
-        // // Generate a unique identifier for the new user
-        // // const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
-
         const currentDate = new Date().toISOString().split('T')[0];
-        const profilePicturePath = req.file.path;
-        if (req.file) {
-            console.log('Profile picture saved at:', profilePicturePath);
-            // Save the path to the database or perform other actions
-        }
+        const profilePicturePath = req.file ? req.file.path : null;
+        console.log('Profile picture saved at:', profilePicturePath);
+
 
         // If the username and email are unique, insert the new user into the database
         const insertUserQuery =
@@ -99,14 +74,14 @@ app.post('/register', upload.single('profilePicture'), async (req, res) => {
         await pool.query(insertUserQuery, [
             userName,
             firstName,
-            lastName,
+            lastName || null,
             email,
             pass,
-            birthdate,
-            gender,
+            birthdate || null, // Assuming birthdate is optional
+            gender || null,
             role,
             currentDate,
-            profilePicturePath,
+            profilePicturePath, // Assuming profile picture is optional
         ]);
         console.log('User registered successfully');
         res.status(201).json({
@@ -159,6 +134,22 @@ app.post('/login', async (req, res) => {
         res.status(200).json({ message: 'Login successful', role: storedRole });
     } catch (error) {
         console.error('Error during login:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.get('/movies', async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT title, poster_path FROM "Fiction Profile"."MOVIE" ORDER BY vote_count DESC LIMIT 10');
+        const movies = result.rows.map(movie => ({
+            title: movie.title,
+            poster_path: `https://image.tmdb.org/t/p/original/${movie.poster_path}`
+        }));
+
+        res.json({ movies });
+    } catch (error) {
+        console.error('Error executing query:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
