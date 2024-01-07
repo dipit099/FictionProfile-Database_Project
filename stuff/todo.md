@@ -1,7 +1,6 @@
 go to server folder
-npm i googleapis
-
 npm i multer
+npm i firebase
 
 
 # Common for all the pages (These are navigation buttons and dropdown menus to navigate from one page to other)
