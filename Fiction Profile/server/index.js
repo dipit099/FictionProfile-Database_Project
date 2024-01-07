@@ -4,43 +4,29 @@ const cors = require("cors");
 const pool = require("./db");
 const multer = require('multer');
 const path = require('path');
-const { profile } = require("console");
-
 app.use(cors());
 app.use(express.json());
 
-// Set up Multer for handling file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Specify the destination folder for uploads
-    },
 
-    filename: async (req, file, cb) => {
-        try {
-            // // Generate a unique identifier based on the total number of rows
-            const getLastInsertedRowQuery = 'SELECT people_id FROM "Fiction Profile"."PEOPLE" ORDER BY people_id DESC LIMIT 1';
-            const lastInsertedRowResult = await pool.query(getLastInsertedRowQuery);
+//setup firebase
+const firebase = require('firebase/app');
+const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require('firebase/storage');
 
-            let lastId = 0;
-            if (lastInsertedRowResult.rows.length > 0) {
-                // Extract the last inserted ID
-                lastId = parseInt(lastInsertedRowResult.rows[0].people_id.slice(2)); // Assuming user_id is in the format 'pp000001'
-            }
-            const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
-            const fileName = ppid + '-' + Date.now(); // Assuming userName is unique
-            const ext = path.extname(file.originalname);
-            cb(null, `${fileName}${ext}`);
-        }
-        catch (error) {
-            console.error('Error getting the latest ppid for storing profile pic:', error.message);
-            cb(null, null);
-        }
-    },
-});
+const firebaseConfig = {
+    apiKey: "AIzaSyAtnG5wlmolpTxWvhWlt39K8_ZbSkrBPAs",
+    authDomain: "fiction-profile-ec84d.firebaseapp.com",
+    projectId: "fiction-profile-ec84d",
+    storageBucket: "fiction-profile-ec84d.appspot.com",
+    messagingSenderId: "806361300468",
+    appId: "1:806361300468:web:e09850c1ae05096b384da1",
+    measurementId: "G-BPKCBNVQ67"
+};
+firebase.initializeApp(firebaseConfig);
+const storage = getStorage();
+const upload = multer({ storage: multer.memoryStorage() });
 
 
 
-const upload = multer({ storage: storage });
 
 app.post('/register', upload.single('profilePicture'), async (req, res) => {
     const {
@@ -54,6 +40,9 @@ app.post('/register', upload.single('profilePicture'), async (req, res) => {
         role,
     } = req.body;
 
+    // console.log('Received registration request:', req.body);
+    // console.log('Received profile picture:', req.file);
+
     try {
         // Check if the username or email already exists
         const checkUserQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" WHERE username = $1 OR email = $2';
@@ -63,10 +52,31 @@ app.post('/register', upload.single('profilePicture'), async (req, res) => {
             return res.status(409).json({ error: 'Username or email already exists' });
         }
 
+        //setting up profile picture path
         const currentDate = new Date().toISOString().split('T')[0];
-        const profilePicturePath = req.file ? req.file.path : null;
-        console.log('Profile picture saved at:', profilePicturePath);
+        const getLastInsertedRowQuery = 'SELECT people_id FROM "Fiction Profile"."PEOPLE" ORDER BY people_id DESC LIMIT 1';
+        const lastInsertedRowResult = await pool.query(getLastInsertedRowQuery);
+        let lastId = 0;
+        if (lastInsertedRowResult.rows.length > 0) {
+            lastId = parseInt(lastInsertedRowResult.rows[0].people_id.slice(2));
+        }
+        const ppid = `pp${(lastId + 1).toString().padStart(6, '0')}`;
+        let profilePicturePath = null;
+        if (req.file) {
+            const storageRef = ref(storage, `uploads/${ppid + "_" + currentDate}`);
+            const metadata = {
+                contentType: req.file.mimetype,
+            };
+            // Upload the file in the bucket storage
+            const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+            //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+            // Grab the public url
+            const downloadURL = await getDownloadURL(snapshot.ref);
 
+            console.log('File successfully uploaded.');
+            console.log('File available at', downloadURL);
+            profilePicturePath = downloadURL;
+        }
 
         // If the username and email are unique, insert the new user into the database
         const insertUserQuery =
@@ -88,6 +98,10 @@ app.post('/register', upload.single('profilePicture'), async (req, res) => {
             message: 'User registered successfully',
             //  role: storedRole,
             //  profilePicPath: profilePicturePath,
+            //     message: 'file uploaded to firebase storage',
+            //     name: req.file.originalname,
+            //     type: req.file.mimetype,
+            //     downloadURL: downloadURL
         });
 
     }
@@ -108,7 +122,6 @@ app.post('/login', async (req, res) => {
         // Check if the email exists in the "People" table
         const checkUserQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" WHERE email = $1';
         const checkUserResult = await pool.query(checkUserQuery, [email]);
-
         if (checkUserResult.rows.length === 0) {
             // User with the provided email does not exist
             return res.status(404).json({ error: 'User not found' });
@@ -116,7 +129,6 @@ app.post('/login', async (req, res) => {
 
         // Compare the provided password with the password from the database (assuming it's stored as VARCHAR)
         const storedPassword = checkUserResult.rows[0].password;
-
         if (pass !== storedPassword) {
             // Password does not match
             return res.status(401).json({ error: 'Invalid password' });
@@ -137,6 +149,8 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
 
 app.get('/movies', async (req, res) => {
     try {
