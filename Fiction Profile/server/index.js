@@ -1,3 +1,27 @@
+import pool from "./db";
+import express, { json } from "express";
+const app = express();
+import cors from "cors";
+import RegisterRoute from './routes/login/RegisterRoute';
+import LoginRoute from './routes/login/LoginRoute';
+import MovieRoute from './routes/components/MovieRoute';
+
+app.use(cors());
+app.use(json());
+
+app.use('/register', RegisterRoute);
+app.use('/login', LoginRoute);
+app.use('/movies', MovieRoute);
+
+
+
+
+
+
+
+
+
+
 // const express = require("express");
 // const app = express();
 // const cors = require("cors");
@@ -6,20 +30,6 @@
 // const path = require('path');
 // app.use(cors());
 // app.use(express.json());
-const pool = require("./db");
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const RegisterRoute = require('./routes/login/RegisterRoute');
-const LoginRoute = require('./routes/login/LoginRoute');
-const MovieRoute = require('./routes/components/MovieRoute');
-
-app.use(cors());
-app.use(express.json());
-
-app.use('/register', RegisterRoute);
-app.use('/login', LoginRoute);
-app.use('/movies', MovieRoute);
 
 // app.get('/movies', async (req, res) => {
 //     try {

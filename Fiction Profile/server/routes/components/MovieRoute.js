@@ -1,10 +1,10 @@
-const express = require("express");
-const router = express.Router();
-const pool = require("../../db");
+import { Router } from "express";
+const router = Router();
+import { query } from "../../db";
 
 router.get('/', async (req, res) => {
     try {
-        const result = await pool.query(
+        const result = await query(
             'SELECT title, poster_path FROM "Fiction Profile"."MOVIE" ORDER BY vote_count DESC LIMIT 10');
         const movies = result.rows.map(movie => ({
             title: movie.title,
@@ -18,4 +18,4 @@ router.get('/', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
