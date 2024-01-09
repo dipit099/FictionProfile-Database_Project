@@ -1,7 +1,7 @@
 // loginRoute.js
-const express = require("express");
-const router = express.Router();
-const pool = require("../../db");
+import { Router } from "express";
+const router = Router();
+import { query } from "../../db";
 
 router.post('/', async (req, res) => {
     // Your login route logic here
@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
     try {
         // Check if the email exists in the "People" table
         const checkUserQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" WHERE email = $1';
-        const checkUserResult = await pool.query(checkUserQuery, [email]);
+        const checkUserResult = await query(checkUserQuery, [email]);
         if (checkUserResult.rows.length === 0) {
             // User with the provided email does not exist
             return res.status(404).json({ error: 'User not found' });
@@ -40,4 +40,4 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

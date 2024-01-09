@@ -1,15 +1,15 @@
 // registerRoute.js
-const express = require("express");
-const router = express.Router();
-const multer = require('multer');
-const { getDownloadURL, uploadBytesResumable, ref } = require('firebase/storage');
-const { storage } = require('../../config/firebaseConfig');
-const pool = require("../../db");
+import { Router } from "express";
+const router = Router();
+import multer, { memoryStorage } from 'multer';
+import { getDownloadURL, uploadBytesResumable, ref } from 'firebase/storage';
+import { storage } from '../../config/firebaseConfig';
+import { query } from "../../db";
 
 
-const cors = require("cors");
-const path = require('path');
-const upload = multer({ storage: multer.memoryStorage() });
+import cors from "cors";
+import path from 'path';
+const upload = multer({ storage: memoryStorage() });
 
 router.post('/', upload.single('profilePicture'), async (req, res) => {
     // Your register route logic here
@@ -31,7 +31,7 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
     try {
         // Check if the username or email already exists
         const checkUserQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" WHERE username = $1 OR email = $2';
-        const checkUserResult = await pool.query(checkUserQuery, [userName, email]);
+        const checkUserResult = await query(checkUserQuery, [userName, email]);
         if (checkUserResult.rows.length > 0) {
             // User with the same username or email already exists
             console.log('Username or email already exists');
@@ -43,7 +43,7 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
         //setting up profile picture path
         const currentDate = new Date().toISOString().split('T')[0];
         const getLastInsertedRowQuery = 'SELECT people_id FROM "Fiction Profile"."PEOPLE" ORDER BY people_id DESC LIMIT 1';
-        const lastInsertedRowResult = await pool.query(getLastInsertedRowQuery);
+        const lastInsertedRowResult = await query(getLastInsertedRowQuery);
         let lastId = 0;
         if (lastInsertedRowResult.rows.length > 0) {
             lastId = parseInt(lastInsertedRowResult.rows[0].people_id.slice(2));
@@ -69,7 +69,7 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
         // If the username and email are unique, insert the new user into the database
         const insertUserQuery =
             'INSERT INTO "Fiction Profile"."PEOPLE" (username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
-        await pool.query(insertUserQuery, [
+        await query(insertUserQuery, [
             userName,
             firstName,
             lastName || null,
@@ -102,4 +102,4 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
