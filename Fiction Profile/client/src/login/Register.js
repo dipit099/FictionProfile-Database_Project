@@ -62,8 +62,8 @@ function Register(props) {
                 // setProfilePicPath(data.profilePicPath);
                 navigate('/login');
             } else {
+                console.error('Error during registration:', data.error);
                 alert(data.error);
-                // console.error('Error during registration:', data.error);
             }
         } catch (error) {
             console.error('Error during sending register data:', error.message);
@@ -116,7 +116,7 @@ function Register(props) {
                             <label htmlFor="lastName">Last name</label>
                             <input value={lastName} name="lastName" onChange={(e) => setLastName(e.target.value)} id="lastName" placeholder="your name" />
                         </div>
-                    </div>          
+                    </div>
                     <label htmlFor="password">Password*</label>
                     <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="***************" id="password" name="password" />
 

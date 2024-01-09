@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Movie.css';
-const MovieList = () => {
+const Movie = () => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
@@ -32,4 +32,4 @@ const MovieList = () => {
     );
 };
 
-export default MovieList;
+export default Movie;
