@@ -1,7 +1,7 @@
 // loginRoute.js
-import { Router } from "express";
-const router = Router();
-import { query } from "../../db";
+const express = require("express");
+const router = express.Router();
+const pool = require("../../db");
 
 router.post('/', async (req, res) => {
     // Your login route logic here
@@ -40,4 +40,4 @@ router.post('/', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

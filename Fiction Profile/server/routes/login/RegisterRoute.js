@@ -1,15 +1,16 @@
 // registerRoute.js
-import { Router } from "express";
-const router = Router();
-import multer, { memoryStorage } from 'multer';
-import { getDownloadURL, uploadBytesResumable, ref } from 'firebase/storage';
-import { storage } from '../../config/firebaseConfig';
-import { query } from "../../db";
+const express = require("express");
+const router = express.Router();
+const multer = require('multer');
+const { getDownloadURL, uploadBytesResumable, ref } = require('firebase/storage');
+const { storage } = require('../../config/firebaseConfig');
+const pool = require("../../db");
+// const bcrypt = require("bcrypt");
 
 
-import cors from "cors";
-import path from 'path';
-const upload = multer({ storage: memoryStorage() });
+const cors = require("cors");
+const path = require('path');
+const upload = multer({ storage: multer.memoryStorage() });
 
 router.post('/', upload.single('profilePicture'), async (req, res) => {
     // Your register route logic here
@@ -102,4 +103,4 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

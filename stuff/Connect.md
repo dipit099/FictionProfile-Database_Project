@@ -73,12 +73,21 @@ To start the server, follow these steps:
     ```bash
     npm install
     ``` 
+    
+    ```bash
+    npm i multer
+    ```
+    
+    ```bash
+    npm i firebase
+    ```
 
 2. Install nodemon globally (if not already installed):
 
     ```bash
     npm install -g nodemon
     ```
+
 
 3. Run the server using nodemon:
 
@@ -105,18 +114,18 @@ app.listen(port, () => {
 
 To set up the frontend, follow these steps:
 
-1. Create a new React app using create-react-app. 
-
-    ```bash
-    npx create-react-app client
-    ```
-
-   Every time you enter the project, navigate to the "client" directory:
+1. When you enter into the project, navigate to the "client" directory:
 
     ```bash
     cd client
     ```
-    Then install this package too
+    Then install this packages one by one.
+    ```bash
+    npm install react-scripts --save
+    ```
+    ```bash
+    npm i react-router-dom
+    ```
     ```bash
     npm i react-icons
 
@@ -131,14 +140,14 @@ To set up the frontend, follow these steps:
    This command will launch your React app, and you can view it in your web browser.
 
 3. If you encounter an issue where "react-scripts" is not found, you can install it using the following command:
-
     ```bash
     npm install react-scripts --save
     ```
+    
 4. If you encounter an issue that react-router-dom is not found, then paste this command in terminal:
 
     ```bash
-    npm react-router-dom
+    npm i react-router-dom
     ```
    This will add the necessary scripts for running and building your React app.
 
