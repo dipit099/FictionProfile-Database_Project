@@ -128,7 +128,9 @@ To set up the frontend, follow these steps:
     ```
     ```bash
     npm i react-icons
-
+    ```
+    ```bash
+    npm i react-toastify
     ```
     
 2. Start the development server:

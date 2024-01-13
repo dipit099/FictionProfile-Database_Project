@@ -5,8 +5,6 @@ const multer = require('multer');
 const { getDownloadURL, uploadBytesResumable, ref } = require('firebase/storage');
 const { storage } = require('../../config/firebaseConfig');
 const pool = require("../../db");
-// const bcrypt = require("bcrypt");
-
 
 const cors = require("cors");
 const path = require('path');
@@ -26,25 +24,29 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
         role,
     } = req.body;
 
-    console.log('Received registration request:', req.body);
+    // console.log('Received registration request:', req.body);
     // console.log('Received profile picture:', req.file);
 
     try {
         // Check if the username or email already exists
         const checkUserQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" WHERE username = $1 OR email = $2';
-        const checkUserResult = await query(checkUserQuery, [userName, email]);
+        const checkUserResult = await pool.query(checkUserQuery, [userName, email]);
         if (checkUserResult.rows.length > 0) {
             // User with the same username or email already exists
             console.log('Username or email already exists');
             return res.status(409).json(
                 { error: 'Username or email already exists' }
-                );
+            );
         }
+        // Hash the password
+        // const salt = await bcrypt.genSalt(20);
+        // const hashedPassword = await bcrypt.hash(pass, salt);
+        // console.log(hashedPassword);
 
         //setting up profile picture path
         const currentDate = new Date().toISOString().split('T')[0];
         const getLastInsertedRowQuery = 'SELECT people_id FROM "Fiction Profile"."PEOPLE" ORDER BY people_id DESC LIMIT 1';
-        const lastInsertedRowResult = await query(getLastInsertedRowQuery);
+        const lastInsertedRowResult = await pool.query(getLastInsertedRowQuery);
         let lastId = 0;
         if (lastInsertedRowResult.rows.length > 0) {
             lastId = parseInt(lastInsertedRowResult.rows[0].people_id.slice(2));
@@ -70,7 +72,7 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
         // If the username and email are unique, insert the new user into the database
         const insertUserQuery =
             'INSERT INTO "Fiction Profile"."PEOPLE" (username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
-        await query(insertUserQuery, [
+        await pool.query(insertUserQuery, [
             userName,
             firstName,
             lastName || null,

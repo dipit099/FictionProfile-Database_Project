@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import './Login-register.css';
-
+import { toast } from "react-toastify";
 
 function Login(props) {
     const [email, setEmail] = useState('');
@@ -75,49 +75,49 @@ function Login(props) {
 
     return (
         <div className="loginregister-full-page">
-        <div className="auth-form-container">
+            <div className="auth-form-container">
 
-            <h2>Login</h2>
-            <form className="login-form" onSubmit={handleSubmit}>
-                <label htmlFor="email">Email <span>*</span></label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="yourmail@gmail.com" id="email" name="email" required />
-                <label htmlFor="password">Password <span>*</span></label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*************" id="password" name="password" required />
+                <h2>Login</h2>
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <label htmlFor="email">Email <span>*</span></label>
+                    <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="yourmail@gmail.com" id="email" name="email" required />
+                    <label htmlFor="password">Password <span>*</span></label>
+                    <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="*************" id="password" name="password" required />
 
-            </form>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <label >
-                    <input
-                        type="checkbox"
-                        value="user"
-                        checked={role === 'user'}
-                        onChange={() => handleSetRoleChange('user')}
-                    />
-                    As User
-                </label>
+                </form>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <label >
+                        <input
+                            type="checkbox"
+                            value="user"
+                            checked={role === 'user'}
+                            onChange={() => handleSetRoleChange('user')}
+                        />
+                        As User
+                    </label>
 
-                {/* Checkbox for "As Moderator" */}
-                <label>
-                    <input
-                        type="checkbox"
-                        value="moderator"
-                        checked={role === 'moderator'}
-                        onChange={() => handleSetRoleChange('moderator')}
-                    />
-                    As Moderator
-                </label>
+                    {/* Checkbox for "As Moderator" */}
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="moderator"
+                            checked={role === 'moderator'}
+                            onChange={() => handleSetRoleChange('moderator')}
+                        />
+                        As Moderator
+                    </label>
+                </div>
+
+                <button type="submit" className="sign-inup-button" onClick={handleSubmit} >
+                    Sign In
+                </button>
+                <button className="link-btn">Forget Password</button>
+
+                {/* <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button> */}
+                <Link to='/register'><button className="link-btn" >Don't have an account? Register here.</button></Link>
+
+
             </div>
-
-            <button type="submit" className="sign-inup-button" onClick={handleSubmit} >
-                Sign In
-            </button>
-            <button className="link-btn">Forget Password</button>
-
-            {/* <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button> */}
-            <Link to='/register'><button className="link-btn" >Don't have an account? Register here.</button></Link>
-
-
-        </div>
         </div>
 
     )
