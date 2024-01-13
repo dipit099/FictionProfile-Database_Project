@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../../db");
+const bcrypt = require('bcrypt');
 
 router.post('/', async (req, res) => {
     // Your login route logic here
@@ -14,14 +15,16 @@ router.post('/', async (req, res) => {
         const checkUserResult = await pool.query(checkUserQuery, [email]);
         if (checkUserResult.rows.length === 0) {
             // User with the provided email does not exist
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ error: 'Invalid Credentials' });
         }
+        
+        const validPassword = await bcrypt.compare(
+            pass,
+            checkUserResult.rows[0].password
+        );
 
-        // Compare the provided password with the password from the database (assuming it's stored as VARCHAR)
-        const storedPassword = checkUserResult.rows[0].password;
-        if (pass !== storedPassword) {
-            // Password does not match
-            return res.status(401).json({ error: 'Invalid password' });
+        if (!validPassword) {
+            return res.status(401).json("Invalid Credential");
         }
 
         // Check if the user has the correct role
@@ -31,6 +34,8 @@ router.post('/', async (req, res) => {
             // User does not have the required role
             return res.status(403).json({ error: 'Invalid role' });
         }
+        
+       
 
         // Provide a success message or additional information as needed
         res.status(200).json({ message: 'Login successful', role: storedRole });

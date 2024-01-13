@@ -82,6 +82,10 @@ To start the server, follow these steps:
     npm i firebase
     ```
 
+    ```bash
+    npm i bcrypt
+    ```
+
 2. Install nodemon globally (if not already installed):
 
     ```bash

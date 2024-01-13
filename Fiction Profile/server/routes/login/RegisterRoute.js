@@ -9,6 +9,7 @@ const pool = require("../../db");
 const cors = require("cors");
 const path = require('path');
 const upload = multer({ storage: multer.memoryStorage() });
+const bcrypt = require('bcrypt');
 
 router.post('/', upload.single('profilePicture'), async (req, res) => {
     // Your register route logic here
@@ -38,10 +39,10 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
                 { error: 'Username or email already exists' }
             );
         }
-        // Hash the password
-        // const salt = await bcrypt.genSalt(20);
-        // const hashedPassword = await bcrypt.hash(pass, salt);
-        // console.log(hashedPassword);
+        //Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(pass, salt);
+        //console.log(hashedPassword);
 
         //setting up profile picture path
         const currentDate = new Date().toISOString().split('T')[0];
@@ -77,13 +78,15 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
             firstName,
             lastName || null,
             email,
-            pass,
+            // pass,
+            hashedPassword,
             birthdate || null, // Assuming birthdate is optional
             gender || null,
             role,
             currentDate,
             profilePicturePath, // Assuming profile picture is optional
         ]);
+
         console.log('User registered successfully');
         res.status(201).json({
             message: 'User registered successfully',
