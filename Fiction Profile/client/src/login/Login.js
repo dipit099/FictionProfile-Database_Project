@@ -39,7 +39,7 @@ function Login(props) {
 
 
                 alert("Login successful");
-
+                // toast.success("Login successful");
                 if (role === 'user') {
                     console.log("in login page email " + email + " role " + role)
                     navigate('/userhome', { state: { email: email, role: role } });
@@ -55,7 +55,6 @@ function Login(props) {
 
                 console.error('Error during login:', data.error);
                 alert("Login failed");
-
 
             }
         }
