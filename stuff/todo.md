@@ -1,8 +1,3 @@
-go to server folder
-npm i multer
-npm i firebase
-
-
 # Common for all the pages (These are navigation buttons and dropdown menus to navigate from one page to other)
 1. Top Right buttons - Dashboard(when logged in) , 
 Login/Account(when logged in) , Notification
