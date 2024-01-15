@@ -13,6 +13,10 @@ app.use('/register', RegisterRoute);
 app.use('/login', LoginRoute);
 app.use('/movies', MovieRoute);
 
+const PORT = 5197;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
 
 
@@ -25,7 +29,7 @@ app.use('/movies', MovieRoute);
 // const express = require("express");
 // const app = express();
 // const cors = require("cors");
-// 
+//
 // const multer = require('multer');
 // const path = require('path');
 // app.use(cors());
@@ -47,10 +51,6 @@ app.use('/movies', MovieRoute);
 //     }
 // });
 
-const PORT = 5197;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
 
 
 //setup firebase
