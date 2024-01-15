@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../../db");
 const bcrypt = require('bcrypt');
+const jwtGenerator = require("../../config/jwtGenerator");
 
 router.post('/', async (req, res) => {
     // Your login route logic here
@@ -17,7 +18,7 @@ router.post('/', async (req, res) => {
             // User with the provided email does not exist
             return res.status(404).json({ error: 'Invalid Credentials' });
         }
-        
+
         const validPassword = await bcrypt.compare(
             pass,
             checkUserResult.rows[0].password
@@ -34,11 +35,15 @@ router.post('/', async (req, res) => {
             // User does not have the required role
             return res.status(403).json({ error: 'Invalid role' });
         }
-        
-       
+        const token = jwtGenerator(email);
+        // console.log(token);
 
         // Provide a success message or additional information as needed
-        res.status(200).json({ message: 'Login successful', role: storedRole });
+        res.status(200).json({
+            message: 'Login successful',
+            role: storedRole,
+            token: token,
+        });
     } catch (error) {
         console.error('Error during login:', error.message);
         res.status(500).json({ error: 'Internal server error' });

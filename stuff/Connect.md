@@ -85,6 +85,10 @@ To start the server, follow these steps:
     ```bash
     npm i bcrypt
     ```
+    
+     ```bash
+    npm i dotenv
+    ```
 
 2. Install nodemon globally (if not already installed):
 
