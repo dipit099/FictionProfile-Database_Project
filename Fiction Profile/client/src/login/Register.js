@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import './Login-register.css';
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register(props) {
     const [userName, setUserName] = useState('');
@@ -58,12 +59,14 @@ function Register(props) {
 
             if (response.ok) {
                 console.log('User registered successfully');
-                alert("Registration successful");
+                //alert("Registration successful");
                 // setProfilePicPath(data.profilePicPath);
+                toast.success("Registration successful");
                 navigate('/login');
             } else {
                 console.error('Error during registration:', data.error);
-                alert(data.error);
+                // alert(data.error);
+                toast.error(data.error);
             }
         } catch (error) {
             console.error('Error during sending register data:', error.message);

@@ -73,31 +73,9 @@ To start the server, follow these steps:
     ```bash
     npm install
     ``` 
-    
-    ```bash
-    npm i multer
-    ```
-    
-    ```bash
-    npm i firebase
-    ```
+        
 
-    ```bash
-    npm i bcrypt
-    ```
-    
-     ```bash
-    npm i dotenv
-    ```
-
-2. Install nodemon globally (if not already installed):
-
-    ```bash
-    npm install -g nodemon
-    ```
-
-
-3. Run the server using nodemon:
+2. Run the server using nodemon:
 
     ```bash
     nodemon index
@@ -127,19 +105,11 @@ To set up the frontend, follow these steps:
     ```bash
     cd client
     ```
-    Then install this packages one by one.
+    
     ```bash
-    npm install react-scripts --save
+    npm install 
     ```
-    ```bash
-    npm i react-router-dom
-    ```
-    ```bash
-    npm i react-icons
-    ```
-    ```bash
-    npm i react-toastify
-    ```
+    
     
 2. Start the development server:
 

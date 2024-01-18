@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import './Login-register.css';
 import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login(props) {
     const [email, setEmail] = useState('');
@@ -38,8 +39,8 @@ function Login(props) {
                 console.log('User login successfully');
 
 
-                alert("Login successful");
-                // toast.success("Login successful");
+                // alert("Login successful");
+                toast.success("Login successful");
                 if (role === 'user') {
                     console.log("in login page email " + email + " role " + role)
                     navigate('/userhome', { state: { email: email, role: role } });
@@ -54,7 +55,7 @@ function Login(props) {
             } else {
 
                 console.error('Error during login:', data.error);
-                alert("Login failed");
+                toast.error("Login failed");
 
             }
         }
