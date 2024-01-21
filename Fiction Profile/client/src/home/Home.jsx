@@ -3,21 +3,26 @@ import Navbar from '../navbar/Navbar';
 import Movie from '../component/Movie';
 import './Home.css'; // Import your CSS file for styling
 import { useLocation } from 'react-router-dom';
+import SideBar from '../navbar/SideBar';
 
 function Home() {
-    const location = useLocation();
-    const email = location.state && location.state.email;
-    const role = location.state && location.state.role;
-    console.log("in homepage, email "+ email+ " role "+ role);
-    
+    // const location = useLocation();
+    // const email = location.state && location.state.email;
+    // const role = location.state && location.state.role;
+    // console.log("in homepage, email "+ email+ " role "+ role);
+    const role = null;
+
     return (
-        <div className="home-container">
-            <Navbar role={role} />
+        <div className="home-container">           
+                <Navbar role={role} />       
             <div className="home-content">
-                <h1 style={{ color: 'white', textAlign: 'center' }}>Hello {email}</h1>
-                <Movie />
+                <SideBar />
+                <h1>Trending</h1>
+                <Movie  />
             </div>
         </div>
+
+
     );
 }
 

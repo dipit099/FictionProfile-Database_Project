@@ -3,6 +3,7 @@ import Navbar from '../navbar/Navbar';
 import Movie from '../component/Movie';
 import './Home.css'; // Import your CSS file for styling
 import { useLocation } from 'react-router-dom';
+import SideBar from '../navbar/SideBar';
 
 function UserHome() {
     const location = useLocation();
@@ -14,8 +15,9 @@ function UserHome() {
         <div className="home-container">
             <Navbar role={role} />
             <div className="home-content">
-                <h1 style={{ color: 'white', textAlign: 'center' }}>Hello {email}</h1>
-                <Movie />
+                <SideBar />
+                <h1>Trending</h1>
+                <Movie role={role} />
             </div>
         </div>
     );

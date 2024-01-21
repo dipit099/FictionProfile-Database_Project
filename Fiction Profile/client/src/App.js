@@ -10,9 +10,26 @@ import Home from './home/Home';
 import UserHome from './home/UserHome';
 import ModeratorHome from './home/ModeratorHome';
 import { Navigate } from "react-router-dom";
+import MovieDetails from "./component/MovieDetails";
 
 
 function App() {
+
+  return (
+
+    <div className="App">
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+      <Route path="/movie" element={<Movie />} />
+      <Route path="/moderatorhome" element={<ModeratorHome/>} />
+      <Route path="/userhome" element={<UserHome />} />
+      <Route path="/movie/:id" element={<MovieDetails/>} />
+    </Routes>
+
+
+  </div>
   // const checkAuthenticated = async () => {
   //   try {
   //     const res = await fetch("http://localhost:5197/verify", {
@@ -42,20 +59,7 @@ function App() {
   // }
 
 
-  return (
-
-    <div className="App">
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
-      <Route path="/movie" element={<Movie />} />
-      <Route path="/moderatorhome" element={<ModeratorHome/>} />
-      <Route path="/userhome" element={<UserHome />} />
-    </Routes>
-
-
-  </div>
+  
   //   <div className="App">
   //     <Routes>
   //       <Route path="/" element={<Home />} />
