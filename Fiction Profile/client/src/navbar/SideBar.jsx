@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import { Link } from 'react-router-dom';
@@ -7,41 +7,35 @@ import './SideBar.css';
 import { IconContext } from 'react-icons';
 
 function SideBar() {
-  const [sidebar, setSidebar] = useState(false);
-
-  const showSidebar = () => setSidebar(!sidebar);
+  // State removed as it's not needed for the sidebar to be always visible
 
   return (
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
-        <div className='sidebar-container'> {/* Change class name here */}
-          {/* <Link to='#' className='menu-bars'>
-            <FaIcons.FaBars onClick={showSidebar} />
-          </Link> */}
-          <button className='menu-bars' onClick={showSidebar}>
+        <div className='sidebar-container'>
+          {/* <button className='menu-bars'>
             <FaIcons.FaBars />
-          </button>
+          </button> */}
         </div>
-        <nav className={sidebar ? 'side-menu active' : 'side-menu'}>
-          <ul className='side-menu-items' onClick={showSidebar}>
+        <nav className='side-menu active'> {/* Sidebar is always active */}
+          <ul className='side-menu-items'>
             <li className='sidebar-toggle'>
-              {/* <Link to='#' className='menu-bars'>
+              {/* <button className='menu-bars'>
                 <AiIcons.AiOutlineClose />
-              </Link> */}
-              <button className='menu-bars'>
-                <AiIcons.AiOutlineClose />
-              </button>
+              </button> */}
             </li>
-            {SidebarData.map((item, index) => {
-              return (
-                <li key={index} className={item.cName}>
-                  <Link to={item.path}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              );
-            })}
+
+
+            {SidebarData.map((item, index) => (
+              <li key={index} className={item.cName}>
+                <Link to={item.path}>
+                  {item.icon}
+                 
+                  <span>{item.title}</span>
+                </Link>
+              </li>
+            ))}
+            
           </ul>
         </nav>
       </IconContext.Provider>

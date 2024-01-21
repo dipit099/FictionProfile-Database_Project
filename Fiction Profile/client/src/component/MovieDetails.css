@@ -1,0 +1,40 @@
+/* MovieDetails.css */
+
+.MovieDetails-container {
+    position: relative;
+    color: #ffffff;
+}
+
+.backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+}
+
+.details {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 20px;
+}
+
+.poster {
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.info {
+    text-align: left;
+    margin-top: 20px;
+}
+
+/* Add more styles as needed */

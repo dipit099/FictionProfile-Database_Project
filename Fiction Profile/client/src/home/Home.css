@@ -1,15 +1,18 @@
 .home-container {
     margin-top: 80px;
-    padding: 20px;
-    background-color: rgba(3, 37, 65, 1);
+    padding-left: 250px;
+    background-color: #060b26;    
 }
 
 .home-content {
-    
+
     margin: 0 auto;
 }
 
 h1 {
     font-size: 2em;
-    color: #333;
+    color: #ffffff;
+    text-align: left;
+    margin-left: 10px;
+    margin-top: 50px;
 }
