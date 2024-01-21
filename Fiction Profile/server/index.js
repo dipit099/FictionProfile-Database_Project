@@ -5,13 +5,27 @@ const cors = require("cors");
 const RegisterRoute = require('./routes/login/RegisterRoute');
 const LoginRoute = require('./routes/login/LoginRoute');
 const MovieRoute = require('./routes/components/MovieRoute');
-
+const authorize = require('./middleware/authorize');
 app.use(cors());
 app.use(express.json());
 
 app.use('/register', RegisterRoute);
 app.use('/login', LoginRoute);
 app.use('/movies', MovieRoute);
+
+
+
+
+// app.post("/verify", authorize, (req, res) => {
+//     try {
+//       res.json(true);
+//     } catch (err) {
+//       console.error(err.message);
+//       res.status(500).send("Server error");
+//     }
+//   });
+
+
 
 const PORT = 5197;
 app.listen(PORT, () => {

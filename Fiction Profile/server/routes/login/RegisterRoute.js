@@ -11,6 +11,9 @@ const path = require('path');
 const upload = multer({ storage: multer.memoryStorage() });
 const bcrypt = require('bcrypt');
 const jwtGenerator = require("../../config/jwtGenerator");
+const authorize = require("../../middleware/authorize");
+
+
 
 router.post('/', upload.single('profilePicture'), async (req, res) => {
     // Your register route logic here
@@ -72,14 +75,29 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
         }
 
         // If the username and email are unique, insert the new user into the database
+        // const insertUserQuery =
+        //     'INSERT INTO "Fiction Profile"."PEOPLE" (username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+        // await pool.query(insertUserQuery, [
+        //     userName,
+        //     firstName,
+        //     lastName || null,
+        //     email,
+        //     // pass,
+        //     hashedPassword,
+        //     birthdate || null, // Assuming birthdate is optional
+        //     gender || null,
+        //     role,
+        //     currentDate,
+        //     profilePicturePath, // Assuming profile picture is optional
+        // ]);
         const insertUserQuery =
-            'INSERT INTO "Fiction Profile"."PEOPLE" (username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)';
-        await pool.query(insertUserQuery, [
+            'INSERT INTO "Fiction Profile"."PEOPLE" (username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+
+        const newUserResult = await pool.query(insertUserQuery, [
             userName,
             firstName,
             lastName || null,
             email,
-            // pass,
             hashedPassword,
             birthdate || null, // Assuming birthdate is optional
             gender || null,
@@ -87,12 +105,15 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
             currentDate,
             profilePicturePath, // Assuming profile picture is optional
         ]);
-        const token = jwtGenerator(userName);
+
+        // Generate JWT token for the newly registered user
+        // const jwtToken = jwtGenerator(newUserResult.rows[0].people_id);
+
 
         console.log('User registered successfully');
         res.status(201).json({
             message: 'User registered successfully',
-            token : token,
+            // jwtToken: jwtToken,
             //  role: storedRole,
             //  profilePicPath: profilePicturePath,
             //     message: 'file uploaded to firebase storage',

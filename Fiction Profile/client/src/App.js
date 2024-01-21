@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './App.css';
 import { Route, Router, Routes, BrowserRouter } from "react-router-dom";
 import InputTodo from './component/InputTodo';
@@ -9,30 +9,111 @@ import Register from './login/Register';
 import Home from './home/Home';
 import UserHome from './home/UserHome';
 import ModeratorHome from './home/ModeratorHome';
+import { Navigate } from "react-router-dom";
 
 
 function App() {
-  const [currentForm, setCurrentForm] = useState('login');
+  // const checkAuthenticated = async () => {
+  //   try {
+  //     const res = await fetch("http://localhost:5197/verify", {
+  //       method: "POST",
+  //       headers: { jwt_token: localStorage.jwt_token }
+  //     });
+  //     const parseRes = await res.json();
+  //     parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+  //     console.log("parseRes: " + parseRes);
+  //   } catch (err) {
+  //     console.error("Error in checkAuthenticated function: ");
+  //     console.error(err.message);
+  //   }
+  // };
+  // useEffect(() => {
+  //   checkAuthenticated();
+  // });
 
-  const toggleForm = (formName) => {
-    setCurrentForm(formName);
-  }
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [authRole, setRole] = useState(null);
+
+  // const setAuth = boolean => {
+  //   setIsAuthenticated(boolean);//boolean is the parameter here
+  // };
+  // const setAuthRole = role => {
+  //   setRole(role);
+  // }
+
 
   return (
 
     <div className="App">
-      {/* {
-          currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : currentForm === "register" ? <Register onFormSwitch={toggleForm} /> : <></>
-        } */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path="/movie" element={<Movie />} />
-        <Route path="/moderatorhome" element={<ModeratorHome/>} />
-        <Route path="/userhome" element={<UserHome />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+      <Route path="/movie" element={<Movie />} />
+      <Route path="/moderatorhome" element={<ModeratorHome/>} />
+      <Route path="/userhome" element={<UserHome />} />
+    </Routes>
+
+
+  </div>
+  //   <div className="App">
+  //     <Routes>
+  //       <Route path="/" element={<Home />} />
+  //       <Route
+  //         path='/login'
+  //         element={
+  //           isAuthenticated ? (
+  //             authRole === 'user' ? (
+  //               <Navigate to='/userhome' />
+  //             ) : (
+  //               <Navigate to='/moderatorhome' />
+  //             )
+  //           ) : (
+  //             <Login setAuth={setAuth} setAuthRole={setAuthRole} />
+  //           )
+  //         }
+  //       />
+
+  //       <Route
+  //         path='/register'
+  //         element={<Register />}
+  //       />
+  //       {/* <Route
+  //   path="/movie"
+  //   element={
+  //     isAuthenticated === "user" ? (
+  //       <Movie />
+  //     ) : (
+  //       <Navigate to={isAuthenticated === "false" ? "/login" : "/moderatorhome"} />
+  //     )
+  //   }
+  // /> */}
+  //       <Route
+  //         path="/moderatorhome"
+  //         element={
+  //           isAuthenticated && authRole === "moderator" ? (
+  //             <ModeratorHome />
+  //           ) : (
+  //             <Navigate to="/login" />
+  //           )
+  //         }
+  //       />
+  //       <Route
+  //         path="/userhome"
+  //         element={
+  //           isAuthenticated && authRole !== "user" ? (
+  //             <UserHome />
+  //           ) : (
+  //             <Navigate to="/login" />
+  //           )
+  //         }
+  //       />
+
+  //     </Routes>
+
+  //   </div>
+
+   
 
 
 
