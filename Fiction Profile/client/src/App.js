@@ -9,6 +9,7 @@ import UserHome from './component/home/UserHome';
 import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
 import MovieDetails from "./component/media_details/MovieDetails";
+import Account from "./component/account/Account"
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
         <Route path="/userhome" element={isAuthenticated && authRole === 'user' ? <UserHome /> : <Navigate to="/" />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
         <Route path="/movie" element={isAuthenticated ? <Movie /> : <Home />} />
+        <Route path="/account" element={isAuthenticated ? <Account /> : <Home />} />
       </Routes>
     </div>
   );
