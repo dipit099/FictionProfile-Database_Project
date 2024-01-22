@@ -6,8 +6,6 @@ const RegisterRoute = require('./routes/login/RegisterRoute');
 const LoginRoute = require('./routes/login/LoginRoute');
 const MovieRoute = require('./routes/components/MovieRoute');
 const authorize = require('./middleware/authorize');
-const JwtVerify = require('./routes/login/JwtVerify');
-const router = require('express').Router();
 
 app.use(cors());
 app.use(express.json());
@@ -15,19 +13,14 @@ app.use(express.json());
 app.use('/register', RegisterRoute);
 app.use('/login', LoginRoute);
 app.use('/movies', MovieRoute);
-//app.use('/auth-verify', JwtVerify);   
-
-
-
 
 
 
 app.get('/auth-verify', authorize, async (req, res) => {
     try {
         // if it passes authorization than it is valid
-        console.log("in auth-verify url");
-        res.json(true);
-        // console.log(req.user);
+        //console.log("in auth-verify url");
+        res.json(true);       
     }
     catch (err) {
         console.error("verify url" + err.message);
@@ -41,6 +34,18 @@ const PORT = 5197;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

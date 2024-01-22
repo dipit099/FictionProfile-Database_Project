@@ -15,7 +15,7 @@ function ModeratorHome() {
             <div className="home-content">
                 <h1 style={{ color: 'white', textAlign: 'center' }}>Hello {email}</h1>
                 <h1 style={{ color: 'white', textAlign: 'center' }}>Moderator</h1>
-                
+
             </div>
         </div>
     )

@@ -4,13 +4,8 @@ const router = express.Router();
 const pool = require("../../db");
 const bcrypt = require('bcrypt');
 const jwtGenerator = require("../../utilis/jwtGenerator");
-const authorize = require("../../middleware/authorize");
-
-
 
 router.post('/', async (req, res) => {
-    // Your login route logic here
-    // ...
     const { email, pass, role } = req.body;
 
     try {
@@ -38,12 +33,9 @@ router.post('/', async (req, res) => {
             // User does not have the required role
             return res.status(403).json({ error: 'Invalid role' });
         }
-        console.log("in loginroute" + role);
         const token = jwtGenerator(checkUserResult.rows[0].people_id);
+        console.log("token received");
 
-        // console.log("in loginroute" + jwtToken);
-
-        // Provide a success message or additional information as needed
         res.status(200).json({
             message: 'Login successful',
             role: storedRole,
