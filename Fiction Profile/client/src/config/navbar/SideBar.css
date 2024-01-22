@@ -1,6 +1,7 @@
 .sidebar-container {
   background-color: #060b26;    
     display: flex;
+    flex-direction: column;
     justify-content: start;
     align-items: center;
   }

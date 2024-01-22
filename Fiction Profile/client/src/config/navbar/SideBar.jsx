@@ -29,9 +29,9 @@ function SideBar() {
             {SidebarData.map((item, index) => (
               <li key={index} className={item.cName}>
                 <Link to={item.path}>
-                  {item.icon}
-                 
-                  <span>{item.title}</span>
+                  <li>{item.icon}</li>
+                  
+                 <li> <span>{item.title}</span></li>                  
                 </Link>
               </li>
             ))}

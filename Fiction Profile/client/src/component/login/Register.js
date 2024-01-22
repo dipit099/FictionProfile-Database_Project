@@ -5,7 +5,7 @@ import './Login-register.css';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
-import BASE_URL from "../config/ApiConfig";
+import BASE_URL from "../../config/ApiConfig";
 
 function Register(props) {
     const [userName, setUserName] = useState('');
@@ -17,13 +17,13 @@ function Register(props) {
     const [birthdate, setBirthdate] = useState('');
     const [role, setRole] = useState('user'); // Default to 'user'
     const navigate = useNavigate();
-    const [profilePicture, setProfilePicture] = useState(null);
+    // const [profilePicture, setProfilePicture] = useState(null);
 
     // Handle profile picture change
-    const handleProfilePictureChange = (e) => {
-        const file = e.target.files[0];
-        setProfilePicture(file);
-    };
+    // const handleProfilePictureChange = (e) => {
+    //     const file = e.target.files[0];
+    //     setProfilePicture(file);
+    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -162,7 +162,7 @@ function Register(props) {
                     </div>
                 </div>
 
-                <label htmlFor="profilePicture">Profile Picture:
+                {/* <label htmlFor="profilePicture">Profile Picture:
                     <input
                         type="file"
                         accept="image/*"
@@ -170,7 +170,7 @@ function Register(props) {
                         id="profilePicture"
                         name="profilePicture"
                     />
-                </label>
+                </label> */}
                 <div style={{ display: 'flex', justifyContent: "space-between" }}>
                     <label>
                         <input

@@ -1,7 +1,7 @@
 // Movie.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import MovieDetails from './MovieDetails';
+import MovieDetails from './media_details/MovieDetails';
 import './Movie.css';
 
 const Movie = ({ role }) => {

@@ -1,17 +1,16 @@
 import React from 'react';
-import Navbar from '../navbar/Navbar';
-import Movie from '../component/Movie';
+import Navbar from '../../config/navbar/Navbar';
+import Movie from '../Movie';
 import './Home.css'; // Import your CSS file for styling
 import { useLocation } from 'react-router-dom';
-import SideBar from '../navbar/SideBar';
+import SideBar from '../../config/navbar/SideBar';
 
-function UserHome() {
+function Home() {
     // const location = useLocation();
     // const email = location.state && location.state.email;
     // const role = location.state && location.state.role;
-    const email = localStorage.getItem('email');
-    const role = localStorage.getItem('role');
-    console.log("in homepage, email " + email + " role " + role);
+    // console.log("in homepage, email "+ email+ " role "+ role);
+    const role = null;
 
     return (
         <div className="home-container">
@@ -19,10 +18,12 @@ function UserHome() {
             <div className="home-content">
                 <SideBar />
                 <h1>Trending</h1>
-                <Movie role={role} />
+                <Movie />
             </div>
         </div>
+
+
     );
 }
 
-export default UserHome;
+export default Home;
