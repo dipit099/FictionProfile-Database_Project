@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
-import { Route,  Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Movie from './component/Movie';
-import Login from './login/Login';
-import Register from './login/Register';
-import Home from './home/Home';
-import UserHome from './home/UserHome';
-import ModeratorHome from './home/ModeratorHome';
+import Login from './component/login/Login';
+import Register from './component/login/Register';
+import Home from './component/home/Home';
+import UserHome from './component/home/UserHome';
+import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
-import MovieDetails from "./component/MovieDetails";
+import MovieDetails from "./component/media_details/MovieDetails";
 
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (err) {
       console.error(err.message);
-      
+
     }
   }
 
@@ -41,7 +41,7 @@ function App() {
     console.log("in useeffect" + isAuthenticated);
   }, []);
 
-  
+
   return (
 
     <div className="App">

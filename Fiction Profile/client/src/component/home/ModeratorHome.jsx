@@ -1,4 +1,4 @@
-import Navbar from "../navbar/Navbar";
+import Navbar from '../../config/navbar/Navbar';
 import { useLocation } from 'react-router-dom';
 
 function ModeratorHome() {

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 import axios from "axios";
-import BASE_URL from "../config/ApiConfig";
+import BASE_URL from "../../config/ApiConfig";
 
 function Login({ setAuth }) {
     const [email, setEmail] = useState('');
