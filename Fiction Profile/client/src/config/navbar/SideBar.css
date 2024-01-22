@@ -1,87 +1,59 @@
+/* SideBar.css */
+
 .sidebar-container {
-  background-color: #060b26;    
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-  }
-  
 
-.side-menu.active {
-    left: 0;
-    transition: 350ms;
-  }
-  
-  .side-menu {
-    background-color: #060b26;    
-    width: 200px;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: -100%;
-    transition: 850ms;
-  }
-  .side-menu-items {
-    width: 100%;
-  }
-  
-  .menu-bars {
-    margin-left: 1rem;
-    font-size: 2rem;
-    background: none;
-    border: none  ;
-    cursor: pointer;
-  }
-  
-  
-  
-  
-  
-  .sidebar-toggle {
-    background-color: #060b26;    
-    width: 100%;
-    height: 100px;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-  }
-  
-  
-  
-  .nav-text a {
-    text-decoration: none;
-    color: #f5f5f5;
-    font-size: 18px;
-    width: 95%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    border-radius: 4px;
-  }
-  
-  .nav-text a:hover {
-    background-color: #1a83ff;
-  }
+  background-color: #060b26;
+}
 
-  
+.side-menu {
+  height: 100vh;
+  position: fixed;
+  background-color: #060b26;
+  left: 0;
+}
 
+.side-menu-items {
+  margin-top: 50px;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
   
- 
-  .nav-text {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding: 8px 0px 8px 16px;
-    list-style: none;
-    height: 60px;
-    
-    
-  }
-  span {
-    margin-left: 16px;
-  }
+  /* Set the ITEMs at center of the sidebar */
 
-  /* SideBar.css */
+}
+
+.side-menu-items li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Center items vertically */
+
+
+
+}
+
+.side-menu-items li:hover {
+  background-color: #1a83ff;
+  /* Hover background color */
+}
+
+.side-bar-icon {
+  padding-top: 15px;
+  font-size: 35px;
+
+  /* Adjust the centre as needed */
+
+}
+
+.side-bar-title {
+  color: #fff;
+  /* Text color */
+  font-size: 20px;
+  /* Adjust the font size as needed */
+  padding-bottom: 15px;
+}
+
+.side-menu-two-items.selected {
+  background-color: #1a83ff;
+  /* Set the background color for the selected item */
+}

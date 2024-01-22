@@ -1,45 +1,40 @@
-import React from 'react';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SideBarData';
 import './SideBar.css';
 import { IconContext } from 'react-icons';
 
 function SideBar() {
-  // State removed as it's not needed for the sidebar to be always visible
+  const [selectedItem, setSelectedItem] = useState(0);
+
+  const handleItemClick = (index) => {
+    setSelectedItem(index);
+    console.log("in sidebar, index "+ index);
+  };
 
   return (
-    <>
-      <IconContext.Provider value={{ color: '#fff' }}>
-        <div className='sidebar-container'>
-          {/* <button className='menu-bars'>
-            <FaIcons.FaBars />
-          </button> */}
-        </div>
-        <nav className='side-menu active'> {/* Sidebar is always active */}
-          <ul className='side-menu-items'>
-            <li className='sidebar-toggle'>
-              {/* <button className='menu-bars'>
-                <AiIcons.AiOutlineClose />
-              </button> */}
-            </li>
-
-
+    <div className='sidebar-container'>
+      <IconContext.Provider value={{ color: '#fff' }}>        
+        <div className='side-menu'> {/* Sidebar is always active */}
+          <ul className='side-menu-items'>       
             {SidebarData.map((item, index) => (
-              <li key={index} className={item.cName}>
+              <li
+                key={index}
+                className={`side-menu-two-items ${index === selectedItem ? 'selected' : ''}`}
+                onClick={() => handleItemClick(index)}
+              >
                 <Link to={item.path}>
-                  <li>{item.icon}</li>
-                  
-                 <li> <span>{item.title}</span></li>                  
+                  <li className='side-bar-icon'>{item.icon}</li>
+                  <li className='side-bar-title'>
+                    <span > {item.title}</span>
+                  </li>
                 </Link>
               </li>
-            ))}
-            
+            ))}            
           </ul>
-        </nav>
+        </div>
       </IconContext.Provider>
-    </>
+    </div>
   );
 }
 
