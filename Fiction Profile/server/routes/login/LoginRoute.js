@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../../db");
 const bcrypt = require('bcrypt');
-const jwtGenerator = require("../../config/jwtGenerator");
+const jwtGenerator = require("../../utilis/jwtGenerator");
 const authorize = require("../../middleware/authorize");
 
 
@@ -38,14 +38,16 @@ router.post('/', async (req, res) => {
             // User does not have the required role
             return res.status(403).json({ error: 'Invalid role' });
         }
-        // const jwtToken = jwtGenerator(checkUserResult.rows[0].people_id);
-        // console.log(token);
+        console.log("in loginroute" + role);
+        const token = jwtGenerator(checkUserResult.rows[0].people_id);
+
+        // console.log("in loginroute" + jwtToken);
 
         // Provide a success message or additional information as needed
         res.status(200).json({
             message: 'Login successful',
             role: storedRole,
-            // jwtToken: jwtToken,
+            token: token,
 
         });
     } catch (error) {

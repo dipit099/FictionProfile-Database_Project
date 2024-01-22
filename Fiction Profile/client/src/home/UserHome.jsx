@@ -6,9 +6,11 @@ import { useLocation } from 'react-router-dom';
 import SideBar from '../navbar/SideBar';
 
 function UserHome() {
-    const location = useLocation();
-    const email = location.state && location.state.email;
-    const role = location.state && location.state.role;
+    // const location = useLocation();
+    // const email = location.state && location.state.email;
+    // const role = location.state && location.state.role;
+    const email = localStorage.getItem('email');
+    const role = localStorage.getItem('role');
     console.log("in homepage, email " + email + " role " + role);
 
     return (

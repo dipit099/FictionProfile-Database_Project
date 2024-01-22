@@ -5,7 +5,10 @@ import './Login-register.css';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-function Login(props) {
+import axios from "axios";
+import BASE_URL from "../config/ApiConfig";
+
+function Login({ setAuth }) {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [role, setRole] = useState('user');
@@ -21,23 +24,36 @@ function Login(props) {
             return;
         }
         try {
-            const response = await fetch('http://localhost:5197/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email,
-                    pass,
-                    role
-                }),
+            // const response = await fetch('http://localhost:5197/login', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         email,
+            //         pass,
+            //         role
+            //     }),
+            // });
+
+            // const data = await response.json();
+
+            const response = await axios.post(`${BASE_URL}/login`, {
+                email,
+                pass,
+                role
             });
 
-            const data = await response.json();
+            const data = response.data;
 
-            if (response.ok) {
+            if (response.status === 200) {
                 console.log('User login successfully');
-
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("role", data.role);
+                    localStorage.setItem("email", email);
+                    setAuth(true);
+                }
 
                 // alert("Login successful");
                 toast.success("Login successful");
@@ -53,14 +69,14 @@ function Login(props) {
 
                 // Optionally, you can redirect the user to a different page or perform other actions upon successful registration
             } else {
-
+                setAuth(false);
                 console.error('Error during login:', data.error);
                 toast.error("Login failed");
 
             }
         }
         catch (error) {
-
+            setAuth(false);
             console.error('Error during receiving login info:', error.message);
         }
 

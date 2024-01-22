@@ -2,7 +2,7 @@
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
-    
+    background-color: #060b26; 
 }
 
 .Moviediv::-webkit-scrollbar {

@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import './Login-register.css';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+import BASE_URL from "../config/ApiConfig";
 
 function Register(props) {
     const [userName, setUserName] = useState('');
@@ -32,32 +34,43 @@ function Register(props) {
         console.log(email);
         console.log(birthdate);
         console.log(role);
-        console.log(profilePicture);
+        console.log(pass);
+        // console.log(profilePicture);
         if (!userName || !pass || !email || !firstName) {
             // Show warning if required fields are empty
             alert("Please fillup all Mandatory fields");
             return;
         }
         try {
-            const formData = new FormData();
-            formData.append('userName', userName);
-            formData.append('firstName', firstName);
-            formData.append('lastName', lastName);
-            formData.append('email', email);
-            formData.append('pass', pass);
-            formData.append('birthdate', birthdate);
-            formData.append('gender', gender);
-            formData.append('role', role);
-            formData.append('profilePicture', profilePicture);
+            // const formData = new FormData();
+            // formData.append('userName', userName);
+            // formData.append('firstName', firstName);
+            // formData.append('lastName', lastName);
+            // formData.append('email', email);
+            // formData.append('pass', pass);
+            // formData.append('birthdate', birthdate);
+            // formData.append('gender', gender);
+            // formData.append('role', role);
+            // formData.append('profilePicture', profilePicture);
 
-            const response = await fetch('http://localhost:5197/register', {
-                method: 'POST',
-                body: formData,
+            // const response = await fetch('http://localhost:5197/register', {
+            //     method: 'POST',
+            //     body: formData,
+            // });
+            const response = await axios.post(`${BASE_URL}/register`, {
+                userName,
+                firstName,
+                lastName,
+                email,
+                pass,
+                birthdate,
+                gender,
+                role
             });
 
-            const data = await response.json();
+            const data = response.data;
 
-            if (response.ok) {
+            if (response.status === 200) {
                 console.log('User registered successfully');
                 //alert("Registration successful");
                 // setProfilePicPath(data.profilePicPath);

@@ -14,110 +14,145 @@ import MovieDetails from "./component/MovieDetails";
 
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const setAuth = (boolean) => {
+    console.log("in setAuth" + boolean);
+    setIsAuthenticated(boolean);
+  }
+
+  const isAuth = async () => {
+    try {
+      const response = await fetch("http://localhost:5197/auth-verify", {
+        method: "GET",
+        headers: { token: localStorage.token }
+      });
+
+      const parseRes = await response.json();
+      console.log(parseRes);
+      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+    } catch (err) {
+      console.error(err.message);
+      // console.log("Error in isAuth")
+    }
+  }
+
+  useEffect(() => {
+    isAuth();
+    console.log("in useeffect" + isAuthenticated);
+  }, []);
+
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     // Redirect to the userhome route after successful authentication
+  //     navigate('/userhome');
+  //   }
+  // }, [isAuthenticated]);
+
 
   return (
 
     <div className="App">
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
-      <Route path="/movie" element={<Movie />} />
-      <Route path="/moderatorhome" element={<ModeratorHome/>} />
-      <Route path="/userhome" element={<UserHome />} />
-      <Route path="/movie/:id" element={<MovieDetails/>} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={isAuthenticated ? <Navigate to="/userhome" /> : <Home />} />
+        <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/userhome" />} />
+        <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/userhome" />} />
+        <Route path="/movie" element={isAuthenticated ? <Movie /> : <Home />} />
+        <Route path="/moderatorhome" element={isAuthenticated ? <ModeratorHome /> : <Navigate to="/login" />} />
+        <Route path="/userhome" element={isAuthenticated ? <UserHome /> : <Navigate to="/login" />} />
+        <Route path="/movie/:id" element={<MovieDetails />} />
+      </Routes>
 
 
-  </div>
-  // const checkAuthenticated = async () => {
-  //   try {
-  //     const res = await fetch("http://localhost:5197/verify", {
-  //       method: "POST",
-  //       headers: { jwt_token: localStorage.jwt_token }
-  //     });
-  //     const parseRes = await res.json();
-  //     parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
-  //     console.log("parseRes: " + parseRes);
-  //   } catch (err) {
-  //     console.error("Error in checkAuthenticated function: ");
-  //     console.error(err.message);
-  //   }
-  // };
-  // useEffect(() => {
-  //   checkAuthenticated();
-  // });
+    </div>
+    // const checkAuthenticated = async () => {
+    //   try {
+    //     const res = await fetch("http://localhost:5197/verify", {
+    //       method: "POST",
+    //       headers: { jwt_token: localStorage.jwt_token }
+    //     });
+    //     const parseRes = await res.json();
+    //     parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+    //     console.log("parseRes: " + parseRes);
+    //   } catch (err) {
+    //     console.error("Error in checkAuthenticated function: ");
+    //     console.error(err.message);
+    //   }
+    // };
+    // useEffect(() => {
+    //   checkAuthenticated();
+    // });
 
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const [authRole, setRole] = useState(null);
+    // const [isAuthenticated, setIsAuthenticated] = useState(false);
+    // const [authRole, setRole] = useState(null);
 
-  // const setAuth = boolean => {
-  //   setIsAuthenticated(boolean);//boolean is the parameter here
-  // };
-  // const setAuthRole = role => {
-  //   setRole(role);
-  // }
+    // const setAuth = boolean => {
+    //   setIsAuthenticated(boolean);//boolean is the parameter here
+    // };
+    // const setAuthRole = role => {
+    //   setRole(role);
+    // }
 
 
-  
-  //   <div className="App">
-  //     <Routes>
-  //       <Route path="/" element={<Home />} />
-  //       <Route
-  //         path='/login'
-  //         element={
-  //           isAuthenticated ? (
-  //             authRole === 'user' ? (
-  //               <Navigate to='/userhome' />
-  //             ) : (
-  //               <Navigate to='/moderatorhome' />
-  //             )
-  //           ) : (
-  //             <Login setAuth={setAuth} setAuthRole={setAuthRole} />
-  //           )
-  //         }
-  //       />
 
-  //       <Route
-  //         path='/register'
-  //         element={<Register />}
-  //       />
-  //       {/* <Route
-  //   path="/movie"
-  //   element={
-  //     isAuthenticated === "user" ? (
-  //       <Movie />
-  //     ) : (
-  //       <Navigate to={isAuthenticated === "false" ? "/login" : "/moderatorhome"} />
-  //     )
-  //   }
-  // /> */}
-  //       <Route
-  //         path="/moderatorhome"
-  //         element={
-  //           isAuthenticated && authRole === "moderator" ? (
-  //             <ModeratorHome />
-  //           ) : (
-  //             <Navigate to="/login" />
-  //           )
-  //         }
-  //       />
-  //       <Route
-  //         path="/userhome"
-  //         element={
-  //           isAuthenticated && authRole !== "user" ? (
-  //             <UserHome />
-  //           ) : (
-  //             <Navigate to="/login" />
-  //           )
-  //         }
-  //       />
+    //   <div className="App">
+    //     <Routes>
+    //       <Route path="/" element={<Home />} />
+    //       <Route
+    //         path='/login'
+    //         element={
+    //           isAuthenticated ? (
+    //             authRole === 'user' ? (
+    //               <Navigate to='/userhome' />
+    //             ) : (
+    //               <Navigate to='/moderatorhome' />
+    //             )
+    //           ) : (
+    //             <Login setAuth={setAuth} setAuthRole={setAuthRole} />
+    //           )
+    //         }
+    //       />
 
-  //     </Routes>
+    //       <Route
+    //         path='/register'
+    //         element={<Register />}
+    //       />
+    //       {/* <Route
+    //   path="/movie"
+    //   element={
+    //     isAuthenticated === "user" ? (
+    //       <Movie />
+    //     ) : (
+    //       <Navigate to={isAuthenticated === "false" ? "/login" : "/moderatorhome"} />
+    //     )
+    //   }
+    // /> */}
+    //       <Route
+    //         path="/moderatorhome"
+    //         element={
+    //           isAuthenticated && authRole === "moderator" ? (
+    //             <ModeratorHome />
+    //           ) : (
+    //             <Navigate to="/login" />
+    //           )
+    //         }
+    //       />
+    //       <Route
+    //         path="/userhome"
+    //         element={
+    //           isAuthenticated && authRole !== "user" ? (
+    //             <UserHome />
+    //           ) : (
+    //             <Navigate to="/login" />
+    //           )
+    //         }
+    //       />
 
-  //   </div>
+    //     </Routes>
 
-   
+    //   </div>
+
+
 
 
 
