@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
 import { Route, Routes } from "react-router-dom";
-import Movie from './component/Movie';
+import { Movie, Tvshow, Book, Manga } from './component/home/Movie';
 import Login from './component/login/Login';
 import Register from './component/login/Register';
 import Home from './component/home/Home';
-import UserHome from './component/home/UserHome';
 import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
-import MovieDetails from "./component/media_details/MovieDetails";
+import { MovieDetails, TvshowDetails, BookDetails, MangaDetails } from "./component/home/MovieDetails";
 
 
 function App() {
@@ -46,28 +45,27 @@ function App() {
 
     <div className="App">
       <Routes>
-        <Route path="/" element={isAuthenticated && authRole === 'user' ? <Navigate to="/userhome" /> : <Home />} />
-        <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/userhome" />} />
+        {/* <Route path="/" element={isAuthenticated && authRole === 'user' ? <Navigate to="/userhome" /> : <Home />} /> */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/" />} />
         <Route
           path="/login"
           element={
             !isAuthenticated ? (
               <Login setAuth={setAuth} />
-            ) : isAuthenticated && authRole === 'user' ? (
-              <Navigate to="/userhome" />
-            ) : isAuthenticated && authRole === 'moderator' ? (
-              <Navigate to="/moderatorhome" />
-            ) : (
+            ) :(
               <Navigate to="/" />
             )
           }
         />
 
         <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/" />} />
-        <Route path="/moderatorhome" element={isAuthenticated && authRole === 'moderator' ? <ModeratorHome /> : <Navigate to="/" />} />
-        <Route path="/userhome" element={isAuthenticated && authRole === 'user' ? <UserHome /> : <Navigate to="/" />} />
+        <Route path="/moderatorhome" element={isAuthenticated && authRole === 'moderator' ? <ModeratorHome /> : <Navigate to="/" />} />        
+        <Route path="/movie" element={isAuthenticated ? <Movie /> : <Navigate to="/" />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
-        <Route path="/movie" element={isAuthenticated ? <Movie /> : <Home />} />
+        <Route path="/tvshow/:id" element={<TvshowDetails />} />
+        <Route path="/book/:id" element={<BookDetails />} />
+        <Route path="/manga/:id" element={<MangaDetails />} />
       </Routes>
     </div>
   );

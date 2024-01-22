@@ -3,6 +3,7 @@
 .MovieDetails-container {
     position: relative;
     color: #ffffff;
+    height: 100vh;
 }
 
 .backdrop {

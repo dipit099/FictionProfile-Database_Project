@@ -1,7 +1,8 @@
 .home-container {
     margin-top: 80px;
-    padding-left: 250px;
-    background-color: #032641;    
+    padding-left: 200px;
+    background-color: #032641;
+    padding-bottom: 100px;
 }
 
 .home-content {
@@ -16,3 +17,4 @@ h1 {
     margin-left: 10px;
     margin-top: 50px;
 }
+
