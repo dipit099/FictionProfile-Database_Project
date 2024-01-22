@@ -1,0 +1,104 @@
+.auth-form-container,
+.login-form,
+.register-form {
+    display: flex;
+    flex-direction: column;
+
+}
+.loginregister-full-page{
+    background-image: linear-gradient(79deg, #6b28e0, #525cb5 48%, #4d9cf7);
+    text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+}
+.auth-form-container{
+    /* background-image: linear-gradient(79deg, #6b28e0, #525cb5 48%, #4d9cf7);
+    text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center; */
+
+}
+
+/* @media screen and (min-width: 600px) {
+    .auth-form-container {
+        padding: 4rem;
+        border: 3px solid rgb(255, 255, 255);
+        border-radius: 10px;
+        margin: 0.5rem;
+    }
+} */
+.auth-form-container {
+    padding: 4rem;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+
+}
+
+.auth-form-container label {
+    text-align: left;
+    font-size: 18px;
+    margin: 0.5rem 0;
+    color: white;
+    display: block;
+}
+
+.auth-form-container input {
+    margin: 0.5rem 0;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+
+}
+
+.auth-form-container select {
+    margin: 0.5rem 0;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    background-color: white;
+    color: #000000;
+    margin-left: 20px;
+}
+
+
+.sign-inup-button {
+    border: none;
+    width: 50%;
+    background-color: white;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #7439db;
+    transition-duration: 0.6s;
+    font-weight: bold;
+    margin: auto;
+    margin-top: 3%;
+    font-size: large;
+
+}
+
+.link-btn {
+    border: none;
+    width: 100%;
+    background: none;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    transition-duration: 0.6s;
+    margin-top: 2%;
+    font-weight: normal;
+    text-decoration: underline;
+    font-size: large;
+}
+
+button:hover {
+    background-color: #000000;
+    color: white;
+}

@@ -7,7 +7,11 @@ import Register from './component/login/Register';
 import Home from './component/home/Home';
 import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
+
 import { MovieDetails, TvshowDetails, BookDetails, MangaDetails } from "./component/home/MovieDetails";
+
+import Account from "./component/account/Account"
+
 
 
 function App() {
@@ -63,9 +67,14 @@ function App() {
         <Route path="/moderatorhome" element={isAuthenticated && authRole === 'moderator' ? <ModeratorHome /> : <Navigate to="/" />} />        
         <Route path="/movie" element={isAuthenticated ? <Movie /> : <Navigate to="/" />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
+
         <Route path="/tvshow/:id" element={<TvshowDetails />} />
         <Route path="/book/:id" element={<BookDetails />} />
         <Route path="/manga/:id" element={<MangaDetails />} />
+
+      
+        <Route path="/account" element={isAuthenticated ? <Account /> : <Home />} />
+
       </Routes>
     </div>
   );

@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const authorize = require('./middleware/authorize');
+const AccountRoute = require('./routes/account/AccountRoute')
+
 
 app.use(cors());
 app.use(express.json());
@@ -14,7 +16,6 @@ app.use('/movie', require('./routes/components/MovieDetails'));
 app.use('/tvshow', require('./routes/components/TvShowDetails'));
 app.use('/book', require('./routes/components/BookDetails'));
 app.use('/manga', require('./routes/components/MangaDetails'));
-
 
 
 
