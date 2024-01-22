@@ -52,6 +52,7 @@ function Login({ setAuth }) {
                     localStorage.setItem("token", data.token);
                     localStorage.setItem("role", data.role);
                     localStorage.setItem("email", email);
+                    localStorage.setItem("people_id", data.people_id);
                     setAuth(true);
                 }
 
