@@ -2,9 +2,6 @@ const pool = require("./db");
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const RegisterRoute = require('./routes/login/RegisterRoute');
-const LoginRoute = require('./routes/login/LoginRoute');
-const MovieRoute = require('./routes/components/MovieRoute');
 const authorize = require('./middleware/authorize');
 const AccountRoute = require('./routes/account/AccountRoute')
 
@@ -12,10 +9,14 @@ const AccountRoute = require('./routes/account/AccountRoute')
 app.use(cors());
 app.use(express.json());
 
-app.use('/register', RegisterRoute);
-app.use('/login', LoginRoute);
-app.use('/movies', MovieRoute);
-app.use('/account', AccountRoute);
+app.use('/register', require('./routes/login/RegisterRoute'));
+app.use('/login',  require('./routes/login/LoginRoute'));
+app.use('/trending', require('./routes/home/TrendingMediaRoute'));
+app.use('/movie', require('./routes/components/MovieDetails'));
+app.use('/tvshow', require('./routes/components/TvShowDetails'));
+app.use('/book', require('./routes/components/BookDetails'));
+app.use('/manga', require('./routes/components/MangaDetails'));
+
 
 
 
@@ -23,7 +24,7 @@ app.get('/auth-verify', authorize, async (req, res) => {
     try {
         // if it passes authorization than it is valid
         //console.log("in auth-verify url");
-        res.json(true);       
+        res.json(true);
     }
     catch (err) {
         console.error("verify url" + err.message);
