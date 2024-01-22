@@ -10,15 +10,9 @@ const cors = require("cors");
 const path = require('path');
 const upload = multer({ storage: multer.memoryStorage() });
 const bcrypt = require('bcrypt');
-const jwtGenerator = require("../../utilis/jwtGenerator");
-const authorize = require("../../middleware/authorize");
-// const { sign } = require("crypto");
-
-
 
 router.post('/',   async (req, res) => {
-    // Your register route logic here
-    // ...
+   
     const {
         userName,
         firstName,
@@ -99,15 +93,9 @@ router.post('/',   async (req, res) => {
             profilePicturePath, // Assuming profile picture is optional
         ]);
 
-       // Generate JWT token for the newly registered user
-
-        // const jwtToken = jwtGenerator(newUserResult.rows[0].people_id);
-
-
         console.log('User registered successfully');
         res.status(200).json({
             message: 'User registered successfully',
-            // jwtToken: jwtToken,
             //  role: storedRole,
             //  profilePicPath: profilePicturePath,
             //     message: 'file uploaded to firebase storage',
