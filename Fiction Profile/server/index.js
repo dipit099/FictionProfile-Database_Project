@@ -6,6 +6,8 @@ const RegisterRoute = require('./routes/login/RegisterRoute');
 const LoginRoute = require('./routes/login/LoginRoute');
 const MovieRoute = require('./routes/components/MovieRoute');
 const authorize = require('./middleware/authorize');
+const AccountRoute = require('./routes/account/AccountRoute')
+
 
 app.use(cors());
 app.use(express.json());
@@ -13,6 +15,7 @@ app.use(express.json());
 app.use('/register', RegisterRoute);
 app.use('/login', LoginRoute);
 app.use('/movies', MovieRoute);
+app.use('/account', AccountRoute);
 
 
 
