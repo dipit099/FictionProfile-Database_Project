@@ -10,14 +10,7 @@ const Navbar = ({ role }) => {
         <div className="navbar-container">
             <div className="navbar">
                 <div className="navbar-left">
-                    {/* <SideBar/>
-                    {role === "user" ? (
-                        <SideBar />
-                    ) : (
-                        <> </>
-                    )}
-                    <h1>Fiction Profile</h1>
-                    <SideBar /> */}
+                   
                 </div>
 
                 <div className="navbar-middle">

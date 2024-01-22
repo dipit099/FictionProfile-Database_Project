@@ -3,7 +3,7 @@ import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import * as IoIcons from 'react-icons/io';
 import * as RiIcons from "react-icons/ri";
-
+import { MdAccountCircle } from "react-icons/md";
 export const SidebarData = [
   {
     title: 'Home',
@@ -12,21 +12,21 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
-    title: 'Dicover',
-    path: '/reports',
+    title: 'Discover',
+    path: '/discover',
     icon: <IoIcons.IoIosPaper />,
     cName: 'nav-text'
   },
   {
     title: 'Feed',
-    path: '/products',
+    path: '/feed',
     icon: <RiIcons.RiCompassDiscoverFill />,
     cName: 'nav-text'
   },
   {
-    title: 'Support',
-    path: '/support',
-    icon: <IoIcons.IoMdHelpCircle />,
+    title: 'Account',
+    path: '/account',
+    icon: <MdAccountCircle/>,
     cName: 'nav-text'
   }
 ];
