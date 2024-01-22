@@ -34,12 +34,13 @@ router.post('/', async (req, res) => {
             return res.status(403).json({ error: 'Invalid role' });
         }
         const token = jwtGenerator(checkUserResult.rows[0].people_id);
-        console.log("token received");
+        console.log("token received in LoginRoute.js: " );
 
         res.status(200).json({
             message: 'Login successful',
             role: storedRole,
             token: token,
+            people_id: checkUserResult.rows[0].people_id
 
         });
     } catch (error) {

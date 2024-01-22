@@ -19,7 +19,7 @@ const Account = () => {
     const [birthdate, setBirthdate] = useState('');
     const [role, setRole] = useState('user');
     const [profilePicture, setProfilePicture] = useState(null);
-    const [profilePicPath,setProfilePicPath] = useState('');
+    const [profilePicPath, setProfilePicPath] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const Account = () => {
 
     const fetchUserData = async () => {
         try {
-            console.log(people_id);
+            console.log("peopleid" + people_id);
 
             // const response = await axios.get(`${BASE_URL}/account`);
             const response = await axios.get(`${BASE_URL}/account`, {
@@ -55,7 +55,7 @@ const Account = () => {
             console.log(userData);
 
             // You may need additional logic for handling profile picture
-            
+
 
         } catch (error) {
             console.error('Error fetching user data:', error.message);
@@ -66,30 +66,30 @@ const Account = () => {
         const { name, value } = e.target;
         switch (name) {
             case 'userName':
-              setUserName(value);
-              break;
+                setUserName(value);
+                break;
             case 'firstName':
-              setFirstName(value);
-              break;
+                setFirstName(value);
+                break;
             case 'lastName':
-              setLastName(value);
-              break;
+                setLastName(value);
+                break;
             case 'email':
-              setEmail(value);
-              break;
+                setEmail(value);
+                break;
             case 'pass':
-              setPass(value);
-              break;
+                setPass(value);
+                break;
             case 'birthdate':
-              setBirthdate(value);
-              break;
+                setBirthdate(value);
+                break;
             case 'gender':
-              setGender(value);
-              break;
+                setGender(value);
+                break;
             default:
-              // Handle other input fields if needed
-          }
-          
+            // Handle other input fields if needed
+        }
+
     };
 
     const handleProfilePictureChange = (e) => {
@@ -105,7 +105,7 @@ const Account = () => {
 
         try {
             console.log(profilePicture);
-            
+
             const formData = new FormData();
             formData.append('people_id', people_id);
             formData.append('firstName', firstName);
@@ -135,7 +135,7 @@ const Account = () => {
     const handleBirthdateChange = (e) => {
         setBirthdate(e.target.value);
     }
-    
+
     const handleGenderChange = (e) => {
         setGender(e.target.value);
     }
@@ -147,10 +147,11 @@ const Account = () => {
     return (
         <div className="loginregister-full-page">
             <div className="auth-form-container">
-                <h2>Account Settings</h2>
+                <h1 style={{ textAlign: 'center' }}>Account Settings</h1>
+
                 <form className="account-form" onSubmit={handleSubmit}>
                     <div>
-                    <h3>Username: {userName}</h3>
+                        <h3>Username: {userName}</h3>
                     </div>
                     <div>
                         <img src={profilePicPath} alt="profile pic" style={{ width: '200px', height: '200px', borderRadius: '10%' }} />
@@ -188,7 +189,7 @@ const Account = () => {
                         </div>
                     </div>
                     <div>
-                        { <label htmlFor="profilePicture">Profile Picture:
+                        {<label htmlFor="profilePicture">Profile Picture:
                             <input
                                 type="file"
                                 accept="image/*"
@@ -196,10 +197,10 @@ const Account = () => {
                                 id="profilePicture"
                                 name="profilePicture"
                             />
-                        </label> }
+                        </label>}
                     </div>
 
-                    
+
                     <button type="submit" className="sign-inup-button">Update Profile</button>
                 </form>
             </div>

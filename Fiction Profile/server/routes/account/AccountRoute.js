@@ -23,7 +23,7 @@ async function resizeImage(inputPath, outputPath, width, height) {
 router.get('/', async (req, res) => {
     try {
         const { people_id } = req.query;
-        console.log(people_id);
+        console.log("people_id " +people_id);
 
         const checkUserQuery = 'SELECT * FROM "Fiction Profile"."PEOPLE" WHERE people_id = $1';
         const checkUserResult = await pool.query(checkUserQuery, [people_id]);
