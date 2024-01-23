@@ -34,7 +34,7 @@
 }
 
 .side-menu-items li:hover {
-  background-color: #1a83ff;
+  background-color: #2c70be;
   /* Hover background color */
 }
 
@@ -55,6 +55,6 @@
 }
 
 .side-menu-two-items.selected {
-  background-color: #1a83ff;
+  background-color: #0c4c96;
   /* Set the background color for the selected item */
 }

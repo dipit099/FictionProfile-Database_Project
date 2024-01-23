@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "./SideBar";
 import './Navbar.css';
 
-const Navbar = ({ role }) => {
+const Navbar = () => {
 
-    console.log("in navbar, role " + role);
+    const role = localStorage.getItem('role');
+    const email = localStorage.getItem('email');
+
     return (
         <div className="navbar-container">
             <div className="navbar">
                 <div className="navbar-left">
-                   
+
                 </div>
 
                 <div className="navbar-middle">
@@ -19,7 +21,7 @@ const Navbar = ({ role }) => {
                 </div>
 
                 <div className="navbar-right">
-                    {role === "user"  ? (
+                    {role === "user" ? (
                         <>
                             <button>Dashboard</button>
                             <button>Notification</button>

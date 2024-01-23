@@ -16,10 +16,11 @@ import Account from "./component/account/Account"
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const authRole = localStorage.getItem("role");
+  const [authRole, setauthRole] = useState(null);
+
 
   const setAuth = (boolean) => {
-    console.log("in setAuth" + boolean);
+    console.log("in app.js setAuth" + boolean);
     setIsAuthenticated(boolean);
   }
 
@@ -31,7 +32,7 @@ function App() {
       });
 
       const parseRes = await response.json();
-      console.log(parseRes);
+      console.log("parseReq " + parseRes);
       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (err) {
       console.error(err.message);
@@ -39,9 +40,11 @@ function App() {
     }
   }
 
+
+
   useEffect(() => {
     isAuth();
-    console.log("in useeffect" + isAuthenticated);
+    console.log("isAuthenticated " + isAuthenticated);
   }, []);
 
 
