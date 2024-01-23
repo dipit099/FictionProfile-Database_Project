@@ -57,23 +57,25 @@ function App() {
           element={
             !isAuthenticated ? (
               <Login setAuth={setAuth} />
-            ) :(
+            ) : (
               <Navigate to="/" />
             )
           }
         />
 
         <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/" />} />
-        <Route path="/moderatorhome" element={isAuthenticated && authRole === 'moderator' ? <ModeratorHome /> : <Navigate to="/" />} />        
+        <Route path="/moderatorhome" element={isAuthenticated && authRole === 'moderator' ? <ModeratorHome /> : <Navigate to="/" />} />
         <Route path="/movie" element={isAuthenticated ? <Movie /> : <Navigate to="/" />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
 
-        <Route path="/tvshow/:id" element={<TvshowDetails />} />
+        <Route path="/tv/:id" element={<TvshowDetails />} />
         <Route path="/book/:id" element={<BookDetails />} />
         <Route path="/manga/:id" element={<MangaDetails />} />
 
-      
+
         <Route path="/account" element={isAuthenticated ? <Account /> : <Home />} />
+        <Route path="/feed" element={isAuthenticated ? <Account /> : <Home />} />
+        <Route path="/discover" element={isAuthenticated ? <Account /> : <Home />} />
 
       </Routes>
     </div>

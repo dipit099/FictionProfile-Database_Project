@@ -13,10 +13,11 @@
 }
 
 .side-menu-items {
-  margin-top: 50px;
-  width: 100px;
+  /* margin-top: 50px; */
+  width: 120px;
   display: flex;
   flex-direction: column;
+ 
 
   /* Set the ITEMs at center of the sidebar */
 
