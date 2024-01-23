@@ -24,21 +24,7 @@ function Login({ setAuth }) {
             return;
         }
         try {
-            // const response = await fetch('http://localhost:5197/login', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         email,
-            //         pass,
-            //         role
-            //     }),
-            // });
-
-            // const data = await response.json();
-
-            const response = await axios.post(`${BASE_URL}/login`, {
+                const response = await axios.post(`${BASE_URL}/login`, {
                 email,
                 pass,
                 role
