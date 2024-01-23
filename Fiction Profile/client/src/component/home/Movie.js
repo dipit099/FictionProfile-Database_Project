@@ -2,9 +2,11 @@
 import React, { useState, useEffect, Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Movie.css';
-
-const Movie = ({ role }) => {
+import { FaHeart } from "react-icons/fa";
+import { MdAddBox } from "react-icons/md";
+const Movie = () => {
   const [movies, setMovies] = useState([]);
+  const role = localStorage.getItem('role');
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -22,10 +24,16 @@ const Movie = ({ role }) => {
 
   const renderWishlistButton = () => {
     if (role === 'user') {
-      return <button type="button" className="btn btn-outline-primary">Add</button>;
+      return <MdAddBox className='add-icon' />
     }
     return null;
   };
+  const renderFavoriteButton = () => {
+    if (role === 'user') {
+      return <FaHeart className="heart-icon" />;
+    }
+    return null;
+  }
 
   return (
     <div className='Moviediv'>
@@ -33,20 +41,25 @@ const Movie = ({ role }) => {
         {movies.map((movie) => (
           <li key={movie.title}>
             <Link to={`/movie/${movie.id}`}>
-              <img src={movie.poster_path} alt={`${movie.title} Poster`} />
+              <div className="movie-item">
+                <img src={movie.poster_path} alt={`${movie.title} Poster`} />
+                <p>{movie.title}</p>
+                <p>{movie.vote_average.toFixed(1)}</p>
+                <div className="button-container">
+                  <p>{renderWishlistButton()}</p>
+                  <p>{renderFavoriteButton()}</p>
+                </div>
+              </div>
             </Link>
-            <p>{movie.title}</p>
-            <p>{movie.vote_average.toFixed(1)}</p>
-            <p>{renderWishlistButton()}</p>
           </li>
         ))}
       </ul>
     </div>
   );
 };
-
-const Tvshow = ({ role }) => {
+const Tvshow = () => {
   const [movies, setMovies] = useState([]);
+  const role = localStorage.getItem('role');
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -60,14 +73,20 @@ const Tvshow = ({ role }) => {
     };
 
     fetchMovies();
-  });
+  }, []);
 
   const renderWishlistButton = () => {
     if (role === 'user') {
-      return <button type="button" className="btn btn-outline-primary">Add</button>;
+      return <MdAddBox className='add-icon' />
     }
     return null;
   };
+  const renderFavoriteButton = () => {
+    if (role === 'user') {
+      return <FaHeart className="heart-icon" />;
+    }
+    return null;
+  }
 
   return (
     <div className='Moviediv'>
@@ -75,21 +94,26 @@ const Tvshow = ({ role }) => {
         {movies.map((movie) => (
           <li key={movie.title}>
             <Link to={`/tvshow/${movie.id}`}>
-              <img src={movie.poster_path} alt={`${movie.title} Poster`} />
+              <div className="movie-item">
+                <img src={movie.poster_path} alt={`${movie.title} Poster`} />
+                <p>{movie.title}</p>
+                <p>{movie.vote_average.toFixed(1)}</p>
+                <div className="button-container">
+                  <p>{renderWishlistButton()}</p>
+                  <p>{renderFavoriteButton()}</p>
+
+                </div>
+              </div>
             </Link>
-            <p>{movie.title}</p>
-            {/* <p>{movie.vote_average.toFixed(1)}</p> */}
-            <p>{movie.vote_average}</p>
-            <p>{renderWishlistButton()}</p>
           </li>
         ))}
       </ul>
     </div>
   );
 };
-
-const Book = ({ role }) => {
+const Book = () => {
   const [movies, setMovies] = useState([]);
+  const role = localStorage.getItem('role');
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -107,10 +131,16 @@ const Book = ({ role }) => {
 
   const renderWishlistButton = () => {
     if (role === 'user') {
-      return <button type="button" className="btn btn-outline-primary">Add</button>;
+      return <MdAddBox className='add-icon' />
     }
     return null;
   };
+  const renderFavoriteButton = () => {
+    if (role === 'user') {
+      return <FaHeart className="heart-icon" />;
+    }
+    return null;
+  }
 
   return (
     <div className='Moviediv'>
@@ -118,19 +148,25 @@ const Book = ({ role }) => {
         {movies.map((movie) => (
           <li key={movie.title}>
             <Link to={`/book/${movie.id}`}>
-              <img src={movie.poster_path} alt={`${movie.title} Poster`} />
+              <div className="movie-item">
+                <img src={movie.poster_path} alt={`${movie.title} Poster`} />
+
+                <p>{movie.title}</p>
+                <div className="button-container">
+                  <p>{renderWishlistButton()}</p>
+                  <p>{renderFavoriteButton()}</p>
+                </div>
+              </div>
             </Link>
-            <p>{movie.title}</p>
-            {/* <p>{movie.vote_average.toFixed(1)}</p> */}
-            <p>{renderWishlistButton()}</p>
           </li>
         ))}
       </ul>
     </div>
   );
 }
-const Manga = ({ role }) => {
+const Manga = () => {
   const [movies, setMovies] = useState([]);
+  const role = localStorage.getItem('role');
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -148,11 +184,16 @@ const Manga = ({ role }) => {
 
   const renderWishlistButton = () => {
     if (role === 'user') {
-      return <button type="button" className="btn btn-outline-primary">Add</button>;
+      return <MdAddBox className='add-icon' />
     }
     return null;
   };
-
+  const renderFavoriteButton = () => {
+    if (role === 'user') {
+      return <FaHeart className="heart-icon" />;
+    }
+    return null;
+  }
   return (
     <div className='Moviediv'>
       <ul>
@@ -160,12 +201,18 @@ const Manga = ({ role }) => {
           <li key={movie.title}>
             <Link to={`/manga/${movie.id}`}>
               <img src={movie.poster_path} alt={`${movie.title} Poster`} />
-            </Link>
+              <div className="movie-item">
             <p>{movie.title}</p>
+            <p>{movie.vote_average.toFixed(1)}</p>
             {/* <p>{movie.vote_average.toFixed(1)}</p> */}
-            <p>{movie.vote_average}</p>
+            <div className="button-container">
+            
             <p>{renderWishlistButton()}</p>
-          </li>
+            <p>{renderFavoriteButton()}</p>
+            </div>
+            </div>
+            </Link>
+            </li>
         ))}
       </ul>
     </div>
