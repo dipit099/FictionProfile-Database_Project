@@ -8,7 +8,7 @@ import Home from './component/home/Home';
 import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
 
-import { MovieDetails, TvshowDetails, BookDetails, MangaDetails } from "./component/home/MovieDetails";
+import { MovieDetails, TvshowDetails, BookDetails, MangaDetails } from "./component/media_details/MediaDetails";
 
 import Account from "./component/account/Account"
 
