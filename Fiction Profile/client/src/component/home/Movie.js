@@ -2,6 +2,8 @@
 import React, { useState, useEffect, Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Movie.css';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import BASE_URL from "../../config/ApiConfig";
 import { FaHeart } from "react-icons/fa";
 import { MdAddBox } from "react-icons/md";
@@ -15,7 +17,7 @@ const Movie = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState('0');
   const role = localStorage.getItem('role');
-  
+
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -38,7 +40,7 @@ const Movie = () => {
     return null;
   };
 
-  const handleFavoriteAdd = async(movie) => {
+  const handleFavoriteAdd = async (movie) => {
     try {
       console.log('User ID:', localStorage.getItem('people_id'));
       console.log('Movie ID:', movie.id);
@@ -49,8 +51,9 @@ const Movie = () => {
       });
 
       const data = response.data;
+      toast.success("Successfully added to favorite");
       // Handle the response data as needed
-      if(data.success){
+      if (data.success) {
         console.log("Successfully added to favorite");
       }
     } catch (error) {
@@ -98,8 +101,9 @@ const Movie = () => {
       });
 
       const data = response.data;
+      toast.success("Successfully added media");
       // Handle the response data as needed
-      if(data.success){
+      if (data.success) {
         console.log("Successfully added media");
       }
     } catch (error) {
