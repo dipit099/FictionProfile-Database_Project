@@ -11,7 +11,7 @@ router.get('/movie', async (req, res) => {
         // TO-DO favortie mechanism
 
         const result = await pool.query(
-            'SELECT id,title, poster_path,vote_average FROM "Fiction Profile"."MOVIE" ORDER BY vote_count DESC LIMIT 20');
+            'SELECT id,title, poster_path,vote_average FROM "Fiction Profile"."MOVIE" ORDER BY vote_count DESC LIMIT 19');
 
         const media = result.rows.map(movie => ({
             id: movie.id,

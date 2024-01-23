@@ -4,6 +4,19 @@ import * as AiIcons from 'react-icons/ai';
 import * as IoIcons from 'react-icons/io';
 import * as RiIcons from "react-icons/ri";
 import { MdAccountCircle } from "react-icons/md";
+import { IoLogOut } from "react-icons/io5";
+
+const MirroredLogoutIcon = () => {
+  return (
+    <IoLogOut
+      style={{
+        transform: "scaleX(-1)", // Mirror horizontally
+      }}
+    />
+  );
+};
+
+
 export const SidebarData = [
   {
     title: 'Home',
@@ -26,7 +39,13 @@ export const SidebarData = [
   {
     title: 'Account',
     path: '/account',
-    icon: <MdAccountCircle/>,
+    icon: <MdAccountCircle />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Log Out',
+    path: '/',
+    icon: <MirroredLogoutIcon />,
     cName: 'nav-text'
   }
 ];
