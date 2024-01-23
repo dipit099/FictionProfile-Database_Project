@@ -74,11 +74,9 @@ router.post('/',   async (req, res) => {
             profilePicturePath = downloadURL;
         }
         */
-        let profilePicturePath = "";
-        
-       
+           
         const insertUserQuery =
-            'INSERT INTO "Fiction Profile"."PEOPLE" (username, first_name, last_name, email, password, birthdate, gender, role, joined_date, profile_pic_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+            'INSERT INTO "Fiction Profile"."PEOPLE" (username, first_name, last_name, email, password, birthdate, gender, role, joined_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
 
         const newUserResult = await pool.query(insertUserQuery, [
             userName,
@@ -90,7 +88,6 @@ router.post('/',   async (req, res) => {
             gender || null,
             role,
             currentDate,
-            profilePicturePath, // Assuming profile picture is optional
         ]);
 
         console.log('User registered successfully');
