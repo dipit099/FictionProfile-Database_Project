@@ -13,6 +13,7 @@ router.post('/', async (req, res) => {
             const result = await pool.query(
                 'SELECT * FROM "Fiction Profile"."USER_MEDIA_LIST" WHERE user_id = $1 AND media_id IN ( SELECT media_id FROM  "Fiction Profile"."MEDIA" WHERE movie_id = $2)',
                 [user_id, title_id]
+
             );
             if (result.rows.length === 0) {
                 await pool.query(
@@ -20,6 +21,13 @@ router.post('/', async (req, res) => {
                     [user_id, title_id, status_id]
                 );
                 console.log("Succesfully added movie to user's list")
+            }else{
+                // Update the list
+                await pool.query(
+                    'UPDATE "Fiction Profile"."USER_MEDIA_LIST" SET status_id = $3 WHERE user_id = $1 AND media_id IN ( SELECT media_id FROM  "Fiction Profile"."MEDIA" WHERE movie_id = $2)',
+                    [user_id, title_id, status_id]
+                );
+                console.log("Succesfully updated movie to user's list")
             }
 
         }
@@ -33,6 +41,14 @@ router.post('/', async (req, res) => {
                     'INSERT INTO "Fiction Profile"."USER_MEDIA_LIST" (user_id, media_id, status_id) SELECT $1, media.media_id, $3 FROM  "Fiction Profile"."MEDIA" media WHERE media.tv_id = $2;',
                     [user_id, title_id, status_id]
                 );
+                console.log("Succesfully added tv to user's list")
+            }else{
+                // Update the list
+                await pool.query(
+                    'UPDATE "Fiction Profile"."USER_MEDIA_LIST" SET status_id = $3 WHERE user_id = $1 AND media_id IN ( SELECT media_id FROM  "Fiction Profile"."MEDIA" WHERE tv_id = $2)',
+                    [user_id, title_id, status_id]
+                );
+                console.log("Succesfully updated tv to user's list")
             }
         }
         else if (media_type === 'manga') {
@@ -46,6 +62,14 @@ router.post('/', async (req, res) => {
                     'INSERT INTO "Fiction Profile"."USER_MEDIA_LIST" (user_id, media_id, status_id) SELECT $1, media.media_id, $3 FROM  "Fiction Profile"."MEDIA" media WHERE media.manga_id = $2;',
                     [user_id, title_id, status_id]
                 );
+                console.log("Succesfully added manga to user's list")
+            }else{
+                // Update the list
+                await pool.query(
+                    'UPDATE "Fiction Profile"."USER_MEDIA_LIST" SET status_id = $3 WHERE user_id = $1 AND media_id IN ( SELECT media_id FROM  "Fiction Profile"."MEDIA" WHERE manga_id = $2)',
+                    [user_id, title_id, status_id]
+                );
+                console.log("Succesfully updated manga to user's list")
             }
 
         }
@@ -59,8 +83,19 @@ router.post('/', async (req, res) => {
                     'INSERT INTO "Fiction Profile"."USER_MEDIA_LIST" (user_id, media_id, status_id) SELECT $1, media.media_id, $3 FROM  "Fiction Profile"."MEDIA" media WHERE media.book_id = $2;',
                     [user_id, title_id, status_id]
                 );
+                console.log("Succesfully added book to user's list")
+            }else{
+                // Update the list
+                await pool.query(
+                    'UPDATE "Fiction Profile"."USER_MEDIA_LIST" SET status_id = $3 WHERE user_id = $1 AND media_id IN ( SELECT media_id FROM  "Fiction Profile"."MEDIA" WHERE book_id = $2)',
+                    [user_id, title_id, status_id]
+                );
+                console.log("Succesfully updated book to user's list")
+            
             }
         }
+
+        res.json({ success: true });
     } catch (error) {
         console.error('Error executing query:', error);
         res.status(500).json({ error: 'Internal server error' });

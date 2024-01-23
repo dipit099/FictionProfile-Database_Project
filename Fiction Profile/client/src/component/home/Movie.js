@@ -15,6 +15,7 @@ const Movie = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState('0');
   const role = localStorage.getItem('role');
+  
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -37,19 +38,48 @@ const Movie = () => {
     return null;
   };
 
-  const renderFavoriteButton = () => {
+  const handleFavoriteAdd = async(movie) => {
+    try {
+      console.log('User ID:', localStorage.getItem('people_id'));
+      console.log('Movie ID:', movie.id);
+      const response = await axios.post(`${BASE_URL}/user_favorite`, {
+        user_id: localStorage.getItem('people_id'),
+        media_type: 'movie',
+        title_id: movie.id, // Use the actual property of the movie object that represents its ID
+      });
+
+      const data = response.data;
+      // Handle the response data as needed
+      if(data.success){
+        console.log("Successfully added to favorite");
+      }
+    } catch (error) {
+      console.error('Error during adding media:', error.message);
+    }
+  }
+
+
+  const renderFavoriteButton = (movie) => {
     if (role === 'user') {
-      return <FaHeart className="heart-icon" />;
+      const isFavorite = movie.favorite;
+      return (
+        <FaHeart
+          className={`heart-icon ${isFavorite ? 'in-favorite' : ''}`}
+          onClick={() => handleFavoriteAdd(movie)}
+        />
+      );
     }
     return null;
   };
 
   const openModal = (movie) => {
+    console.log('Movie ID:', movie.id);
     setSelectedMovie(movie);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
+    console.log("handleCloeModal is Called");
     setSelectedMovie(null);
     setIsModalOpen(false);
   };
@@ -67,14 +97,19 @@ const Movie = () => {
         status_id: selectedStatus,
       });
 
+      const data = response.data;
       // Handle the response data as needed
-      console.log('Media added successfully:', response.data);
+      if(data.success){
+        console.log("Successfully added media");
+      }
     } catch (error) {
       console.error('Error during adding media:', error.message);
     }
 
-    handleCloseModal(); // Close the modal after submitting
+    // Close the modal
+    handleCloseModal();
   };
+
 
   return (
     <div className='Moviediv'>
@@ -89,7 +124,7 @@ const Movie = () => {
               <p>{movie.vote_average.toFixed(1)}</p>
               <div className="button-container">
                 <p>{renderMediaAddButton(movie)}</p>
-                <p>{renderFavoriteButton()}</p>
+                <p>{renderFavoriteButton(movie)}</p>
               </div>
             </div>
           </li>
