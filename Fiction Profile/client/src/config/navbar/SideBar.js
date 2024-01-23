@@ -3,6 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { SidebarData } from './SideBarData';
 import './SideBar.css';
 import { IconContext } from 'react-icons';
+import * as AiIcons from 'react-icons/ai';
+import * as IoIcons from 'react-icons/io';
+import * as RiIcons from "react-icons/ri";
+import { MdAccountCircle } from "react-icons/md";
+import { IoLogOut } from "react-icons/io5";
 
 function SideBar() {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -21,29 +26,54 @@ function SideBar() {
       window.location.reload();
     }
   };
+  const MirroredLogoutIcon = () => {
+    return (
+      <IoLogOut
+        style={{
+          transform: "scaleX(-1)", // Mirror horizontally
+        }}
+      />
+    );
+  };
+
 
   return (
     <div className='sidebar-container'>
-      <IconContext.Provider value={{ color: '#fff' }}>
-        <div className='side-menu'> {/* Sidebar is always active */}
-          <ul className='side-menu-items'>
-            {SidebarData.map((item, index) => (
-              <li
-                key={index}
-                className={`side-menu-two-items ${index === selectedItem ? 'selected' : ''}`}
-                onClick={() => handleItemClick(index)}
-              >
-                <Link to={item.path}>
-                  <li className='side-bar-icon'>{item.icon}</li>
-                  <li className='side-bar-title'>
-                    <span > {item.title}</span>
-                  </li>
-                </Link>
-              </li>
-            ))}
-          </ul>
+
+      <div className='side-menu-items'>
+        <div className='home-bar'>
+          <Link to='/home'>         
+          <AiIcons.AiFillHome className='side-bar-icon' />
+          <p className='side-bar-title'>Home</p>
+        </Link>
         </div>
-      </IconContext.Provider>
+        <div className='discover-bar'>
+          <Link to='/discover'>
+            <IoIcons.IoIosPaper className='side-bar-icon' />
+            <p className='side-bar-title'>Discover</p>
+          </Link>
+        </div>
+        <div className='feed-bar'>
+          <Link to='/feed'>
+            <RiIcons.RiCompassDiscoverFill className='side-bar-icon' />
+            <p className='side-bar-title'>Feed</p>
+          </Link>
+        </div>
+        <div className='account-bar'>
+          <Link to='/account'>
+            <MdAccountCircle className='side-bar-icon' />
+            <p className='side-bar-title'>Account</p>
+          </Link>
+        </div>
+        <div className='logout-bar'>
+          <Link to='/'>
+            <IoLogOut className='side-bar-icon' />
+            <p className='side-bar-title'>Logout</p>
+          </Link>
+        </div>
+
+      </div>
+
     </div>
   );
 }
