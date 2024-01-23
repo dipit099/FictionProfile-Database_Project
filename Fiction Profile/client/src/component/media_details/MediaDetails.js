@@ -1,7 +1,7 @@
 // MovieDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './MovieDetails.css'; // Import the CSS file
+import './MediaDetails.css';
 
 const MovieDetails = () => {
     const { id } = useParams(); // Extract id from the URL
