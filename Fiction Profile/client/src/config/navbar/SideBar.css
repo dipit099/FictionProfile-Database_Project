@@ -1,60 +1,76 @@
 /* SideBar.css */
 
 .sidebar-container {
-
-  background-color: #060b26;
-}
-
-.side-menu {
-  height: 100vh;
+  display: flex;
   position: fixed;
-  background-color: #060b26;
   left: 0;
+  top: 0;
+  height: 100vh;
+  margin-top: 80px;
+  background-color: #060b26;
+  width: 120px;
 }
 
 .side-menu-items {
-  /* margin-top: 50px; */
-  width: 120px;
+  list-style-type: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
- 
-
-  /* Set the ITEMs at center of the sidebar */
-
+  width: 100%;
 }
 
-.side-menu-items li {
+.side-menu-items a {
+  text-decoration: none;
+  color: #fff;
+  width: 100%; /* Take full width */
   display: flex;
+  flex-direction: column;
+  align-items: center; /* Align child items at the center */
+}
+
+.side-menu-items a:hover {
+  text-decoration: none;
+}
+
+.home-bar,
+.discover-bar,
+.account-bar,
+.logout-bar,
+.feed-bar {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Center items vertically */
-
-
-
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  height: 100px;
 }
 
-.side-menu-items li:hover {
+.home-bar:hover,
+.discover-bar:hover,
+.account-bar:hover,
+.logout-bar:hover,
+.feed-bar:hover {
   background-color: #2c70be;
-  /* Hover background color */
 }
 
 .side-bar-icon {
-  padding-top: 15px;
-  font-size: 30px;
-
-  /* Adjust the centre as needed */
-
+  font-size: 40px;
 }
 
 .side-bar-title {
+  font-size: 20px;
   color: #fff;
-  /* Text color */
-  font-size: 18px;
-  /* Adjust the font size as needed */
-  padding-bottom: 12px;
+  font-weight: 600;
+  text-align: center;
 }
+.home-bar{
+  margin-top: 20px;
 
-.side-menu-two-items.selected {
-  background-color: #0c4c96;
-  /* Set the background color for the selected item */
+}
+.logout-bar {
+  
+  margin-top: auto; /* Align at the bottom */
+  margin-bottom: 150px;
 }
