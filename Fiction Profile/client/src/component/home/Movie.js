@@ -61,9 +61,10 @@ const Movie = () => {
       console.log('Movie ID:', selectedMovie.id);
       const response = await axios.post(`${BASE_URL}/user_media_add`, {
         user_id: localStorage.getItem('people_id'),
-        movie_id: selectedMovie.id, // Use the actual property of the movie object that represents its ID
         media_type: 'movie',
-        status: selectedStatus,
+        title_id: selectedMovie.id, // Use the actual property of the movie object that represents its ID
+
+        status_id: selectedStatus,
       });
 
       // Handle the response data as needed
