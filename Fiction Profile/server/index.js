@@ -5,6 +5,7 @@ const cors = require("cors");
 const authorize = require('./middleware/authorize');
 const AccountRoute = require('./routes/account/AccountRoute');
 const UserMediaRoute = require('./routes/components/UserMediaAdd');
+const UserFavoriteRoute = require('./routes/components/UserFavorite');
 
 
 app.use(cors());
@@ -19,6 +20,8 @@ app.use('/book', require('./routes/components/BookDetails'));
 app.use('/manga', require('./routes/components/MangaDetails'));
 app.use('/account', AccountRoute);
 app.use('/user_media_add', UserMediaRoute);
+app.use('/user_favorite', UserFavoriteRoute);
+
 
 
 

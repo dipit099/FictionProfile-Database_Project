@@ -7,13 +7,17 @@ const authorize = require("../../middleware/authorize");
 
 router.get('/movie', async (req, res) => {
     try {
+
+        // TO-DO favortie mechanism
+
         const result = await pool.query(
             'SELECT id,title, poster_path,vote_average FROM "Fiction Profile"."MOVIE" ORDER BY vote_count DESC LIMIT 15');
+
         const movies = result.rows.map(movie => ({
             id: movie.id,
             title: movie.title,
             poster_path: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
-            vote_average: movie.vote_average
+            vote_average: movie.vote_average,
         }));
 
         res.json({ movies });
