@@ -6,10 +6,7 @@ import { useLocation } from 'react-router-dom';
 import SideBar from '../../config/navbar/SideBar';
 
 const Home = () => {
-    // const location = useLocation();
-    // const email = location.state && location.state.email;
-    // const role = location.state && location.state.role;
-    // console.log("in homepage, email "+ email+ " role "+ role);
+    
     let role = null;
     const email = localStorage.getItem('email');
     role = localStorage.getItem('role');

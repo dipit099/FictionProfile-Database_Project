@@ -12,42 +12,41 @@ import axios from 'axios';
 Modal.setAppElement('#root'); // Assuming 'root' is the ID of your root element
 
 const Movie = () => {
-  const [movies, setMovies] = useState([]);
+  const [mediaItems, setMediaItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedMediaItem, setSelectedMediaItem] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState('0');
   const role = localStorage.getItem('role');
 
-
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchMediaItems = async () => {
       try {
         const response = await fetch(`${BASE_URL}/trending/movie`);
         const data = await response.json();
-        setMovies(data.movies);
+        setMediaItems(data.media);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchMovies();
+    fetchMediaItems();
   }, []);
 
-  const renderMediaAddButton = (movie) => {
+  const renderMediaAddButton = (mediaItem) => {
     if (role === 'user') {
-      return <MdAddBox className='add-icon' onClick={() => openModal(movie)} />;
+      return <MdAddBox className='add-icon' onClick={() => openModal(mediaItem)} />;
     }
     return null;
   };
 
-  const handleFavoriteAdd = async (movie) => {
+  const handleFavoriteAdd = async (mediaItem) => {
     try {
       console.log('User ID:', localStorage.getItem('people_id'));
-      console.log('Movie ID:', movie.id);
+      console.log('Media Item ID:', mediaItem.id);
       const response = await axios.post(`${BASE_URL}/user_favorite`, {
         user_id: localStorage.getItem('people_id'),
-        media_type: 'movie',
-        title_id: movie.id, // Use the actual property of the movie object that represents its ID
+        media_type: 'movie', // Adjust this based on the actual media type property
+        title_id: mediaItem.id,
       });
 
       const data = response.data;
@@ -59,44 +58,42 @@ const Movie = () => {
     } catch (error) {
       console.error('Error during adding media:', error.message);
     }
-  }
+  };
 
-
-  const renderFavoriteButton = (movie) => {
+  const renderFavoriteButton = (mediaItem) => {
     if (role === 'user') {
-      const isFavorite = movie.favorite;
+      const isFavorite = mediaItem.favorite;
       return (
         <FaHeart
           className={`heart-icon ${isFavorite ? 'in-favorite' : ''}`}
-          onClick={() => handleFavoriteAdd(movie)}
+          onClick={() => handleFavoriteAdd(mediaItem)}
         />
       );
     }
     return null;
   };
 
-  const openModal = (movie) => {
-    console.log('Movie ID:', movie.id);
-    setSelectedMovie(movie);
+  const openModal = (mediaItem) => {
+    console.log('Media Item ID:', mediaItem.id);
+    setSelectedMediaItem(mediaItem);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    console.log("handleCloeModal is Called");
-    setSelectedMovie(null);
+    console.log("handleCloseModal is Called");
+    setSelectedMediaItem(null);
     setIsModalOpen(false);
   };
 
   const handlePopupSubmit = async () => {
     try {
-      console.log('Submitting media:', selectedMovie, selectedStatus);
+      console.log('Submitting media:', selectedMediaItem, selectedStatus);
       console.log('User ID:', localStorage.getItem('people_id'));
-      console.log('Movie ID:', selectedMovie.id);
+      console.log('Media Item ID:', selectedMediaItem.id);
       const response = await axios.post(`${BASE_URL}/user_media_add`, {
         user_id: localStorage.getItem('people_id'),
-        media_type: 'movie',
-        title_id: selectedMovie.id, // Use the actual property of the movie object that represents its ID
-
+        media_type: 'movie', // Adjust this based on the actual media type property
+        title_id: selectedMediaItem.id,
         status_id: selectedStatus,
       });
 
@@ -114,21 +111,20 @@ const Movie = () => {
     handleCloseModal();
   };
 
-
   return (
-    <div className='Moviediv'>
+    <div className='MediaDiv'>
       <ul>
-        {movies.map((movie) => (
-          <li key={movie.title}>
-            <div className="movie-item">
-              <Link to={`/movie/${movie.id}`}>
-                <img src={movie.poster_path} alt={`${movie.title} Poster`} />
-                <p>{movie.title}</p>
+        {mediaItems.map((mediaItem) => (
+          <li key={mediaItem.title}>
+            <div className="media-item">
+              <Link to={`/movie/${mediaItem.id}`}>
+                <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
+                <p>{mediaItem.title}</p>
               </Link>
-              <p>{movie.vote_average.toFixed(1)}</p>
+              <p>{mediaItem.vote_average.toFixed(1)}</p>
               <div className="button-container">
-                <p>{renderMediaAddButton(movie)}</p>
-                <p>{renderFavoriteButton(movie)}</p>
+                <p>{renderMediaAddButton(mediaItem)}</p>
+                <p>{renderFavoriteButton(mediaItem)}</p>
               </div>
             </div>
           </li>
@@ -165,99 +161,266 @@ const Movie = () => {
   );
 };
 
+
+
 const Tvshow = () => {
-  const [movies, setMovies] = useState([]);
+  const [mediaItems, setMediaItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMediaItem, setSelectedMediaItem] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState('0');
   const role = localStorage.getItem('role');
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchMediaItems = async () => {
       try {
         const response = await fetch('http://localhost:5197/trending/tvshow');
         const data = await response.json();
-        setMovies(data.movies);
+        setMediaItems(data.media);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchMovies();
+    fetchMediaItems();
   }, []);
 
-  const renderMediaAddButton = () => {
+  const renderMediaAddButton = (mediaItem) => {
     if (role === 'user') {
-      return <MdAddBox className='add-icon' />
+      return <MdAddBox className='add-icon' onClick={() => openModal(mediaItem)} />;
     }
     return null;
   };
-  const renderFavoriteButton = () => {
+
+  const handleFavoriteAdd = async (mediaItem) => {
+    try {
+      console.log('User ID:', localStorage.getItem('people_id'));
+      console.log('Media Item ID:', mediaItem.id);
+      const response = await axios.post(`${BASE_URL}/user_favorite`, {
+        user_id: localStorage.getItem('people_id'),
+        media_type: 'tvshow',
+        title_id: mediaItem.id,
+      });
+
+      const data = response.data;
+      toast.success('Successfully added to favorite');
+      // Handle the response data as needed
+      if (data.success) {
+        console.log('Successfully added to favorite');
+      }
+    } catch (error) {
+      console.error('Error during adding media:', error.message);
+    }
+  };
+
+  const renderFavoriteButton = (mediaItem) => {
     if (role === 'user') {
-      return <FaHeart className="heart-icon" />;
+      const isFavorite = mediaItem.favorite;
+      return (
+        <FaHeart
+          className={`heart-icon ${isFavorite ? 'in-favorite' : ''}`}
+          onClick={() => handleFavoriteAdd(mediaItem)}
+        />
+      );
     }
     return null;
-  }
+  };
+
+  const openModal = (mediaItem) => {
+    console.log('Media Item ID:', mediaItem.id);
+    setSelectedMediaItem(mediaItem);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    console.log('handleCloseModal is Called');
+    setSelectedMediaItem(null);
+    setIsModalOpen(false);
+  };
+
+  const handlePopupSubmit = async () => {
+    try {
+      console.log('Submitting media:', selectedMediaItem, selectedStatus);
+      console.log('User ID:', localStorage.getItem('people_id'));
+      console.log('Media Item ID:', selectedMediaItem.id);
+      const response = await axios.post(`${BASE_URL}/user_media_add`, {
+        user_id: localStorage.getItem('people_id'),
+        media_type: 'tvshow',
+        title_id: selectedMediaItem.id,
+        status_id: selectedStatus,
+      });
+
+      const data = response.data;
+      toast.success('Successfully added media');
+      // Handle the response data as needed
+      if (data.success) {
+        console.log('Successfully added media');
+      }
+    } catch (error) {
+      console.error('Error during adding media:', error.message);
+    }
+
+    // Close the modal
+    handleCloseModal();
+  };
 
   return (
-    <div className='Moviediv'>
+    <div className='MediaDiv'>
       <ul>
-        {movies.map((movie) => (
-          <li key={movie.title}>
-            <Link to={`/tvshow/${movie.id}`}>
-              <div className="movie-item">
-                <img src={movie.poster_path} alt={`${movie.title} Poster`} />
-                <p>{movie.title}</p>
-                <p>{movie.vote_average.toFixed(1)}</p>
-                <div className="button-container">
-                  <p>{renderMediaAddButton()}</p>
-                  <p>{renderFavoriteButton()}</p>
-
-                </div>
+        {mediaItems.map((mediaItem) => (
+          <li key={mediaItem.title}>
+            <div className='media-item'>
+              <Link to={`/tv/${mediaItem.id}`}>
+                <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
+                <p>{mediaItem.title}</p>
+              </Link>
+              <p>{mediaItem.vote_average.toFixed(1)}</p>
+              <div className='button-container'>
+                <p>{renderMediaAddButton(mediaItem)}</p>
+                <p>{renderFavoriteButton(mediaItem)}</p>
               </div>
-            </Link>
+            </div>
           </li>
         ))}
       </ul>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        contentLabel='Popup Modal'
+        style={{
+          content: {
+            width: '400px',
+            height: '400px',
+            margin: 'auto',
+            backgroundColor: '#33539d', /* Green */
+          },
+        }}
+      >
+        <div className='popup-content'>
+          <br /><br />
+          <label htmlFor='dropdown'>Status:</label>
+          <select id='dropdown' name='dropdown' onChange={(e) => setSelectedStatus(e.target.value)}>
+            <option value='0'>Select Status</option>
+            <option value='1'>Read/Watched</option>
+            <option value='2'>Plan to Read/Watch</option>
+            <option value='3'>Currently Reading/Watching</option>
+          </select>
+          <br /><br /><br />
+          <button onClick={handlePopupSubmit}>Submit</button>
+        </div>
+      </Modal>
     </div>
   );
 };
-const Book = () => {
-  const [movies, setMovies] = useState([]);
+
+const Manga = () => {
+  const [mediaItems, setMediaItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMediaItem, setSelectedMediaItem] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState('0');
   const role = localStorage.getItem('role');
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchMediaItems = async () => {
       try {
-        const response = await fetch('http://localhost:5197/trending/book');
+        const response = await fetch('http://localhost:5197/trending/manga');
         const data = await response.json();
-        setMovies(data.movies);
+        setMediaItems(data.media);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchMovies();
-  });
+    fetchMediaItems();
+  }, []);
 
-  const renderMediaAddButton = () => {
+  const renderMediaAddButton = (mediaItem) => {
     if (role === 'user') {
-      return <MdAddBox className='add-icon' />
+      return <MdAddBox className='add-icon' onClick={() => openModal(mediaItem)} />;
     }
     return null;
   };
-  const renderFavoriteButton = () => {
+
+  const handleFavoriteAdd = async (mediaItem) => {
+    try {
+      console.log('User ID:', localStorage.getItem('people_id'));
+      console.log('Media Item ID:', mediaItem.id);
+      const response = await axios.post(`${BASE_URL}/user_favorite`, {
+        user_id: localStorage.getItem('people_id'),
+        media_type: 'manga', // Adjust this based on the actual media type property
+        title_id: mediaItem.id,
+      });
+
+      const data = response.data;
+      toast.success('Successfully added to favorite');
+      // Handle the response data as needed
+      if (data.success) {
+        console.log('Successfully added to favorite');
+      }
+    } catch (error) {
+      console.error('Error during adding media:', error.message);
+    }
+  };
+
+  const renderFavoriteButton = (mediaItem) => {
     if (role === 'user') {
-      return <FaHeart className="heart-icon" />;
+      const isFavorite = mediaItem.favorite;
+      return (
+        <FaHeart
+          className={`heart-icon ${isFavorite ? 'in-favorite' : ''}`}
+          onClick={() => handleFavoriteAdd(mediaItem)}
+        />
+      );
     }
     return null;
-  }
+  };
+
+  const openModal = (mediaItem) => {
+    console.log('Media Item ID:', mediaItem.id);
+    setSelectedMediaItem(mediaItem);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    console.log('handleCloseModal is Called');
+    setSelectedMediaItem(null);
+    setIsModalOpen(false);
+  };
+
+  const handlePopupSubmit = async () => {
+    try {
+      console.log('Submitting media:', selectedMediaItem, selectedStatus);
+      console.log('User ID:', localStorage.getItem('people_id'));
+      console.log('Media Item ID:', selectedMediaItem.id);
+      const response = await axios.post(`${BASE_URL}/user_media_add`, {
+        user_id: localStorage.getItem('people_id'),
+        media_type: 'manga', // Adjust this based on the actual media type property
+        title_id: selectedMediaItem.id,
+        status_id: selectedStatus,
+      });
+
+      const data = response.data;
+      toast.success('Successfully added media');
+      // Handle the response data as needed
+      if (data.success) {
+        console.log('Successfully added media');
+      }
+    } catch (error) {
+      console.error('Error during adding media:', error.message);
+    }
+
+    // Close the modal
+    handleCloseModal();
+  };
 
   return (
-    <div className='Moviediv'>
+    <div className='MediaDiv'>
       <ul>
-        {movies.map((movie) => (
-          <li key={movie.title}>
-            <Link to={`/book/${movie.id}`}>
-              <div className="movie-item">
-                <img src={movie.poster_path} alt={`${movie.title} Poster`} />
+        {mediaItems.map((mediaItem) => (
+          <li key={mediaItem.title}>
+            <div className='media-item'>
+              <Link to={`/manga/${mediaItem.id}`}>
+                <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
                 <p style={{
                   fontSize: '20px',
                   margin: '2px',
@@ -267,76 +430,209 @@ const Book = () => {
                   // whiteSpace: 'nowrap',
                   // textOverflow: 'ellipsis'
                 }}>
-                  {movie.title}
+                  {mediaItem.title}
                 </p>
-
-
-                <div className="button-container">
-                  <p>{renderMediaAddButton()}</p>
-                  <p>{renderFavoriteButton()}</p>
-                </div>
+              </Link>
+              <div className='button-container'>
+                <p>{renderMediaAddButton(mediaItem)}</p>
+                <p>{renderFavoriteButton(mediaItem)}</p>
               </div>
-            </Link>
+            </div>
           </li>
         ))}
       </ul>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        contentLabel='Popup Modal'
+        style={{
+          content: {
+            width: '400px',
+            height: '400px',
+            margin: 'auto',
+            backgroundColor: '#33539d', /* Green */
+          },
+        }}
+      >
+        <div className='popup-content'>
+          <br /><br />
+          <label htmlFor='dropdown'>Status:</label>
+          <select id='dropdown' name='dropdown' onChange={(e) => setSelectedStatus(e.target.value)}>
+            <option value='0'>Select Status</option>
+            <option value='1'>Read/Watched</option>
+            <option value='2'>Plan to Read/Watch</option>
+            <option value='3'>Currently Reading/Watching</option>
+          </select>
+          <br /><br /><br />
+          <button onClick={handlePopupSubmit}>Submit</button>
+        </div>
+      </Modal>
     </div>
   );
-}
-const Manga = () => {
-  const [movies, setMovies] = useState([]);
+};
+
+const Book = () => {
+  const [mediaItems, setMediaItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMediaItem, setSelectedMediaItem] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState('0');
   const role = localStorage.getItem('role');
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchMediaItems = async () => {
       try {
-        const response = await fetch('http://localhost:5197/trending/manga');
+        const response = await fetch('http://localhost:5197/trending/book');
         const data = await response.json();
-        setMovies(data.movies);
+        setMediaItems(data.media);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchMovies();
-  });
+    fetchMediaItems();
+  }, []);
 
-  const renderMediaAddButton = () => {
+  const renderMediaAddButton = (mediaItem) => {
     if (role === 'user') {
-      return <MdAddBox className='add-icon' />
+      return <MdAddBox className='add-icon' onClick={() => openModal(mediaItem)} />;
     }
     return null;
   };
-  const renderFavoriteButton = () => {
+
+  const handleFavoriteAdd = async (mediaItem) => {
+    try {
+      console.log('User ID:', localStorage.getItem('people_id'));
+      console.log('Media Item ID:', mediaItem.id);
+      const response = await axios.post(`${BASE_URL}/user_favorite`, {
+        user_id: localStorage.getItem('people_id'),
+        media_type: 'book', // Adjust this based on the actual media type property
+        title_id: mediaItem.id,
+      });
+
+      const data = response.data;
+      toast.success('Successfully added to favorite');
+      // Handle the response data as needed
+      if (data.success) {
+        console.log('Successfully added to favorite');
+      }
+    } catch (error) {
+      console.error('Error during adding media:', error.message);
+    }
+  };
+
+  const renderFavoriteButton = (mediaItem) => {
     if (role === 'user') {
-      return <FaHeart className="heart-icon" />;
+      const isFavorite = mediaItem.favorite;
+      return (
+        <FaHeart
+          className={`heart-icon ${isFavorite ? 'in-favorite' : ''}`}
+          onClick={() => handleFavoriteAdd(mediaItem)}
+        />
+      );
     }
     return null;
-  }
-  return (
-    <div className='Moviediv'>
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.title}>
-            <Link to={`/manga/${movie.id}`}>
-              <img src={movie.poster_path} alt={`${movie.title} Poster`} />
-              <div className="movie-item">
-                <p>{movie.title}</p>
-                <p>{movie.vote_average.toFixed(1)}</p>
-                {/* <p>{movie.vote_average.toFixed(1)}</p> */}
-                <div className="button-container">
+  };
 
-                  <p>{renderMediaAddButton()}</p>
-                  <p>{renderFavoriteButton()}</p>
-                </div>
+  const openModal = (mediaItem) => {
+    console.log('Media Item ID:', mediaItem.id);
+    setSelectedMediaItem(mediaItem);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    console.log('handleCloseModal is Called');
+    setSelectedMediaItem(null);
+    setIsModalOpen(false);
+  };
+
+  const handlePopupSubmit = async () => {
+    try {
+      console.log('Submitting media:', selectedMediaItem, selectedStatus);
+      console.log('User ID:', localStorage.getItem('people_id'));
+      console.log('Media Item ID:', selectedMediaItem.id);
+      const response = await axios.post(`${BASE_URL}/user_media_add`, {
+        user_id: localStorage.getItem('people_id'),
+        media_type: 'book', // Adjust this based on the actual media type property
+        title_id: selectedMediaItem.id,
+        status_id: selectedStatus,
+      });
+
+      const data = response.data;
+      toast.success('Successfully added media');
+      // Handle the response data as needed
+      if (data.success) {
+        console.log('Successfully added media');
+      }
+    } catch (error) {
+      console.error('Error during adding media:', error.message);
+    }
+
+    // Close the modal
+    handleCloseModal();
+  };
+
+  return (
+    <div className='MediaDiv'>
+      <ul>
+        {mediaItems.map((mediaItem) => (
+          <li key={mediaItem.title}>
+            <div className='media-item'>
+              <Link to={`/book/${mediaItem.id}`}>
+                <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
+                <p style={{
+                  fontSize: '20px',
+                  margin: '2px',
+                  textAlign: 'center',
+                  color: '#ffffff',
+                  overflow: 'hidden',
+                  // whiteSpace: 'nowrap',
+                  // textOverflow: 'ellipsis'
+                }}>
+                  {mediaItem.title}
+                </p>
+              </Link>
+              <div className='button-container'>
+                <p>{renderMediaAddButton(mediaItem)}</p>
+                <p>{renderFavoriteButton(mediaItem)}</p>
               </div>
-            </Link>
+            </div>
           </li>
         ))}
       </ul>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        contentLabel='Popup Modal'
+        style={{
+          content: {
+            width: '400px',
+            height: '400px',
+            margin: 'auto',
+            backgroundColor: '#33539d', /* Green */
+          },
+        }}
+      >
+        <div className='popup-content'>
+          <br /><br />
+          <label htmlFor='dropdown'>Status:</label>
+          <select id='dropdown' name='dropdown' onChange={(e) => setSelectedStatus(e.target.value)}>
+            <option value='0'>Select Status</option>
+            <option value='1'>Read/Watched</option>
+            <option value='2'>Plan to Read/Watch</option>
+            <option value='3'>Currently Reading/Watching</option>
+          </select>
+          <br /><br /><br />
+          <button onClick={handlePopupSubmit}>Submit</button>
+        </div>
+      </Modal>
     </div>
   );
-}
+};
+
+
+
 
 
 export {
