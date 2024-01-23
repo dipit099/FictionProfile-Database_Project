@@ -9,8 +9,9 @@ const Navbar = () => {
     const email = localStorage.getItem('email');
 
     return (
-        <div className="navbar-container">
-            <div className="navbar">
+        <>
+            <div className="navbar-container">
+
                 <div className="navbar-left">
 
                 </div>
@@ -24,13 +25,11 @@ const Navbar = () => {
                     {role === "user" ? (
                         <>
                             <button>Dashboard</button>
-                            <button>Notification</button>
                             <button>Account</button>
                         </>
                     ) : role === "moderator" ? (
                         <>
                             <button>Dashboard</button>
-                            <button>Notification</button>
                             <button>Account</button>
                         </>
                     ) : (
@@ -41,8 +40,9 @@ const Navbar = () => {
                     )}
                 </div>
 
+
             </div>
-        </div>
+        </>
     );
 };
 

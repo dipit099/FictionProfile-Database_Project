@@ -9,9 +9,18 @@
     transition: transform 0.3s;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-end;
-    /* Change to column to stack content vertically */
+    height: 100%;
+}
+
+
+
+.button-container {
+    display: flex;
+    margin-top: auto;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 .MediaDiv ul {
@@ -29,28 +38,33 @@
     transition: 0.3s;
 }
 
-.media-item:hover {
-    /* Increase the size on hover */
-}
-
 .MediaDiv img {
     width: 190px;
     height: 200px;
     border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .MediaDiv img:hover {
-    /* Increase the size on hover */
     transform: scale(1.1);
 }
 
 .MediaDiv p {
+    /* font-size: 20px;
+    margin: 2px;
+    text-align: center;
+    color: #ffffff;
+    overflow: hidden;
+    white-space: normal; */
     font-size: 20px;
     margin: 2px;
     text-align: center;
     color: #ffffff;
     overflow: hidden;
-    white-space: normal;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    /* Adjust the max-width based on your container's width */
 }
 
 .MediaDiv::-webkit-scrollbar {
@@ -66,10 +80,6 @@
     background-color: #000000;
 }
 
-.button-container {
-    display: flex;
-}
-
 .heart-icon {
     color: rgb(198, 78, 78);
     font-size: 32px;
@@ -82,11 +92,11 @@
 }
 
 .add-icon:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     cursor: pointer;
 }
 
 .heart-icon:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     cursor: pointer;
 }

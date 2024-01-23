@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import BASE_URL from "../../config/ApiConfig";
 import { FaHeart } from "react-icons/fa";
 import { MdAddBox } from "react-icons/md";
+import { FcRating } from "react-icons/fc";
 import Modal from 'react-modal';
 import axios from 'axios';
 Modal.setAppElement('#root'); // Assuming 'root' is the ID of your root element
@@ -121,7 +122,9 @@ const Movie = () => {
                 <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
                 <p>{mediaItem.title}</p>
               </Link>
-              <p>{mediaItem.vote_average.toFixed(1)}</p>
+              <p>
+                {mediaItem.vote_average.toFixed(1)}                
+              </p>
               <div className="button-container">
                 <p>{renderMediaAddButton(mediaItem)}</p>
                 <p>{renderFavoriteButton(mediaItem)}</p>
@@ -581,11 +584,11 @@ const Book = () => {
               <Link to={`/book/${mediaItem.id}`}>
                 <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
                 <p style={{
-                  fontSize: '20px',
-                  margin: '2px',
-                  textAlign: 'center',
-                  color: '#ffffff',
-                  overflow: 'hidden',
+                  // fontSize: '20px',
+                  // margin: '2px',
+                  // textAlign: 'center',
+                  // color: '#ffffff',
+                  // overflow: 'hidden',
                   // whiteSpace: 'nowrap',
                   // textOverflow: 'ellipsis'
                 }}>
