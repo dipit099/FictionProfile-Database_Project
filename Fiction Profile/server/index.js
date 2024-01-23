@@ -3,7 +3,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const authorize = require('./middleware/authorize');
-const AccountRoute = require('./routes/account/AccountRoute')
+const AccountRoute = require('./routes/account/AccountRoute');
+const UserMediaRoute = require('./routes/components/UserMediaAdd');
 
 
 app.use(cors());
@@ -17,6 +18,8 @@ app.use('/tvshow', require('./routes/components/TvShowDetails'));
 app.use('/book', require('./routes/components/BookDetails'));
 app.use('/manga', require('./routes/components/MangaDetails'));
 app.use('/account', AccountRoute);
+app.use('/user_media_add', UserMediaRoute);
+
 
 
 
