@@ -1,4 +1,3 @@
-
 .MediaDiv {
     display: flex;
     overflow-x: auto;
@@ -11,7 +10,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end; /* Change to column to stack content vertically */
+    justify-content: flex-end;
+    /* Change to column to stack content vertically */
 }
 
 .MediaDiv ul {
