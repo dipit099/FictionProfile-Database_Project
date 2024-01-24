@@ -13,7 +13,9 @@ const Navbar = () => {
             <div className="navbar-container">
 
                 <div className="navbar-left">
-
+                    <Link to={"/home"}>
+                        <h1>Fiction Profile</h1>
+                    </Link>
                 </div>
 
                 <div className="navbar-middle">

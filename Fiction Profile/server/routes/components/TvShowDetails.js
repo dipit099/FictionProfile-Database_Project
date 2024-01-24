@@ -13,7 +13,7 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Movie not found' });
         }
 
-        const movie = {
+        const media = {
             id: result.rows[0].id,
             title: result.rows[0].title,
             poster_path: `https://image.tmdb.org/t/p/original/${result.rows[0].poster_path}`,
@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
 
         };
 
-        res.json({ movie });
+        res.json({ media });
     } catch (error) {
         console.error('Error executing query:', error);
         res.status(500).json({ error: 'Internal server error' });

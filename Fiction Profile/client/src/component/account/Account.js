@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import BASE_URL from "../../config/ApiConfig";
 import './Account.css';
-
+import SideBar from "../../config/navbar/SideBar";
 
 const Account = () => {
 
@@ -145,51 +145,23 @@ const Account = () => {
     }
 
     return (
-        <div className="loginregister-full-page">
-            <div className="auth-form-container">
-                <h1 style={{ textAlign: 'center' }}>Account Settings</h1>
-
-                <form className="account-form" onSubmit={handleSubmit}>
-                    <div>
+        
+           
+            <div className="account-container">
+                <div className="account-header">
+                    <h1>Account Settings</h1>
+                </div>
+                <div className="account-details">
+                    <div className="username-section">
                         <h3>Username: {userName}</h3>
                     </div>
-                    <div>
-                        <img src={profilePicPath} alt="profile pic" style={{ width: '200px', height: '200px', borderRadius: '10%' }} />
+                    <div className="profile-picture-section">
+                        <img src={profilePicPath} alt="Profile" className="profile-picture" />
                     </div>
-                    <div style={{ display: 'flex', justifyContent: "space-between" }}>
-                        <div>
-                            <label htmlFor="firstName">First name*</label>
-                            <input value={firstName} name="firstName" onChange={handleInputChange} id="firstName" placeholder="Your Name" />
-                        </div>
-                        <div>
-                            <label htmlFor="lastName">Last name</label>
-                            <input value={lastName} name="lastName" onChange={handleInputChange} id="lastName" placeholder="Your Last Name" />
-                        </div>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: "space-between" }}>
-                        <div>
-                            <label>
-                                Birthday:
-                                <input
-                                    style={{ marginLeft: '10px', width: '150px', marginRight: '10px' }}
-                                    type="date"
-                                    value={birthdate}
-                                    onChange={handleBirthdateChange}
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>Gender:
-                                <select value={gender} onChange={handleGenderChange}>
-                                    <option value="">Select</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        {<label htmlFor="profilePicture">Profile Picture:
+                    <form className="account-form" onSubmit={handleSubmit}>
+                        {/* Rest of the form fields... */}
+                        <div className="form-section">
+                            <label htmlFor="profilePicture">Profile Picture:</label>
                             <input
                                 type="file"
                                 accept="image/*"
@@ -197,14 +169,12 @@ const Account = () => {
                                 id="profilePicture"
                                 name="profilePicture"
                             />
-                        </label>}
-                    </div>
-
-
-                    <button type="submit" className="sign-inup-button">Update Profile</button>
-                </form>
+                        </div>
+                        <button type="submit" className="update-profile-button">Update Profile</button>
+                    </form>
+                </div>
             </div>
-        </div>
+        
     );
 };
 

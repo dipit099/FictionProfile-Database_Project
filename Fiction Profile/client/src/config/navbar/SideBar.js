@@ -30,6 +30,8 @@ function SideBar() {
     return (
       <IoLogOut
         style={{
+          /*increase its size*/
+          fontSize: "40px",
           transform: "scaleX(-1)", // Mirror horizontally
         }}
       />
@@ -42,10 +44,10 @@ function SideBar() {
 
       <div className='side-menu-items'>
         <div className='home-bar'>
-          <Link to='/home'>         
-          <AiIcons.AiFillHome className='side-bar-icon' />
-          <p className='side-bar-title'>Home</p>
-        </Link>
+          <Link to='/home'>
+            <AiIcons.AiFillHome className='side-bar-icon' />
+            <p className='side-bar-title'>Home</p>
+          </Link>
         </div>
         <div className='discover-bar'>
           <Link to='/discover'>
@@ -67,7 +69,7 @@ function SideBar() {
         </div>
         <div className='logout-bar'>
           <Link to='/'>
-            <IoLogOut className='side-bar-icon' />
+            <MirroredLogoutIcon className='side-bar-icon' />
             <p className='side-bar-title'>Logout</p>
           </Link>
         </div>

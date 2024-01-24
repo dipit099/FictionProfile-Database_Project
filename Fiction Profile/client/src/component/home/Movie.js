@@ -123,11 +123,12 @@ const Movie = () => {
                 <p>{mediaItem.title}</p>
               </Link>
               <p>
-                {mediaItem.vote_average.toFixed(1)}                
+                {mediaItem.vote_average.toFixed(1)}
               </p>
               <div className="button-container">
                 <p>{renderMediaAddButton(mediaItem)}</p>
                 <p>{renderFavoriteButton(mediaItem)}</p>
+                
               </div>
             </div>
           </li>
@@ -140,24 +141,39 @@ const Movie = () => {
         contentLabel="Popup Modal"
         style={{
           content: {
-            width: '400px',
-            height: '400px',
+            width: '600px',
+            height: '600px',
             margin: 'auto',
-            backgroundColor: '#33539d', /* Green */
+            backgroundColor: '#032641', /* Green */
+            zIndex: 2, /* Ensure the modal appears above the overlay */
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', /* Light-dark and semi-transparent */
+            zIndex: 1, /* Ensure the overlay is behind the modal */
+            backdropFilter: 'blur(4px)', /* Apply a blur effect to the overlay */
           },
         }}
       >
         <div className="popup-content">
-          <br /><br />
-          <label htmlFor="dropdown">Status:</label>
-          <select id="dropdown" name="dropdown" onChange={(e) => setSelectedStatus(e.target.value)}>
-            <option value="0">Select Status</option>
-            <option value="1">Read/Watched</option>
-            <option value="2">Plan to Read/Watch</option>
-            <option value="3">Currently Reading/Watching</option>
-          </select>
-          <br /><br /><br />
-          <button onClick={handlePopupSubmit}>Submit</button>
+          <span className="close-icon" onClick={handleCloseModal}>X</span>
+          {selectedMediaItem && (
+            <>
+              <div className="media-details">
+                <img src={selectedMediaItem.poster_path} alt={`${selectedMediaItem.title} Poster`} />
+                <h3>{selectedMediaItem.title}</h3>
+              </div>
+              <div className="media-overview">
+              <label htmlFor="dropdown">Status:</label>
+              <select id="dropdown" name="dropdown" onChange={(e) => setSelectedStatus(e.target.value)}>
+                <option value="0">Select Status</option>
+                <option value="1">Read/Watched</option>
+                <option value="2">Plan to Read/Watch</option>
+                <option value="3">Currently Reading/Watching</option>
+              </select>
+              <button onClick={handlePopupSubmit}>Save</button>
+              </div>
+            </>
+          )}
         </div>
       </Modal>
     </div>

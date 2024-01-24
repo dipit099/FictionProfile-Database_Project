@@ -1,177 +1,74 @@
-// MovieDetails.jsx
+// MediaDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './MediaDetails.css';
 
+const MediaDetails = ({ mediaType }) => {
+    const { id } = useParams(); // Extract id from the URL
+    const [media, setMedia] = useState(null);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const fetchMediaDetails = async () => {
+            try {
+                // const response = await fetch(`http://localhost:5197/${mediaType}/${id}`);
+                // const data = await response.json();
+                // setMedia(data.media);
+                // console.log(data.media);
+                const response = await fetch(`http://localhost:5197/${mediaType}/${id}`);
+                const data = await response.json();
+                setMedia(data.media);
+            } catch (error) {
+                console.error('Error fetching media details:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMediaDetails();
+    }, [id, mediaType]);
+
+    if (loading) {
+        return <div className="loading-indicator">Loading...</div>; // Enhance loading state
+    }
+
+    if (!media) {
+        return <div>No media details found.</div>; // Handle error state
+    }
+
+    return (
+        <div className={`MediaDetails-container`}>
+            <div className="backdrop" style={{ backgroundImage: `url('${media.backdrop_path}')` }}></div>
+
+            <div className={`media-details-start-div`}>
+                <div className={`media-details-info-div`}>
+                    <div className="details">
+                        <img className="poster" src={media.poster_path} alt={media.title} />
+
+                    </div>
+                    <div className="info">
+                        <h2>Title: {media.title}</h2>
+                        <h2>Vote Average: {media.vote_average}</h2>
+                        <h2>Original language: {media.original_language}</h2>
+                        <h2>Genres: {media.genres}</h2>
+                        <h4>Overview: {media.overview}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const MovieDetails = () => {
-    const { id } = useParams(); // Extract id from the URL
-    const [movie, setMovie] = useState(null);
-
-    useEffect(() => {
-        const fetchMovieDetails = async () => {
-            try {
-                const response = await fetch(`http://localhost:5197/movie/${id}`);
-                const data = await response.json();
-                setMovie(data.movie);
-            } catch (error) {
-                console.error('Error fetching movie details:', error);
-            }
-        };
-
-        fetchMovieDetails();
-    }, [id]);
-
-    if (!movie) {
-        return <div>Loading...</div>; // Handle loading state
-    }
-
-    return (
-        <div className="MovieDetails-container">
-            <div className="backdrop" style={{ backgroundImage: `url('${movie.backdrop_path}')` }}></div>
-
-            <div className="details">
-                <h2>{movie.title}</h2>
-                <img className="poster" src={movie.poster_path} alt={movie.title} />
-
-                <div className="info">
-                    <h2>Vote Average {movie.vote_average}</h2>
-                    <h2>Original language: {movie.original_language}</h2>
-                    <h2>Genres: {movie.genres}</h2>
-                    <h4>Overview: {movie.overview}</h4>
-                </div>
-            </div>
-        </div>
-    );
+    return <MediaDetails mediaType="movie" />;
 };
-
 const TvshowDetails = () => {
-    const { id } = useParams(); // Extract id from the URL
-    const [movie, setMovie] = useState(null);
-
-    useEffect(() => {
-        const fetchMovieDetails = async () => {
-            try {
-                const response = await fetch(`http://localhost:5197/tvshow/${id}`);
-                const data = await response.json();
-                setMovie(data.movie);
-            } catch (error) {
-                console.error('Error fetching movie details:', error);
-            }
-        };
-
-        fetchMovieDetails();
-    }, [id]);
-
-    if (!movie) {
-        return <div>Loading...</div>; // Handle loading state
-    }
-
-    return (
-        <div className="MovieDetails-container">
-            <div className="backdrop" style={{ backgroundImage: `url('${movie.backdrop_path}')` }}></div>
-
-            <div className="details">
-                <h2>{movie.title}</h2>
-                <img className="poster" src={movie.poster_path} alt={movie.title} />
-
-                <div className="info">
-                    <h2>Vote Average {movie.vote_average}</h2>
-                    <h2>Original language: {movie.original_language}</h2>
-                    <h2>Genres: {movie.genres}</h2>
-                    <h4>Overview: {movie.overview}</h4>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-const BookDetails = () => {
-    const { id } = useParams(); // Extract id from the URL
-    const [movie, setMovie] = useState(null);
-
-    useEffect(() => {
-        const fetchMovieDetails = async () => {
-            try {
-                const response = await fetch(`http://localhost:5197/book/${id}`);
-                const data = await response.json();
-                setMovie(data.movie);
-            } catch (error) {
-                console.error('Error fetching movie details:', error);
-            }
-        };
-
-        fetchMovieDetails();
-    }, [id]);
-
-    if (!movie) {
-        return <div>Loading...</div>; // Handle loading state
-    }
-
-    return (
-        <div className="MovieDetails-container">
-            <div className="backdrop" style={{ backgroundImage: `url('${movie.backdrop_path}')` }}></div>
-
-            <div className="details">
-                <h2>{movie.title}</h2>
-                <img className="poster" src={movie.poster_path} alt={movie.title} />
-
-                <div className="info">
-                    <h2>Vote Average {movie.vote_average}</h2>
-                    <h2>Original language: {movie.original_language}</h2>
-                    <h2>Genres: {movie.genres}</h2>
-                    <h4>Overview: {movie.overview}</h4>
-                </div>
-            </div>
-        </div>
-    );
-}
-const MangaDetails = () => {
-    const { id } = useParams(); // Extract id from the URL
-    const [movie, setMovie] = useState(null);
-
-    useEffect(() => {
-        const fetchMovieDetails = async () => {
-            try {
-                const response = await fetch(`http://localhost:5197/manga/${id}`);
-                const data = await response.json();
-                setMovie(data.movie);
-            } catch (error) {
-                console.error('Error fetching movie details:', error);
-            }
-        };
-
-        fetchMovieDetails();
-    }, [id]);
-
-    if (!movie) {
-        return <div>Loading...</div>; // Handle loading state
-    }
-
-    return (
-        <div className="MovieDetails-container">
-            <div className="backdrop" style={{ backgroundImage: `url('${movie.backdrop_path}')` }}></div>
-
-            <div className="details">
-                <h2>{movie.title}</h2>
-                <img className="poster" src={movie.poster_path} alt={movie.title} />
-
-                <div className="info">
-                    <h2>Vote Average {movie.vote_average}</h2>
-                    <h2>Original language: {movie.original_language}</h2>
-                    <h2>Genres: {movie.genres}</h2>
-                    <h4>Overview: {movie.overview}</h4>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-
-export {
-    MovieDetails,
-    TvshowDetails,
-    BookDetails,
-    MangaDetails
-    
+    return <MediaDetails mediaType="tv" />;
 };
+const MangaDetails = () => {
+    return <MediaDetails mediaType="manga" />;
+};
+const BookDetails = () => {
+    return <MediaDetails mediaType="book" />;
+};
+export { MediaDetails, MovieDetails, TvshowDetails, MangaDetails, BookDetails };
 

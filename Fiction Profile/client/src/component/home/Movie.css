@@ -100,3 +100,101 @@
     transform: scale(1.2);
     cursor: pointer;
 }
+
+a {
+    text-decoration: none;
+
+}
+
+a:hover {
+    text-decoration: none;
+    /*make it large on hover*/
+
+}
+
+
+.popup-content {
+    color: #fff;
+    /* Text color */
+    padding: 20px;
+    /* Padding for content */
+    position: relative;
+    /* To position the close icon */
+    display: flex;
+    flex-direction: column;
+}
+
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+.media-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.media-details img {
+    max-width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /*align the image at leftmost*/
+    margin-left: 0;
+
+}
+
+.media-details p {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.popup-content label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+
+.popup-content select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    background-color: #c1cad0;
+}
+
+
+.popup-content button:hover {
+    background-color: #2980b9;
+}
+
+.media-details {
+    text-align: center;
+}
+
+.media-overview {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.media-overview button {
+    align-self: center;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 100px;
+    /*increase text size in button*/
+    font-size: 1.2em;
+
+}
