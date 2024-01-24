@@ -1,41 +1,76 @@
-/* MovieDetails.css */
+/* mediaDetails.css */
 
-.MovieDetails-container {
-    position: relative;
-    color: #ffffff;
-    height: 100vh;
+.MediaDetails-container {
+
+   
 }
 
 .backdrop {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    left: 0;    
     background-size: cover;
     background-position: center;
-    filter: blur(10px);
+    width: 100%;
+    height: 100%;
+
+}
+.media-details-info-div{
+    background-color: black;
+    width: 100%;
+    position: absolute;
+    top: 20%;
+   
+
+}
+.media-details-info-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+     
+    
+    
+
 }
 
 .details {
-    position: relative;
-    z-index: 1;
+    position: relative;    
     display: flex;
     flex-direction: column;
     align-items: left;
-    padding: 20px;
+    
 }
+
+
 
 .poster {
-    max-width: 300px;
+    max-width: 400px;
     height: auto;
     border-radius: 8px;
-    margin-top: 20px;
+   
 }
-
 .info {
-    text-align: left;
-    margin-top: 20px;
+    position: relative;   
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    background-color: black;    
+    max-width: 600px;
+
 }
 
+.info h2 {
+    color: #ffffff; /* Text color */
+    font-size: 25px; /* Font size for h2 */
+    font-weight: 600; /* Font weight for h2 */
+    margin-bottom: 10px;
+}
+
+.info h4 {
+    color: #ffffff; /* Text color */
+    font-size: 22px; /* Font size for h4 */
+    font-weight: 400; /* Font weight for h4 */
+    margin-bottom: 10px;
+}
 /* Add more styles as needed */
