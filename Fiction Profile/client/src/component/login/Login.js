@@ -24,7 +24,7 @@ function Login({ setAuth }) {
             return;
         }
         try {
-                const response = await axios.post(`${BASE_URL}/login`, {
+            const response = await axios.post(`${BASE_URL}/login`, {
                 email,
                 pass,
                 role
@@ -57,13 +57,15 @@ function Login({ setAuth }) {
 
                 // Optionally, you can redirect the user to a different page or perform other actions upon successful registration
             } else {
+                toast.error("Login failed");
                 setAuth(false);
                 console.error('Error during login:', data.error);
-                toast.error("Login failed");
+
 
             }
         }
         catch (error) {
+            toast.error("Login failed");
             setAuth(false);
             console.error('Error during receiving login info:', error.message);
         }

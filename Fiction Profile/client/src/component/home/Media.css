@@ -80,26 +80,9 @@
     background-color: #000000;
 }
 
-.heart-icon {
-    color: rgb(198, 78, 78);
-    font-size: 32px;
-    margin-left: 20px;
-}
 
-.add-icon {
-    color: rgb(198, 78, 78);
-    font-size: 35px;
-}
 
-.add-icon:hover {
-    transform: scale(1.2);
-    cursor: pointer;
-}
 
-.heart-icon:hover {
-    transform: scale(1.2);
-    cursor: pointer;
-}
 
 a {
     text-decoration: none;
@@ -197,4 +180,35 @@ a:hover {
     /*increase text size in button*/
     font-size: 1.2em;
 
+}
+.button-container button{ 
+    border: none;
+    background: none;
+}
+.button-container button:hover{
+        background-color: transparent;
+        transform: scale(1.1);
+        /* Add any other styles you want to reset on hover */
+    
+}
+.heart-icon {
+    color: rgb(156, 62, 62);
+    font-size: 32px;      
+}
+.heart-icon:hover {
+    color: rgb(104, 104, 104);
+    font-size: 32px;    
+    cursor: pointer;
+   
+}
+
+.add-icon {
+    color: rgb(104, 104, 104);
+    font-size: 35px;
+}
+.add-icon:hover {
+    color: rgb(62, 156, 120);
+    font-size: 35px;
+    cursor: pointer;
+   
 }

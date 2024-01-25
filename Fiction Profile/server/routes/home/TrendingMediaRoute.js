@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../../db");
-const authorize = require("../../middleware/authorize");
-
 // Endpoint to get movie details by ID
 
 router.get('/movie', async (req, res) => {

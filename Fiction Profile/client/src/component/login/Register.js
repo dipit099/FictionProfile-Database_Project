@@ -82,6 +82,7 @@ function Register(props) {
                 toast.error(data.error);
             }
         } catch (error) {
+            toast.error("Registration failed");
             console.error('Error during sending register data:', error.message);
         }
     };
