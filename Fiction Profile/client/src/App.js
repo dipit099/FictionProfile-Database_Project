@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
 import { Route, Routes } from "react-router-dom";
-import { Movie, Tvshow, Book, Manga } from './component/home/Movie';
+import { Movie, TvShow, Book, Manga } from './component/home/Media';
 import Login from './component/login/Login';
 import Register from './component/login/Register';
 import Home from './component/home/Home';
@@ -71,14 +71,14 @@ function App() {
         <Route path="/movie" element={isAuthenticated ? <Movie /> : <Navigate to="/" />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
 
-        <Route path="/tv/:id" element={<TvshowDetails />} />
+        <Route path="/tvshow/:id" element={<TvshowDetails />} />
         <Route path="/book/:id" element={<BookDetails />} />
         <Route path="/manga/:id" element={<MangaDetails />} />
 
 
-        <Route path="/account" element={isAuthenticated ? <Account /> : <Home />} />
-        <Route path="/feed" element={isAuthenticated ? <Account /> : <Home />} />
-        <Route path="/discover" element={isAuthenticated ? <Account /> : <Home />} />
+        <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
+        {/* <Route path="/feed" element={isAuthenticated ? < /> : <Navigate to="/" />} />
+        <Route path="/discover" element={isAuthenticated ? < /> : <Navigate to="/" />} /> */}
 
       </Routes>
     </div>

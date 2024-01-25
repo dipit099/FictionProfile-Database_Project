@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../config/navbar/Navbar';
-import { Movie, Tvshow, Book, Manga } from './Movie';
+import { Movie, TvShow, Book, Manga } from './Media';
 import './Home.css'; // Import your CSS file for styling
 import { useLocation } from 'react-router-dom';
 import SideBar from '../../config/navbar/SideBar';
@@ -27,8 +27,8 @@ const Home = () => {
                     <h1 style={{ paddingTop: '40px' }}>Trending List:</h1>
                     <h1>Movie</h1>
                     <Movie />
-                    <h1>TVShow</h1>
-                    <Tvshow />
+                    <h1>TV</h1>
+                    <TvShow />
                     <h1>Manga</h1>
                     <Manga />
                     <h1>Book</h1>

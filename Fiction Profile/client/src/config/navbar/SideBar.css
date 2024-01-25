@@ -6,26 +6,31 @@
   left: 0;
   top: 0;
   height: 100vh;
-  margin-top: 80px;
+
   background-color: #060b26;
   width: 120px;
 }
 
 .side-menu-items {
+  margin-top: 80px;
   list-style-type: none;
   padding: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;  
   width: 100%;
 }
 
 .side-menu-items a {
   text-decoration: none;
   color: #fff;
-  width: 100%; /* Take full width */
+  width: 100%;
+  /* Take full width */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Align child items at the center */
+  align-items: center;
+  /* Align child items at the center */
+  margin-top: 15%;
 }
 
 .side-menu-items a:hover {
@@ -65,12 +70,22 @@
   font-weight: 600;
   text-align: center;
 }
-.home-bar{
+
+.home-bar {
   margin-top: 20px;
 
 }
+
 .logout-bar {
-  
-  margin-top: auto; /* Align at the bottom */
+
+  margin-top: auto;
+  /* Align at the bottom */
   margin-bottom: 150px;
+}
+
+.selected {
+  background-color: #1d528f;
+  /* Add your desired background color for selected items */
+  color: #fff;
+  /* Add your desired text color for selected items */
 }

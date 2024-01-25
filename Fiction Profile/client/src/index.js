@@ -13,7 +13,11 @@ root.render(
   //   <App />
   // </React.StrictMode>
   <BrowserRouter>
-    <ToastContainer />
+    <ToastContainer
+      theme="dark"
+      autoClose={2000}
+      // Add any other ToastContainer properties as needed
+    />
     <App />
   </BrowserRouter>
 );

@@ -15,7 +15,7 @@ app.use('/register', require('./routes/login/RegisterRoute'));
 app.use('/login', require('./routes/login/LoginRoute'));
 app.use('/trending', require('./routes/home/TrendingMediaRoute'));
 app.use('/movie', require('./routes/components/MovieDetails'));
-app.use('/tv', require('./routes/components/TvShowDetails'));
+app.use('/tvshow', require('./routes/components/TvShowDetails'));
 app.use('/book', require('./routes/components/BookDetails'));
 app.use('/manga', require('./routes/components/MangaDetails'));
 app.use('/account', AccountRoute);

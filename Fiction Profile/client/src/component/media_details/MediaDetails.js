@@ -62,7 +62,7 @@ const MovieDetails = () => {
     return <MediaDetails mediaType="movie" />;
 };
 const TvshowDetails = () => {
-    return <MediaDetails mediaType="tv" />;
+    return <MediaDetails mediaType="tvshow" />;
 };
 const MangaDetails = () => {
     return <MediaDetails mediaType="manga" />;
