@@ -84,6 +84,7 @@ function SideBar() {
             <p className='side-bar-title'>Feed</p>
           </Link>
         </div>
+        
         <div
           className={`account-bar ${selectedItem === 3 ? 'selected' : ''}`}
           onClick={() => handleItemClick(3)}

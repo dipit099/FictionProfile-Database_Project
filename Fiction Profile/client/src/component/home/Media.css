@@ -105,6 +105,8 @@ a:hover {
     /* To position the close icon */
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .close-icon {
@@ -142,15 +144,18 @@ a:hover {
 
 .popup-content label {
     display: block;
+    margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 25px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .popup-content select {
-    width: 100%;
+    width: 50%;
     padding: 8px;
     margin-bottom: 20px;
     background-color: #c1cad0;
+    cursor: pointer;
 }
 
 
@@ -181,34 +186,64 @@ a:hover {
     font-size: 1.2em;
 
 }
-.button-container button{ 
+
+.button-container button {
+    /* Remove default styling */
     border: none;
     background: none;
+
+    /* Add additional styling as needed */
 }
-.button-container button:hover{
-        background-color: transparent;
-        transform: scale(1.1);
-        /* Add any other styles you want to reset on hover */
-    
+
+.button-container button:hover {
+    /* Reset styles on hover */
+    background-color: transparent;
+    transform: scale(1.1);
+    border: none;
+    background: none;
+    /* Add any other styles you want to reset on hover */
 }
+
 .heart-icon {
-    color: rgb(156, 62, 62);
-    font-size: 32px;      
-}
-.heart-icon:hover {
     color: rgb(104, 104, 104);
-    font-size: 32px;    
+    font-size: 32px;
+}
+
+.heart-icon:hover {
+    color: rgb(156, 62, 62);
+    font-size: 32px;
     cursor: pointer;
-   
+
 }
 
 .add-icon {
     color: rgb(104, 104, 104);
     font-size: 35px;
 }
+
 .add-icon:hover {
     color: rgb(62, 156, 120);
     font-size: 35px;
     cursor: pointer;
-   
+
+}
+
+.popup-content img {
+    width: 30%;
+    height: auto;
+
+
+}
+
+.popup-content button {
+    margin-top: 50px;
+    width: 30%;
+    height: 40px;
+    background-color: #3498db;
+    cursor: pointer;
+    border: none;
+}
+
+.popup-content button:hover {
+    border: none;
 }

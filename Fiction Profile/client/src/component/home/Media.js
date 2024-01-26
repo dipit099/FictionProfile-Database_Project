@@ -128,25 +128,41 @@ const Media = ({ type }) => {
         onRequestClose={handleCloseModal}
         contentLabel='Popup Modal'
         style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+            backdropFilter: 'blur(2px)',
+          
+          },
           content: {
-            width: '400px',
-            height: '400px',
+            width: '600px',
+            height: '600px',
             margin: 'auto',
-            backgroundColor: '#33539d',
+            backgroundColor: '#032641', // Transparent background for the modal content
+            border: 'none', // Remove border if needed
+            boxShadow: 'none', // Remove box shadow if needed
+
           },
         }}
       >
-        <div className='popup-content'>          
+        <div className='popup-content'>
+          {selectedMediaItem && (
+            <>
+
+              <img src={selectedMediaItem.poster_path} alt={`${selectedMediaItem.title} Poster`} />
+              <h4>{selectedMediaItem.title}</h4>
+            </>
+          )}
           <label htmlFor='dropdown'>Status:</label>
           <select id='dropdown' name='dropdown' onChange={(e) => setSelectedStatus(e.target.value)}>
             <option value='0'>Select Status</option>
             <option value='1'>Read/Watched</option>
             <option value='2'>Plan to Read/Watch</option>
             <option value='3'>Currently Reading/Watching</option>
-          </select>         
+          </select>
           <button onClick={handlePopupSubmit}>Submit</button>
         </div>
       </Modal>
+
     </div>
   );
 };

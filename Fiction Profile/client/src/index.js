@@ -15,7 +15,7 @@ root.render(
   <BrowserRouter>
     <ToastContainer
       theme="dark"
-      autoClose={2000}
+      autoClose={1000}
       // Add any other ToastContainer properties as needed
     />
     <App />
