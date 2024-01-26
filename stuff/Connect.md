@@ -188,3 +188,10 @@ git push origin
 git checkout -b dipit
 git push -u origin dipit
 ctrl+shft+v  to preview md files
+
+
+
+**ngrok**
+run in cmd
+ngrok config add-authtoken 2bSOHgZRuwquRRBBIxnAzv5w5Fe_33MyZPt7PLYLdd7Eh9Een
+ngrok http 3000
