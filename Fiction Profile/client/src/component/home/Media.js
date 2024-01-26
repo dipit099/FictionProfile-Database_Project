@@ -115,8 +115,8 @@ const Media = ({ type }) => {
               {/* <p>{mediaItem.vote_average.toFixed(1)}</p> */}
               <p>{mediaItem.vote_average}</p>
               <div className='button-container'>
-                <button>{renderMediaAddButton(mediaItem)}</button>
-                <button>{renderFavoriteButton(mediaItem)}</button>
+                <p>{renderMediaAddButton(mediaItem)}</p>
+                <p>{renderFavoriteButton(mediaItem)}</p>
               </div>
             </div>
           </li>
@@ -131,7 +131,7 @@ const Media = ({ type }) => {
           overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
             backdropFilter: 'blur(2px)',
-          
+
           },
           content: {
             width: '600px',
@@ -145,9 +145,9 @@ const Media = ({ type }) => {
         }}
       >
         <div className='popup-content'>
+          <span className="close-icon" onClick={handleCloseModal}>X</span>
           {selectedMediaItem && (
             <>
-
               <img src={selectedMediaItem.poster_path} alt={`${selectedMediaItem.title} Poster`} />
               <h4>{selectedMediaItem.title}</h4>
             </>
