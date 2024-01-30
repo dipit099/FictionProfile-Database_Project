@@ -21,6 +21,7 @@ app.use('/manga', require('./routes/components/MangaDetails'));
 app.use('/account', AccountRoute);
 app.use('/user_media_add', UserMediaRoute);
 app.use('/user_favorite', UserFavoriteRoute);
+app.use('/top_media', require('./routes/home/TopMediaRoute'));
 
 
 
