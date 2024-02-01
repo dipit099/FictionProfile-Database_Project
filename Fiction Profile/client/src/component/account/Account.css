@@ -1,79 +1,102 @@
-/* Account.css */
+.account {
+    margin-top: 200px;
+}
+
 
 .account-container {
+
     display: flex;
-    flex-direction: column;   
-    width: 100%;
-    margin: auto;
-    padding: 100px;
-    background-color: #032641;           
-}
-
-.account-header {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #fff;
-}
-
-.account-details {
+    flex-direction: column;
     padding: 20px;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    color: white;
+    width: 600px;
+    margin: 0 auto;
 }
 
-.username-section {
-    margin-bottom: 15px;
-}
-
-.profile-picture-section {
-    text-align: left;
+.account-headline {
+    text-align: center;
+    font-size: 30px;
     margin-bottom: 20px;
+    font-weight: bold;
+    color: aquamarine;
+
+
 }
 
-.profile-picture {
-    width: 250px;
-    height: 250px;
+
+.username-container {
+    text-align: center;
+    font-size: 20px;
+
+}
+
+.profile-pic-container {
+    text-align: center;
+}
+
+.profile-pic {
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #fff;
+    margin: 10px auto;
+    border: 2px solid rgb(0, 0, 0);
 }
 
-.form-section {
-    margin-bottom: 15px;
+.profile-pic-select {
+    font-size: 20px;
 }
 
-/* Styles for h3 and label */
-.account-container h3 {
-    color: #fff;
-    font-size: 26px;
-    margin-bottom: 10px;
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    font-size: 20px;
 }
+
+
 
 .account-container label {
-    color: #fff;
-    font-size: 26px;
-    margin-bottom: 5px;
-    margin-right: 20px;
-   
-}
-.account-container input{
-   
-    padding: 10px;
-    
-    font-size: 26px;
-    margin-bottom: 10px;
-    margin-right: 20px;
-}
-.account-container button{
-    background-color: #5755de;
-    color: #fff;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 20%;
-    font-size: 26px;
+    display: block;
 }
 
-/* Add more styles as needed */
+.account-container input,
+select {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 5px;
+    font-weight: bold;
+    background-color: #4268a1;
+
+}
+
+.form-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+
+}
+
+.update-button {
+    padding: 10px;
+    background-color: #553ac1;
+    font-size: 20px;
+    border-radius: 10px;
+    color: aliceblue;
+    cursor: pointer;
+
+
+}
+
+.update-button:hover {
+    background-color: #000000;
+    color: white;
+}
