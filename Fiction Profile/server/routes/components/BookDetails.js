@@ -19,8 +19,6 @@ router.get('/:id', async (req, res) => {
             title: result.rows[0].title,
             poster_path: result.rows[0].poster_path,
             author: result.rows[0].author,
-
-
         };
 
         res.json({ media });
