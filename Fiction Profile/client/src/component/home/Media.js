@@ -22,9 +22,15 @@ const Media = ({ type }) => {
   useEffect(() => {
     const fetchMediaItems = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/trending/${type}`);
-        const data = await response.json();
+        // send people_id to the server
+        const response = await axios.get(`${BASE_URL}/trending/${type}`,{
+          params: {
+            people_id: localStorage.getItem('people_id')
+          }
+        });
+        const data = response.data;
         setMediaItems(data.media);
+        console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -60,10 +66,10 @@ const Media = ({ type }) => {
 
   const renderFavoriteButton = (mediaItem) => {
     if (role === 'user') {
-      const isFavorite = mediaItem.favorite;
+      let isFavorite = mediaItem.is_favorite == '1';
       return (
         <FaHeart
-          className={`heart-icon ${isFavorite ? 'in-favorite' : ''}`}
+          className={`heart-icon ${isFavorite ? 'favorite' : ''}`}
           onClick={() => handleFavoriteAdd(mediaItem)}
         />
       );

@@ -31,7 +31,6 @@ const Home = () => {
                         <h1 style={{ paddingTop: '40px' }}>Trending List:</h1>
                         <h1>Movie</h1>
                         <Movie className="media" />
-
                         <h1>TV</h1>
                         <TvShow className="media" />
                         <h1>Manga</h1>

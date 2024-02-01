@@ -191,15 +191,23 @@
 
 
 .heart-icon {
-    color: rgb(104, 104, 104);
     font-size: 32px;
+}
+
+.heart-icon:not(.favorite) {
+    color: rgb(104, 104, 104);
+    cursor: pointer;
+}
+
+.heart-icon.favorite {
+    color: rgb(20, 200, 20);
+    cursor: pointer;
 }
 
 .heart-icon:hover {
     color: rgb(156, 62, 62);
     font-size: 32px;
     cursor: pointer;
-
 }
 
 .add-icon {

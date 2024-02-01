@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './MediaDetails.css';
+import BASE_URL from "../../config/ApiConfig";
 
 const MediaDetails = ({ mediaType }) => {
     const { id } = useParams(); // Extract id from the URL
@@ -10,11 +11,7 @@ const MediaDetails = ({ mediaType }) => {
     useEffect(() => {
         const fetchMediaDetails = async () => {
             try {
-                // const response = await fetch(`http://localhost:5197/${mediaType}/${id}`);
-                // const data = await response.json();
-                // setMedia(data.media);
-                // console.log(data.media);
-                const response = await fetch(`http://localhost:5197/${mediaType}/${id}`);
+                const response = await fetch(`${BASE_URL}${mediaType}/${id}`);
                 const data = await response.json();
                 setMedia(data.media);
             } catch (error) {
