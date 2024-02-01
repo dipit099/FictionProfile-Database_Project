@@ -61,7 +61,7 @@ function SideBar() {
           className={`home-bar ${selectedItem === 0 ? 'selected' : ''}`}
           onClick={() => handleItemClick(0)}
         >
-          <Link to='/home'>
+          <Link to='/'>
             <AiIcons.AiFillHome className='side-bar-icon' />
             <p className='side-bar-title'>Home</p>
           </Link>
@@ -84,7 +84,7 @@ function SideBar() {
             <p className='side-bar-title'>Feed</p>
           </Link>
         </div>
-        
+
         <div
           className={`account-bar ${selectedItem === 3 ? 'selected' : ''}`}
           onClick={() => handleItemClick(3)}

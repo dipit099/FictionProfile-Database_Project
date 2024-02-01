@@ -11,12 +11,12 @@
 Hosted on Supabase:
 
 - **Name:** postgres
-- **Host:** db.eocmqhvplptwmzerrcng.supabase.co
-- **Port:** 5432
+- **Host:** aws-0-ap-south-1.pooler.supabase.com
+- **Port:** 6543
 - **Database Name:** postgres
-- **User:** postgres
+- **User:** postgres.eocmqhvplptwmzerrcng
 - **Password:** dx$Q6*vWTnu!45j
-
+- 
 ### Render:
 
 Hosted on Render:
