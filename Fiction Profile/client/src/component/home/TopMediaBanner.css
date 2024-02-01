@@ -1,38 +1,45 @@
 .banner-container {
-    width: 100%;
+    
     height: 800px;
     overflow: hidden;
-    position: relative;
-
+    position: relative; 
+    margin-right: 20px;  
+         
 }
-
 
 .banner-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top;    
+    object-position: top;
+    position: absolute;
+    top: 0;
+    left: 0;
     cursor: pointer;
-    /*keep margin at right*/
-    
+   
+
 }
 
-.banner-details {
+.media-banner {
     width: 100%;
-    position: absolute;
-    bottom: 10px;
-    /* Adjust as needed */
-    left: 0px;
-    top: 10px;
-    /* Adjust as needed */
-    color: rgb(255, 255, 255);
-    font-size: 50px;   
-    padding-right: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.media-banner-button {
+    width: 100%;
+    height: 90%;
+    align-self: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
 }
 
 .nav-button {
-    position: absolute;
+    /* position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background-color: rgb(40, 87, 111);
@@ -41,7 +48,16 @@
     padding: 10px;
     cursor: pointer;   
     font-size: 50px;
+    font-weight: bold; */
+    font-size: 50px;
+    position: absolute;
+    background-color: rgb(40, 87, 111);
     font-weight: bold;
+    color: rgb(5, 5, 5);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    top: 50%;
 }
 
 .prev-button {
@@ -54,31 +70,33 @@
 
 .nav-button:hover {
     background-color: rgba(47, 131, 184, 0.7);
+    cursor: pointer;
 }
 
-
-
-/* .movie-details-box {
+.media-details-box {
+    width: 100%;
+    height: 10%;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;   
+    box-sizing: border-box;
     position: absolute;
-    bottom: 10px;
-   
-    left: 10px;
-   
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 5px 10px;
-    border-radius: 5px;
-    z-index: 2;
-    width: 300px;
-    height: 80px;
-} */
+    bottom: 0;
+    left: 0;
+}
 
-.movie-details {
+.media-details-box p {
     position: absolute;
-    bottom: 10px;
-    /* Adjust as needed */
-    left: 10px;
-    /* Adjust as needed */
-    color: rgb(255, 255, 255);
-    font-size: 50px;
-    z-index: 2;
+    left: 20px;
+    top: 10px;    
+    font-size: 40px;
+    font-family: 'Impact', sans-serif;
+    /* Extreme font style */
+    text-transform: uppercase;
+    /* Make text uppercase */
+    letter-spacing: 2px;
+    /* Add spacing between letters */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Add text shadow for depth */
+
 }

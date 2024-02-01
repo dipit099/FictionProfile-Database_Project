@@ -7,7 +7,7 @@ import { GrPrevious } from "react-icons/gr";
 import { GrNext } from "react-icons/gr";
 function TopMediaBanner() {
     const [topMedia, setTopMedia] = useState([]);
-    const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+    const [currentMediaIndex, setCurrentMediaIndex] = useState(1);
     const navigate = useNavigate(); // Initialize the useNavigate hook
     const intervalRef = useRef(null);
     const timelimit = 4000;
@@ -41,6 +41,7 @@ function TopMediaBanner() {
     const goToPreviousMedia = () => {
         // Move to the previous media
         setCurrentMediaIndex((prevIndex) => (prevIndex - 1 + topMedia.length) % topMedia.length);
+
         // Clear the current interval and start a new one
         clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
@@ -52,6 +53,7 @@ function TopMediaBanner() {
     const goToNextMedia = () => {
         // Move to the next media
         setCurrentMediaIndex((prevIndex) => (prevIndex + 1) % topMedia.length);
+
         // Clear the current interval and start a new one
         clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
@@ -66,18 +68,52 @@ function TopMediaBanner() {
     };
 
     return (
-        <div className="banner-container">           
+        // <div className="banner-container">
+        //     {topMedia.length > 0 && (
+        //         <div className="banner-details">
+        //              {/* <img src={topMedia[currentMediaIndex].backdrop_path} alt="Backdrop Image" onClick={handleClick} /> */}
+        //             <div className="media-banner">
+
+
+        //                 <div className="media-banner-overlay">
+
+        //                     <GrPrevious onClick={goToPreviousMedia} className="nav-button prev-button" />
+        //                     <GrNext onClick={goToNextMedia} className="nav-button next-button" />
+        //                 </div>
+
+
+        //             </div>
+
+        //             <div className="media-details-box">
+        //                 <p className="media-details">{topMedia[currentMediaIndex].title}</p>
+        //             </div>
+        //         </div>
+
+        //     )}
+        // </div>
+        <div className="banner-container">
             {topMedia.length > 0 && (
-                <div className="banner-details">
-
-                    <GrPrevious onClick={goToPreviousMedia} className="nav-button prev-button" />
+                <>
                     <img src={topMedia[currentMediaIndex].backdrop_path} alt="Backdrop Image" onClick={handleClick} />
+                    
+                    
+                    <div className="media-banner">
 
-                    <GrNext onClick={goToNextMedia} className="nav-button next-button" />
-                    <div className="movie-details-box">
-                        <p className="movie-details">{topMedia[currentMediaIndex].title}</p>
+
+                        <div className="media-banner-button">
+
+                            <GrPrevious onClick={goToPreviousMedia} className="nav-button prev-button" />
+                            <GrNext onClick={goToNextMedia} className="nav-button next-button" />
+                        </div>
+                        
+                        <div className="media-details-box">
+                            <p className="media-details">{topMedia[currentMediaIndex].title}</p>
+                        </div>
+
                     </div>
-                </div>
+
+
+                </>
 
             )}
         </div>

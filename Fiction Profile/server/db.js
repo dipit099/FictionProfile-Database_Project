@@ -5,10 +5,10 @@ const pool = new Pool({
     // host: "localhost",
     // port: 5432,
     // database: "Fiction Profile"
-    user: "postgres",
+    user: "postgres.eocmqhvplptwmzerrcng",
     password: "dx$Q6*vWTnu!45j",
-    host: "db.eocmqhvplptwmzerrcng.supabase.co",
-    port: 5432,
+    host: "aws-0-ap-south-1.pooler.supabase.com",
+    port: 6543,
     database: "postgres"
 });
 

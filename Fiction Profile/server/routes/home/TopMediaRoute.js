@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
                ROW_NUMBER() OVER (ORDER BY vote_count DESC) AS row_num
         FROM "Fiction Profile"."MOVIE"
     ) AS ranked_movies
-    WHERE row_num IN (7,9,12,16,19);
+    WHERE row_num IN (5,7,9,12,13,16);
 `);
 
 
