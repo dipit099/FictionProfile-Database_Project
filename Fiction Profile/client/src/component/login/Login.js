@@ -45,14 +45,7 @@ function Login({ setAuth }) {
                 // alert("Login successful");
                 toast.success("Login successful");
                 navigate('/');
-                // if (role === 'user') {
-                //     console.log("in login page email " + email + " role " + role)
-                //     navigate('/userhome', { state: { email: email, role: role } });
-                // }
-                // // if (role === 'moderator') 
-                // else {
-                //     navigate('/moderatorhome', { state: { email: data.email, role: role } });
-                // }
+               
 
 
                 // Optionally, you can redirect the user to a different page or perform other actions upon successful registration

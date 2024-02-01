@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+
 import axios from "axios";
 import BASE_URL from "../../config/ApiConfig";
 import './Account.css';
 import SideBar from "../../config/navbar/SideBar";
-
+import Navbar from "../../config/navbar/Navbar";
 const Account = () => {
 
     const people_id = localStorage.getItem('people_id');
@@ -31,7 +33,7 @@ const Account = () => {
 
     const fetchUserData = async () => {
         try {
-            console.log("peopleid" + people_id);
+            console.log(people_id);
 
             // const response = await axios.get(`${BASE_URL}/account`);
             const response = await axios.get(`${BASE_URL}/account`, {
@@ -52,7 +54,7 @@ const Account = () => {
             setProfilePicPath(userData.profile_pic_path);
 
             //check if dat was obtained
-            console.log(userData);
+            // console.log(userData);
 
             // You may need additional logic for handling profile picture
 
@@ -92,10 +94,17 @@ const Account = () => {
 
     };
 
+
     const handleProfilePictureChange = (e) => {
         const file = e.target.files[0];
-        console.log(file);
         setProfilePicture(file);
+
+        // Use FileReader to read the selected file as a data URL
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setProfilePicPath(reader.result); // Set the data URL as the profile picture path
+        };
+        reader.readAsDataURL(file); // Read the file as a data URL
     };
 
     const handleSubmit = async (e) => {
@@ -119,8 +128,9 @@ const Account = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
+            const data = await response.data;
             if (response.status === 200) {
+                console.log('Profile updated successfully:');
                 toast.success("Profile updated successfully");
             } else {
                 console.error('Error during profile update:', response.data.error);
@@ -145,36 +155,72 @@ const Account = () => {
     }
 
     return (
-        
-           
-            <div className="account-container">
-                <div className="account-header">
-                    <h1>Account Settings</h1>
-                </div>
-                <div className="account-details">
-                    <div className="username-section">
-                        <h3>Username: {userName}</h3>
-                    </div>
-                    <div className="profile-picture-section">
-                        <img src={profilePicPath} alt="Profile" className="profile-picture" />
-                    </div>
+        <>
+            <Navbar />
+            <SideBar />
+            <div className="account">
+                <div className="account-container">
+                    <div className="account-headline">Account Settings</div>
                     <form className="account-form" onSubmit={handleSubmit}>
-                        {/* Rest of the form fields... */}
-                        <div className="form-section">
-                            <label htmlFor="profilePicture">Profile Picture:</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleProfilePictureChange}
-                                id="profilePicture"
-                                name="profilePicture"
-                            />
+                        <div className="username-container">
+                            <div>Username: {userName}</div>
                         </div>
-                        <button type="submit" className="update-profile-button">Update Profile</button>
+                        <div className="profile-pic-container">
+                            <img src={profilePicPath} alt="profile pic" className="profile-pic" />
+                        </div>
+                        <div className="profile-pic-select">
+                            <label htmlFor="profilePicture">Profile Picture:
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleProfilePictureChange}
+                                    id="profilePicture"
+                                    name="profilePicture"
+                                    className="profile-pic-input"
+                                />
+                            </label>
+                        </div>
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label htmlFor="firstName">First name</label>
+                                <input value={firstName} name="firstName" onChange={handleInputChange} id="firstName" placeholder="Your Name" />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="lastName">Last name</label>
+                                <input value={lastName} name="lastName" onChange={handleInputChange} id="lastName" placeholder="Your Last Name" />
+                            </div>
+                        </div>
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label htmlFor="birthdate">Birthdate:</label>
+                                <input
+                                    type="date"
+                                    id="birthdate"
+                                    name="birthdate"
+                                    value={birthdate ? new Date(birthdate).toISOString().split('T')[0] : ''}
+                                    onChange={(e) => setBirthdate(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-row">
+                                <label>Gender:
+                                    <select value={gender} onChange={handleGenderChange}>
+                                        <option value="">Select</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div className="form-button">
+                            <button type="submit" className="update-button">Update Profile</button>
+                        </div>
                     </form>
                 </div>
             </div>
-        
+
+        </>
     );
 };
 
