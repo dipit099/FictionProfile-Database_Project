@@ -10,7 +10,6 @@ const Discover = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [mediaItems, setMediaItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -22,18 +21,18 @@ const Discover = () => {
     };
 
     useEffect(() => {
+        console.log('Current Page:', currentPage);
         const fetchMediaItems = async () => {
             try {
                 const response = await axios.get(`${BASE_URL}/discover`, {
                     params: {
                         page: currentPage,
-                        pageSize: 50,
+                        pageSize: 20,
                     }
                 });
 
                 const data = response.data;
                 setMediaItems(data.media);
-                // setTotalPages(data.totalPages);
                 console.log('Media Items:', mediaItems);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -46,13 +45,34 @@ const Discover = () => {
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const renderPageNumbers = () => {
+
+        const pageNumbers = [];        
+        let startPage = Math.max(1, currentPage);
+        let endPage = (startPage + 9);
+
+        if (currentPage <= 10) {
+            startPage = 1;
+            endPage = 10;
+
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(
+                <li key={i} className={`page-item ${i === currentPage ? 'active' : ''}`}>
+                    <button className="page-link" onClick={() => handlePageClick(i)}>{i}</button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
+
 
     return (
         <>
-
             <SideBar />
             <div className="discover-page">
-                <h1>Discover</h1>
                 <div className='discover-container'>
                     <div className="search-container">
                         <div>
@@ -72,24 +92,32 @@ const Discover = () => {
                         <div className="media-items">
                             {mediaItems && mediaItems.map(mediaItem => (
                                 <div key={mediaItem.id} className="media-card">
-                                    <Link to={`/movie/${mediaItem.id}`}>
-                                        <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
-                                    </Link>
-                                    <span className="movie-badge">Movie</span>
-                                    <p>{mediaItem.title}</p>
-                                    <p>{mediaItem.vote_average}</p>
+                                    <div>
+                                        <Link to={`/movie/${mediaItem.id}`}>
+                                            <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
+                                            <div className="badge">Movie</div>
+                                        </Link>
+                                    </div>
+                                    <div>{mediaItem.title}</div>
+                                    <div>{mediaItem.vote_average}</div>
 
                                 </div>
                             ))}
                         </div>
 
                         <div className="pagination">
-                            {[...Array(totalPages).keys()].map(pageNumber => (
-                                <button key={pageNumber + 1} onClick={() => handlePageClick(pageNumber + 1)}>
-                                    {pageNumber + 1}
-                                </button>
-                            ))}
+                            <ul className="pagination">
+                                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                    <button className="page-link" onClick={() => handlePageClick(currentPage - 1)}>Previous</button>
+                                </li>
+                                {renderPageNumbers()}
+                                <li className="page-item">
+                                    <button className="page-link" onClick={() => handlePageClick(currentPage + 1)}>Next</button>
+                                </li>
+                            </ul>
                         </div>
+
+
                     </div>
                     <div className='filter-container'>
                         <h3>Filter</h3>

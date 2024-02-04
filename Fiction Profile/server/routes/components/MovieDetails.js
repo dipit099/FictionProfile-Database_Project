@@ -4,6 +4,7 @@ const pool = require("../../db");
 
 router.get('/:id', async (req, res) => {
     try {
+        console.log('Fetching movie details');
         const { id } = req.params;
         const result = await pool.query(
             'SELECT id,title, poster_path,backdrop_path,release_date, vote_average, overview,original_language,genres FROM "Fiction Profile"."MOVIE" WHERE id = $1',

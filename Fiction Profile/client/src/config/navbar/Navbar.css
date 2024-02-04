@@ -73,9 +73,10 @@ a:hover{
   text-decoration: none;
 }
 .navbar-left h1{
-  background: linear-gradient(to right, #b46ad4, #2373a8);
+  background: linear-gradient(to right, #c773eb, #76c8ff);
   -webkit-background-clip: text;
   color: transparent;
+  font-weight: bold;
 
 
 }
