@@ -9,9 +9,10 @@ const MediaDetails = ({ mediaType }) => {
     const [media, setMedia] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
+        console.log('Media Type:', mediaType);
         const fetchMediaDetails = async () => {
             try {
-                const response = await fetch(`${BASE_URL}${mediaType}/${id}`);
+                const response = await fetch(`${BASE_URL}/${mediaType}/${id}`);
                 const data = await response.json();
                 setMedia(data.media);
             } catch (error) {

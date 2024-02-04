@@ -68,29 +68,7 @@ function TopMediaBanner() {
     };
 
     return (
-        // <div className="banner-container">
-        //     {topMedia.length > 0 && (
-        //         <div className="banner-details">
-        //              {/* <img src={topMedia[currentMediaIndex].backdrop_path} alt="Backdrop Image" onClick={handleClick} /> */}
-        //             <div className="media-banner">
-
-
-        //                 <div className="media-banner-overlay">
-
-        //                     <GrPrevious onClick={goToPreviousMedia} className="nav-button prev-button" />
-        //                     <GrNext onClick={goToNextMedia} className="nav-button next-button" />
-        //                 </div>
-
-
-        //             </div>
-
-        //             <div className="media-details-box">
-        //                 <p className="media-details">{topMedia[currentMediaIndex].title}</p>
-        //             </div>
-        //         </div>
-
-        //     )}
-        // </div>
+       
         <div className="banner-container">
             {topMedia.length > 0 && (
                 <>
