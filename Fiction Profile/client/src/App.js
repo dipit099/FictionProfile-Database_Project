@@ -5,6 +5,7 @@ import { Movie, TvShow, Book, Manga } from './component/home/Media';
 import Login from './component/login/Login';
 import Register from './component/login/Register';
 import Home from './component/home/Home';
+import Discover from "./component/discover/Discover";
 import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
 
@@ -77,8 +78,8 @@ function App() {
 
 
         <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
-        {/* <Route path="/feed" element={isAuthenticated ? < /> : <Navigate to="/" />} />
-        <Route path="/discover" element={isAuthenticated ? < /> : <Navigate to="/" />} /> */}
+        {/* <Route path="/feed" element={isAuthenticated ? < /> : <Navigate to="/" />} />*/}
+        <Route path="/discover" element={isAuthenticated ? <Discover /> : <Navigate to="/" />} />
 
       </Routes>
     </div>

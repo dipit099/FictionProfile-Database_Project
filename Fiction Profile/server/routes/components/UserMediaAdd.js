@@ -6,7 +6,7 @@ router.post('/', async (req, res) => {
     try {
         // Get user_id, metia type ex: movie,tv,manga,book, title_id ex: movie_id,tv_id,manga_id,book_id, status_id
         const { user_id, media_type, title_id, status_id } = req.body;
-        console.log(req.body);
+        // console.log(req.body);
         // Check if it's movie or tvshow or manga or book. if it's in the USER_MEDIA_LIST table then no need for ny action
         // if not then insert into USER_MEDIA_LIST table
         if (media_type === 'movie') {

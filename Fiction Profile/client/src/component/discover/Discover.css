@@ -1,0 +1,140 @@
+/* Discover.css */
+
+.discover-page {
+    margin-top: 100px;
+    margin-left: 100px;
+    color: #fff;
+}
+
+.discover-container {
+    display: flex;
+
+    width: 100%;
+}
+
+/* Styles for the search container */
+.search-container {
+    margin-top: 20px;
+    text-align: center;
+    width: 80%;
+}
+
+/* Styles for the search input */
+.search-input {
+    padding: 10px;
+    width: 500px;
+    border: 2px solid #ccc;
+    height: 50px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+/* Styles for the search button */
+.search-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    height: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the search button */
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for the media items */
+.media-item {
+    margin-top: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.media-item img {
+    width: 200px;
+    height: auto;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin-right: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #0056b3;
+}
+
+.filter-container {
+    color: #ccc;
+    position: fixed;
+    right: 200px;
+    /* Adjust the value as needed */
+}
+
+
+/* Discover.css */
+
+.media-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Adjust the gap between cards */
+}
+
+.media-card {
+    width: 200px;
+    /* Set the width of each card */
+   
+    /* Set background color */
+    padding: 10px;
+    /* Add padding */
+    border-radius: 8px;
+    /* Add border radius for rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add shadow for depth */
+    overflow: hidden;
+    /* Hide overflowing content */
+}
+
+.media-card img {
+    width: 100%;
+    /* Make sure images fill the card width */
+    height: auto;
+    /* Maintain aspect ratio */
+    border-radius: 8px;
+    /* Add border radius for rounded corners */
+    margin-bottom: 10px;
+    /* Add space below the image */
+}
+
+.movie-badge {
+    background-color: #007bff;
+    /* Set badge background color */
+    color: #fff;
+    /* Set badge text color */
+    padding: 4px 8px;
+    /* Add padding to badge */
+    border-radius: 4px;
+    /* Add border radius for rounded corners */
+    font-size: 12px;
+    /* Adjust font size */
+    position: absolute;
+    /* Position badge */
+    top: 10px;
+    /* Adjust top position */
+    right: 10px;
+    /* Adjust right position */
+}

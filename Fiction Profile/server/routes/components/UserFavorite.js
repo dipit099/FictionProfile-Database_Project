@@ -6,7 +6,7 @@ router.post('/', async (req, res) => {
     try {
         // Get user_id, title_id ex: movie_id,tv_id,manga_id,book_id
         const { user_id, media_type, title_id } = req.body;
-        console.log(user_id, media_type, title_id);
+        // console.log(user_id, media_type, title_id);
 
         // Check if the movie is in the favorite table
         if (media_type === 'movie') {
