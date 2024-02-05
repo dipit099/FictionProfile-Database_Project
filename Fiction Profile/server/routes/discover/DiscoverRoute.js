@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
         const offset = (pageNumber - 1) * limit;
 
         // Fetch data from the database or an external API for discovery
-        const discoverQuery = `SELECT * FROM "Fiction Profile"."MOVIE" LIMIT $1 OFFSET $2`;
+        const discoverQuery = `SELECT * FROM "Fiction Profile"."MOVIE" ORDER BY vote_count DESC LIMIT $1 OFFSET $2`;
         const discoverResult = await pool.query(discoverQuery, [limit, offset]);
 
         const media = discoverResult.rows.map(movie => ({

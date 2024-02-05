@@ -66,13 +66,16 @@
   transform: scale(1.3);
   /* Increase button size on hover */
 }
-a{
-  text-decoration: none;
-  }
-a:hover{
+
+a {
   text-decoration: none;
 }
-.navbar-left h1{
+
+a:hover {
+  text-decoration: none;
+}
+
+.navbar-left h1 {
   background: linear-gradient(to right, #c773eb, #76c8ff);
   -webkit-background-clip: text;
   color: transparent;

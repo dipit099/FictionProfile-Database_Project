@@ -1,8 +1,8 @@
 /* Discover.css */
 
 .discover-page {
-    margin-top: 100px;
-    margin-left: 100px;
+    margin-top: 90px;
+    margin-left: 150px;
     color: #fff;
 }
 
@@ -52,25 +52,33 @@
 }
 
 .media-card {
-    width: 200px;
+    width: 150px;
     /* Adjust card width based on design preference */
     margin-bottom: 20px;
+    margin-right: 20px;
     /* Add spacing between cards */
 }
 
 .media-card img {
-    width: 60%;
+    width: 100%;
     height: auto;
 
 
 }
 
+.media-poster-badge {
+    position: relative;
+}
+
+
 .badge {
     position: absolute;
-    background-color: #007bff;
+    background-color: #892df1;
     color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 5px 5px;
+    top: 0px;
+    right: 0px;
+    font-size: 15px;
 
 }
 
