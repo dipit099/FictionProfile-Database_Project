@@ -47,7 +47,7 @@ const Discover = () => {
     };
     const renderPageNumbers = () => {
 
-        const pageNumbers = [];        
+        const pageNumbers = [];
         let startPage = Math.max(1, currentPage);
         let endPage = (startPage + 9);
 
@@ -92,12 +92,17 @@ const Discover = () => {
                         <div className="media-items">
                             {mediaItems && mediaItems.map(mediaItem => (
                                 <div key={mediaItem.id} className="media-card">
-                                    <div>
-                                        <Link to={`/movie/${mediaItem.id}`}>
-                                            <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
-                                            <div className="badge">Movie</div>
-                                        </Link>
-                                    </div>
+                                    <Link to={`/movie/${mediaItem.id}`}>
+                                        <div className='media-poster-badge'>
+
+                                            <div className='media-poster'>
+                                                <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
+                                            </div>
+                                            <div className="badge">
+                                                Movie
+                                            </div>
+                                        </div>
+                                    </Link>
                                     <div>{mediaItem.title}</div>
                                     <div>{mediaItem.vote_average}</div>
 

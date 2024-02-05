@@ -34,25 +34,32 @@ const MediaDetails = ({ mediaType }) => {
     }
 
     return (
-        <div className={`MediaDetails-container`}>
-            <div className="backdrop" style={{ backgroundImage: `url('${media.backdrop_path}')` }}></div>
-
-            <div className={`media-details-start-div`}>
-                <div className={`media-details-info-div`}>
-                    <div className="details">
-                        <img className="poster" src={media.poster_path} alt={media.title} />
-
-                    </div>
-                    <div className="info">
-                        <h2>Title: {media.title}</h2>
-                        <h2>Vote Average: {media.vote_average}</h2>
-                        <h2>Original language: {media.original_language}</h2>
-                        <h2>Genres: {media.genres}</h2>
-                        <h4>Overview: {media.overview}</h4>
-                    </div>
+        <>
+            <div className={`MediaDetails-container`}>
+                <div className="backdrop" style={{ backgroundImage: `url('${media.backdrop_path}')` }}></div>
+                <div className="details">
+                    <img className="poster" src={media.poster_path} alt={media.title} />
+                </div>
+                <div className='media-details-info-div'>
+                    <div>Title: {media.title}</div>
+                    <div>Vote Average: {media.vote_average}</div>
+                    <div>Original language: {media.original_language}</div>
+                    <div>Genres: {media.genres}</div>
                 </div>
             </div>
-        </div>
+            <div className='media-overview'>
+                <div className='overview-details'>Overview: {media.overview}</div>
+            </div>
+            <div className="review-box">
+                <textarea
+                    className="review-textbox"
+                    placeholder="Write your review here..."
+                    rows="4"
+                    cols="50"
+                ></textarea>
+                <button className="add-review-button">Add your review</button>
+            </div>
+        </>
     );
 };
 
@@ -69,4 +76,3 @@ const BookDetails = () => {
     return <MediaDetails mediaType="book" />;
 };
 export { MediaDetails, MovieDetails, TvshowDetails, MangaDetails, BookDetails };
-
