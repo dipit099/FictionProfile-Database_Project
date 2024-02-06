@@ -17,14 +17,16 @@
 
 .details {
     position: absolute;
-    top: 25%;
+    top: 55%;
     left: 5%;
-    border: 5px solid #000000;
+
 
 }
 
 .poster {
     width: 200px;
+    border: 5px solid #000000;
+    margin-bottom: 5px;
 
 
 
@@ -42,12 +44,16 @@
 
 
 }
-.media-overview{
-     position: absolute;
+
+.media-overview {
+    position: absolute;
     color: #ffffff;
-    top:60%;
-    left: 25%;
+    top: 60%;
+    left: 5%;
+    right: 20%;
+    font-size: 20px;
 }
+
 /* mediaDetails.css */
 
 /* Existing CSS... */
@@ -58,15 +64,18 @@
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    resize: vertical; /* Allow vertical resizing */
+    resize: vertical;
+    /* Allow vertical resizing */
 }
 
- 
+
 .review-box {
     position: absolute;
-    bottom: 20px; /* Adjust as needed */
-    left: 50%;
+    bottom: 20px;
+    /* Adjust as needed */
+    left: 20%;
     transform: translateX(-50%);
+
 }
 
 .add-review-button {
@@ -81,4 +90,68 @@
 
 .add-review-button:hover {
     background-color: #0056b3;
+}
+
+/* mediaDetails.css */
+
+/* Existing CSS... */
+
+.rating-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #032641;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    height: 500px;        
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating-modal h2 {
+    margin-bottom: 20px;
+}
+
+.rating-options {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.rating-options button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.rating-options button:hover {
+    background-color: #0056b3;
+}
+
+.rating-options button:last-child {
+    margin-right: 0;
+}
+
+.rating-modal button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.rating-modal button:hover {
+    background-color: #7830d5;
 }

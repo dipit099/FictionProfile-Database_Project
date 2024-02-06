@@ -27,7 +27,7 @@ const Discover = () => {
                 const response = await axios.get(`${BASE_URL}/discover`, {
                     params: {
                         page: currentPage,
-                        pageSize: 20,
+                        pageSize:                                                                                                                   20,
                     }
                 });
 
