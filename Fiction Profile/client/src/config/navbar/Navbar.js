@@ -26,13 +26,11 @@ const Navbar = () => {
                 <div className="navbar-right">
                     {role === "user" ? (
                         <>
-                            <button>Dashboard</button>
-                            <button>Account</button>
+                            <button>Dashboard</button>                            
                         </>
                     ) : role === "moderator" ? (
                         <>
-                            <button>Dashboard</button>
-                            <button>Account</button>
+                            <button>Dashboard</button>                            
                         </>
                     ) : (
                         <>
