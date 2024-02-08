@@ -39,6 +39,10 @@ Login/Account(when logged in) , Notification
 3. Home page
     This is basically what our users will see for the very first time when they viist our website.
     Display : Trending and latest features.
+    
+    Details : 
+                We will compute a popularity index based on some calculations and diplay them with the poster card instead of add option and favorite option.
+                Ensures the use of complex queries(1/2 musts) here.
 
 
 4. Feed
@@ -55,3 +59,6 @@ Login/Account(when logged in) , Notification
 6. Login/Registration
     Simple page for login and registration
     A tentative feature is "forgot password" option(requires valid email if thus validity check for email)
+
+
+

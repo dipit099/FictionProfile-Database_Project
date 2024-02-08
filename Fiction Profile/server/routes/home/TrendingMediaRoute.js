@@ -25,7 +25,7 @@ router.get('/movie', async (req, res) => {
         }));
 
         res.json({ media });
-        console.log(media);
+        //console.log(media);
     } catch (error) {
         console.error('Error executing query:', error);
         res.status(500).json({ error: 'Internal server error' });
