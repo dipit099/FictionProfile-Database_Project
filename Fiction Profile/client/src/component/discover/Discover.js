@@ -138,6 +138,7 @@ const Discover = () => {
                             <input type="checkbox" id="book" name="book" value="book" />
                             <label htmlFor="book">Book</label>
                         </div>
+                        
                     </div>
                 </div>
             </div>

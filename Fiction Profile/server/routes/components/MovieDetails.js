@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
             genres: result.rows[0].genres
 
         };
-        console.log(media);
+        //console.log(media);
         res.json({ media });
     } catch (error) {
         console.error('Error executing query:', error);
