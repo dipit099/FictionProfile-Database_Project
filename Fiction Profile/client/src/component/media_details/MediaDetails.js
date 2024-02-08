@@ -9,6 +9,7 @@ import { FaHeart } from 'react-icons/fa';
 import { MdAddBox } from 'react-icons/md';
 import axios from 'axios';
 import Modal from 'react-modal';
+import { FaStar } from 'react-icons/fa';
 
 const MediaDetails = ({ mediaType }) => {
     const { id } = useParams(); // Extract id from the URL
@@ -133,11 +134,18 @@ const MediaDetails = ({ mediaType }) => {
     const handleCloseRatingModal = () => {
         setIsRatingModalOpen(false);
     };
+    // Define the backgroundImage style separately
+    const backdropStyle = {
+        backgroundImage: `url('${media.backdrop_path}')`
+    };
+
+    // Apply the backdropStyle within the JSX
+
 
     return (
         <>
-            <div className={`MediaDetails-container`}>
-                <div className="backdrop" style={{ backgroundImage: `url('${media.backdrop_path}')` }}>
+            <div className={"MediaDetails-container"}>
+                <div className="backdrop" style={backdropStyle}>
                     <div className="details">
                         <img className="poster" src={media.poster_path} alt={media.title} />
                         <div className='button-container'>
@@ -167,6 +175,8 @@ const MediaDetails = ({ mediaType }) => {
 
                 <button className="add-review-button">Add your review</button>
             </div>
+
+
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}
@@ -215,27 +225,48 @@ const MediaDetails = ({ mediaType }) => {
                     overlay: {
                         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
                         backdropFilter: 'blur(2px)',
-
                     },
                     content: {
 
                         backgroundColor: 'transparent',
-                        border: 'none', // Remove border if needed                      
-
+                        border: 'none', // Remove border if needed
                     },
                 }}
-            // Add necessary styles for the rating modal
             >
-                <div className='rating-modal'>
-                    <h2>Select Rating (1-10)<button onClick={handleCloseRatingModal} >   X</button></h2>
-                    <div className='rating-options'>
-                        {[...Array(10)].map((_, index) => (
-                            <button key={index + 1} onClick={() => handleRatingSelect(index + 1)}>{index + 1}</button>
-                        ))}
+                <div className='rating-modal-content'>
+                    <div className='form-group' id='rating-ability-wrapper'>
+                        <label className='control-label' htmlFor='rating'>
+                            <span className='field-label-header'>How would you rate?</span><br />
+                            <span className='field-label-info'></span>
+                            <input type='hidden' id='selected_rating' name='selected_rating' value='' required='required' />
+                        </label>
+                        <h2 className='bold rating-header'>
+                            <span className='selected-rating'>{selectedRating}</span><small> / 10</small>
+                        </h2>
+                        <div className='rating-options'>
+                            {[...Array(10)].map((_, index) => (
+                                <button
+                                    key={index + 1}
+                                    type='button'
+                                    className={`btnrating btn btn-default btn-lg ${index + 1 <= selectedRating ? 'selected' : ''}`}
+                                    data-attr={index + 1}
+                                    onClick={() => handleRatingSelect(index + 1)}
+                                >
+                                    <FaStar className={`fa-star ${index + 1 <= selectedRating ? 'gold' : ''}`} />
+                                </button>
+                            ))}
+
+                        </div>
                     </div>
-                    <button onClick={handleRatingSubmit}>Submit</button>
+                    <div className='rating-button-container'>
+                        <button className='rating-submit-button' onClick={handleRatingSubmit}>Submit</button>
+                        <button className='rating-close-button' onClick={handleCloseRatingModal}>Close</button>
+
+                    </div>
                 </div>
+
             </Modal>
+
         </>
     );
 };
