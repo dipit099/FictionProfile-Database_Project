@@ -92,66 +92,84 @@
     background-color: #0056b3;
 }
 
-/* mediaDetails.css */
+/* Add these CSS rules to your existing CSS file or style component */
 
-/* Existing CSS... */
-
-.rating-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #032641;
-    color: #ffffff;
+/* CSS for the rating modal content */
+.rating-modal-content {
+    background-color: #32749c;
     padding: 20px;
     border-radius: 10px;
-    height: 500px;        
+    max-width: 700px;
+    margin: 0 auto;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    margin-top: 10%;
 }
 
-.rating-modal h2 {
-    margin-bottom: 20px;
+.btnrating {
+    border: none;
+    background: transparent;
+
 }
 
+/* CSS for rating options container */
 .rating-options {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+
 }
 
-.rating-options button {
+/* CSS for submit and close buttons */
+
+.field-label-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+
+}
+
+.rating-submit-button,
+.rating-close-button {
     background-color: #007bff;
-    color: #ffffff;
+    color: #000000;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 20px;
     margin-right: 10px;
+    width: 120px;
+    font-weight: bold;
+    /* Same width for both buttons */
 }
 
-.rating-options button:hover {
-    background-color: #0056b3;
+.btnrating:hover {
+    background: transparent;
 }
 
-.rating-options button:last-child {
-    margin-right: 0;
+/* CSS for hover effect on buttons */
+.rating-submit-button:hover,
+.rating-close-button:hover {
+    background-color: #542b9f;
 }
 
-.rating-modal button {
-    background-color: #007bff;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+/* CSS to center buttons */
+.rating-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.fa-star {
+    color: #000000;
+    font-size: 30px;
     cursor: pointer;
-    font-size: 16px;
+    width: 100%;
 }
 
-.rating-modal button:hover {
-    background-color: #7830d5;
+.fa-star:hover {
+    color: #ffcc00;
+}
+
+.gold {
+    color: #ffcc00;
 }

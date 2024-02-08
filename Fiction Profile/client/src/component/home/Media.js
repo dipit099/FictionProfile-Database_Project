@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { FaHeart } from 'react-icons/fa';
 import { MdAddBox } from 'react-icons/md';
+import { FaStar } from 'react-icons/fa';
 
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -25,7 +26,7 @@ const Media = ({ type }) => {
     const fetchMediaItems = async () => {
       try {
         // send people_id to the server
-        const response = await axios.get(`${BASE_URL}/trending/${type}`,{
+        const response = await axios.get(`${BASE_URL}/trending/${type}`, {
           params: {
             people_id: localStorage.getItem('people_id')
           }
@@ -57,9 +58,19 @@ const Media = ({ type }) => {
       });
 
       const data = response.data;
-      toast.success('Successfully added to favorite');
       if (data.success) {
-        console.log('Successfully added to favorite');
+        if (mediaItem.is_favorite === '1') {
+          toast.success('Removed from favorites');
+          mediaItem.is_favorite = '0';
+        } else {
+          toast.success('Added to favorites');
+          mediaItem.is_favorite = '1';
+        }
+        // Update the heart icon color instantly based on is_favorite value
+        const heartIcon = document.getElementById(`heart-icon-${mediaItem.id}`);
+        if (heartIcon) {
+          heartIcon.classList.toggle('favorite', mediaItem.is_favorite === '1');
+        }
       }
     } catch (error) {
       console.error('Error during adding media:', error.message);
@@ -71,9 +82,11 @@ const Media = ({ type }) => {
       let isFavorite = mediaItem.is_favorite == '1';
       return (
         <FaHeart
+          id={`heart-icon-${mediaItem.id}`} // Unique ID for each heart icon
           className={`heart-icon ${isFavorite ? 'favorite' : ''}`}
           onClick={() => handleFavoriteAdd(mediaItem)}
         />
+
       );
     }
     return null;
@@ -121,7 +134,10 @@ const Media = ({ type }) => {
                 <p>{mediaItem.title}</p>
               </Link>
               {/* <p>{mediaItem.vote_average.toFixed(1)}</p> */}
-              <p>{mediaItem.vote_average}</p>
+              <p>
+                <FaStar style={{ color: 'gold' }} /> {Math.floor(mediaItem.vote_average)}/10
+              </p>
+
               <div className='button-container'>
                 <p>{renderMediaAddButton(mediaItem)}</p>
                 <p>{renderFavoriteButton(mediaItem)}</p>

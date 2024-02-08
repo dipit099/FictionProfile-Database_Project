@@ -82,7 +82,6 @@
 
 
 
-
 .media-details {
     display: flex;
     flex-direction: column;
@@ -191,7 +190,11 @@
 
 
 .heart-icon {
-    font-size: 32px;
+    font-size: 30px;
+}
+.heart-icon:hover {
+   transform: scale(1.1);
+    cursor: pointer;
 }
 
 .heart-icon:not(.favorite) {
@@ -200,24 +203,19 @@
 }
 
 .heart-icon.favorite {
-    color: rgb(20, 200, 20);
+    color: rgb(200, 20, 59);
     cursor: pointer;
 }
 
-.heart-icon:hover {
-    color: rgb(156, 62, 62);
-    font-size: 32px;
-    cursor: pointer;
-}
+
 
 .add-icon {
-    color: rgb(104, 104, 104);
-    font-size: 35px;
+    color: rgb(99, 73, 172);
+    font-size: 32px;
 }
 
 .add-icon:hover {
-    color: rgb(62, 156, 120);
-    font-size: 35px;
+    color: rgb(62, 156, 120);   
     cursor: pointer;
 
 }
