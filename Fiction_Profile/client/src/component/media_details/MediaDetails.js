@@ -77,7 +77,7 @@ const MediaDetails = ({ mediaType }) => {
             let isFavorite = mediaItem.is_favorite === '1';
             return (
                 <FaHeart
-                    className={`heart-icon ${isFavorite ? 'favorite' : ''}`}
+                    className={`media-details-heart-icon ${isFavorite ? 'favorite' : ''}`}
                     onClick={() => handleFavoriteAdd(mediaItem)}
                 />
             );
@@ -143,29 +143,36 @@ const MediaDetails = ({ mediaType }) => {
 
 
     return (
-        <>
+        <div className="MediaDetails">
             <div className={"MediaDetails-container"}>
                 <div className="backdrop" style={backdropStyle}>
                     <div className="details">
                         <img className="poster" src={media.poster_path} alt={media.title} />
                         <div className='button-container'>
-                            <p>{renderMediaAddButton(media)}</p>
-                            <p>{renderFavoriteButton(media)}</p>
-                            <p className="add-review-button" onClick={openRatingModal}>Rating</p>
+                            <div>{renderMediaAddButton(media)}</div>
+                            <div>{renderFavoriteButton(media)}</div>
+
                         </div>
                     </div>
                 </div>
-                <div className='media-details-info-div'>
-                    <div>Title: {media.title}</div>
-                    <div>Vote Average: {media.vote_average}</div>
-                    <div>Original language: {media.original_language}</div>
-                    <div>Genres: {media.genres}</div>
+            </div>
+            <div className='rating-details'>
+                <div className='media-title'>{media.title}
                 </div>
+
+                <div className='rating-star'>
+                    <FaStar style={{ color: 'gold' }} /> {Math.floor(media.vote_average)}/10
+                </div>
+                <div className="add-rating-button" onClick={openRatingModal}>Add your rating</div>
+            </div>
+            <div className='media-details-info-div'>
+                <div>Genres: {media.genres}</div>
             </div>
             <div className='media-overview'>
-                <div className='overview-details'><h1>Overview:</h1> {media.overview}</div>
+                <div className='overview-details'><div>Overview:</div> {media.overview}</div>
             </div>
             <div className="review-box">
+                <div>Add Your Review</div>
                 <textarea
                     className="review-textbox"
                     placeholder="Write your review here..."
@@ -173,7 +180,7 @@ const MediaDetails = ({ mediaType }) => {
                     cols="50"
                 ></textarea>
 
-                <button className="add-review-button">Add your review</button>
+                <button className="add-review-button">Submit</button>
             </div>
 
 
@@ -267,7 +274,7 @@ const MediaDetails = ({ mediaType }) => {
 
             </Modal>
 
-        </>
+        </div>
     );
 };
 

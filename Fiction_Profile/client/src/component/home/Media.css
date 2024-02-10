@@ -4,15 +4,7 @@
     white-space: nowrap;
 }
 
-.media-item {
-    position: relative;
-    transition: transform 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-}
+
 
 
 
@@ -33,23 +25,17 @@
 }
 
 .MediaDiv img {
-    width: 190px;
+    width: 196px;
     height: 200px;
     border-radius: 5px;
     margin-bottom: 10px;
 }
 
 .MediaDiv img:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .MediaDiv p {
-    /* font-size: 20px;
-    margin: 2px;
-    text-align: center;
-    color: #ffffff;
-    overflow: hidden;
-    white-space: normal; */
     font-size: 20px;
     margin: 2px;
     text-align: center;
@@ -75,54 +61,56 @@
 }
 
 
-
-
-
-
-
-
-
-.media-details {
+.media-item {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.media-details img {
-    max-width: 100%;
-    height: 200px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    /*align the image at leftmost*/
-    margin-left: 0;
-
-}
-
-.media-details p {
-    margin-top: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
 }
 
 
-.button-container {
+
+.media-button-container {
+
     display: flex;
     margin-top: auto;
     width: 100%;
     justify-content: space-evenly;
+    margin-top: 5px;
 }
 
-.button-container button:hover {
-    /* Reset styles on hover */
-    background-color: transparent;
-    transform: scale(1.1);
-    border: none;
-    background: none;
-    /* Add any other styles you want to reset on hover */
+.fa-star-div {
+    color: #fff;
+    font-size: 20px;
+
+
 }
+
+
+
+.heart-icon {
+    margin-top: 5px;
+    font-size: 25px;
+}
+
+.heart-icon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.heart-icon:not(.favorite) {
+    color: rgb(104, 104, 104);
+    cursor: pointer;
+}
+
+.heart-icon.favorite {
+    color: rgb(200, 20, 59);
+    cursor: pointer;
+}
+
+
+
+
 
 
 .popup-content {
@@ -170,12 +158,14 @@
 .popup-content p {
     cursor: pointer;
 }
-.popup-content button{
+
+.popup-content button {
     cursor: pointer;
     background-color: #2980b9;
     width: 80px;
     height: 40px;
 }
+
 .popup-content button:hover {
     border: none;
 }
@@ -189,23 +179,7 @@
 }
 
 
-.heart-icon {
-    font-size: 30px;
-}
-.heart-icon:hover {
-   transform: scale(1.1);
-    cursor: pointer;
-}
 
-.heart-icon:not(.favorite) {
-    color: rgb(104, 104, 104);
-    cursor: pointer;
-}
-
-.heart-icon.favorite {
-    color: rgb(200, 20, 59);
-    cursor: pointer;
-}
 
 
 
@@ -215,7 +189,7 @@
 }
 
 .add-icon:hover {
-    color: rgb(62, 156, 120);   
+    color: rgb(62, 156, 120);
     cursor: pointer;
 
 }

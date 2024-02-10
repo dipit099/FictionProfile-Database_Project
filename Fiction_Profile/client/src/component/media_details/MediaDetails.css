@@ -1,98 +1,172 @@
-/* mediaDetails.css */
+.MediaDetails {
+    display: flex;
+    color: white;
+    flex-direction: column;
+    margin-bottom: 100px;
+}
 
 .MediaDetails-container {
-    color: #ffffff;
+    /* Add your container styles here */
 }
 
 .backdrop {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 500px;
+    /* Adjust height as needed */
+    background-color: #000;
+    /* Fallback color */
     background-size: cover;
     background-position: top;
-    width: 100%;
-    height: 40%;
 
 }
 
 .details {
     position: absolute;
-    top: 55%;
+    top: 42%;
     left: 5%;
-
 
 }
 
 .poster {
     width: 200px;
-    border: 5px solid #000000;
-    margin-bottom: 5px;
-
+    height: auto;
+    /* Adjust width as needed */
 
 
 }
 
-.media-details-info-div {
+.button-container {
+    display: flex;
+    background-color: #000000;
+    display: flex;
+    margin-top: auto;
+    width: 100%;
+    justify-content: space-evenly;
+   
 
+}
+
+.rating-details {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 50px;
+    margin-left: 5%;
+    /* Adjust margin as needed */
+}
+
+.media-title {
     position: absolute;
-    top: 42%;
-    left: 25%;
-    color: #ffffff;
-    display: block;
+    font-size: 40px;
+    left: 20%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    color: transparent;
+    /* Set text color to transparent */
+    background-image: linear-gradient(to right, #b56bff, #4491c5);
+    /* Define your gradient colors */
+    -webkit-background-clip: text;
+    /* Clip the text with the background */
+    background-clip: text;
+    /* Clip the text with the background */
+}
+
+
+
+
+.rating-star {
+    margin-top: 15px;
     font-size: 20px;
+}
+
+.add-rating-button {
+    margin-left: 15px;
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #5522a2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 
-
+.media-details-info-div {
+    margin-top: 20px;
+    font-size: 20px;
+    margin-left: 5%;
 }
 
 .media-overview {
-    position: absolute;
-    color: #ffffff;
-    top: 60%;
-    left: 5%;
-    right: 20%;
+    margin-top: 20px;
     font-size: 20px;
 }
 
-/* mediaDetails.css */
+.overview-details {
+    margin-left: 5%;
+    margin-right: 20%;
+}
 
-/* Existing CSS... */
+.overview-details div {
+    font-size: 30px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    color: #4c83ca;
+}
+
+.review-box {
+    margin-top: 20px;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-box div {
+    font-size: 30px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    color: #4c83ca;
+
+}
 
 .review-textbox {
-    width: 100%;
+    width: 50%;
     padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
+    font-size: 20px;
+    background-color: rgb(54, 91, 146);
+    color: rgb(255, 247, 247);
+    border: none;
     border-radius: 5px;
     resize: vertical;
     /* Allow vertical resizing */
 }
 
-
-.review-box {
-    position: absolute;
-    bottom: 20px;
-    /* Adjust as needed */
-    left: 20%;
-    transform: translateX(-50%);
-
+.review-textbox::placeholder {
+    color: white;
+    /* Set placeholder text color */
 }
 
+
 .add-review-button {
+    margin-top: 10px;
+    padding: 5px 0px;
+    font-size: 20px;
     background-color: #007bff;
-    color: #ffffff;
-    padding: 10px 20px;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    width: 10%;
 }
+
 
 .add-review-button:hover {
     background-color: #0056b3;
 }
-
-/* Add these CSS rules to your existing CSS file or style component */
 
 /* CSS for the rating modal content */
 .rating-modal-content {
@@ -172,4 +246,10 @@
 
 .gold {
     color: #ffcc00;
+}
+
+.media-details-heart-icon {  
+    margin-top: 3px;
+    font-size: 25px;
+    color: rgb(104, 104, 104);
 }
