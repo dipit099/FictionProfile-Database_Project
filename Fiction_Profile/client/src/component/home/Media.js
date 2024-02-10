@@ -134,14 +134,16 @@ const Media = ({ type }) => {
                 <p>{mediaItem.title}</p>
               </Link>
               {/* <p>{mediaItem.vote_average.toFixed(1)}</p> */}
-              <p>
-                <FaStar style={{ color: 'gold' }} /> {Math.floor(mediaItem.vote_average)}/10
-              </p>
+              <div className='media-button-container' >
+                <div className='fa-star-div'><FaStar style={{ color: 'gold' }} /> {Math.floor(mediaItem.vote_average)}/10</div>
+                
+                <div>{renderFavoriteButton(mediaItem)}</div>
+              </div>
 
-              <div className='button-container'>
+              {/* <div className='media-button-container'>
                 <p>{renderMediaAddButton(mediaItem)}</p>
                 <p>{renderFavoriteButton(mediaItem)}</p>
-              </div>
+              </div> */}
             </div>
           </li>
         ))}
