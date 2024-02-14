@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use('/register', require('./routes/login/RegisterRoute'));
 app.use('/login', require('./routes/login/LoginRoute'));
-app.use('/trending', require('./routes/home/TrendingMediaRoute'));
+app.use('/trending', require('./routes/home/HomeMediaRoute'));
 app.use('/movie', require('./routes/components/MovieDetails'));
 app.use('/tvshow', require('./routes/components/TvShowDetails'));
 app.use('/book', require('./routes/components/BookDetails'));
@@ -23,6 +23,7 @@ app.use('/user_media_add', UserMediaRoute);
 app.use('/user_favorite', UserFavoriteRoute);
 app.use('/top_media', require('./routes/home/TopMediaRoute'));
 app.use('/discover', require('./routes/discover/DiscoverRoute'));
+app.use('/rating', require('./routes/components/MediaRating'));
 
 
 
