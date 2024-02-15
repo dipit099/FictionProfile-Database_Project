@@ -26,16 +26,16 @@ router.get('/genre', async (req, res) => {
     try {
         const genreQuery = `
             SELECT 
-                genre_id, 
-                genre_name
+                id, 
+                name
             FROM 
                 "Fiction Profile"."GENRE"`;
         
         const genreResult = await pool.query(genreQuery);
         
         const genres = genreResult.rows.map(genreItem => ({
-            id: genreItem.genre_id,
-            name: genreItem.genre_name
+            id: genreItem.id,
+            name: genreItem.name
         }));
         // Send the genre data as JSON response
         res.json({ genres });
@@ -135,8 +135,13 @@ router.get('/', async (req, res) => {
 
     const genreInclude = genres ? JSON.parse(genres).include : [];
     const genreExclude = genres ? JSON.parse(genres).exclude : [];
+
+    // b
     const mediaTypeInclude = mediaTypes ? JSON.parse(mediaTypes).include : [];
-    const mediaTypeExclude = mediaTypes ? JSON.parse(mediaTypes).exclude : []
+    const mediaTypeExclude = mediaTypes ? JSON.parse(mediaTypes).exclude : [];
+
+    const sortByQ = sortBy || 'title';
+    const sortSequenceQ = sortSequence || 'ASC';
 
 
     try {
@@ -188,7 +193,7 @@ router.get('/', async (req, res) => {
                     OR 
                     NOT ARRAY(SELECT genre_id FROM "Fiction Profile"."MEDIA_GENRE" WHERE media_id = m.media_id) && $10::int[]
                 )
-            ORDER BY m.${sortBy} ${sortSequence}
+            ORDER BY m.${sortByQ} ${sortSequenceQ}
             LIMIT $11 OFFSET $12`;
 
         // Execute the query
