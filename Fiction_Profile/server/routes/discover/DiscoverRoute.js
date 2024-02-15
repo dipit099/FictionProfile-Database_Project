@@ -25,8 +25,8 @@ router.get('/', async (req, res) => {
                 CASE
                     WHEN type_id = 1 THEN movie_id
                     WHEN type_id = 2 THEN tv_id
-                    WHEN type_id = 3 THEN manga_id
-                    WHEN type_id = 4 THEN book_id
+                    WHEN type_id = 3 THEN book_id
+                    WHEN type_id = 4 THEN manga_id
                 END AS id,
                 (SELECT type_name FROM "Fiction Profile"."MEDIA_TYPE" WHERE type_id = media.type_id) AS media_type,
                 (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id = media.media_id) AS is_favorite
