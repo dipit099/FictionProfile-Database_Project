@@ -28,10 +28,10 @@ router.get('/', async (req, res) => {
                     WHEN type_id = 3 THEN manga_id
                     WHEN type_id = 4 THEN book_id
                 END AS id,
-                (SELECT type_name FROM "Fiction Profile"."MEDIA_TYPE" WHERE id = type_id) AS media_type,
-                (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id = id) AS is_favorite
+                (SELECT type_name FROM "Fiction Profile"."MEDIA_TYPE" WHERE type_id = media.type_id) AS media_type,
+                (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id = media.media_id) AS is_favorite
             FROM 
-                "Fiction Profile"."MEDIA" 
+                "Fiction Profile"."MEDIA" media
             LIMIT $2 OFFSET $3`;
         
         const discoverResult = await pool.query(discoverQuery, [userId, limit, offset]);
