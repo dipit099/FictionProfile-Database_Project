@@ -136,6 +136,7 @@ router.get('/', async (req, res) => {
     const limit = parseInt(pageSize) || 10; // Default page size is 10
 
     search = search || '';
+    search= search.toLowerCase();
     yearStart = yearStart || 0;
     yearEnd = yearEnd || 9999;
     ratingStart = ratingStart || 0;
@@ -177,7 +178,7 @@ router.get('/', async (req, res) => {
             LEFT JOIN
                 "Fiction Profile"."MEDIA_GENRE" mg ON m.media_id = mg.media_id
             WHERE
-                (m.title ILIKE $2 OR $2 IS NULL)
+                (LOWER(m.title) ILIKE $2 OR $2 IS NULL)
                 AND
                 (m.year >= $3 OR $3 IS NULL)
                 AND
