@@ -18,21 +18,78 @@ import axios from 'axios';
 const Discover = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [mediaItems, setMediaItems] = useState([]);
+
     const [currentPage, setCurrentPage] = useState(1);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMediaItem, setSelectedMediaItem] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('0');
     const role = localStorage.getItem('role');
+    const userId = localStorage.getItem('people_id');
+
+    const [genres, setGenres] = useState([]);
+    const [yearStart, setYearStart] = useState(null);
+    const [yearEnd, setYearEnd] = useState(null);
+    const [ratingStart, setRatingStart] = useState(null);
+    const [ratingEnd, setRatingEnd] = useState(null);
+
+    /*genre and , genre or, genre exclude*/
+    const [genresInclude, setGenresInclude] = useState([]);
+    const [genresAndInclude, setGenresAndInclude] = useState([]);
+    const [genresExclude, setGenresExclude] = useState([]);
+
+    const [mediaTypes, setMediaTypes] = useState({ include: [1, 2], exclude: [3, 4] });
+
+    const handleMediaTypeToggle = (id) => {
+        console.log('Toggling media type:', id);
+        const includeIndex = mediaTypes.include.indexOf(id);
+        const excludeIndex = mediaTypes.exclude.indexOf(id);
+
+        if (includeIndex === -1) {
+            setMediaTypes(prevState => ({
+                ...prevState,
+                include: [...prevState.include, id],
+                exclude: prevState.exclude.filter(excludeId => excludeId !== id)
+            }));
+        } else {
+            setMediaTypes(prevState => ({
+                ...prevState,
+                include: prevState.include.filter(includeId => includeId !== id),
+                exclude: [...prevState.exclude, id]
+            }));
+        }
+        console.log('Media Types:', mediaTypes);
+    };
+
+    // You won't log mediaTypes immediately after setMediaTypes, 
+    // as it will not reflect the updated state due to the asynchronous nature of state updates.
+
+
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Performing search for:', searchQuery);
-    };
+
+
+    useEffect(() => {
+        const fetchMediaGenres = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL}/discover/genre`);
+                const data = response.data;
+                console.log('Genre List:', data);
+                setGenres(data.genres); // Update the state with the received genre list
+            } catch (error) {
+                console.error('Error fetching genre list:', error);
+            }
+        };
+
+        fetchMediaGenres();
+    }, []);
+
+
+
+
 
     useEffect(() => {
         console.log('Current Page:', currentPage);
@@ -40,8 +97,16 @@ const Discover = () => {
             try {
                 const response = await axios.get(`${BASE_URL}/discover`, {
                     params: {
+                        userId: userId,
                         page: currentPage,
                         pageSize: 20,
+                        search: searchQuery,
+                        yearStart: yearStart,
+                        yearEnd: yearEnd,
+                        ratingStart: ratingStart,
+                        ratingEnd: ratingEnd,
+                        mediaTypeInclude: JSON.stringify(mediaTypes.include),
+                        mediaTypeExclude: JSON.stringify(mediaTypes.exclude)
                     }
                 });
 
@@ -55,6 +120,31 @@ const Discover = () => {
 
         fetchMediaItems();
     }, [currentPage]);
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log('Performing search for:', searchQuery);
+        // Fetch media items based on the search query
+        try {
+            const response = await axios.get(`${BASE_URL}/discover`, {
+                params: {
+                    yearStart: yearStart,
+                    userId: userId,
+                    page: currentPage,
+                    pageSize: 20,
+                    search: searchQuery // Pass the search query as a parameter
+                }
+            });
+
+            const data = response.data;
+            setMediaItems(data.media);
+            console.log('Media Items:', mediaItems);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -162,6 +252,46 @@ const Discover = () => {
 
         handleCloseModal();
     };
+    const handleGenreClick = (genre) => {
+        // Perform any actions based on the selected genre
+        console.log('Selected genre:', genre.name);
+        console.log('Selected genre ID:', genre.id);
+
+        // For example, you might want to filter the media items based on the selected genre
+        // Here you can implement the logic to fetch media items of the selected genre from the server
+        // You can update the state or perform any other necessary actions
+    };
+
+    const handleFilter = async () => {
+        try {
+            console.log(mediaTypes);
+            const response = await axios.get(`${BASE_URL}/discover`, {
+                params: {
+                    userId: userId,
+                    page: currentPage,
+                    pageSize: 20,
+                    search: searchQuery,
+                    yearStart: yearStart,
+                    yearEnd: yearEnd,
+                    ratingStart: ratingStart,
+                    ratingEnd: ratingEnd,
+                    genresInclude: genresInclude,
+                    genresAndInclude: genresAndInclude,
+                    genresExclude: genresExclude,
+                    mediaTypes: mediaTypes
+                }
+            });
+
+            const data = response.data;
+            setMediaItems(data.media);
+            console.log('Media Items:', mediaItems);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+
+
 
 
     return (
@@ -187,7 +317,8 @@ const Discover = () => {
                         <div className="media-items">
                             {mediaItems && mediaItems.map(mediaItem => (
                                 <div key={mediaItem.id} className="media-card">
-                                    <Link to={`/${mediaItem.type}/${mediaItem.id}`}>
+                                    <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`}>
+
                                         <div className='media-poster-badge'>
                                             <div className='media-poster'>
                                                 <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
@@ -195,8 +326,8 @@ const Discover = () => {
                                             <div className="badge">{mediaItem.type}</div>
                                         </div>
                                     </Link>
-                                    <div>{mediaItem.title}</div>
-                                    <div>{mediaItem.vote_average}</div>
+                                    <div className='discover-media-title'>{mediaItem.title}</div>
+                                    <div>  {mediaItem.vote_average}</div>
                                     <div className='discover-button-container'>
                                         <p>{renderMediaAddButton(mediaItem)}</p>
                                         <p>{renderFavoriteButton(mediaItem)}</p>
@@ -221,21 +352,131 @@ const Discover = () => {
 
                     </div>
                     <div className='filter-container'>
-                        <h3>Filter</h3>
-                        <div className='filter-option'>
-                            <input type="checkbox" id="tv" name="tv" value="tv" />
-                            <label htmlFor="tv">TV</label>
-                        </div>
-                        <div className='filter-option'>
-                            <input type="checkbox" id="manga" name="manga" value="manga" />
-                            <label htmlFor="manga">Manga</label>
-                        </div>
-                        <div className='filter-option'>
-                            <input type="checkbox" id="book" name="book" value="book" />
-                            <label htmlFor="book">Book</label>
+                        <div className='mediaType-container'>
+                            {/* <h3>Media Type</h3>
+                            <div className='dropdown-menu'>
+                                <div className='filter-option'>
+                                    <input
+                                        type="checkbox"
+                                        id="movie"
+                                        name="movie"
+                                        value="movie"
+                                        checked={mediaTypes.include.includes(1)}
+                                        onChange={() => handleMediaTypeToggle(1)}
+                                    />
+                                    <label htmlFor="movie">Movie</label>
+                                </div>
+                                <div className='filter-option'>
+                                    <input
+                                        type="checkbox"
+                                        id="tv"
+                                        name="tv"
+                                        value="tv"
+                                        checked={mediaTypes.include.includes(2)}
+                                        onChange={() => handleMediaTypeToggle(2)}
+                                    />
+                                    <label htmlFor="tv">TV</label>
+                                </div>
+                                <div className='filter-option'>
+                                    <input
+                                        type="checkbox"
+                                        id="manga"
+                                        name="manga"
+                                        value="manga"
+                                        checked={mediaTypes.include.includes(3)}
+                                        onChange={() => handleMediaTypeToggle(3)}
+                                    />
+                                    <label htmlFor="manga">Manga</label>
+                                </div>
+                                <div className='filter-option'>
+                                    <input
+                                        type="checkbox"
+                                        id="book"
+                                        name="book"
+                                        value="book"
+                                        checked={mediaTypes.include.includes(4)}
+                                        onChange={() => handleMediaTypeToggle(4)}
+                                    />
+                                    <label htmlFor="book">Book</label>
+                                </div>
+                            </div> */}
+                            <div className="dropdown show">
+                                <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Media Type
+                                </a>
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <div className='filter-option'>
+                                        <input
+                                            type="checkbox"
+                                            id="movie"
+                                            name="movie"
+                                            value="movie"
+                                            checked={mediaTypes.include.includes(1)}
+                                            onChange={() => handleMediaTypeToggle(1)}
+                                        />
+                                        <label htmlFor="movie">Movie</label>
+                                    </div>
+                                    <div className='filter-option'>
+                                        <input
+                                            type="checkbox"
+                                            id="tv"
+                                            name="tv"
+                                            value="tv"
+                                            checked={mediaTypes.include.includes(2)}
+                                            onChange={() => handleMediaTypeToggle(2)}
+                                        />
+                                        <label htmlFor="tv">TV</label>
+                                    </div>
+                                    <div className='filter-option'>
+                                        <input
+                                            type="checkbox"
+                                            id="manga"
+                                            name="manga"
+                                            value="manga"
+                                            checked={mediaTypes.include.includes(3)}
+                                            onChange={() => handleMediaTypeToggle(3)}
+                                        />
+                                        <label htmlFor="manga">Manga</label>
+                                    </div>
+                                    <div className='filter-option'>
+                                        <input
+                                            type="checkbox"
+                                            id="book"
+                                            name="book"
+                                            value="book"
+                                            checked={mediaTypes.include.includes(4)}
+                                            onChange={() => handleMediaTypeToggle(4)}
+                                        />
+                                        <label htmlFor="book">Book</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
+
+
+
+                        <div className='genre-container'>
+                            {genres.map(genre => (
+                                <button className='filter-button' key={genre.id} onClick={() => handleGenreClick(genre)}>
+                                    {genre.name}
+                                </button>
+                            ))}
+                        </div>
+                        <div>
+                            <h3>Year</h3>
+                            {/* Textbox input for year */}
+                            <input type="text" id="year" name="year" />
+
+                            <h3>Rating</h3>
+
+                            <input type="text" id="rating" name="rating" />
+                        </div>
+                        <div>
+                            <button type="submit" className="search-button" onClick={() => handleFilter()}>Filter Results</button>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <Navbar />
