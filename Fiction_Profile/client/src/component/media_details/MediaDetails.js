@@ -283,7 +283,7 @@ const MovieDetails = () => {
 };
 
 const TvshowDetails = () => {
-    return <MediaDetails mediaType="tvshow" />;
+    return <MediaDetails mediaType="tv" />;
 };
 
 const MangaDetails = () => {

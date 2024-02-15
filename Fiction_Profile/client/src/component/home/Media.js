@@ -199,7 +199,7 @@ const Movie = () => {
 };
 
 const TvShow = () => {
-  return <Media type="tvshow" />;
+  return <Media type="tv" />;
 };
 
 const Manga = () => {

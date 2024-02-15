@@ -72,7 +72,7 @@ function App() {
         <Route path="/movie" element={isAuthenticated ? <Movie /> : <Navigate to="/" />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
 
-        <Route path="/tvshow/:id" element={<TvshowDetails />} />
+        <Route path="/tv/:id" element={<TvshowDetails />} />
         <Route path="/book/:id" element={<BookDetails />} />
         <Route path="/manga/:id" element={<MangaDetails />} />
 

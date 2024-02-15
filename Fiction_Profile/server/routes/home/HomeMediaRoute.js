@@ -47,7 +47,7 @@ router.get('/movie', async (req, res) => {
 
 
 
-router.get('/tvshow', async (req, res) => {
+router.get('/tv', async (req, res) => {
     try {
         
         const people_id = req.query.people_id;
