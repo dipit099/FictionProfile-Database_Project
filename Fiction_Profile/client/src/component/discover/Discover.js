@@ -38,13 +38,13 @@ const Discover = () => {
 
 
 
-    const [mediaTypes, setMediaTypes] = useState({ include: [], exclude: [] });
+    const [mediaTypes, setMediaTypes] = useState({ include: [1,2], exclude: [] });
 
     const handleMediaTypeToggle = (id) => {
         setMediaTypes(prevState => {
             const includeIndex = prevState.include.indexOf(id);
             const excludeIndex = prevState.exclude.indexOf(id);
-
+    
             if (includeIndex === -1) {
                 return {
                     include: [...prevState.include, id],
@@ -57,9 +57,9 @@ const Discover = () => {
                 };
             }
         });
-
-
     };
+
+
     useEffect(() => {
         console.log('Media Types updated:', mediaTypes);
         // Perform any actions based on the updated mediaTypes state here
