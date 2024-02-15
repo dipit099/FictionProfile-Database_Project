@@ -34,32 +34,38 @@ const Discover = () => {
     const [ratingEnd, setRatingEnd] = useState(null);
 
     /*genre and , genre or, genre exclude*/
-    const [genresInclude, setGenresInclude] = useState([]);
-    const [genresAndInclude, setGenresAndInclude] = useState([]);
-    const [genresExclude, setGenresExclude] = useState([]);
+    const [genreTypes, setGenreTypes] = useState({ include: [], andInclude: [], exclude: [] });
+
+
 
     const [mediaTypes, setMediaTypes] = useState({ include: [1, 2], exclude: [3, 4] });
 
     const handleMediaTypeToggle = (id) => {
-        console.log('Toggling media type:', id);
-        const includeIndex = mediaTypes.include.indexOf(id);
-        const excludeIndex = mediaTypes.exclude.indexOf(id);
+        setMediaTypes(prevState => {
+            const includeIndex = prevState.include.indexOf(id);
+            const excludeIndex = prevState.exclude.indexOf(id);
 
-        if (includeIndex === -1) {
-            setMediaTypes(prevState => ({
-                ...prevState,
-                include: [...prevState.include, id],
-                exclude: prevState.exclude.filter(excludeId => excludeId !== id)
-            }));
-        } else {
-            setMediaTypes(prevState => ({
-                ...prevState,
-                include: prevState.include.filter(includeId => includeId !== id),
-                exclude: [...prevState.exclude, id]
-            }));
-        }
-        console.log('Media Types:', mediaTypes);
+            if (includeIndex === -1) {
+                return {
+                    include: [...prevState.include, id],
+                    exclude: prevState.exclude.filter(excludeId => excludeId !== id)
+                };
+            } else {
+                return {
+                    include: prevState.include.filter(includeId => includeId !== id),
+                    exclude: [...prevState.exclude, id]
+                };
+            }
+        });
+
+
     };
+    useEffect(() => {
+        console.log('Media Types updated:', mediaTypes);
+        // Perform any actions based on the updated mediaTypes state here
+    }, [mediaTypes]); // Dependency array ensures the effect runs when mediaTypes changes
+
+
 
     // You won't log mediaTypes immediately after setMediaTypes, 
     // as it will not reflect the updated state due to the asynchronous nature of state updates.
@@ -107,6 +113,7 @@ const Discover = () => {
                         ratingEnd: ratingEnd,
                         mediaTypeInclude: JSON.stringify(mediaTypes.include),
                         mediaTypeExclude: JSON.stringify(mediaTypes.exclude)
+
                     }
                 });
 
@@ -129,11 +136,16 @@ const Discover = () => {
         try {
             const response = await axios.get(`${BASE_URL}/discover`, {
                 params: {
-                    yearStart: yearStart,
                     userId: userId,
                     page: currentPage,
                     pageSize: 20,
-                    search: searchQuery // Pass the search query as a parameter
+                    search: searchQuery,
+                    yearStart: yearStart,
+                    yearEnd: yearEnd,
+                    ratingStart: ratingStart,
+                    ratingEnd: ratingEnd,
+                    mediaTypeInclude: JSON.stringify(mediaTypes.include),
+                    mediaTypeExclude: JSON.stringify(mediaTypes.exclude)
                 }
             });
 
@@ -145,6 +157,32 @@ const Discover = () => {
         }
     };
 
+
+    const handleFilter = async () => {
+        try {
+            console.log(mediaTypes);
+            const response = await axios.get(`${BASE_URL}/discover`, {
+                params: {
+                    userId: userId,
+                    page: currentPage,
+                    pageSize: 20,
+                    search: searchQuery,
+                    yearStart: yearStart,
+                    yearEnd: yearEnd,
+                    ratingStart: ratingStart,
+                    ratingEnd: ratingEnd,
+                    mediaTypeInclude: JSON.stringify(mediaTypes.include),
+                    mediaTypeExclude: JSON.stringify(mediaTypes.exclude)
+                }
+            });
+
+            const data = response.data;
+            setMediaItems(data.media);
+            console.log('Media Items:', mediaItems);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -262,36 +300,6 @@ const Discover = () => {
         // You can update the state or perform any other necessary actions
     };
 
-    const handleFilter = async () => {
-        try {
-            console.log(mediaTypes);
-            const response = await axios.get(`${BASE_URL}/discover`, {
-                params: {
-                    userId: userId,
-                    page: currentPage,
-                    pageSize: 20,
-                    search: searchQuery,
-                    yearStart: yearStart,
-                    yearEnd: yearEnd,
-                    ratingStart: ratingStart,
-                    ratingEnd: ratingEnd,
-                    genresInclude: genresInclude,
-                    genresAndInclude: genresAndInclude,
-                    genresExclude: genresExclude,
-                    mediaTypes: mediaTypes
-                }
-            });
-
-            const data = response.data;
-            setMediaItems(data.media);
-            console.log('Media Items:', mediaItems);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    }
-
-
-
 
 
     return (
@@ -353,53 +361,6 @@ const Discover = () => {
                     </div>
                     <div className='filter-container'>
                         <div className='mediaType-container'>
-                            {/* <h3>Media Type</h3>
-                            <div className='dropdown-menu'>
-                                <div className='filter-option'>
-                                    <input
-                                        type="checkbox"
-                                        id="movie"
-                                        name="movie"
-                                        value="movie"
-                                        checked={mediaTypes.include.includes(1)}
-                                        onChange={() => handleMediaTypeToggle(1)}
-                                    />
-                                    <label htmlFor="movie">Movie</label>
-                                </div>
-                                <div className='filter-option'>
-                                    <input
-                                        type="checkbox"
-                                        id="tv"
-                                        name="tv"
-                                        value="tv"
-                                        checked={mediaTypes.include.includes(2)}
-                                        onChange={() => handleMediaTypeToggle(2)}
-                                    />
-                                    <label htmlFor="tv">TV</label>
-                                </div>
-                                <div className='filter-option'>
-                                    <input
-                                        type="checkbox"
-                                        id="manga"
-                                        name="manga"
-                                        value="manga"
-                                        checked={mediaTypes.include.includes(3)}
-                                        onChange={() => handleMediaTypeToggle(3)}
-                                    />
-                                    <label htmlFor="manga">Manga</label>
-                                </div>
-                                <div className='filter-option'>
-                                    <input
-                                        type="checkbox"
-                                        id="book"
-                                        name="book"
-                                        value="book"
-                                        checked={mediaTypes.include.includes(4)}
-                                        onChange={() => handleMediaTypeToggle(4)}
-                                    />
-                                    <label htmlFor="book">Book</label>
-                                </div>
-                            </div> */}
                             <div className="dropdown show">
                                 <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Media Type
@@ -463,6 +424,8 @@ const Discover = () => {
                                 </button>
                             ))}
                         </div>
+
+
                         <div>
                             <h3>Year</h3>
                             {/* Textbox input for year */}
