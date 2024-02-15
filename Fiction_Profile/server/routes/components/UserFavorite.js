@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
             }
         }
 
-        else if (media_type === 'tvshow') {
+        else if (media_type === 'tv') {
             const result = await pool.query(
                 'SELECT * FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id IN (SELECT media_id FROM "Fiction Profile"."MEDIA" WHERE tv_id = $2)',
                 [user_id, title_id]

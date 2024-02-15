@@ -5,7 +5,7 @@ router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
-            'SELECT id,title, poster_path,backdrop_path, vote_average, overview,original_language,genres FROM "Fiction Profile"."TVSHOW" WHERE id = $1',
+            'SELECT id,title, poster_path,backdrop_path, vote_average, overview,original_language,genres FROM "Fiction Profile"."TV" WHERE id = $1',
             [id]
         );
 
