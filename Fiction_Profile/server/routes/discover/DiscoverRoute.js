@@ -154,8 +154,15 @@ router.get('/', async (req, res) => {
 
     console.log(mediaTypes);
 
-    const mediaTypeInclude = mediaTypes ? mediaTypes.include : null;
-    const mediaTypeExclude = mediaTypes ? mediaTypes.exclude : null;
+    let mediaTypeInclude = mediaTypes ? mediaTypes.include : [];
+    let mediaTypeExclude = mediaTypes ? mediaTypes.exclude : [];
+
+    // parse the media type arrays
+    mediaTypeInclude = mediaTypeInclude ? mediaTypeInclude.map(type => parseInt(type)) : [];
+    mediaTypeExclude = mediaTypeExclude ? mediaTypeExclude.map(type => parseInt(type)) : [];
+    
+    console.log(mediaTypeInclude);
+    console.log(mediaTypeExclude);
 
 
     try {
@@ -219,7 +226,7 @@ router.get('/', async (req, res) => {
             key_id: mediaItem.media_id,
             id: mediaItem.id,
             title: mediaItem.title,
-            poster_path: mediaItem.media_type === 'movie' || mediaItem.media_type === 'tv' ? `https://image.tmdb.org/t/p/w500${mediaItem.poster_path}` : mediaItem.poster_path,
+            poster_path: mediaItem.media_type === 'MOVIE' || mediaItem.media_type === 'TV' ? `https://image.tmdb.org/t/p/w500${mediaItem.poster_path}` : mediaItem.poster_path,
             rating: mediaItem.rating,
             is_favorite: mediaItem.is_favorite,
             type: mediaItem.media_type
