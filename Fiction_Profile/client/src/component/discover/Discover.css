@@ -49,14 +49,16 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 30px;
+
 }
 
 .media-card {
     width: 150px;
     /* Adjust card width based on design preference */
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     margin-right: 20px;
     /* Add spacing between cards */
+    border: 2px solid #ffffff;
 }
 
 .media-card img {
@@ -129,4 +131,12 @@
 
 .filter-option {
     margin-bottom: 10px;
+}
+
+.discover-button-container
+{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  
 }
