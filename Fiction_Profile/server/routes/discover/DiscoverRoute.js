@@ -32,6 +32,7 @@ router.get('/', async (req, res) => {
                 (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id = media.media_id) AS is_favorite
             FROM 
                 "Fiction Profile"."MEDIA" media
+            ORDER BY media.title
             LIMIT $2 OFFSET $3`;
         
         const discoverResult = await pool.query(discoverQuery, [userId, limit, offset]);
