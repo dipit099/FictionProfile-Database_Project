@@ -30,9 +30,9 @@ router.get('/genre', async (req, res) => {
                 name
             FROM 
                 "Fiction Profile"."GENRE"`;
-        
+
         const genreResult = await pool.query(genreQuery);
-        
+
         const genres = genreResult.rows.map(genreItem => ({
             id: genreItem.id,
             name: genreItem.name
@@ -54,9 +54,9 @@ router.get('/mediaType', async (req, res) => {
                 type_name
             FROM 
                 "Fiction Profile"."MEDIA_TYPE"`;
-        
+
         const mediaTypeResult = await pool.query(mediaTypeQuery);
-        
+
         const mediaTypes = mediaTypeResult.rows.map(mediaTypeItem => ({
             id: mediaTypeItem.type_id,
             name: mediaTypeItem.type_name
@@ -103,9 +103,9 @@ router.get('/mediaType', async (req, res) => {
 //                 "Fiction Profile"."MEDIA" media
 //             ORDER BY media.vote_count DESC
 //             LIMIT $2 OFFSET $3`;
-        
+
 //         const discoverResult = await pool.query(discoverQuery, [userId, limit, offset]);
-        
+
 //         const media = discoverResult.rows.map(mediaItem => ({
 //             id: mediaItem.id,
 //             title: mediaItem.title,
@@ -128,7 +128,7 @@ router.get('/mediaType', async (req, res) => {
 router.get('/', async (req, res) => {
 
     console.log(req.query);
-    
+
     let { userId, page, pageSize, search, genres, mediaTypes, yearStart, yearEnd, ratingStart, ratingEnd, sortBy, sortSequence } = req.query;
 
     // Set default values for page and page size if not provided
@@ -136,7 +136,7 @@ router.get('/', async (req, res) => {
     const limit = parseInt(pageSize) || 10; // Default page size is 10
 
     search = search || '';
-    search= search.toLowerCase();
+    search = search.toLowerCase();
     yearStart = yearStart || 0;
     yearEnd = yearEnd || 9999;
     ratingStart = ratingStart || 0;
@@ -207,8 +207,8 @@ router.get('/', async (req, res) => {
             LIMIT $11 OFFSET $12`;
 
         // Execute the query
-        const discoverResult = await pool.query(discoverQuery, [userId, `%${search}%`, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreInclude, genreExclude, limit, offset]); 
-        
+        const discoverResult = await pool.query(discoverQuery, [userId, `%${search}%`, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreInclude, genreExclude, limit, offset]);
+
         // Map the result to the desired format
         const media = discoverResult.rows.map(mediaItem => ({
             id: mediaItem.id,
