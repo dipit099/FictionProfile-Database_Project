@@ -13,7 +13,7 @@ const pool = require("../../db");
 // Rating range : start, end
 // Sort by : i) Rating
 //           ii) Popularity
-//           iii) Release Date
+//           iii) Year
 //           iv) Title
 //           v) Vote Count
 // ASC OR DESC
@@ -126,23 +126,32 @@ router.get('/mediaType', async (req, res) => {
 
 
 router.get('/', async (req, res) => {
+
+    console.log(req.query);
     
-    const { userId, page, pageSize, search, genres, mediaTypes, yearStart, yearEnd, ratingStart, ratingEnd, sortBy , sortSequence} = req.query;
+    let { userId, page, pageSize, search, genres, mediaTypes, yearStart, yearEnd, ratingStart, ratingEnd, sortBy, sortSequence } = req.query;
 
     // Set default values for page and page size if not provided
     const pageNumber = parseInt(page) || 1;
     const limit = parseInt(pageSize) || 10; // Default page size is 10
 
-    const genreInclude = genres ? JSON.parse(genres).include : [];
-    const genreExclude = genres ? JSON.parse(genres).exclude : [];
+    search = search || '';
+    yearStart = yearStart || 0;
+    yearEnd = yearEnd || 9999;
+    ratingStart = ratingStart || 0;
+    ratingEnd = ratingEnd || 10;
 
-    // b
-    const mediaTypeInclude = mediaTypes ? JSON.parse(mediaTypes).include : [];
-    const mediaTypeExclude = mediaTypes ? JSON.parse(mediaTypes).exclude : [];
+    userId = parseInt(userId) || 4;
 
-    const sortByQ = sortBy || 'title';
-    const sortSequenceQ = sortSequence || 'ASC';
+    // Set default value for sortBy and sortSequence if not provided
+    sortBy = sortBy || 'title';
+    sortSequence = sortSequence || 'ASC';
 
+    // Parse genre and media type arrays or set them to empty arrays if not provided
+    const genreInclude = genres ? JSON.parse(genres).include : null;
+    const genreExclude = genres ? JSON.parse(genres).exclude : null;
+    const mediaTypeInclude = mediaTypes ? JSON.parse(mediaTypes).include : null;
+    const mediaTypeExclude = mediaTypes ? JSON.parse(mediaTypes).exclude : null;
 
     try {
         // Calculate the offset based on the page number and page size
@@ -193,7 +202,7 @@ router.get('/', async (req, res) => {
                     OR 
                     NOT ARRAY(SELECT genre_id FROM "Fiction Profile"."MEDIA_GENRE" WHERE media_id = m.media_id) && $10::int[]
                 )
-            ORDER BY m.${sortByQ} ${sortSequenceQ}
+            ORDER BY m.${sortBy} ${sortSequence}
             LIMIT $11 OFFSET $12`;
 
         // Execute the query
@@ -216,6 +225,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 
 module.exports = router;
