@@ -316,7 +316,7 @@ const Discover = () => {
                         </div>
                         <div className="media-items">
                             {mediaItems && mediaItems.map(mediaItem => (
-                                <div key={mediaItem.id} className="media-card">
+                                <div key={mediaItem.key_id} className="media-card">
                                     <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`}>
 
                                         <div className='media-poster-badge'>

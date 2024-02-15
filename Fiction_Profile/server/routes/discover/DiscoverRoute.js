@@ -151,8 +151,13 @@ router.get('/', async (req, res) => {
     // Parse genre and media type arrays or set them to empty arrays if not provided
     const genreInclude = genres ? JSON.parse(genres).include : null;
     const genreExclude = genres ? JSON.parse(genres).exclude : null;
-    const mediaTypeInclude = mediaTypes ? JSON.parse(mediaTypes).include : null;
-    const mediaTypeExclude = mediaTypes ? JSON.parse(mediaTypes).exclude : null;
+
+    // let mediaTypeInclude = mediaTypes ? mediaTypes.include : null;
+    // let mediaTypeExclude = mediaTypes ? mediaTypes.exclude : null;
+    // use integer array instead of string array
+    let mediaTypeInclude = mediaTypes ? JSON.parse(mediaTypes).include : null;
+    let mediaTypeExclude = mediaTypes ? JSON.parse(mediaTypes).exclude : null;
+
 
     try {
         // Calculate the offset based on the page number and page size
@@ -161,6 +166,7 @@ router.get('/', async (req, res) => {
         // Build the SQL query dynamically based on the provided parameters
         let discoverQuery = `
             SELECT 
+                DISTINCT m.media_id,
                 m.title, 
                 m.poster_path, 
                 m.rating, 
@@ -211,6 +217,7 @@ router.get('/', async (req, res) => {
         
         // Map the result to the desired format
         const media = discoverResult.rows.map(mediaItem => ({
+            key_id: mediaItem.media_id,
             id: mediaItem.id,
             title: mediaItem.title,
             poster_path: mediaItem.media_type === 'movie' || mediaItem.media_type === 'tv' ? `https://image.tmdb.org/t/p/w500${mediaItem.poster_path}` : mediaItem.poster_path,
@@ -219,6 +226,7 @@ router.get('/', async (req, res) => {
             type: mediaItem.media_type
         }));
 
+        console.log(media);
         // Send the media data as JSON response
         res.json({ media });
     } catch (error) {
