@@ -23,7 +23,7 @@ app.use('/user_media_add', UserMediaRoute);
 app.use('/user_favorite', UserFavoriteRoute);
 app.use('/top_media', require('./routes/home/TopMediaRoute'));
 app.use('/discover', require('./routes/discover/DiscoverRoute'));
-app.use('/rating', require('./routes/components/MediaRating'));
+app.use('/rating', require('./routes/components/MediaReview'));
 
 
 
