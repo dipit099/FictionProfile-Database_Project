@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
             poster_path: mediaItem.media_type === 'movie' || mediaItem.media_type === 'tv' ? `https://image.tmdb.org/t/p/w500${mediaItem.poster_path}` : mediaItem.poster_path,
             rating: mediaItem.rating,
             is_favorite: mediaItem.is_favorite,
-            media_type: mediaItem.media_type
+            type: mediaItem.media_type
         }));
         // Send the media data as JSON response
         res.json({ media });
