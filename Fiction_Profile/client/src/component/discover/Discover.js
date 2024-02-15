@@ -168,7 +168,10 @@ const Discover = () => {
                     yearEnd: yearEnd,
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
-                    mediaTypes: mediaTypes
+                    mediaTypes: mediaTypes,
+                    genreInclude: JSON.stringify(genreTypes.include),
+                    genreAndInclude: JSON.stringify(genreTypes.andInclude),
+                    genreExclude: JSON.stringify(genreTypes.exclude)
                 }
             });
 
@@ -287,14 +290,56 @@ const Discover = () => {
         handleCloseModal();
     };
     const handleGenreClick = (genre) => {
-        // Perform any actions based on the selected genre
-        console.log('Selected genre:', genre.name);
-        console.log('Selected genre ID:', genre.id);
+        const includeIndex = genreTypes.include.indexOf(genre.id);
+        const andIncludeIndex = genreTypes.andInclude.indexOf(genre.id);
+        const excludeIndex = genreTypes.exclude.indexOf(genre.id);
 
-        // For example, you might want to filter the media items based on the selected genre
-        // Here you can implement the logic to fetch media items of the selected genre from the server
-        // You can update the state or perform any other necessary actions
+        if (includeIndex === -1 && andIncludeIndex === -1 && excludeIndex === -1) {
+            // If the genre is not present in any array, add it to the include array
+            setGenreTypes(prevState => ({
+                ...prevState,
+                include: [...prevState.include, genre.id]
+            }));
+        } else if (includeIndex !== -1) {
+            // If the genre is in the include array, move it to the andInclude array
+            setGenreTypes(prevState => ({
+                ...prevState,
+                include: prevState.include.filter(id => id !== genre.id),
+                andInclude: [...prevState.andInclude, genre.id]
+            }));
+        } else if (andIncludeIndex !== -1) {
+            // If the genre is in the andInclude array, move it to the exclude array
+            setGenreTypes(prevState => ({
+                ...prevState,
+                andInclude: prevState.andInclude.filter(id => id !== genre.id),
+                exclude: [...prevState.exclude, genre.id]
+            }));
+        } else if (excludeIndex !== -1) {
+            // If the genre is in the exclude array, remove it from all arrays
+            setGenreTypes(prevState => ({
+                ...prevState,
+                exclude: prevState.exclude.filter(id => id !== genre.id)
+            }));
+        }
+
     };
+
+    // Function to determine button color based on inclusion status
+    const getButtonColor = (genreId) => {
+        if (genreTypes.include.includes(genreId)) {
+            return 'green';
+        } else if (genreTypes.andInclude.includes(genreId)) {
+            return 'grey';
+        } else if (genreTypes.exclude.includes(genreId)) {
+            return 'red';
+        }
+        return '#4a34b7'; // Default color
+    };
+    useEffect(() => {
+        console.log('Genre Types:', genreTypes);
+        // Perform any actions based on the updated genreTypes state here
+    }, [genreTypes]); // Dependency array ensures the effect runs when genreTypes changes
+
 
 
 
@@ -415,12 +460,16 @@ const Discover = () => {
 
                         <div className='genre-container'>
                             {genres.map(genre => (
-                                <button className='filter-button' key={genre.id} onClick={() => handleGenreClick(genre)}>
+                                <button
+                                    className='filter-button'
+                                    key={genre.id}
+                                    onClick={() => handleGenreClick(genre)}
+                                    style={{ backgroundColor: getButtonColor(genre.id) }}
+                                >
                                     {genre.name}
                                 </button>
                             ))}
                         </div>
-
 
                         <div>
                             <h3>Year</h3>
