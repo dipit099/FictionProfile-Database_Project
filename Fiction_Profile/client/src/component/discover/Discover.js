@@ -38,7 +38,7 @@ const Discover = () => {
 
 
 
-    const [mediaTypes, setMediaTypes] = useState({ include: [1, 2], exclude: [3, 4] });
+    const [mediaTypes, setMediaTypes] = useState({ include: [], exclude: [] });
 
     const handleMediaTypeToggle = (id) => {
         setMediaTypes(prevState => {
@@ -111,9 +111,7 @@ const Discover = () => {
                         yearEnd: yearEnd,
                         ratingStart: ratingStart,
                         ratingEnd: ratingEnd,
-                        mediaTypeInclude: JSON.stringify(mediaTypes.include),
-                        mediaTypeExclude: JSON.stringify(mediaTypes.exclude)
-
+                        mediaTypes: mediaTypes
                     }
                 });
 
@@ -144,8 +142,7 @@ const Discover = () => {
                     yearEnd: yearEnd,
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
-                    mediaTypeInclude: JSON.stringify(mediaTypes.include),
-                    mediaTypeExclude: JSON.stringify(mediaTypes.exclude)
+                    mediaTypes: mediaTypes
                 }
             });
 
@@ -171,8 +168,7 @@ const Discover = () => {
                     yearEnd: yearEnd,
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
-                    mediaTypeInclude: JSON.stringify(mediaTypes.include),
-                    mediaTypeExclude: JSON.stringify(mediaTypes.exclude)
+                    mediaTypes: mediaTypes
                 }
             });
 
@@ -394,8 +390,8 @@ const Discover = () => {
                                             id="manga"
                                             name="manga"
                                             value="manga"
-                                            checked={mediaTypes.include.includes(3)}
-                                            onChange={() => handleMediaTypeToggle(3)}
+                                            checked={mediaTypes.include.includes(4)}
+                                            onChange={() => handleMediaTypeToggle(4)}
                                         />
                                         <label htmlFor="manga">Manga</label>
                                     </div>
@@ -405,8 +401,8 @@ const Discover = () => {
                                             id="book"
                                             name="book"
                                             value="book"
-                                            checked={mediaTypes.include.includes(4)}
-                                            onChange={() => handleMediaTypeToggle(4)}
+                                            checked={mediaTypes.include.includes(3)}
+                                            onChange={() => handleMediaTypeToggle(3)}
                                         />
                                         <label htmlFor="book">Book</label>
                                     </div>
