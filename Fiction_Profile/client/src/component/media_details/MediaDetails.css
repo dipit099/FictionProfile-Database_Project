@@ -238,9 +238,11 @@
     font-size: 30px;
     cursor: pointer;
     width: 100%;
+
 }
 
 .fa-star:hover {
+    cursor: pointer;
     color: #ffcc00;
 }
 
@@ -252,4 +254,5 @@
     margin-top: 3px;
     font-size: 25px;
     color: rgb(104, 104, 104);
+    cursor: pointer;
 }

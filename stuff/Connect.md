@@ -196,3 +196,6 @@ ctrl+shft+v  to preview md files
 run in cmd
 ngrok config add-authtoken 2bSOHgZRuwquRRBBIxnAzv5w5Fe_33MyZPt7PLYLdd7Eh9Een
 ngrok http 3000
+
+
+
