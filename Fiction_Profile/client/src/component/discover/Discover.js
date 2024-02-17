@@ -79,7 +79,7 @@ const Discover = () => {
 
 
 
-    const [mediaTypes, setMediaTypes] = useState({ include: [1, 2], exclude: [] });
+    const [mediaTypes, setMediaTypes] = useState({ include: [1, 2, 3, 4], exclude: [] });
 
     const handleMediaTypeToggle = (id) => {
         setMediaTypes(prevState => {

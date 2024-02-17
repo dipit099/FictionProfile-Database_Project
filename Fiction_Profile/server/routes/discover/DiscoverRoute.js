@@ -149,8 +149,10 @@ router.get('/', async (req, res) => {
     sortSequence = sortSequence || 'ASC';
 
     // Parse genre and media type arrays or set them to empty arrays if not provided
-    const genreInclude = genres ? JSON.parse(genres).include : null;
-    const genreExclude = genres ? JSON.parse(genres).exclude : null;
+
+    let genreOrInclude = genres ? genres.include : [];
+    let genreAndInclude = genres ? genres.andInclude : [];
+    let genreExclude = genres ? genres.exclude : [];
 
     console.log(mediaTypes);
 
@@ -161,8 +163,6 @@ router.get('/', async (req, res) => {
     mediaTypeInclude = mediaTypeInclude ? mediaTypeInclude.map(type => parseInt(type)) : [];
     mediaTypeExclude = mediaTypeExclude ? mediaTypeExclude.map(type => parseInt(type)) : [];
     
-    console.log(mediaTypeInclude);
-    console.log(mediaTypeExclude);
 
 
     try {
@@ -219,7 +219,7 @@ router.get('/', async (req, res) => {
             LIMIT $11 OFFSET $12`;
 
         // Execute the query
-        const discoverResult = await pool.query(discoverQuery, [userId, `%${search}%`, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreInclude, genreExclude, limit, offset]);
+        const discoverResult = await pool.query(discoverQuery, [userId, `%${search}%`, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreOrInclude, genreExclude, limit, offset]);
 
         // Map the result to the desired format
         const media = discoverResult.rows.map(mediaItem => ({
