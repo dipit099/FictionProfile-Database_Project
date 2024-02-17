@@ -148,6 +148,8 @@ router.get('/', async (req, res) => {
     sortBy = sortBy || 'title';
     sortSequence = sortSequence || 'ASC';
 
+    console.log(sortBy, sortSequence);
+
     // Parse genre and media type arrays or set them to empty arrays if not provided
 
     let genreOrInclude = genres ? genres.include : [];
@@ -166,10 +168,6 @@ router.get('/', async (req, res) => {
     genreAndInclude = genreAndInclude ? genreAndInclude.map(genre => parseInt(genre)) : [];
     genreExclude = genreExclude ? genreExclude.map(genre => parseInt(genre)) : [];
 
-    console.log(genreOrInclude);
-    console.log(genreAndInclude);
-    console.log(genreExclude);
-
     try {
         // Calculate the offset based on the page number and page size
         const offset = (pageNumber - 1) * limit;
@@ -182,6 +180,7 @@ router.get('/', async (req, res) => {
                 m.poster_path, 
                 m.rating, 
                 m.vote_count,
+                m,year,
                 CASE
                     WHEN m.type_id = 1 THEN m.movie_id
                     WHEN m.type_id = 2 THEN m.tv_id
@@ -235,7 +234,7 @@ router.get('/', async (req, res) => {
             is_favorite: mediaItem.is_favorite,
             type: mediaItem.media_type
         }));
-        
+
         // Send the media data as JSON response
         res.json({ media });
     } catch (error) {
