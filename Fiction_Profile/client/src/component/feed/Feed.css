@@ -1,39 +1,108 @@
-.feed-container{
+/* Feed.css */
+
+.feed-container {
+    margin-top: 120px;
+    margin-left: 150px;
     display: flex;
-    
-    margin-top: 100px;
-    margin-left: 100px;
+
+    align-items: center;
+    font-size: 20px;
+    color: white;
+    /* Light gray background */
 }
 
-.bdge {
-    height: 21px;
-    background-color: orange;
-    color: #fff;
-    font-size: 11px;
-    padding: 8px;
-    border-radius: 4px;
-    line-height: 3px;
-  }
-  
-  .comments {
-    text-decoration: underline;
-    text-underline-position: under;
+.feedWrapper {
+    width: 100%;
+    max-width: 1000px;
+    /* White background for feed wrapper */
+    padding: 20px;
+    /* Shadow effect */
+}
+
+.post {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #1e3b85;
+    /* Lighter gray background for posts */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    /* Light gray border */
+    font-size: 16px;
+    /* Increase font size for posts */
+}
+
+.post p {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.comments {
+    margin-top: 10px;
+}
+
+.comment:nth-child(even) {
+    background-color: #117d76;
+    /* Alternate background color for even comments */
+}
+
+.comment {
+    background-color: #8847d3;
+    /* Light gray background for comments */
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 15px;
+    /* Adjust font size for comments */
+}
+
+/* Feed.css */
+
+/* Button styles */
+.feed-container button {
+    background-color: #4c8caf;
+    /* Green background color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .dot {
-    height: 7px;
-    width: 7px;
-    margin-top: 3px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  
-  .hit-voting:hover {
-    color: blue;
-  }
-  
-  .hit-voting {
-    cursor: pointer;
-  }
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.feed-container button:hover {
+    background-color: #45a049;
+    /* Darker green color on hover */
+}
+
+/* Textarea and input styles */
+.feed-container textarea,
+.feed-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+
+}
+
+.feed-container textarea:focus,
+.feed-container input[type="text"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    /* Green color when focused */
+
+}
+
+/* Adjustments for form elements inside posts */
+.feed-container .post form {
+    margin-top: 10px;
+
+}
+
+.upvote-container {
+    display: flex;
+
+    margin-bottom: 10px;
+}
