@@ -187,7 +187,8 @@ const Discover = () => {
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
                     mediaTypes: mediaTypes,
-                    genres: genreTypes,
+<<<<<<<<< Temporary merge branch 1
+                    genres : genreTypes,
                     sortBy: sortBy,
                     sortSequence: sortOrder
 
