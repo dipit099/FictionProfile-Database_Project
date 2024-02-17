@@ -38,7 +38,7 @@ const Feed = () => {
 
         try {
             // Send the new post content to the server
-            await axios.post(`${BASE_URL}/post`, {
+            await axios.post(`${BASE_URL}/feed/post`, {
                 user_id: people_id,
                 content: newPostContent
             });

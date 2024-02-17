@@ -69,6 +69,7 @@ router.get('/', async (req, res) => {
 router.post('/post', async (req, res) => {
     try {
         const { user_id, content } = req.body;
+        console.log(req.body);
 
         // Insert the new post into the database
         await pool.query(
