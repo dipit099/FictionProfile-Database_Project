@@ -154,16 +154,21 @@ router.get('/', async (req, res) => {
     let genreAndInclude = genres ? genres.andInclude : [];
     let genreExclude = genres ? genres.exclude : [];
 
-    console.log(mediaTypes);
-
     let mediaTypeInclude = mediaTypes ? mediaTypes.include : [];
     let mediaTypeExclude = mediaTypes ? mediaTypes.exclude : [];
 
     // parse the media type arrays
     mediaTypeInclude = mediaTypeInclude ? mediaTypeInclude.map(type => parseInt(type)) : [];
     mediaTypeExclude = mediaTypeExclude ? mediaTypeExclude.map(type => parseInt(type)) : [];
-    
 
+    // parse the genre arrays
+    genreOrInclude = genreOrInclude ? genreOrInclude.map(genre => parseInt(genre)) : [];
+    genreAndInclude = genreAndInclude ? genreAndInclude.map(genre => parseInt(genre)) : [];
+    genreExclude = genreExclude ? genreExclude.map(genre => parseInt(genre)) : [];
+
+    console.log(genreOrInclude);
+    console.log(genreAndInclude);
+    console.log(genreExclude);
 
     try {
         // Calculate the offset based on the page number and page size
@@ -184,11 +189,12 @@ router.get('/', async (req, res) => {
                     WHEN m.type_id = 4 THEN m.manga_id
                 END AS id,
                 (SELECT type_name FROM "Fiction Profile"."MEDIA_TYPE" WHERE type_id = m.type_id) AS media_type,
-                (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id = m.media_id) AS is_favorite
+                (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id = m.media_id) AS is_favorite,
+                -- list the genres of the media
+                (SELECT array_agg(g.name) FROM "Fiction Profile"."GENRE" g WHERE g.id = ANY(SELECT mg.genre_id FROM "Fiction Profile"."MEDIA_GENRE" mg WHERE mg.media_id=m.media_id)) AS genres
+
             FROM 
                 "Fiction Profile"."MEDIA" m
-            LEFT JOIN
-                "Fiction Profile"."MEDIA_GENRE" mg ON m.media_id = mg.media_id
             WHERE
                 (LOWER(m.title) ILIKE $2 OR $2 IS NULL)
                 AND
@@ -196,30 +202,28 @@ router.get('/', async (req, res) => {
                 AND
                 (m.year <= $4 OR $4 IS NULL)
                 AND
-                (m.rating >= $5 OR $5 IS NULL)
-                AND
-                (m.rating <= $6 OR $6 IS NULL)
+                (   
+                    m.rating = 0 OR (
+                    (m.rating >= $5 OR $5 IS NULL)
+                    AND
+                    (m.rating <= $6 OR $6 IS NULL)
+                    )
+                )
                 AND
                 (m.type_id = ANY($7) OR $7 IS NULL)
                 AND
                 (m.type_id != ALL($8) OR $8 IS NULL)
                 AND
-                (
-                    $9::int[] IS NULL 
-                    OR 
-                    ARRAY(SELECT genre_id FROM "Fiction Profile"."MEDIA_GENRE" WHERE media_id = m.media_id) @> $9::int[]
-                )
-                AND
-                (
-                    $10::int[] IS NULL 
-                    OR 
-                    NOT ARRAY(SELECT genre_id FROM "Fiction Profile"."MEDIA_GENRE" WHERE media_id = m.media_id) && $10::int[]
-                )
+                ("Fiction Profile"."check_genre_criteria"(m.media_id, $9::int[], $10::int[], $11::int[]) )
             ORDER BY m.${sortBy} ${sortSequence}
-            LIMIT $11 OFFSET $12`;
+            LIMIT $12 OFFSET $13`;
 
         // Execute the query
-        const discoverResult = await pool.query(discoverQuery, [userId, `%${search}%`, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreOrInclude, genreExclude, limit, offset]);
+        const discoverResult = await pool.query(discoverQuery, [userId, `%${search}%`, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreOrInclude, genreAndInclude, genreExclude, limit, offset]);
+
+        console.log(discoverResult.rows);
+
+        //console.log(discoverResult.rows);
 
         // Map the result to the desired format
         const media = discoverResult.rows.map(mediaItem => ({
