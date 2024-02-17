@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import './Discover.css';
 
 import { toast } from 'react-toastify';
@@ -76,7 +76,6 @@ const Discover = () => {
 
     /*genre and , genre or, genre exclude*/
     const [genreTypes, setGenreTypes] = useState({ include: [], andInclude: [], exclude: [] });
-
 
 
     const [mediaTypes, setMediaTypes] = useState({ include: [1, 2, 3, 4], exclude: [] });
@@ -163,7 +162,6 @@ const Discover = () => {
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchMediaItems();
     }, [currentPage]);
 
@@ -199,7 +197,6 @@ const Discover = () => {
     const handleFilter = async () => {
         try {
             setLoading(true); // Show loading window
-            console.log(mediaTypes);
             const response = await axios.get(`${BASE_URL}/discover`, {
                 params: {
                     userId: userId,
@@ -211,9 +208,7 @@ const Discover = () => {
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
                     mediaTypes: mediaTypes,
-                    genreInclude: JSON.stringify(genreTypes.include),
-                    genreAndInclude: JSON.stringify(genreTypes.andInclude),
-                    genreExclude: JSON.stringify(genreTypes.exclude)
+                    genres : genreTypes
                 }
             });
 
