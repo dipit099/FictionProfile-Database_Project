@@ -19,6 +19,7 @@ const Discover = () => {
     const [loading, setLoading] = useState(false); // Loading state
     const [searchQuery, setSearchQuery] = useState('');
     const [mediaItems, setMediaItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -141,6 +142,8 @@ const Discover = () => {
         console.log('Current Page:', currentPage);
         const fetchMediaItems = async () => {
             try {
+                setIsLoading(true);
+                console.log('Fetching media items...');
                 const response = await axios.get(`${BASE_URL}/discover`, {
                     params: {
                         userId: userId,
@@ -157,7 +160,9 @@ const Discover = () => {
 
                 const data = response.data;
                 setMediaItems(data.media);
-                console.log('Media Items:', mediaItems);
+                setIsLoading(false);
+                console.log('Filter done !');
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -171,6 +176,7 @@ const Discover = () => {
         console.log('Performing search for:', searchQuery);
         // Fetch media items based on the search query
         try {
+            setIsLoading(true);
             const response = await axios.get(`${BASE_URL}/discover`, {
                 params: {
                     userId: userId,
@@ -187,6 +193,7 @@ const Discover = () => {
 
             const data = response.data;
             setMediaItems(data.media);
+            setIsLoading(false);
             console.log('Media Items:', mediaItems);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -196,7 +203,8 @@ const Discover = () => {
 
     const handleFilter = async () => {
         try {
-            setLoading(true); // Show loading window
+            isLoadingModal();
+            console.log('Filtering media items...');
             const response = await axios.get(`${BASE_URL}/discover`, {
                 params: {
                     userId: userId,
@@ -208,14 +216,14 @@ const Discover = () => {
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
                     mediaTypes: mediaTypes,
-                    genres : genreTypes
+                    genres: genreTypes
                 }
             });
 
             const data = response.data;
             setMediaItems(data.media);
-            console.log('Media Items:', mediaItems);
-            setLoading(false); // Hide loading window after data is fetched
+            closeisLoadingModal();
+            console.log("Filter Done !");
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -300,6 +308,13 @@ const Discover = () => {
     const openModal = (mediaItem) => {
         setSelectedMediaItem(mediaItem);
         setIsModalOpen(true);
+    };
+
+    const isLoadingModal = () => {
+        setIsLoading(true);
+    };
+    const closeisLoadingModal = () => {
+        setIsLoading(false);
     };
 
     const handleCloseModal = () => {
@@ -625,6 +640,36 @@ const Discover = () => {
                     </select>
                     <button onClick={() => handlePopupSubmit(selectedMediaItem)}>Submit</button>
 
+                </div>
+            </Modal>
+            <Modal
+                isOpen={isLoading}
+                contentLabel='Loading Modal'
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+                        backdropFilter: 'blur(2px)',
+                    },
+                    content: {
+                        width: '600px',
+                        height: '600px',
+                        margin: 'auto',
+                        backgroundColor: '#032641', // Transparent background for the modal content
+                        border: 'none', // Remove border if needed
+                        boxShadow: 'none', // Remove box shadow if needed
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: '#fff',
+                    },
+                }}
+                onRequestClose={() => { }} // Ensure the modal can't be closed by clicking overlay
+                shouldCloseOnOverlayClick={false} // Prevent closing on overlay click
+            >
+                <div className='popup-content'>
+                    <div>
+                        Loading...
+                    </div>
                 </div>
             </Modal>
         </>

@@ -12,6 +12,7 @@ import { Navigate } from "react-router-dom";
 import { MovieDetails, TvshowDetails, BookDetails, MangaDetails } from "./component/media_details/MediaDetails";
 
 import Account from "./component/account/Account"
+import Feed from "./component/feed/Feed";
 
 
 
@@ -78,7 +79,7 @@ function App() {
 
 
         <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
-        {/* <Route path="/feed" element={isAuthenticated ? < /> : <Navigate to="/" />} />*/}
+        <Route path="/feed" element={isAuthenticated ? < Feed/> : <Navigate to="/" />} />
         {/* <Route path="/discover" element={isAuthenticated ? <Discover /> : <Navigate to="/" />} /> */}
          <Route path="/discover"  element={<Discover />} />
 

@@ -16,7 +16,7 @@
 .search-container {
     margin-top: 20px;
     text-align: center;
-    width: 80%;
+    width: 75%;
 }
 
 .search-input {
@@ -53,7 +53,7 @@
 }
 
 .media-card {
-    width: 220px;
+    width: 200px;
     /* Adjust card width based on design preference */
     margin-bottom: 30px;
     margin-right: 30px;
@@ -63,7 +63,9 @@
 
 .media-card img {
     width: 100%;
-    height: 220px;
+    height: 200px;
+    object-fit: cover;
+    /* Ensure image fills the card */
 }
 
 .media-poster-badge {
@@ -138,7 +140,7 @@
     color: #ccc;
     margin-left: 20px;
 
-    left: 75%;
+    left: 73%;
     /* Align filter container to the right side */
     top: 20%;
     /* Adjust top position based on design preference */
@@ -305,7 +307,7 @@ output {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 80%;
+    width: 90%;
 }
 
 
