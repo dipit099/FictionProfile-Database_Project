@@ -117,6 +117,33 @@ const Discover = () => {
     };
 
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log('Performing search for:', searchQuery);
+        // Fetch media items based on the search query
+        try {
+            const response = await axios.get(`${BASE_URL}/discover`, {
+                params: {
+                    userId: userId,
+                    page: currentPage,
+                    pageSize: 20,
+                    search: searchQuery,
+                    yearStart: yearStart,
+                    yearEnd: yearEnd,
+                    ratingStart: ratingStart,
+                    ratingEnd: ratingEnd,
+                    mediaTypes: mediaTypes
+                }
+            });
+
+            const data = response.data;
+            setMediaItems(data.media);
+            console.log('Media Items:', mediaItems);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
 
     useEffect(() => {
         const fetchMediaGenres = async () => {
@@ -369,7 +396,7 @@ const Discover = () => {
                 <div className='discover-container'>
                     <div className="search-container">
                         <div>
-                            <form onSubmit={handleFilter}>
+                            <form onSubmit={handleSubmit}>
                                 <input
                                     type="text"
                                     value={searchQuery}
