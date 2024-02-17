@@ -16,6 +16,7 @@ import BASE_URL from '../../config/ApiConfig';
 import axios from 'axios';
 
 const Discover = () => {
+    const [loading, setLoading] = useState(false); // Loading state
     const [searchQuery, setSearchQuery] = useState('');
     const [mediaItems, setMediaItems] = useState([]);
 
@@ -32,19 +33,55 @@ const Discover = () => {
     const [yearEnd, setYearEnd] = useState(null);
     const [ratingStart, setRatingStart] = useState(null);
     const [ratingEnd, setRatingEnd] = useState(null);
+    const [sortBy, setSortBy] = useState(''); // State for selected sorting option
+
+    const handleSortChange = (e) => {
+        setSortBy(e.target.value);
+        console.log('Sort by:', e.target.value);
+    };
+
+    const handleRatingStartChange = (event) => {
+        setRatingStart(parseInt(event.target.value));
+        if (ratingStart > ratingEnd) {
+            setRatingEnd(parseInt(event.target.value));
+        }
+    };
+
+    const handleRatingEndChange = (event) => {
+        setRatingEnd(parseInt(event.target.value));
+        if (ratingEnd < ratingStart) {
+            setRatingStart(parseInt(event.target.value));
+        }
+    };
+
+    const calculateTrackWidth = () => {
+        const range = ratingEnd - ratingStart;
+        const width = (range / 10) * 100; // Assuming a range of 1 to 10
+        return width + '%';
+    };
+
+    const calculateLeftPosition = () => {
+        const left = ((ratingStart - 1) / 9) * 100; // Assuming a range of 1 to 10
+        return left + '%';
+    };
+
+    const calculateRightPosition = () => {
+        const right = ((10 - ratingEnd) / 9) * 100; // Assuming a range of 1 to 10
+        return right + '%';
+    };
 
     /*genre and , genre or, genre exclude*/
     const [genreTypes, setGenreTypes] = useState({ include: [], andInclude: [], exclude: [] });
 
 
 
-    const [mediaTypes, setMediaTypes] = useState({ include: [1,2], exclude: [] });
+    const [mediaTypes, setMediaTypes] = useState({ include: [1, 2], exclude: [] });
 
     const handleMediaTypeToggle = (id) => {
         setMediaTypes(prevState => {
             const includeIndex = prevState.include.indexOf(id);
             const excludeIndex = prevState.exclude.indexOf(id);
-    
+
             if (includeIndex === -1) {
                 return {
                     include: [...prevState.include, id],
@@ -157,6 +194,7 @@ const Discover = () => {
 
     const handleFilter = async () => {
         try {
+            setLoading(true); // Show loading window
             console.log(mediaTypes);
             const response = await axios.get(`${BASE_URL}/discover`, {
                 params: {
@@ -178,6 +216,7 @@ const Discover = () => {
             const data = response.data;
             setMediaItems(data.media);
             console.log('Media Items:', mediaItems);
+            setLoading(false); // Hide loading window after data is fetched
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -341,11 +380,19 @@ const Discover = () => {
     }, [genreTypes]); // Dependency array ensures the effect runs when genreTypes changes
 
 
+    const years = [...Array(2025 - 1950).keys()].map((year) => 1950 + year);
 
+    const handleYearStartChange = (e) => {
+        setYearStart(e.target.value);
+    };
 
+    const handleYearEndChange = (e) => {
+        setYearEnd(e.target.value);
+    };
     return (
         <>
             <SideBar />
+
             <div className="discover-page">
                 <div className='discover-container'>
                     <div className="search-container">
@@ -376,7 +423,7 @@ const Discover = () => {
                                         </div>
                                     </Link>
                                     <div className='discover-media-title'>{mediaItem.title}</div>
-                                    <div>  {mediaItem.vote_average}</div>
+                                    <div className='fa-star-div'><FaStar style={{ color: 'gold' }} /> {Math.floor(mediaItem.vote_average)}/10</div>
                                     <div className='discover-button-container'>
                                         <p>{renderMediaAddButton(mediaItem)}</p>
                                         <p>{renderFavoriteButton(mediaItem)}</p>
@@ -403,8 +450,8 @@ const Discover = () => {
                     <div className='filter-container'>
                         <div className='mediaType-container'>
                             <div className="dropdown show">
-                                <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Media Type
+                                <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ fontSize: '20px', backgroundColor: 'black' }}>
+                                    Choose your favorite media
                                 </a>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <div className='filter-option'>
@@ -461,7 +508,7 @@ const Discover = () => {
                         <div className='genre-container'>
                             {genres.map(genre => (
                                 <button
-                                    className='filter-button'
+                                    className='genre-button'
                                     key={genre.id}
                                     onClick={() => handleGenreClick(genre)}
                                     style={{ backgroundColor: getButtonColor(genre.id) }}
@@ -470,18 +517,69 @@ const Discover = () => {
                                 </button>
                             ))}
                         </div>
-
-                        <div>
-                            <h3>Year</h3>
-                            {/* Textbox input for year */}
-                            <input type="text" id="year" name="year" />
-
-                            <h3>Rating</h3>
-
-                            <input type="text" id="rating" name="rating" />
+                        <div className="year-selection-container">
+                            <div>
+                                <label htmlFor="yearStart"><h5>Choose start year:</h5></label>
+                                <select id="yearStart" value={yearStart} onChange={handleYearStartChange} className="year-dropdown">
+                                    <option value="">Select a year</option>
+                                    {years.map((year) => (
+                                        <option key={year} value={year}>
+                                            {year}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label htmlFor="yearEnd"><h5>Choose end year:</h5></label>
+                                <select id="yearEnd" value={yearEnd} onChange={handleYearEndChange} className="year-dropdown">
+                                    <option value="">Select a year</option>
+                                    {years.map((year) => (
+                                        <option key={year} value={year}>
+                                            {year}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
+
+                        <div className="rating-range-container">
+                            <label htmlFor="rating"><h4>Rating Range: <span className="min-val">{ratingStart}</span> - <span className="max-val">{ratingEnd}</span></h4></label>
+                            <div className="rating-range-slider">
+                                <input
+                                    type="range"
+                                    className="min-input"
+                                    min="1"
+                                    max="10"
+                                    value={ratingStart}
+                                    onChange={handleRatingStartChange}
+                                />
+                                <input
+                                    type="range"
+                                    className="max-input"
+                                    min="1"
+                                    max="10"
+                                    value={ratingEnd}
+                                    onChange={handleRatingEndChange}
+                                />
+                                <div className="slider-track" style={{ width: calculateTrackWidth(), left: calculateLeftPosition(), right: calculateRightPosition() }}></div>
+
+                            </div>
+                        </div>
+                        <div className="sort-by-section">
+                            <label htmlFor="sort"><h4>Sort by :-- </h4></label>
+                            <select value={sortBy} onChange={handleSortChange} className="sort-dropdown">
+                                <option value="">Sort by:</option>
+                                <option value="1">Rating (Ascending)</option>
+                                <option value="2">Rating (Descending)</option>
+                                <option value="3">Popularity</option>
+                                <option value="4">Release Date</option>
+                                <option value="5">Title</option>
+                                <option value="6">Vote Count</option>
+                            </select>
+                        </div>
+
                         <div>
-                            <button type="submit" className="search-button" onClick={() => handleFilter()}>Filter Results</button>
+                            <button type="submit" className="filter-button" onClick={() => handleFilter()}>Filter Results</button>
                         </div>
                     </div>
 
