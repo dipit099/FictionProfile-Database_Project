@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, generatePath } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Discover.css';
 
 import { toast } from 'react-toastify';
@@ -19,7 +19,6 @@ const Discover = () => {
     const [loading, setLoading] = useState(false); // Loading state
     const [searchQuery, setSearchQuery] = useState('');
     const [mediaItems, setMediaItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -169,8 +168,6 @@ const Discover = () => {
         console.log('Current Page:', currentPage);
         const fetchMediaItems = async () => {
             try {
-                setIsLoading(true);
-                console.log('Fetching media items...');
                 const response = await axios.get(`${BASE_URL}/discover`, {
                     params: {
                         userId: userId,
@@ -187,9 +184,7 @@ const Discover = () => {
 
                 const data = response.data;
                 setMediaItems(data.media);
-                setIsLoading(false);
-                console.log('Filter done !');
-
+                console.log('Media Items:', mediaItems);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -198,40 +193,9 @@ const Discover = () => {
     }, [currentPage]);
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log('Performing search for:', searchQuery);
-        // Fetch media items based on the search query
-        try {
-            setIsLoading(true);
-            const response = await axios.get(`${BASE_URL}/discover`, {
-                params: {
-                    userId: userId,
-                    page: currentPage,
-                    pageSize: 20,
-                    search: searchQuery,
-                    yearStart: yearStart,
-                    yearEnd: yearEnd,
-                    ratingStart: ratingStart,
-                    ratingEnd: ratingEnd,
-                    mediaTypes: mediaTypes
-                }
-            });
-
-            const data = response.data;
-            setMediaItems(data.media);
-            setIsLoading(false);
-            console.log('Media Items:', mediaItems);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
-
     const handleFilter = async () => {
         try {
-            isLoadingModal();
-            console.log('Filtering media items...');
+            setLoading(true); // Show loading window
             const response = await axios.get(`${BASE_URL}/discover`, {
                 params: {
                     userId: userId,
@@ -243,14 +207,16 @@ const Discover = () => {
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
                     mediaTypes: mediaTypes,
-                    genres: genreTypes
+                    genres : genreTypes,
+                    sortBy: sortBy,
+                    sortSequence: sortOrder
                 }
             });
 
             const data = response.data;
             setMediaItems(data.media);
-            closeisLoadingModal();
-            console.log("Filter Done !");
+            console.log('Media Items:', mediaItems);
+            setLoading(false); // Hide loading window after data is fetched
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -337,13 +303,6 @@ const Discover = () => {
         setIsModalOpen(true);
     };
 
-    const isLoadingModal = () => {
-        setIsLoading(true);
-    };
-    const closeisLoadingModal = () => {
-        setIsLoading(false);
-    };
-
     const handleCloseModal = () => {
         setSelectedMediaItem(null);
         setIsModalOpen(false);
@@ -416,7 +375,6 @@ const Discover = () => {
         return '#4a34b7'; // Default color
     };
     useEffect(() => {
-        console.log('Genre Types:', genreTypes);
         // Perform any actions based on the updated genreTypes state here
     }, [genreTypes]); // Dependency array ensures the effect runs when genreTypes changes
 
@@ -667,36 +625,6 @@ const Discover = () => {
                     </select>
                     <button onClick={() => handlePopupSubmit(selectedMediaItem)}>Submit</button>
 
-                </div>
-            </Modal>
-            <Modal
-                isOpen={isLoading}
-                contentLabel='Loading Modal'
-                style={{
-                    overlay: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
-                        backdropFilter: 'blur(2px)',
-                    },
-                    content: {
-                        width: '600px',
-                        height: '600px',
-                        margin: 'auto',
-                        backgroundColor: '#032641', // Transparent background for the modal content
-                        border: 'none', // Remove border if needed
-                        boxShadow: 'none', // Remove box shadow if needed
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        color: '#fff',
-                    },
-                }}
-                onRequestClose={() => { }} // Ensure the modal can't be closed by clicking overlay
-                shouldCloseOnOverlayClick={false} // Prevent closing on overlay click
-            >
-                <div className='popup-content'>
-                    <div>
-                        Loading...
-                    </div>
                 </div>
             </Modal>
         </>
