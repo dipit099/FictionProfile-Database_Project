@@ -33,11 +33,15 @@ const Discover = () => {
     const [yearEnd, setYearEnd] = useState(null);
     const [ratingStart, setRatingStart] = useState(null);
     const [ratingEnd, setRatingEnd] = useState(null);
-    const [sortBy, setSortBy] = useState(''); // State for selected sorting option
+    const [sortBy, setSortBy] = useState(null);
+    const [sortOrder, setSortOrder] = useState(null);
 
-    const handleSortChange = (e) => {
-        setSortBy(e.target.value);
-        console.log('Sort by:', e.target.value);
+    const handleSortChange = (event) => {
+        setSortBy(event.target.value);
+    };
+
+    const handleSortOrderChange = (event) => {
+        setSortOrder(event.target.value);
     };
 
     const handleRatingStartChange = (event) => {
@@ -448,60 +452,54 @@ const Discover = () => {
 
                     </div>
                     <div className='filter-container'>
-                        <div className='mediaType-container'>
-                            <div className="dropdown show">
-                                <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ fontSize: '20px', backgroundColor: 'black' }}>
-                                    Choose your favorite media
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <div className='filter-option'>
-                                        <input
-                                            type="checkbox"
-                                            id="movie"
-                                            name="movie"
-                                            value="movie"
-                                            checked={mediaTypes.include.includes(1)}
-                                            onChange={() => handleMediaTypeToggle(1)}
-                                        />
-                                        <label htmlFor="movie">Movie</label>
-                                    </div>
-                                    <div className='filter-option'>
-                                        <input
-                                            type="checkbox"
-                                            id="tv"
-                                            name="tv"
-                                            value="tv"
-                                            checked={mediaTypes.include.includes(2)}
-                                            onChange={() => handleMediaTypeToggle(2)}
-                                        />
-                                        <label htmlFor="tv">TV</label>
-                                    </div>
-                                    <div className='filter-option'>
-                                        <input
-                                            type="checkbox"
-                                            id="manga"
-                                            name="manga"
-                                            value="manga"
-                                            checked={mediaTypes.include.includes(4)}
-                                            onChange={() => handleMediaTypeToggle(4)}
-                                        />
-                                        <label htmlFor="manga">Manga</label>
-                                    </div>
-                                    <div className='filter-option'>
-                                        <input
-                                            type="checkbox"
-                                            id="book"
-                                            name="book"
-                                            value="book"
-                                            checked={mediaTypes.include.includes(3)}
-                                            onChange={() => handleMediaTypeToggle(3)}
-                                        />
-                                        <label htmlFor="book">Book</label>
-                                    </div>
+                        <div className="mediaType-container">
+                            <div className="checkboxes">
+                                <div className="checkbox-container">
+                                    <input
+                                        type="checkbox"
+                                        id="movie"
+                                        name="movie"
+                                        value="movie"
+                                        checked={mediaTypes.include.includes(1)}
+                                        onChange={() => handleMediaTypeToggle(1)}
+                                    />
+                                    <label htmlFor="movie">Movie</label>
+                                </div>
+                                <div className="checkbox-container">
+                                    <input
+                                        type="checkbox"
+                                        id="tv"
+                                        name="tv"
+                                        value="tv"
+                                        checked={mediaTypes.include.includes(2)}
+                                        onChange={() => handleMediaTypeToggle(2)}
+                                    />
+                                    <label htmlFor="tv">TV</label>
+                                </div>
+                                <div className="checkbox-container">
+                                    <input
+                                        type="checkbox"
+                                        id="manga"
+                                        name="manga"
+                                        value="manga"
+                                        checked={mediaTypes.include.includes(4)}
+                                        onChange={() => handleMediaTypeToggle(4)}
+                                    />
+                                    <label htmlFor="manga">Manga</label>
+                                </div>
+                                <div className="checkbox-container">
+                                    <input
+                                        type="checkbox"
+                                        id="book"
+                                        name="book"
+                                        value="book"
+                                        checked={mediaTypes.include.includes(3)}
+                                        onChange={() => handleMediaTypeToggle(3)}
+                                    />
+                                    <label htmlFor="book">Book</label>
                                 </div>
                             </div>
                         </div>
-
 
 
 
@@ -541,6 +539,26 @@ const Discover = () => {
                                 </select>
                             </div>
                         </div>
+                        <div className="sort-by-section">
+                            <div>
+                                <select value={sortBy} onChange={handleSortChange} className="sort-dropdown">
+                                    <option value="">Sort by:</option>
+                                    <option value="rating">Rating</option>
+                                    <option value="popularity">Popularity</option>
+                                    <option value="year">Year</option>
+                                    <option value="title">Title</option>
+                                    <option value="vote_count">Vote Count</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select value={sortOrder} onChange={handleSortOrderChange} className="sort-dropdown">
+                                    <option value="">Order By:</option>
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </select>
+                            </div>
+                        </div>
+
 
                         <div className="rating-range-container">
                             <label htmlFor="rating"><h4>Rating Range: <span className="min-val">{ratingStart}</span> - <span className="max-val">{ratingEnd}</span></h4></label>
@@ -564,18 +582,6 @@ const Discover = () => {
                                 <div className="slider-track" style={{ width: calculateTrackWidth(), left: calculateLeftPosition(), right: calculateRightPosition() }}></div>
 
                             </div>
-                        </div>
-                        <div className="sort-by-section">
-                            <label htmlFor="sort"><h4>Sort by :-- </h4></label>
-                            <select value={sortBy} onChange={handleSortChange} className="sort-dropdown">
-                                <option value="">Sort by:</option>
-                                <option value="1">Rating (Ascending)</option>
-                                <option value="2">Rating (Descending)</option>
-                                <option value="3">Popularity</option>
-                                <option value="4">Release Date</option>
-                                <option value="5">Title</option>
-                                <option value="6">Vote Count</option>
-                            </select>
                         </div>
 
                         <div>

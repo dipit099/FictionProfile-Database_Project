@@ -263,14 +263,24 @@ output {
     width: 60%;
     padding: 10px;
     font-size: 18px;
-    border-radius: 5px;   
+    border-radius: 5px;
     outline: none;
+}
+
+.sort-by-section {
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+
 }
 
 .sort-dropdown {
     margin-top: 20px;
-    width: 40%;
-    font-size: 18px;    
+    width: 100%;
+    font-size: 18px;
     border-radius: 5px;
     background-color: #4268a1;
     cursor: pointer;
@@ -282,4 +292,47 @@ output {
 .sort-dropdown:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+
+.mediaType-container {
+    display: flex;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.checkboxes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+}
+
+
+/* Style for the label associated with the checkbox */
+.checkbox-container label {
+    margin-left: 10px;
+    font-size: 23px;
+    /* Adjust the font size of the label */
+
+}
+
+
+.checkbox-container input[type="checkbox"] {
+    transform: scale(1.1);
+    /* Adjust the scale factor as needed */
+
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+
+}
+
+/* Create the custom checkbox appearance */
+.checkbox-container input[type="checkbox"]::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
 }
