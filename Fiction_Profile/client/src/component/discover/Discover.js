@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, generatePath } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Discover.css';
 
 import { toast } from 'react-toastify';
@@ -171,35 +171,6 @@ const Discover = () => {
     }, [currentPage]);
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log('Performing search for:', searchQuery);
-        // Fetch media items based on the search query
-        try {
-            setIsLoading(true);
-            const response = await axios.get(`${BASE_URL}/discover`, {
-                params: {
-                    userId: userId,
-                    page: currentPage,
-                    pageSize: 20,
-                    search: searchQuery,
-                    yearStart: yearStart,
-                    yearEnd: yearEnd,
-                    ratingStart: ratingStart,
-                    ratingEnd: ratingEnd,
-                    mediaTypes: mediaTypes
-                }
-            });
-
-            const data = response.data;
-            setMediaItems(data.media);
-            setIsLoading(false);
-            console.log('Media Items:', mediaItems);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
 
     const handleFilter = async () => {
         try {
@@ -216,7 +187,10 @@ const Discover = () => {
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
                     mediaTypes: mediaTypes,
-                    genres: genreTypes
+                    genres: genreTypes,
+                    sortBy: sortBy,
+                    sortSequence: sortOrder
+
                 }
             });
 
@@ -389,7 +363,6 @@ const Discover = () => {
         return '#4a34b7'; // Default color
     };
     useEffect(() => {
-        console.log('Genre Types:', genreTypes);
         // Perform any actions based on the updated genreTypes state here
     }, [genreTypes]); // Dependency array ensures the effect runs when genreTypes changes
 
@@ -411,7 +384,7 @@ const Discover = () => {
                 <div className='discover-container'>
                     <div className="search-container">
                         <div>
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleFilter}>
                                 <input
                                     type="text"
                                     value={searchQuery}
