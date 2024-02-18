@@ -2,28 +2,52 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../../db'); // Assuming you have your PostgreSQL pool configured
 
-// Endpoint to fetch posts and comments for the feed
 router.get('/', async (req, res) => {
     try {
         console.log('Fetching feed data...');
+        console.log(req.query);
+
         // Retrieve data from the database
         const result = await pool.query(`
+            WITH T AS (
+                SELECT 					
+                    posts.post_id AS post_id,
+                    posts.user_id AS post_user_id,
+                    posts.content AS post_content,
+                    comments.comment_id,
+                    comments.user_id AS comment_user_id,
+                    comments.post_id AS comment_post_id,
+                    comments.parent_comment_id,
+                    comments.content AS comment_content
+                FROM 
+                    "Fiction Profile"."POST" AS posts
+                LEFT JOIN 
+                    "Fiction Profile"."COMMENT" AS comments ON posts.post_id = comments.post_id
+                ORDER BY 
+                    posts.post_id DESC, comments.comment_id DESC
+            ) 
             SELECT 
-                posts.post_id,
-                posts.user_id,
-                posts.content,
-                comments.comment_id,
-                comments.user_id AS comment_user_id,
-                comments.post_id AS comment_post_id,
-                comments.parent_comment_id,
-                comments.content AS comment_content
+                F.follow_id,
+                F.user_id AS my_id,
+                F.followed_id,   
+                T.post_id,
+                T.post_content,
+                T.comment_id,
+                T.comment_user_id,
+                T.comment_post_id,
+                T.parent_comment_id,
+                T.comment_content,
+                P.username,
+                P.profile_pic_path
             FROM 
-                "Fiction Profile"."POST" AS posts
+                "Fiction Profile"."FOLLOW" F 
             LEFT JOIN 
-                "Fiction Profile"."COMMENT" AS comments ON posts.post_id = comments.post_id
-            ORDER BY 
-                posts.post_id DESC, comments.comment_id ASC
-        `);
+                T ON F.followed_id = T.post_user_id
+            LEFT JOIN
+                "Fiction Profile"."PEOPLE" P ON F.followed_id = P.people_id
+            WHERE 
+                F.user_id = $1
+            `, [req.query.user_id]);
 
         // Organize the data into a suitable format
         const feedData = {};
@@ -33,9 +57,11 @@ router.get('/', async (req, res) => {
                 // Initialize the post if it doesn't exist in the feed data
                 feedData[row.post_id] = {
                     post_id: row.post_id,
-                    user_id: row.user_id,
-                    content: row.content,
-                    comments: []
+                    user_id: row.post_user_id,
+                    content: row.post_content,
+                    username: row.username,
+                    profile_pic_path: row.profile_pic_path,
+                    comments: [] // Initialize comments as an empty array
                 };
             }
 
@@ -53,7 +79,6 @@ router.get('/', async (req, res) => {
         // Convert the feed data object into an array
         const feed = Object.values(feedData);
         console.log('Feed data:', feed);
-        console.log("comments", feed[0].comments);
 
         res.json({ feed });
     } catch (error) {
@@ -61,6 +86,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 
 // Assuming you have a router set up in your Express application
@@ -99,6 +125,108 @@ router.post('/comment', async (req, res) => {
         res.status(201).json({ message: 'Comment submitted successfully' });
     } catch (error) {
         console.error('Error submitting comment:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Endpoint to fetch users followed by the current user
+router.get('/followed', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+
+        // Fetch users followed by the current user from the database
+        const result = await pool.query(`
+            SELECT 
+                f.follow_id, 
+                f.followed_id,
+                p.first_name || ' ' || p.last_name AS full_name,
+                p.profile_pic_path,
+                p.username
+            FROM 
+                "Fiction Profile"."FOLLOW" AS f
+            JOIN 
+            "Fiction Profile"."PEOPLE" AS p ON f.followed_id = p.people_id
+            WHERE 
+                f.user_id = $1
+        `, [user_id]);
+
+        const followedUsers = result.rows.map(row => ({
+            follow_id: row.follow_id,
+            followed_id: row.followed_id,
+            full_name: row.full_name,
+            profile_pic_path: row.profile_pic_path,
+            username: row.username
+        }));
+
+        // console.log('Followed users:', followedUsers);
+
+        res.json({ followedUsers });
+    } catch (error) {
+        console.error('Error fetching followed users:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
+// Backend code - Express Router
+
+// Endpoint to fetch people you may know
+router.get('/people-you-may-know', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+
+        // Fetch people you may know from the database
+        const result = await pool.query(`
+            SELECT people_id, first_name, last_name, profile_pic_path, username
+            FROM "Fiction Profile"."PEOPLE"
+            WHERE people_id != $1
+            LIMIT 5
+        `, [user_id]);
+
+        const peopleYouMayKnow = result.rows;
+        // console.log('People you may know:', peopleYouMayKnow);
+
+        res.json({ peopleYouMayKnow });
+    } catch (error) {
+        console.error('Error fetching people you may know:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+// Endpoint to follow a user
+router.post('/follow', async (req, res) => {
+    try {
+        console.log("inserting followed");
+        const { user_id, followed_id } = req.body;
+
+        // Insert a new follow relationship into the database
+        await pool.query(`
+            INSERT INTO "Fiction Profile"."FOLLOW" (user_id, followed_id)
+            VALUES ($1, $2)
+        `, [user_id, followed_id]);
+
+        res.status(200).json({ message: 'User followed successfully' });
+    } catch (error) {
+        console.error('Error following user:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Endpoint to unfollow a user
+router.post('/unfollow', async (req, res) => {
+    try {
+        console.log("deleting followed");
+        const { user_id, followed_id } = req.body;
+
+        // Delete the follow relationship from the database
+        await pool.query(`
+            DELETE FROM "Fiction Profile"."FOLLOW"
+            WHERE user_id = $1 AND followed_id = $2
+        `, [user_id, followed_id]);
+
+        res.status(200).json({ message: 'User unfollowed successfully' });
+    } catch (error) {
+        console.error('Error unfollowing user:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
