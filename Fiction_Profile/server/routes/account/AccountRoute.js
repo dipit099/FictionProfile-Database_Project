@@ -89,7 +89,7 @@ router.post('/update', upload.single('profilePicture'), async (req, res) => {
             birthdate,
             gender,
             currentDate,
-            profilePicturePath,
+            profilePicturePath || '',
             people_id, // assuming people_id is the user's unique identifier
         ]);
 
