@@ -220,7 +220,11 @@ router.get('/', async (req, res) => {
         // Execute the query
         const discoverResult = await pool.query(discoverQuery, [userId, `%${search}%`, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreOrInclude, genreAndInclude, genreExclude, limit, offset]);
 
+
         console.log(discoverResult.rows);
+        console.log("Discover Result rows length:");
+        console.log(discoverResult.rows.length);
+
 
         //console.log(discoverResult.rows);
 

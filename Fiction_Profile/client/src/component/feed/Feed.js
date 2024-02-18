@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Feed.css'; // Import your CSS file for styling
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import SideBar from '../../config/navbar/SideBar';
 import Navbar from '../../config/navbar/Navbar';
 import BASE_URL from '../../config/ApiConfig';
@@ -10,6 +14,9 @@ const Feed = () => {
     const [feed, setFeed] = useState([]);
     const [newPostContent, setNewPostContent] = useState('');
     const [newCommentContent, setNewCommentContent] = useState('');
+    const [followedUsers, setFollowedUsers] = useState([]); // State for storing followed users
+    const [peopleYouMayKnow, setPeopleYouMayKnow] = useState([]);
+
     const people_id = localStorage.getItem('people_id');
 
     useEffect(() => {
@@ -18,13 +25,27 @@ const Feed = () => {
             try {
                 const response = await axios.get(`${BASE_URL}/feed`, {
                     params: {
-                        people_id: people_id
+                        user_id: people_id
                     }
                 });
 
                 // Handle response data here               
                 setFeed(response.data.feed); // Extract 'feed' from response data
                 console.log('Feed data:', response.data.feed);
+                const followedResponse = await axios.get(`${BASE_URL}/feed/followed`, {
+                    params: {
+                        user_id: people_id
+                    }
+                });
+                setFollowedUsers(followedResponse.data.followedUsers);
+
+                const peopleYouMayKnowResponse = await axios.get(`${BASE_URL}/feed/people-you-may-know`, {
+                    params: {
+                        user_id: people_id
+                    }
+                });
+                setPeopleYouMayKnow(peopleYouMayKnowResponse.data.peopleYouMayKnow);
+
             } catch (error) {
                 console.error('Error fetching feed data:', error);
             }
@@ -32,6 +53,57 @@ const Feed = () => {
 
         fetchFeedData();
     }, [people_id]); // Fetch feed data when 'people_id' changes
+
+
+    const handleFollow = async (followedUserId) => {
+        try {
+            // Send a request to the backend to follow the user
+            await axios.post(`${BASE_URL}/feed/follow`, {
+                user_id: people_id,
+                followed_id: followedUserId
+            });
+
+            // Update the list of followed users or refetch the data
+            // For example, you can refetch the data to update the followed users list
+            const followedResponse = await axios.get(`${BASE_URL}/feed/followed                             `, {
+                params: {
+                    user_id: people_id
+                }
+            });
+            setFollowedUsers(followedResponse.data.followedUsers);
+
+            // You may also want to update the list of people you may know after following
+            const peopleYouMayKnowResponse = await axios.get(`${BASE_URL}/feed/people-you-may-know`, {
+                params: {
+                    user_id: people_id
+                }
+            });
+            setPeopleYouMayKnow(peopleYouMayKnowResponse.data.peopleYouMayKnow);
+        } catch (error) {
+            console.error('Error following user:', error);
+        }
+    };
+
+    const handleUnfollow = async (followedId) => {
+        try {
+            // Send the unfollow action to the server
+            await axios.post(`${BASE_URL}/feed/unfollow`, {
+                user_id: people_id,
+                followed_id: followedId
+            });
+
+            // Refresh the list of followed users
+            const followedResponse = await axios.get(`${BASE_URL}/feed/followed`, {
+                params: {
+                    user_id: people_id
+                }
+            });
+            setFollowedUsers(followedResponse.data.followedUsers);
+        } catch (error) {
+            console.error('Error unfollowing user:', error);
+        }
+    };
+
 
     const handlePostSubmit = async (event) => {
         event.preventDefault();
@@ -46,11 +118,11 @@ const Feed = () => {
             // Refresh the feed data after posting
             const response = await axios.get(`${BASE_URL}/feed`, {
                 params: {
-                    people_id: people_id
+                    user_id: people_id
                 }
             });
             setFeed(response.data.feed);
-
+            toast.success('Post published successfully!');
             // Clear the input field after posting
             setNewPostContent('');
         } catch (error) {
@@ -72,10 +144,11 @@ const Feed = () => {
             // Refresh the feed data after commenting
             const response = await axios.get(`${BASE_URL}/feed`, {
                 params: {
-                    people_id: people_id
+                    user_id: people_id
                 }
             });
             setFeed(response.data.feed);
+            toast.success('Comment published successfully!');
 
             // Clear the input field after commenting
             setNewCommentContent('');
@@ -124,6 +197,8 @@ const Feed = () => {
         }
     };
 
+
+
     return (
         <>
             <SideBar />
@@ -145,7 +220,8 @@ const Feed = () => {
                     {/* Display existing posts */}
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>
-                            <p>{post.content}</p>
+                            <p><img src={post.profile_pic_path} alt={post.post_id} />{post.username}</p>
+                            <p>#{post.content}</p>
                             {/* Upvote and Downvote buttons */}
                             <div className='upvote-container'>
                                 <div onClick={() => handleUpvote(post.post_id)} className="vote-icon">
@@ -172,14 +248,49 @@ const Feed = () => {
                                 {post.comments.map(comment => (
                                     <div key={comment.comment_id} className='comment'>
                                         <p>{comment.content}</p>
-                                        
                                     </div>
                                 ))}
                             </div>
                         </div>
                     ))}
                 </div>
-            </div>
+                {/* Followed Users Section */}
+                <div className='followed-users-container'>
+                    <div className="followed-users-list">
+                        <h2>Followed Users</h2>
+
+                        {followedUsers.map(following => (
+                            <li key={following.follow_id}>
+                                <div className="user-info">
+                                    <img src={following.profile_pic_path} alt={following.full_name} />
+                                    <span>{following.username}</span>
+                                </div>
+                                <button className="unfollow-button" onClick={() => handleUnfollow(following.followed_id)}>Unfollow</button>
+                            </li>
+                        ))}
+
+                    </div>
+                    <div className="people-you-may-know">
+                        <h2>People You May Know</h2>
+                        {peopleYouMayKnow.map(person => (
+                            <li key={person.people_id}>
+                                <div className="user-info">
+                                    <img src={person.profile_pic_path} alt={`${person.first_name} ${person.last_name}`} />
+                                    <span>{`${person.username}`}</span>
+                                </div>
+                                <button className="follow-button" onClick={() => handleFollow(person.people_id)}>Follow</button>
+                            </li>
+                        ))}
+                    </div>
+                    {/* <div className="trending-posts">
+                        <h2>Trending Posts</h2>
+                    </div> */}
+                </div>
+
+            </div >
+
+
+
             <Navbar />
         </>
     );
