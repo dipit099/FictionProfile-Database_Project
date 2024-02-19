@@ -5,9 +5,6 @@
     margin-bottom: 100px;
 }
 
-.MediaDetails-container {
-    /* Add your container styles here */
-}
 
 .backdrop {
     position: relative;
@@ -254,5 +251,65 @@
     margin-top: 3px;
     font-size: 25px;
     color: rgb(104, 104, 104);
+    cursor: pointer;
+}
+
+/* styles.css */
+
+/* Container for the reviews section */
+.reviews-container {
+    margin-top: 20px;
+}
+
+/* Title for the reviews section */
+.reviews-title {
+    font-size: 24px;
+    font-weight: bold;
+
+}
+
+/* List style for the reviews */
+.reviews-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Individual review item */
+.review-item {
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+}
+
+/* Title for each review */
+.review-title {
+    font-size: 18px;
+    font-weight: bold;
+
+}
+
+/* Content of each review */
+.review-content {
+
+    margin-top: 5px;
+}
+
+
+.heart-icon {
+    margin-top: 5px;
+    font-size: 25px;
+}
+
+.heart-icon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.heart-icon:not(.favorite) {
+    color: rgb(104, 104, 104);
+    cursor: pointer;
+}
+
+.heart-icon.favorite {
+    color: rgb(200, 20, 59);
     cursor: pointer;
 }
