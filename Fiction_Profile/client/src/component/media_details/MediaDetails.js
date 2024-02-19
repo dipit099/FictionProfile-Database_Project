@@ -21,7 +21,11 @@ const MediaDetails = ({ mediaType }) => {
     const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
     const [selectedRating, setSelectedRating] = useState(0);
     const role = localStorage.getItem('role');
+    const people_id = localStorage.getItem('people_id');
     const type = mediaType;
+    const [reviewCaption, setReviewCaption] = useState('');
+    const [reviewContent, setReviewContent] = useState('');
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         const fetchMediaDetails = async () => {
@@ -29,6 +33,17 @@ const MediaDetails = ({ mediaType }) => {
                 const response = await fetch(`${BASE_URL}/${mediaType}/${id}`);
                 const data = await response.json();
                 setMedia(data.media);
+
+                const result = await axios.get(`${BASE_URL}/review`, {
+                    params: {
+                        media_id: id,
+                        media_type: mediaType
+                    }
+                });
+
+
+                setReviews(result.data.reviews);
+
             } catch (error) {
                 console.error('Error fetching media details:', error);
             } finally {
@@ -63,21 +78,35 @@ const MediaDetails = ({ mediaType }) => {
             });
 
             const data = response.data;
-            toast.success('Successfully added to favorite');
             if (data.success) {
-                console.log('Successfully added to favorite');
+                if (mediaItem.is_favorite === '1') {
+                    toast.success('Removed from favorites');
+                    mediaItem.is_favorite = '0';
+                } else {
+                    toast.success('Added to favorites');
+                    mediaItem.is_favorite = '1';
+                }
+                // Update the heart icon color instantly based on is_favorite value
+                const heartIcon = document.getElementById(`heart-icon-${mediaItem.id}`);
+                if (heartIcon) {
+                    heartIcon.classList.toggle('favorite', mediaItem.is_favorite === '1');
+                }
+                console.log('mediaItem:', mediaItem);
+                console.log('heartIcon:', mediaItem.is_favorite);
             }
         } catch (error) {
             console.error('Error during adding media:', error.message);
         }
     };
 
+
     const renderFavoriteButton = (mediaItem) => {
         if (role === 'user') {
-            let isFavorite = mediaItem.is_favorite === '1';
+            let isFavorite = mediaItem.is_favorite === '0';
             return (
                 <FaHeart
-                    className={`media-details-heart-icon ${isFavorite ? 'favorite' : ''}`}
+                    id={`heart-icon-${mediaItem.id}`} // Unique ID for each heart icon
+                    className={`heart-icon ${isFavorite ? 'favorite' : ''}`}
                     onClick={() => handleFavoriteAdd(mediaItem)}
                 />
             );
@@ -121,10 +150,56 @@ const MediaDetails = ({ mediaType }) => {
         setSelectedRating(rating);
     };
 
-    // Function to submit the selected rating
-    const handleRatingSubmit = () => {
-        console.log('Selected Rating:', selectedRating);
-        handleCloseRatingModal();
+    const handleRatingSubmit = async () => {
+        try {
+            // console.log('selectedRating:', selectedRating);
+            // console.log('people_id:', people_id);
+            // console.log('id:', id);
+            // console.log('type:', type);
+
+            const response = await axios.post(`${BASE_URL}/rating/add`, {
+                user_id: people_id,
+                selectedRating: selectedRating,
+                media_id: id,
+                media_type: type,
+            });
+
+            // Close the rating modal after successful submission
+            handleCloseRatingModal();
+            selectedRating(0);
+            if (response.data.success) {
+                toast.success('Rating added successfully');
+            }
+        } catch (error) {
+            console.error('Error submitting rating:', error);
+            // Handle error scenarios, e.g., show an error message to the user
+        }
+    };
+
+
+    const handleReviewSubmit = async () => {
+        try {
+            console.log('review:', document.querySelector('.review-textbox').value);
+            console.log('people_id:', people_id);
+            console.log('id:', id);
+            console.log('type:', type);
+
+            const response = await axios.post(`${BASE_URL}/review/add`, {
+                user_id: people_id,
+                review: reviewContent,
+                title: reviewCaption,
+                media_id: id,
+                media_type: type,
+            });
+
+            if (response.data.success) {
+                toast.success('Review added successfully');
+                setReviewCaption('');
+                setReviewContent('');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+        }
     };
 
     const openRatingModal = () => {
@@ -140,6 +215,7 @@ const MediaDetails = ({ mediaType }) => {
     };
 
     // Apply the backdropStyle within the JSX
+
 
 
     return (
@@ -172,15 +248,36 @@ const MediaDetails = ({ mediaType }) => {
                 <div className='overview-details'><div>Overview:</div> {media.overview}</div>
             </div>
             <div className="review-box">
-                <div>Add Your Review</div>
                 <textarea
                     className="review-textbox"
+                    type="text"
+                    value={reviewCaption}
+                    onChange={(e) => setReviewCaption(e.target.value)}
+                    placeholder="Enter review caption"
+                />
+                <textarea
+                    className="review-textbox"
+                    value={reviewContent}
+                    onChange={(e) => setReviewContent(e.target.value)}
                     placeholder="Write your review here..."
                     rows="4"
                     cols="50"
                 ></textarea>
 
-                <button className="add-review-button">Submit</button>
+                <button className="add-review-button" onClick={handleReviewSubmit}>Submit</button>
+
+                <div className="reviews-container">
+                    <h2 className="reviews-title">Top Reviews</h2>
+                    <ul className="reviews-list">
+                        {reviews.map((review, index) => (
+                            <li key={index} className="review-item">
+                                <p className="review-user">User : {review.username}</p>
+                                <h3 className="review-title">Title : {review.title}</h3>
+                                <p className="review-content">{review.review}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
 
 

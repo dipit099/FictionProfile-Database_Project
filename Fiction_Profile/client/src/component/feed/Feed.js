@@ -200,6 +200,22 @@ const Feed = () => {
     };
 
 
+
+    const handleReport = async (postId) => {
+        try {
+            // Send a report request to the backend
+            await axios.post(`${BASE_URL}/feed/report`, {
+                user_id: people_id,
+                post_id: postId
+            });
+            // Optionally, you can display a toast message or handle the UI accordingly
+            toast.success('Post reported successfully!');
+        } catch (error) {
+            console.error('Error reporting post:', error);
+        }
+    };
+
+
     return (
         <>
             <SideBar />
@@ -225,8 +241,8 @@ const Feed = () => {
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>
                             <p><img src={post.profile_pic_path} alt={post.post_id} />{post.username}</p>
-                            <p>#{post.title}</p>
-                            <p>Description: {post.content}</p>
+                            <div className='post-title'>#{post.title} <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button></div>
+                            <div className='post-description'>Description: {post.content}</div>
                             <div className='upvote-container'>
                                 <div onClick={() => handleUpvote(post.post_id)} className="vote-icon">
                                     <BiSolidUpvote size={30} />
@@ -235,7 +251,10 @@ const Feed = () => {
                                     <BiSolidDownvote size={30} />
                                 </div>
                             </div>
-                            <button onClick={() => toggleComments(post.post_id)}>Show Comments</button>
+                            <div>
+                                <button onClick={() => toggleComments(post.post_id)}>Show/Hide Comments</button>
+
+                            </div>
                             {showComments[post.post_id] && (
                                 <>
                                     <form onSubmit={(event) => handleCommentSubmit(post.post_id, event)}>
@@ -262,22 +281,24 @@ const Feed = () => {
                                     </div>
                                 </>
                             )}
-
-
                         </div>
                     ))}
+
+
                 </div>
                 <div className='followed-users-container'>
                     <div className="followed-users-list">
                         <h2>Followed Users</h2>
                         {followedUsers.map(following => (
-                            <li key={following.follow_id}>
-                                <div className="user-info">
+                            <div className="user-info">
+                                <li key={following.follow_id}>
+
                                     <img src={following.profile_pic_path} alt={following.full_name} />
                                     <span>{following.username}</span>
-                                </div>
-                                <button className="unfollow-button" onClick={() => handleUnfollow(following.followed_id)}>Unfollow</button>
-                            </li>
+
+                                    <button className="unfollow-button" onClick={() => handleUnfollow(following.followed_id)}>Unfollow</button>
+                                </li>
+                            </div>
                         ))}
                     </div>
                     <div className="people-you-may-know">
