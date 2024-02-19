@@ -11,14 +11,15 @@ router.get('/', async (req, res) => {
         const result = await pool.query(`
             WITH T AS (
                 SELECT 					
-                    posts.post_id AS post_id,
-                    posts.user_id AS post_user_id,
-                    posts.content AS post_content,
-                    comments.comment_id,
-                    comments.user_id AS comment_user_id,
-                    comments.post_id AS comment_post_id,
-                    comments.parent_comment_id,
-                    comments.content AS comment_content
+                posts.post_id AS post_id,
+                posts.user_id AS post_user_id,
+                posts.title as title,		
+                posts.content AS post_content,
+                comments.comment_id,
+                comments.user_id AS comment_user_id,
+                comments.post_id AS comment_post_id,
+                comments.parent_comment_id,
+                comments.content AS comment_content
                 FROM 
                     "Fiction Profile"."POST" AS posts
                 LEFT JOIN 
@@ -26,11 +27,11 @@ router.get('/', async (req, res) => {
                 ORDER BY 
                     posts.post_id DESC, comments.comment_id DESC
             ) 
-            SELECT 
-                F.follow_id,
+            SELECT                
                 F.user_id AS my_id,
-                F.followed_id,   
+                F.followed_id, 		
                 T.post_id,
+                    T.title,
                 T.post_content,
                 T.comment_id,
                 T.comment_user_id,
@@ -46,7 +47,7 @@ router.get('/', async (req, res) => {
             LEFT JOIN
                 "Fiction Profile"."PEOPLE" P ON F.followed_id = P.people_id
             WHERE 
-                F.user_id = $1
+                F.user_id = $1 AND T.post_content IS NOT NULL
             `, [req.query.user_id]);
 
         // Organize the data into a suitable format
@@ -58,6 +59,7 @@ router.get('/', async (req, res) => {
                 feedData[row.post_id] = {
                     post_id: row.post_id,
                     user_id: row.post_user_id,
+                    title: row.title,
                     content: row.post_content,
                     username: row.username,
                     profile_pic_path: row.profile_pic_path,
@@ -136,8 +138,7 @@ router.get('/followed', async (req, res) => {
 
         // Fetch users followed by the current user from the database
         const result = await pool.query(`
-            SELECT 
-                f.follow_id, 
+            SELECT               
                 f.followed_id,
                 p.first_name || ' ' || p.last_name AS full_name,
                 p.profile_pic_path,
@@ -151,7 +152,6 @@ router.get('/followed', async (req, res) => {
         `, [user_id]);
 
         const followedUsers = result.rows.map(row => ({
-            follow_id: row.follow_id,
             followed_id: row.followed_id,
             full_name: row.full_name,
             profile_pic_path: row.profile_pic_path,
@@ -177,11 +177,10 @@ router.get('/people-you-may-know', async (req, res) => {
         const { user_id } = req.query;
 
         // Fetch people you may know from the database
-        const result = await pool.query(`
-            SELECT people_id, first_name, last_name, profile_pic_path, username
-            FROM "Fiction Profile"."PEOPLE"
-            WHERE people_id != $1
-            LIMIT 5
+        const result = await pool.query(`          
+        SELECT people_id, first_name, last_name, profile_pic_path, username
+        FROM "Fiction Profile"."PEOPLE"
+        WHERE people_id !=  $1 AND role='user' AND people_id NOT IN ( SELECT followed_id FROM "Fiction Profile"."FOLLOW" WHERE user_id = $1)           
         `, [user_id]);
 
         const peopleYouMayKnow = result.rows;
