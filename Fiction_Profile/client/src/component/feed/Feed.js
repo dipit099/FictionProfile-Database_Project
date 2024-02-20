@@ -235,13 +235,15 @@ const Feed = () => {
                             required
                         ></textarea>
 
-                        <button type="submit">Publish Post</button>
+                        <button type="submit" className='publish-button'>Publish Post</button>
                     </form>
 
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>
                             <p><img src={post.profile_pic_path} alt={post.post_id} />{post.username}</p>
-                            <div className='post-title'>#{post.title} <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button></div>
+                            <div className='post-title'>#{post.title}
+                                <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button>
+                            </div>
                             <div className='post-description'>Description: {post.content}</div>
                             <div className='upvote-container'>
                                 <div onClick={() => handleUpvote(post.post_id)} className="vote-icon">
@@ -252,7 +254,7 @@ const Feed = () => {
                                 </div>
                             </div>
                             <div>
-                                <button onClick={() => toggleComments(post.post_id)}>Show/Hide Comments</button>
+                                <button className='publish-button' onClick={() => toggleComments(post.post_id)}>Show/Hide Comments</button>
 
                             </div>
                             {showComments[post.post_id] && (
@@ -265,7 +267,7 @@ const Feed = () => {
                                             placeholder="Write your comment here..."
                                             required
                                         />
-                                        <button type="submit">Comment</button>
+                                        <button type="submit" className='publish-button'>Comment</button>
                                     </form>
                                     <p>Comments:</p>
                                     <div className='comments'>

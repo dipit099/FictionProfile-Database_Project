@@ -7,7 +7,6 @@
 ## PostgreSQL Remote Connection Credentials
 
 ### Supabase:
-
 Hosted on Supabase:
 
 - **Name:** postgres
