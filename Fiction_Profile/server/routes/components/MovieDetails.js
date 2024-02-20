@@ -7,6 +7,11 @@ router.get('/:id', async (req, res) => {
 
 
         console.log('Fetching movie details');
+        const { id } = req.params;
+        const result = await pool.query(
+            'SELECT id,title, poster_path,backdrop_path,release_date, (SELECT rating FROM "Fiction Profile"."MEDIA" where movie_id = $1) AS vote_count, overview,original_language,genres FROM "Fiction Profile"."MOVIE" WHERE id = $1',
+            [id]
+        );
 
         const { user_id, id, media_type } = req.query;
 
@@ -40,7 +45,7 @@ router.get('/:id', async (req, res) => {
             poster_path: `https://image.tmdb.org/t/p/original/${result.rows[0].poster_path}`,
             backdrop_path: `https://image.tmdb.org/t/p/original/${result.rows[0].backdrop_path}`,
             release_date: result.rows[0].release_date,
-            vote_average: result.rows[0].vote_average,
+            vote_average: result.rows[0].vote_count,
             overview: result.rows[0].overview,
             original_language: result.rows[0].original_language,
             genres: result.rows[0].genres,

@@ -83,7 +83,7 @@ function App() {
 
         <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
         {/* <Route path="/feed" element={isAuthenticated ? < Feed/> : <Navigate to="/" />} /> */}
-        <Route path="/feed" element={isAuthenticated && authRole === 'user' ? < Feed /> : <Navigate to="/" />} />
+        <Route path="/feed" element={ < Feed />} />
         {/* <Route path="/discover" element={isAuthenticated ? <Discover /> : <Navigate to="/" />} /> */}
         <Route path="/discover" element={<Discover />} />
 

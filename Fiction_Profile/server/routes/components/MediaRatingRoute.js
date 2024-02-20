@@ -47,7 +47,7 @@ router.post('/add', async (req, res) => {
                 SET
                     rating = $1
                 WHERE
-                    rating_id = $2
+                    review_id = $2
                 RETURNING *
                 `,
                 [selectedRating, ratingRow.rows[0].review_id]

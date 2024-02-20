@@ -158,10 +158,10 @@ const MediaDetails = ({ mediaType }) => {
 
     const handleRatingSubmit = async () => {
         try {
-            // console.log('selectedRating:', selectedRating);
-            // console.log('people_id:', people_id);
-            // console.log('id:', id);
-            // console.log('type:', type);
+            console.log('selectedRating:', selectedRating);
+            console.log('people_id:', people_id);
+            console.log('id:', id);
+            console.log('type:', type);
 
             const response = await axios.post(`${BASE_URL}/rating/add`, {
                 user_id: people_id,
@@ -172,7 +172,7 @@ const MediaDetails = ({ mediaType }) => {
 
             // Close the rating modal after successful submission
             handleCloseRatingModal();
-            selectedRating(0);
+            setSelectedRating(0);
             if (response.data.success) {
                 toast.success('Rating added successfully');
             }
