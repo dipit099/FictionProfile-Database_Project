@@ -4,8 +4,7 @@ const pool = require('../../db'); // Assuming you have your PostgreSQL pool conf
 
 router.get('/', async (req, res) => {
     try {
-        console.log('Fetching feed data...');
-        console.log(req.query);
+        console.log('Fetching feed data...');        
 
         // Retrieve data from the database
         const result = await pool.query(`

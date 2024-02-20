@@ -19,44 +19,62 @@
 .post {
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #1e3b85;
+    background-color: #1e2a3a;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 5px solid #000000;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 1);
     font-size: 16px;
 }
 
-.post p {
+/* Title */
+.post-title {
+    font-size: 25px;
+    /* Bigger font */
     margin-bottom: 10px;
-    font-size: 20px;
+    color: #fff;
+    /* White text */
+}
+
+/* Description */
+.post-description {
+    color: #ccc;
+    /* Lighter text color */
+    margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .comments {
     margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Comment Box */
+.comment {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    background-color: #073941;
 }
 
 .comment:nth-child(even) {
-    background-color: #117d76;
+    background-color: #50117d;
 }
 
-.comment {
-    background-color: #8847d3;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    font-size: 15px;
-}
 
 .feed-container button {
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-bottom: 10px;
+    background-color: #4549a0;
+    color: white;
 }
 
 .feed-container button:hover {
-    background-color: #45a049;
+    background-color: #48b2cd;
 }
 
 .feed-container textarea,
@@ -67,12 +85,29 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+
 }
+
+
+.feed-container input[type="text"],
+textarea {
+    background-color: #18212b;
+    /* Dark color for input fields */
+    color: #fffcfc;
+    /* Black text color */
+    border: 2px solid #000000;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    width: 50%;
+    height: 80px;
+}
+
 
 .feed-container textarea:focus,
 .feed-container input[type="text"]:focus {
     outline: none;
-    border-color: #4CAF50;
+    border-color: #ffffff;
 }
 
 .feed-container .post form {
@@ -86,15 +121,6 @@
 
 
 
-
-.user-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: violet;
-}
-
 .feed-container img {
     width: 40px;
     height: 40px;
@@ -102,30 +128,26 @@
     margin-right: 10px;
 }
 
-.user-info span {}
-
 .followed-users-container {
-    display: flex;
-    justify-content: space-between;
 
-}
+    margin-right: 150px;
 
-.followed-users-container>div {
-    flex: 1;
 
 }
 
 /* Add styles for the red and green buttons */
 .followed-users-container .unfollow-button {
-    background-color: red;
+    background-color: rgb(137, 47, 47);
     color: white;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
+    margin-left: 15px;
 }
 
 .followed-users-container .follow-button {
-    background-color: green;
+    margin-left: 15px;
+    background-color: rgb(26, 102, 26);
     color: white;
     border: none;
     padding: 5px 10px;
@@ -133,15 +155,20 @@
 }
 
 .followed-users-container .unfollow-button:hover {
-    background-color: green;
+    background-color: rgb(26, 102, 26);
 }
 
 .followed-users-container .follow-button:hover {
-    background-color: red;
+    background-color: rgb(137, 47, 47);
 }
 
 .followed-users-container li {
     list-style-type: none;
     margin-bottom: 10px;
     font-size: 18px;
+}
+
+.report-button {
+    cursor: pointer;
+    margin-left: 15px;
 }
