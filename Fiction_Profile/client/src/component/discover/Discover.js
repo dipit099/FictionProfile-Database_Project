@@ -207,7 +207,7 @@ const Discover = () => {
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
                     mediaTypes: mediaTypes,
-                    genres : genreTypes,
+                    genres: genreTypes,
                     sortBy: sortBy,
                     sortSequence: sortOrder
                 }
@@ -379,7 +379,8 @@ const Discover = () => {
     }, [genreTypes]); // Dependency array ensures the effect runs when genreTypes changes
 
 
-    const years = [...Array(2025 - 1950).keys()].map((year) => 1950 + year);
+    const years = [...Array(2025 - 1950).keys()].map((year) => 2024 - year);
+
 
     const handleYearStartChange = (e) => {
         setYearStart(e.target.value);
