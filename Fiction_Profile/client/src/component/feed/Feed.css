@@ -62,20 +62,7 @@
 }
 
 
-.feed-container button {
-    padding: 10px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 10px;
-    background-color: #4549a0;
-    color: white;
-}
 
-.feed-container button:hover {
-    background-color: #48b2cd;
-}
 
 .feed-container textarea,
 .feed-container input[type="text"] {
@@ -128,6 +115,18 @@ textarea {
     margin-right: 10px;
 }
 
+.publish-button {
+    background-color: #48b2cd;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+
+}
+
+
 .followed-users-container {
 
     margin-right: 150px;
@@ -171,4 +170,12 @@ textarea {
 .report-button {
     cursor: pointer;
     margin-left: 15px;
+    background-color: none;
+    background-color: #8648cd;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
 }

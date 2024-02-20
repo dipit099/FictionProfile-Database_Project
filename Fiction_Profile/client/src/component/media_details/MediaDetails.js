@@ -30,9 +30,15 @@ const MediaDetails = ({ mediaType }) => {
     useEffect(() => {
         const fetchMediaDetails = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/${mediaType}/${id}`);
-                const data = await response.json();
-                setMedia(data.media);
+                const response = await axios.get(`${BASE_URL}/${mediaType}/${id}`, {
+                    params: {
+                        user_id : people_id,
+                        id: id,
+                        media_type: mediaType,
+                    }
+                });
+                
+                setMedia(response.data.media);
 
                 const result = await axios.get(`${BASE_URL}/review`, {
                     params: {
@@ -102,7 +108,7 @@ const MediaDetails = ({ mediaType }) => {
 
     const renderFavoriteButton = (mediaItem) => {
         if (role === 'user') {
-            let isFavorite = mediaItem.is_favorite === '0';
+            let isFavorite = mediaItem.is_favorite === '1';
             return (
                 <FaHeart
                     id={`heart-icon-${mediaItem.id}`} // Unique ID for each heart icon
