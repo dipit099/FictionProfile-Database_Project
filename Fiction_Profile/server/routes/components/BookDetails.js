@@ -4,10 +4,26 @@ const pool = require("../../db");
 
 router.get('/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await pool.query(
-            'SELECT id,title,author, poster_path FROM "Fiction Profile"."BOOK" WHERE id = $1',
+        const {user_id, id, media_type } = req.query;
+
+        const extractId = await pool.query(
+            `
+            SELECT
+                media_id
+            FROM
+                "Fiction Profile"."MEDIA"
+            WHERE
+                ${media_type}_id = $1           
+            `,
             [id]
+        );
+        const mediaId = extractId.rows[0].media_id;
+
+        const result = await pool.query(
+        `SELECT id,title,author, poster_path,
+        (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $2 AND media_id = $3) AS is_favorite
+         FROM "Fiction Profile"."BOOK" WHERE id = $1`,
+            [id,user_id,mediaId]
         );
 
         if (result.rows.length === 0) {
@@ -19,6 +35,7 @@ router.get('/:id', async (req, res) => {
             title: result.rows[0].title,
             poster_path: result.rows[0].poster_path,
             author: result.rows[0].author,
+            is_favorite: result.rows[0].is_favorite
         };
 
         res.json({ media });
