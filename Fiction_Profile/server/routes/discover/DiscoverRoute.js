@@ -192,7 +192,7 @@ router.get('/', async (req, res) => {
     console.log(mediaTypeInclude);
     console.log("mediaTypeExclude: ");
     console.log(mediaTypeExclude);
-    
+
 
     try {
         // Calculate the offset based on the page number and page size

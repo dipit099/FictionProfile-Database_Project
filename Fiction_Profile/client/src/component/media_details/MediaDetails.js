@@ -5,6 +5,8 @@ import BASE_URL from "../../config/ApiConfig";
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { FaHeart } from 'react-icons/fa';
 import { MdAddBox } from 'react-icons/md';
 import axios from 'axios';
@@ -27,17 +29,20 @@ const MediaDetails = ({ mediaType }) => {
     const [reviewContent, setReviewContent] = useState('');
     const [reviews, setReviews] = useState([]);
 
+    const [showInputFields, setShowInputFields] = useState(false);
+
+
     useEffect(() => {
         const fetchMediaDetails = async () => {
             try {
                 const response = await axios.get(`${BASE_URL}/${mediaType}/${id}`, {
                     params: {
-                        user_id : people_id,
+                        user_id: people_id,
                         id: id,
                         media_type: mediaType,
                     }
                 });
-                
+
                 setMedia(response.data.media);
 
                 const result = await axios.get(`${BASE_URL}/review`, {
@@ -202,6 +207,7 @@ const MediaDetails = ({ mediaType }) => {
                 toast.success('Review added successfully');
                 setReviewCaption('');
                 setReviewContent('');
+                setShowInputFields(false);
             }
         } catch (error) {
             console.error('Error submitting review:', error);
@@ -217,7 +223,8 @@ const MediaDetails = ({ mediaType }) => {
     };
     // Define the backgroundImage style separately
     const backdropStyle = {
-        backgroundImage: `url('${media.backdrop_path}')`
+        backgroundImage: `url('${media.backdrop_path}')`,
+
     };
 
     // Apply the backdropStyle within the JSX
@@ -227,66 +234,96 @@ const MediaDetails = ({ mediaType }) => {
     return (
         <div className="MediaDetails">
             <div className={"MediaDetails-container"}>
-                <div className="backdrop" style={backdropStyle}>
-                    <div className="details">
-                        <img className="poster" src={media.poster_path} alt={media.title} />
-                        <div className='button-container'>
-                            <div>{renderMediaAddButton(media)}</div>
-                            <div>{renderFavoriteButton(media)}</div>
+                <div className="backdrop" >
+                    <img className="backdrop-poster" src={media.backdrop_path} alt={media.title} />
+                    <div className='details-poster-div'>
+                        <div className="media-details">
+                            <div>
+                                <img className="poster" src={media.poster_path} alt={media.title} />
+                            </div>
+                            <div className="media-info">
+                                <div className='media-title'>
+                                    {media.title} ({new Date(media.release_date).getFullYear()})
+                                </div>
+                                <div className='media-genres'>
+                                    {media.genres} {media.runtime ? `| ${media.runtime} min` : ''} | Language: {media.original_language}
+                                </div>
 
+                                <div className='button-container'>
+                                    <div className='circle'>{renderMediaAddButton(media)}</div>
+                                    <div className='circle'>{renderFavoriteButton(media)}</div>
+                                    <div className='rating-star'>
+                                        {/* <FaStar style={{ color: 'gold' }} /> {(Math.floor(media.vote_average * 10) / 10).toFixed(1)}/10 */}
+                                        <FontAwesomeIcon icon={faStarHalfAlt} style={{ color: 'gold', fontSize: '32px' }} /> {(Math.floor(media.vote_average * 10) / 10).toFixed(1)}/10
+                                    </div>
+                                    <div className="add-rating-button" onClick={openRatingModal}>Your Rating </div>
+
+                                </div>
+
+
+                                <div className='media-overview'><h2>Overview</h2>{media.overview}</div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div className="rating-review-div">
+                    <div className="rating-box">
+                        <h2 className="rating-title">Your Rating</h2>
+                        <div className="rating-value">{media.user_rating ? media.user_rating : 'Not rated yet'}</div>
+                    </div>
+
+                    <div className="review-box">
+                        <div className="reviews-header">
+                            <h2 className="reviews-title">Top Reviews</h2>
+                            {!showInputFields && (
+                                <button className="add-review-button" onClick={() => setShowInputFields(true)}>Add your review</button>
+                            )}
+                        </div>
+
+
+                        {showInputFields && (
+                            <div>
+                                <textarea
+                                    className="review-textbox"
+                                    type="text"
+                                    value={reviewCaption}
+                                    onChange={(e) => setReviewCaption(e.target.value)}
+                                    placeholder="Enter review caption"
+                                />
+                                <textarea
+                                    className="review-textbox"
+                                    value={reviewContent}
+                                    onChange={(e) => setReviewContent(e.target.value)}
+                                    placeholder="Write your review here..."
+                                    rows="4"
+                                    cols="50"
+                                ></textarea>
+                                <div className='reviews-header'>
+                                    <button className="add-review-button" onClick={handleReviewSubmit}>Submit</button>
+                                    <button className="add-review-button" onClick={() => setShowInputFields(false)}>Cancel</button>
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="reviews-container">
+
+                            <ul className="reviews-list">
+                                {reviews.map((review, index) => (
+                                    <li key={index} className="review-item">
+                                        <p className="review-user" style={{ fontSize: '20px' }}>User : {review.username} -- {new Date(review.added_date).toLocaleDateString()}</p>
+                                        <p className="review-title" style={{ fontSize: '24px' }}>Title : {review.title}</p>
+                                        <p className="review-content" style={{ fontSize: '18px' }}>{review.review}</p>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='rating-details'>
-                <div className='media-title'>{media.title}
-                </div>
-
-                <div className='rating-star'>
-                    <FaStar style={{ color: 'gold' }} /> {Math.floor(media.vote_average)}/10
-                </div>
-                <div className="add-rating-button" onClick={openRatingModal}>Add your rating</div>
-            </div>
-            <div className='media-details-info-div'>
-                <div>Genres: {media.genres}</div>
-            </div>
-            <div className='media-overview'>
-                <div className='overview-details'><div>Overview:</div> {media.overview}</div>
-            </div>
-            <div className="review-box">
-                <textarea
-                    className="review-textbox"
-                    type="text"
-                    value={reviewCaption}
-                    onChange={(e) => setReviewCaption(e.target.value)}
-                    placeholder="Enter review caption"
-                />
-                <textarea
-                    className="review-textbox"
-                    value={reviewContent}
-                    onChange={(e) => setReviewContent(e.target.value)}
-                    placeholder="Write your review here..."
-                    rows="4"
-                    cols="50"
-                ></textarea>
-
-                <button className="add-review-button" onClick={handleReviewSubmit}>Submit</button>
-
-                <div className="reviews-container">
-                    <h2 className="reviews-title">Top Reviews</h2>
-                    <ul className="reviews-list">
-                        {reviews.map((review, index) => (
-                            <li key={index} className="review-item">
-                                <p className="review-user">User : {review.username}</p>
-                                <h3 className="review-title">Title : {review.title}</h3>
-                                <p className="review-content">{review.review}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-
-
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}

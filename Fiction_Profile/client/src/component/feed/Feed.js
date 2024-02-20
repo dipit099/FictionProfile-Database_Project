@@ -227,7 +227,8 @@ const Feed = () => {
                             value={newPostCaption}
                             onChange={(e) => setNewPostCaption(e.target.value)}
                             placeholder="Write your caption here..."
-                        />
+                        ></input>
+                        <br/>
                         <textarea
                             value={newPostContent}
                             onChange={(e) => setNewPostContent(e.target.value)}

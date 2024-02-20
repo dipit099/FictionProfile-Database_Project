@@ -71,6 +71,7 @@ router.get('/', async (req, res) => {
                 review_id, 
                 title,                 
                 review   ,
+                added_date,
                 (Select username from "Fiction Profile"."PEOPLE" where people_id = user_id) as username             
             FROM 
                 "Fiction Profile"."REVIEW"

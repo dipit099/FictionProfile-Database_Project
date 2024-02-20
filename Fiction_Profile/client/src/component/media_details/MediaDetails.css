@@ -5,85 +5,154 @@
     margin-bottom: 100px;
 }
 
-
 .backdrop {
     position: relative;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 500px;
+
     /* Adjust height as needed */
-    background-color: #000;
-    /* Fallback color */
-    background-size: cover;
-    background-position: top;
+
+
 
 }
 
-.details {
+.backdrop-poster {
+
+    width: 100%;
+    height: 1000px;
+    opacity: 0.6;
+    object-fit: cover;
+    /* Optional: Center the image within its container */
+    object-position: top;
+}
+
+.details-poster-div {
+    width: 100%;
+    height: 1000px;
+    background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
-    top: 42%;
-    left: 5%;
+    top: 0%;
 
 }
 
 .poster {
-    width: 200px;
+    width: 400px;
     height: auto;
     /* Adjust width as needed */
+    position: absolute;
+    top: 12%;
+    left: 5%;
+    display: flex;
+
+}
+
+
+
+
+.media-info {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    margin-right: 50px;
+    left: 30%;
+    top: 12%;
+    position: absolute;
+
+}
+
+
+
+.media-title {
+    font-size: 40px;
+    font-weight: bold;
 
 
 }
+
+.media-overview {
+    margin-right: 200px;
+    margin-top: 20px;
+    font-size: 20px;
+    color: #ccc;
+}
+
+.media-genres {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: italic;
+    color: #ccc;
+
+}
+
 
 .button-container {
     display: flex;
-    background-color: #000000;
-    display: flex;
     margin-top: auto;
-    width: 100%;
-    justify-content: space-evenly;
-
+    height: 80px;
+    border-radius: 10px;
+    padding: 10px;
 
 }
 
-.rating-details {
+.heart-icon {
+    margin-top: 5px;
+    font-size: 30px;
+}
+
+.heart-icon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.heart-icon:not(.favorite) {
+    color: rgb(104, 104, 104);
+    cursor: pointer;
+}
+
+.heart-icon.favorite {
+    color: rgb(200, 20, 59);
+    cursor: pointer;
+}
+
+.add-icon {
+    color: rgb(99, 73, 172);
+    font-size: 38px;
+}
+
+.add-icon:hover {
+    color: rgb(62, 156, 120);
+    cursor: pointer;
+
+}
+
+.circle {
+    width: 70px;
+    /* Adjust the size of the circle */
+    height: 70px;
+    /* Adjust the size of the circle */
+    border-radius: 50%;
+    /* Make it a circle */
+    background-color: #030000;
+    /* Adjust the background color of the circle */
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    margin-right: 50px;
-    margin-left: 5%;
-    /* Adjust margin as needed */
+    cursor: pointer;
+    margin-right: 20px;
 }
-
-.media-title {
-    position: absolute;
-    font-size: 40px;
-    left: 20%;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: bold;
-    color: transparent;
-    /* Set text color to transparent */
-    background-image: linear-gradient(to right, #b56bff, #4491c5);
-    /* Define your gradient colors */
-    -webkit-background-clip: text;
-    /* Clip the text with the background */
-    background-clip: text;
-    /* Clip the text with the background */
-}
-
-
-
 
 .rating-star {
     margin-top: 15px;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .add-rating-button {
     margin-left: 15px;
     margin-top: 10px;
     padding: 10px 15px;
-    font-size: 16px;
+    font-size: 18px;
     background-color: #5522a2;
     color: #fff;
     border: none;
@@ -92,80 +161,6 @@
 }
 
 
-.media-details-info-div {
-    margin-top: 20px;
-    font-size: 20px;
-    margin-left: 5%;
-}
-
-.media-overview {
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.overview-details {
-    margin-left: 5%;
-    margin-right: 20%;
-}
-
-.overview-details div {
-    font-size: 30px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: bold;
-    color: #4c83ca;
-}
-
-.review-box {
-    margin-top: 20px;
-    margin-left: 5%;
-    display: flex;
-    flex-direction: column;
-}
-
-.review-box div {
-    font-size: 30px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: bold;
-    color: #4c83ca;
-
-}
-
-.review-textbox {
-    width: 50%;
-    padding: 10px;
-    font-size: 20px;
-    background-color: rgb(54, 91, 146);
-    color: rgb(255, 247, 247);
-    border: none;
-    border-radius: 5px;
-    resize: vertical;
-    /* Allow vertical resizing */
-}
-
-.review-textbox::placeholder {
-    color: white;
-    /* Set placeholder text color */
-}
-
-
-.add-review-button {
-    margin-top: 10px;
-    padding: 5px 0px;
-    font-size: 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 10%;
-}
-
-
-.add-review-button:hover {
-    background-color: #0056b3;
-}
-
-/* CSS for the rating modal content */
 .rating-modal-content {
     background-color: #32749c;
     padding: 20px;
@@ -247,69 +242,148 @@
     color: #ffcc00;
 }
 
-.media-details-heart-icon {
-    margin-top: 3px;
-    font-size: 25px;
-    color: rgb(104, 104, 104);
-    cursor: pointer;
+
+.review-box {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: #222;
+    color: #fff;
+    /* Text color */
 }
 
-/* styles.css */
+.review-textbox {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    resize: vertical;
+    /* Allow vertical resizing of textarea */
+    background-color: #333;
+    color: #fff;
+    /* Text color */
+}
 
-/* Container for the reviews section */
+.add-review-button {
+    background-color: #007bff;
+    /* Dark blue */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-review-button:hover {
+    background-color: #0056b3;
+    /* Darker shade of blue */
+}
+
+
+
+.rating-review-div {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.rating-box,
+.review-box {
+
+    padding: 20px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: #222;
+    color: #fff;
+    /* Text color */
+}
+
+.rating-box {
+    margin-top: 20px;
+    width: 28%;
+}
+
+.review-box {
+    width: 68%;
+}
+
+.rating-title,
+.reviews-title {
+    margin-bottom: 10px;
+}
+
+.rating-value {
+    font-size: 24px;
+    color: #007bff;
+    /* Dark blue */
+}
+
+.review-textbox {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    resize: vertical;
+    /* Allow vertical resizing of textarea */
+    background-color: #333;
+    color: #fff;
+    /* Text color */
+}
+
+.add-review-button {
+    background-color: #007bff;
+    /* Dark blue */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-review-button:hover {
+    background-color: #0056b3;
+    /* Darker shade of blue */
+}
+
 .reviews-container {
     margin-top: 20px;
 }
 
-/* Title for the reviews section */
 .reviews-title {
-    font-size: 24px;
-    font-weight: bold;
-
+    margin-bottom: 10px;
 }
 
-/* List style for the reviews */
-.reviews-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-/* Individual review item */
 .review-item {
-    border-bottom: 1px solid #ddd;
-    padding: 20px 0;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
 }
 
-/* Title for each review */
+.review-user {
+    font-size: 20px;
+}
+
 .review-title {
-    font-size: 18px;
-    font-weight: bold;
-
+    font-size: 24px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-/* Content of each review */
 .review-content {
-
+    font-size: 18px;
     margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-
-.heart-icon {
-    margin-top: 5px;
-    font-size: 25px;
-}
-
-.heart-icon:hover {
-    transform: scale(1.2);
-    cursor: pointer;
-}
-
-.heart-icon:not(.favorite) {
-    color: rgb(104, 104, 104);
-    cursor: pointer;
-}
-
-.heart-icon.favorite {
-    color: rgb(200, 20, 59);
-    cursor: pointer;
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
