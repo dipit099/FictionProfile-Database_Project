@@ -25,6 +25,8 @@ Login/Account(when logged in) , Notification
             a. Manage requests 
             b. Manage reports
             c. Manage and Create announcements for new addition or deletion to database
+            d. Add, Delete, Update Media info
+            e.
 
         ** For Admin ** 
         Display and Feature:
@@ -59,6 +61,8 @@ Login/Account(when logged in) , Notification
 6. Login/Registration
     Simple page for login and registration
     A tentative feature is "forgot password" option(requires valid email if thus validity check for email)
+
+
 
 
 
