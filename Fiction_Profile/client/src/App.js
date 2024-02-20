@@ -9,10 +9,13 @@ import Discover from "./component/discover/Discover";
 import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
 
+import Moderator from "./component/moderator/Moderator";
+
 import { MovieDetails, TvshowDetails, BookDetails, MangaDetails } from "./component/media_details/MediaDetails";
 
 import Account from "./component/account/Account"
 import Feed from "./component/feed/Feed";
+import BASE_URL from "./config/ApiConfig";
 
 
 
@@ -28,7 +31,7 @@ function App() {
 
   const isAuth = async () => {
     try {
-      const response = await fetch("http://localhost:5197/auth-verify", {
+      const response = await fetch(`${BASE_URL}/auth-verify`, {
         method: "GET",
         headers: { token: localStorage.token }
       });
@@ -69,7 +72,7 @@ function App() {
         />
 
         <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/" />} />
-        <Route path="/moderatorhome" element={isAuthenticated && authRole === 'moderator' ? <ModeratorHome /> : <Navigate to="/" />} />
+        <Route path="/moderator" element={isAuthenticated && authRole === 'moderator' ? <Moderator /> : <Navigate to="/" />} />
         <Route path="/movie" element={isAuthenticated ? <Movie /> : <Navigate to="/" />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
 
@@ -80,9 +83,11 @@ function App() {
 
         <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
         {/* <Route path="/feed" element={isAuthenticated ? < Feed/> : <Navigate to="/" />} /> */}
-        <Route path="/feed" element={< Feed />} />
+        <Route path="/feed" element={isAuthenticated && authRole === 'user' ? < Feed /> : <Navigate to="/" />} />
         {/* <Route path="/discover" element={isAuthenticated ? <Discover /> : <Navigate to="/" />} /> */}
         <Route path="/discover" element={<Discover />} />
+
+        
 
       </Routes>
     </div>

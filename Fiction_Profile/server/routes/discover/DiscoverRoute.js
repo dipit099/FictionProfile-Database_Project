@@ -148,7 +148,6 @@ router.get('/', async (req, res) => {
     sortBy = sortBy || 'title';
     sortSequence = sortSequence || 'ASC';
 
-    console.log(sortBy, sortSequence);
 
     // Parse genre and media type arrays or set them to empty arrays if not provided
 
@@ -167,6 +166,33 @@ router.get('/', async (req, res) => {
     genreOrInclude = genreOrInclude ? genreOrInclude.map(genre => parseInt(genre)) : [];
     genreAndInclude = genreAndInclude ? genreAndInclude.map(genre => parseInt(genre)) : [];
     genreExclude = genreExclude ? genreExclude.map(genre => parseInt(genre)) : [];
+
+    // log all the query infos now
+    console.log("userId: " + userId);
+    console.log("page: " + pageNumber);
+    console.log("pageSize: " + limit);
+    console.log("search: " + search);
+    console.log("genres: ");
+    console.log(genres);
+    console.log("mediaTypes: ");
+    console.log(mediaTypes);
+    console.log("yearStart: " + yearStart);
+    console.log("yearEnd: " + yearEnd);
+    console.log("ratingStart: " + ratingStart);
+    console.log("ratingEnd: " + ratingEnd);
+    console.log("sortBy: " + sortBy);
+    console.log("sortSequence: " + sortSequence);
+    console.log("genreOrInclude: ");
+    console.log(genreOrInclude);
+    console.log("genreAndInclude: ");
+    console.log(genreAndInclude);
+    console.log("genreExclude: ");
+    console.log(genreExclude);
+    console.log("mediaTypeInclude: ");
+    console.log(mediaTypeInclude);
+    console.log("mediaTypeExclude: ");
+    console.log(mediaTypeExclude);
+    
 
     try {
         // Calculate the offset based on the page number and page size
@@ -189,7 +215,6 @@ router.get('/', async (req, res) => {
                 END AS id,
                 (SELECT type_name FROM "Fiction Profile"."MEDIA_TYPE" WHERE type_id = m.type_id) AS media_type,
                 (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id = m.media_id) AS is_favorite,
-                -- list the genres of the media
                 (SELECT array_agg(g.name) FROM "Fiction Profile"."GENRE" g WHERE g.id = ANY(SELECT mg.genre_id FROM "Fiction Profile"."MEDIA_GENRE" mg WHERE mg.media_id=m.media_id)) AS genres
 
             FROM 

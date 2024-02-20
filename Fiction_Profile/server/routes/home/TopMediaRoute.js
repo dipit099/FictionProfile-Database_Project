@@ -6,14 +6,14 @@ const pool = require("../../db");
 router.get('/', async (req, res) => {
     try {
         const result = await pool.query(`
-    SELECT id, title, backdrop_path, vote_average
-    FROM (
-        SELECT id, title, backdrop_path, vote_average,
-               ROW_NUMBER() OVER (ORDER BY vote_count DESC) AS row_num
-        FROM "Fiction Profile"."MOVIE"
-    ) AS ranked_movies
-    WHERE row_num IN (5,7,9,12,13,16);
-`);
+            SELECT id, title, backdrop_path, vote_average
+            FROM (
+                SELECT id, title, backdrop_path, vote_average,
+                    ROW_NUMBER() OVER (ORDER BY vote_count DESC) AS row_num
+                FROM "Fiction Profile"."MOVIE"
+            ) AS ranked_movies
+            WHERE row_num IN (5,7,9,12,13,16);
+        `);
 
 
         const topMedia = result.rows.map(media => ({
