@@ -20,7 +20,8 @@ router.get('/:id', async (req, res) => {
         const mediaId = extractId.rows[0].media_id;
 
         const result = await pool.query(
-        `SELECT id,title,author, poster_path,
+        `SELECT id,title,author, poster_path, 
+        (SELECT m.rating FROM "Fiction Profile"."MEDIA" AS m WHERE m.media_id = $3) AS rating,
         (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $2 AND media_id = $3) AS is_favorite
          FROM "Fiction Profile"."BOOK" WHERE id = $1`,
             [id,user_id,mediaId]
@@ -35,6 +36,7 @@ router.get('/:id', async (req, res) => {
             title: result.rows[0].title,
             poster_path: result.rows[0].poster_path,
             author: result.rows[0].author,
+            vote_average: result.rows[0].rating,
             is_favorite: result.rows[0].is_favorite
         };
 

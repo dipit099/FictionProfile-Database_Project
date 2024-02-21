@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
     try {
         // Extract media_id and media_type from the request query parameters
         const { media_id, media_type } = req.query;
-        console.log(req.query); // Log the query parameters to verify
+        // console.log(req.query); // Log the query parameters to verify
 
         // Perform a database query to fetch reviews based on media_id and media_type
         const extractId = await pool.query(
@@ -82,7 +82,7 @@ router.get('/', async (req, res) => {
         );
 
         const reviews = result.rows;
-        console.log('reviews:', reviews);
+        // console.log('reviews:', reviews);
 
         // Send the reviews data in the response
         res.json({ reviews });

@@ -23,7 +23,9 @@ router.get('/:id', async (req, res) => {
         const mediaId = extractId.rows[0].media_id;
 
         const result = await pool.query(
-            `SELECT id,title,runtime, poster_path,backdrop_path,release_date, vote_average, overview,original_language,genres, 
+            `SELECT id,title,runtime, poster_path,backdrop_path,release_date, 
+            (SELECT m.rating FROM "Fiction Profile"."MEDIA" AS m WHERE m.media_id = $3) AS rating, 
+            overview,original_language,genres, 
             (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $2 AND media_id = $3) AS is_favorite
              FROM "Fiction Profile"."MOVIE" WHERE id = $1`,
             [id, user_id, mediaId]
@@ -39,7 +41,7 @@ router.get('/:id', async (req, res) => {
             poster_path: `https://image.tmdb.org/t/p/original/${result.rows[0].poster_path}`,
             backdrop_path: `https://image.tmdb.org/t/p/original/${result.rows[0].backdrop_path}`,
             release_date: result.rows[0].release_date,
-            vote_average: result.rows[0].vote_count,
+            vote_average: result.rows[0].rating,
             overview: result.rows[0].overview,
             original_language: result.rows[0].original_language,
             genres: result.rows[0].genres,
@@ -47,7 +49,7 @@ router.get('/:id', async (req, res) => {
             is_favorite: result.rows[0].is_favorite
 
         };
-        // console.log(media);
+        console.log(media);
         res.json({ media });
     } catch (error) {
         console.error('Error executing query:', error);
