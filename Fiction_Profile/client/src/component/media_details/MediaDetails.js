@@ -6,12 +6,14 @@ import BASE_URL from "../../config/ApiConfig";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faStarHalfAlt, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FaHeart } from 'react-icons/fa';
 import { MdAddBox } from 'react-icons/md';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { FaStar } from 'react-icons/fa';
+import { Bar } from 'react-chartjs-2';
+import RatingsChart from './RatingsChart';
 
 const MediaDetails = ({ mediaType }) => {
     const { id } = useParams(); // Extract id from the URL
@@ -30,6 +32,23 @@ const MediaDetails = ({ mediaType }) => {
     const [reviews, setReviews] = useState([]);
 
     const [showInputFields, setShowInputFields] = useState(false);
+    const [ratingsData, setRatingsData] = useState([]);
+
+    const handleUpvote = (index) => {
+        const updatedReviews = [...reviews];
+        updatedReviews[index].upvoted = !updatedReviews[index].upvoted;
+        updatedReviews[index].downvoted = false;
+        setReviews(updatedReviews);
+        console.log('review:', reviews);
+    };
+
+    const handleDownvote = (index) => {
+        const updatedReviews = [...reviews];
+        updatedReviews[index].downvoted = !updatedReviews[index].downvoted;
+        updatedReviews[index].upvoted = false;
+        setReviews(updatedReviews);
+        console.log('review:', reviews);
+    };
 
 
     useEffect(() => {
@@ -55,6 +74,46 @@ const MediaDetails = ({ mediaType }) => {
 
                 setReviews(result.data.reviews);
 
+
+                const ratingResponse = await axios.get(`${BASE_URL}/rating/getmyrating`, {
+                    params: {
+                        user_id: people_id,
+                        media_id: id,
+                        media_type: mediaType
+                    }
+                });
+
+                if (ratingResponse.data.rating) {
+                    setSelectedRating(ratingResponse.data.rating);
+                }
+
+                const allRatingResponse = await axios.get(`${BASE_URL}/rating`, {
+                    params: {
+                        media_id: id,
+                        media_type: mediaType
+                    }
+                });
+
+                const receivedRatings = allRatingResponse.data;
+
+                const initialRatingsData = Array.from({ length: 10 }, (_, index) => ({
+                    rating: 10 - index,
+                    count: 0
+                }));
+
+                // Update counts for ratings available in the received data
+                receivedRatings.forEach(({ rating, count }) => {
+                    const index = 10 - rating; // Adjust the index calculation for the reversed order
+                    initialRatingsData[index].count = count;
+                });
+
+
+                // Set ratings data
+                setRatingsData(initialRatingsData);
+
+                // setRatingsData(allRatingResponse.data); // Assuming the response contains ratingCounts array
+                // console.log('allRatingResponse:', allRatingResponse.data);
+
             } catch (error) {
                 console.error('Error fetching media details:', error);
             } finally {
@@ -72,6 +131,7 @@ const MediaDetails = ({ mediaType }) => {
     if (!media) {
         return <div>No media details found.</div>;
     }
+
 
     const renderMediaAddButton = (mediaItem) => {
         if (role === 'user') {
@@ -177,7 +237,17 @@ const MediaDetails = ({ mediaType }) => {
 
             // Close the rating modal after successful submission
             handleCloseRatingModal();
-            setSelectedRating(0);
+            const ratingResponse = await axios.get(`${BASE_URL}/rating/getmyrating`, {
+                params: {
+                    user_id: people_id,
+                    media_id: id,
+                    media_type: mediaType
+                }
+            });
+
+            if (ratingResponse.data.rating) {
+                setSelectedRating(ratingResponse.data.rating);
+            }
             if (response.data.success) {
                 toast.success('Rating added successfully');
             }
@@ -243,11 +313,13 @@ const MediaDetails = ({ mediaType }) => {
                             </div>
                             <div className="media-info">
                                 <div className='media-title'>
-                                    {media.title} ({new Date(media.release_date).getFullYear()})
+                                    {media.title} {media.release_date ? (new Date(media.release_date).getFullYear()) : ''}
                                 </div>
+
                                 <div className='media-genres'>
-                                    {media.genres} {media.runtime ? `| ${media.runtime} min` : ''} | Language: {media.original_language}
+                                    {media.genres} {media.runtime ? `| ${media.runtime} min` : ''}  {media.original_language ? `| Language: ${media.original_language}` : ''}
                                 </div>
+
 
                                 <div className='button-container'>
                                     <div className='circle'>{renderMediaAddButton(media)}</div>
@@ -274,6 +346,32 @@ const MediaDetails = ({ mediaType }) => {
                     <div className="rating-box">
                         <h2 className="rating-title">Your Rating</h2>
                         <div className="rating-value">{media.user_rating ? media.user_rating : 'Not rated yet'}</div>
+                        <div>
+                            <h2>Ratings Distribution</h2>
+                            <table className="ratings-table">
+                                <thead>
+                                    <tr>
+                                        <th>Rating</th>
+                                        <th>Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {ratingsData.map((rating, index) => (
+                                        <tr key={index} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
+                                            <td>{rating.rating}</td>
+                                            <td>{rating.count}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <RatingsChart ratingsData={ratingsData} />
+                        </div>
+
+
+
                     </div>
 
                     <div className="review-box">
@@ -310,17 +408,21 @@ const MediaDetails = ({ mediaType }) => {
                         )}
 
                         <div className="reviews-container">
-
                             <ul className="reviews-list">
                                 {reviews.map((review, index) => (
                                     <li key={index} className="review-item">
                                         <p className="review-user" style={{ fontSize: '20px' }}>User : {review.username} -- {new Date(review.added_date).toLocaleDateString()}</p>
                                         <p className="review-title" style={{ fontSize: '24px' }}>Title : {review.title}</p>
                                         <p className="review-content" style={{ fontSize: '18px' }}>{review.review}</p>
+                                        <div className='upvote-downvote-div'>
+                                            <FontAwesomeIcon icon={faThumbsUp} onClick={() => handleUpvote(index)} style={{ color: review.upvoted ? 'green' : 'white', cursor: 'pointer', marginRight: '15px', fontSize: '30px' }} />
+                                            <FontAwesomeIcon icon={faThumbsDown} onClick={() => handleDownvote(index)} style={{ color: review.downvoted ? 'red' : 'white', cursor: 'pointer', fontSize: '30px' }} />
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
                         </div>
+
                     </div>
                 </div>
             </div>
