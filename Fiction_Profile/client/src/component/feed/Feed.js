@@ -271,10 +271,10 @@ const Feed = () => {
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>
                             <p><img src={post.profile_pic_path} alt={post.post_id} />{post.username}</p>
-                            <div className='post-title'>#{post.title}
+                            <div className='post-title'>Title:  {post.title} ---------- {new Date(post.last_edit).toLocaleString()}
                                 <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button>
                             </div>
-                            <div className='post-description'>Description: {post.content}</div>
+                            <div className='post-description'>Content: {post.content}</div>
                             <div className='upvote-container'>
                                 <div onClick={() => handleUpvote(post.post_id)} className="vote-icon">
                                     <FontAwesomeIcon icon={faThumbsUp} style={{ cursor: 'pointer', marginRight: '15px', fontSize: '30px', color: post.upvoted ? 'green' : 'white' }} />

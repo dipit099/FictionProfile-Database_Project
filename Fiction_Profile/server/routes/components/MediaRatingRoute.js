@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
             `
             SELECT rating, count(*)
             FROM "Fiction Profile"."REVIEW"
-            WHERE media_id =  $1
+            WHERE media_id =  $1   AND rating IS NOT NULL
             GROUP BY rating
             `,
             [mediaId]

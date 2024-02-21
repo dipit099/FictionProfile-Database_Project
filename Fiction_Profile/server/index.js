@@ -27,6 +27,7 @@ app.use('/feed', require('./routes/feed/FeedRoute'));
 app.use('/moderator', require('./routes/moderator/ModeratorRoute'));
 app.use('/rating', require('./routes/components/MediaRatingRoute'));
 app.use('/review', require('./routes/components/MediaReviewRoute'));
+app.use('/dashboard', require('./routes/user_dashboard/DashboardRoute'));
 
 
 

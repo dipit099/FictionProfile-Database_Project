@@ -10,6 +10,7 @@ import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
 
 import Moderator from "./component/moderator/Moderator";
+import Dashboard from "./component/user_dashboard/Dashboard";
 
 import { MovieDetails, TvshowDetails, BookDetails, MangaDetails } from "./component/media_details/MediaDetails";
 
@@ -79,15 +80,16 @@ function App() {
         <Route path="/tv/:id" element={<TvshowDetails />} />
         <Route path="/book/:id" element={<BookDetails />} />
         <Route path="/manga/:id" element={<MangaDetails />} />
+        <Route path="/dashboard/:id" element={<Dashboard />} />
 
 
         <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
         {/* <Route path="/feed" element={isAuthenticated ? < Feed/> : <Navigate to="/" />} /> */}
-        <Route path="/feed" element={ < Feed />} />
+        <Route path="/feed" element={< Feed />} />
         {/* <Route path="/discover" element={isAuthenticated ? <Discover /> : <Navigate to="/" />} /> */}
         <Route path="/discover" element={<Discover />} />
 
-        
+
 
       </Routes>
     </div>
