@@ -2,6 +2,41 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../../db'); // Assuming you have your PostgreSQL pool configured
 
+
+router.get('/', async (req, res) => {
+    try {
+        console.log('Fetching all ratings');
+        const { media_id, media_type } = req.query;
+        const extractId = await pool.query(
+            `
+            SELECT
+                media_id
+            FROM
+                "Fiction Profile"."MEDIA"
+            WHERE
+                ${media_type}_id = $1           
+            `,
+            [media_id]
+        );
+        const mediaId = extractId.rows[0].media_id;
+        const result = await pool.query(
+            `
+            SELECT rating, count(*)
+            FROM "Fiction Profile"."REVIEW"
+            WHERE media_id =  $1
+            GROUP BY rating
+            `,
+            [mediaId]
+        );       
+       
+        res.json(result.rows);
+        console.log('Ratings:', result.rows);
+    } catch (error) {
+        console.error('Error fetching ratings:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 router.post('/add', async (req, res) => {
     try {
         console.log('add rating:', req.body);
@@ -71,5 +106,50 @@ router.post('/add', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.get('/getmyrating', async (req, res) => {
+    try {
+        console.log('Fetching my rating');
+        const { user_id, media_id, media_type } = req.query;
+
+        const extractId = await pool.query(
+            `
+            SELECT
+                media_id
+            FROM
+                "Fiction Profile"."MEDIA"
+            WHERE
+                ${media_type}_id = $1           
+            `,
+            [media_id]
+        );
+        const mediaId = extractId.rows[0].media_id;
+
+        const result = await pool.query(
+            `
+            SELECT
+                rating
+            FROM
+                "Fiction Profile"."REVIEW"
+            WHERE
+                user_id = $1
+            AND
+                media_id = $2
+            `,
+            [user_id, mediaId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Rating not found' });
+        }
+
+        const rating = result.rows[0].rating;
+        res.json({ rating });
+    } catch (error) {
+        console.error('Error fetching rating:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+);
 
 module.exports = router;

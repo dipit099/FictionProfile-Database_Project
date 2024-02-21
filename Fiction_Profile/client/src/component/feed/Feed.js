@@ -9,6 +9,8 @@ import SideBar from '../../config/navbar/SideBar';
 import Navbar from '../../config/navbar/Navbar';
 import BASE_URL from '../../config/ApiConfig';
 import { BiSolidUpvote, BiSolidDownvote } from 'react-icons/bi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 const Feed = () => {
     const [feed, setFeed] = useState([]);
@@ -154,40 +156,67 @@ const Feed = () => {
         }
     };
 
-    const handleUpvote = async (postId) => {
-        try {
-            await axios.post(`${BASE_URL}/feed/upvote`, {
-                user_id: people_id,
-                post_id: postId
-            });
+    // const handleUpvote = async (postId) => {
+    //     try {
+    //         await axios.post(`${BASE_URL}/feed/upvote`, {
+    //             user_id: people_id,
+    //             post_id: postId
+    //         });
 
-            const response = await axios.get(`${BASE_URL}/feed`, {
-                params: {
-                    people_id: people_id
-                }
-            });
-            setFeed(response.data.feed);
-        } catch (error) {
-            console.error('Error upvoting:', error);
-        }
+    //         const response = await axios.get(`${BASE_URL}/feed`, {
+    //             params: {
+    //                 people_id: people_id
+    //             }
+    //         });
+    //         setFeed(response.data.feed);
+    //     } catch (error) {
+    //         console.error('Error upvoting:', error);
+    //     }
+    // };
+
+    // const handleDownvote = async (postId) => {
+    //     try {
+    //         await axios.post(`${BASE_URL}/feed/downvote`, {
+    //             user_id: people_id,
+    //             post_id: postId
+    //         });
+
+    //         const response = await axios.get(`${BASE_URL}/feed`, {
+    //             params: {
+    //                 people_id: people_id
+    //             }
+    //         });
+    //         setFeed(response.data.feed);
+    //     } catch (error) {
+    //         console.error('Error downvoting:', error);
+    //     }
+    // };
+    const handleUpvote = (postId) => {
+        const updatedFeed = feed.map(post => {
+            if (post.post_id === postId) {
+                return {
+                    ...post,
+                    upvoted: !post.upvoted, // Toggle the upvoted state
+                    downvoted: false // Ensure downvote state is false when upvoting
+                };
+            }
+            return post;
+        });
+        setFeed(updatedFeed);
     };
 
-    const handleDownvote = async (postId) => {
-        try {
-            await axios.post(`${BASE_URL}/feed/downvote`, {
-                user_id: people_id,
-                post_id: postId
-            });
-
-            const response = await axios.get(`${BASE_URL}/feed`, {
-                params: {
-                    people_id: people_id
-                }
-            });
-            setFeed(response.data.feed);
-        } catch (error) {
-            console.error('Error downvoting:', error);
-        }
+    const handleDownvote = (postId) => {
+        const updatedFeed = feed.map(post => {
+            if (post.post_id === postId) {
+                return {
+                    ...post,
+                    downvoted: !post.downvoted, // Toggle the downvoted state
+                    upvoted: false // Ensure upvote state is false when downvoting
+                };
+            }
+            return post;
+        });
+        setFeed(updatedFeed);
     };
 
     const [showComments, setShowComments] = useState({});
@@ -228,7 +257,7 @@ const Feed = () => {
                             onChange={(e) => setNewPostCaption(e.target.value)}
                             placeholder="Write your caption here..."
                         ></input>
-                        <br/>
+                        <br />
                         <textarea
                             value={newPostContent}
                             onChange={(e) => setNewPostContent(e.target.value)}
@@ -248,10 +277,10 @@ const Feed = () => {
                             <div className='post-description'>Description: {post.content}</div>
                             <div className='upvote-container'>
                                 <div onClick={() => handleUpvote(post.post_id)} className="vote-icon">
-                                    <BiSolidUpvote size={30} />
+                                    <FontAwesomeIcon icon={faThumbsUp} style={{ cursor: 'pointer', marginRight: '15px', fontSize: '30px', color: post.upvoted ? 'green' : 'white' }} />
                                 </div>
                                 <div onClick={() => handleDownvote(post.post_id)} className="vote-icon">
-                                    <BiSolidDownvote size={30} />
+                                    <FontAwesomeIcon icon={faThumbsDown} style={{ cursor: 'pointer', marginRight: '15px', fontSize: '30px', color: post.downvoted ? 'red' : 'white' }} />
                                 </div>
                             </div>
                             <div>
