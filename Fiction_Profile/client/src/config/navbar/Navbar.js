@@ -6,7 +6,8 @@ import './Navbar.css';
 const Navbar = () => {
 
     const role = localStorage.getItem('role');
-    const email = localStorage.getItem('email');
+    const people_id = localStorage.getItem('people_id');
+
 
     return (
         <>
@@ -26,11 +27,14 @@ const Navbar = () => {
                 <div className="navbar-right">
                     {role === "user" ? (
                         <>
-                            <button>Dashboard</button>                            
+                            <Link to={`/dashboard/${people_id}`}>
+                                <button>Dashboard</button>
+                            </Link>
+
                         </>
                     ) : role === "moderator" ? (
                         <>
-                            <button>Dashboard</button>                            
+                            <button>Dashboard</button>
                         </>
                     ) : (
                         <>
