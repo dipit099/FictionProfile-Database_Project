@@ -14,7 +14,7 @@ router.get('/:people_id', async (req, res) => {
     }
 });
 
-router.get('/:people_id/favorites', async (req, res) => {
+router.get('/:people_id/favorites/media_type', async (req, res) => {
     try {
         console.log('Fetching favorite items');
         const { people_id } = req.params;
@@ -46,20 +46,25 @@ router.get('/:people_id/fav_genres', async (req, res) => {
         const
             result = await pool.query(`
         WITH T AS(
-			SELECT *
-			FROM "Fiction Profile"."FAVORITE"
-			WHERE user_id=$1
-		)
-		SELECT  (SELECT name FROM "Fiction Profile"."GENRE" WHERE G.genre_id =id) AS Genre_name, COUNT(*)
-		FROM T LEFT JOIN 
-		"Fiction Profile"."MEDIA_GENRE" G
-		ON T.media_id =  G.media_id
+        	SELECT *
+        	FROM "Fiction Profile"."FAVORITE"
+        	WHERE user_id=$1
+        )
+        SELECT  (SELECT name FROM "Fiction Profile"."GENRE" WHERE G.genre_id =id) , COUNT(*)
+        FROM T LEFT JOIN 
+        "Fiction Profile"."MEDIA_GENRE" G
+        ON T.media_id =  G.media_id
         WHERE (SELECT name FROM "Fiction Profile"."GENRE" WHERE G.genre_id =id)  IS NOT NULL
-		GROUP BY G.genre_id
+        GROUP BY G.genre_id
         `, [people_id]);
+        const data = result.rows.map(row => ({
+            name: row.name,
+            count: parseInt(row.count) // Ensure count is parsed as an integer
+        }));
 
-        console.log('Favorite genres:', result.rows);
-        res.status(200).json(result.rows);
+        // Send the mapped data as JSON in the response
+        console.log('Favorite genres:', data);     
+        res.status(200).json(data);
     } catch (error) {
         console.error('Error fetching favorite genres:', error);
         res.status(400).json({ error: 'Error fetching favorite genres' });
