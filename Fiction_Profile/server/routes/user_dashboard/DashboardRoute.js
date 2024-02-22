@@ -16,12 +16,53 @@ router.get('/:people_id', async (req, res) => {
 
 router.get('/:people_id/favorites', async (req, res) => {
     try {
+        console.log('Fetching favorite items');
         const { people_id } = req.params;
-        const result = await pool.query('SELECT * FROM "Fiction Profile"."FAVORITES" WHERE people_id = $1', [people_id]);
+        const result = await pool.query(`
+        WITH T AS(
+			SELECT *
+			FROM "Fiction Profile"."FAVORITE"
+			WHERE user_id=$1
+		)
+		SELECT M.type_id, COUNT(*)
+		FROM T LEFT JOIN "Fiction Profile"."MEDIA" M
+		ON T.media_id =  M.media_id
+		GROUP BY M.type_id
+        ORDER BY M.type_id
+        `, [people_id]);
+
+        console.log('Favorite items:', result.rows);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error('Error fetching favorite items:', error);
         res.status(400).json({ error: 'Error fetching favorite items' });
+    }
+});
+
+
+router.get('/:people_id/fav_genres', async (req, res) => {
+    try {
+        const { people_id } = req.params;
+        const
+            result = await pool.query(`
+        WITH T AS(
+			SELECT *
+			FROM "Fiction Profile"."FAVORITE"
+			WHERE user_id=$1
+		)
+		SELECT  (SELECT name FROM "Fiction Profile"."GENRE" WHERE G.genre_id =id) AS Genre_name, COUNT(*)
+		FROM T LEFT JOIN 
+		"Fiction Profile"."MEDIA_GENRE" G
+		ON T.media_id =  G.media_id
+        WHERE (SELECT name FROM "Fiction Profile"."GENRE" WHERE G.genre_id =id)  IS NOT NULL
+		GROUP BY G.genre_id
+        `, [people_id]);
+
+        console.log('Favorite genres:', result.rows);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error fetching favorite genres:', error);
+        res.status(400).json({ error: 'Error fetching favorite genres' });
     }
 });
 
@@ -62,7 +103,7 @@ router.get('/:people_id/posts', async (req, res) => {
                     user_id: row.post_user_id,
                     title: row.title,
                     content: row.post_content,
-                    last_edit: row.last_edit,                   
+                    last_edit: row.last_edit,
                     comments: [] // Initialize comments as an empty array
                 };
             }
