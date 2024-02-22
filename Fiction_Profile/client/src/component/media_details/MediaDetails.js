@@ -14,6 +14,7 @@ import Modal from 'react-modal';
 import { FaStar } from 'react-icons/fa';
 import { Bar } from 'react-chartjs-2';
 import RatingsChart from './RatingsChart';
+import Navbar from '../../config/navbar/Navbar';
 
 const MediaDetails = ({ mediaType }) => {
     const { id } = useParams(); // Extract id from the URL
@@ -515,7 +516,7 @@ const MediaDetails = ({ mediaType }) => {
                 </div>
 
             </Modal>
-
+            <Navbar />
         </div>
     );
 };

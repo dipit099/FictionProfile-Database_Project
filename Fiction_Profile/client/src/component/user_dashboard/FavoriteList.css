@@ -1,0 +1,16 @@
+.favorite-list-container {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #f0f0f0;
+    color: white;
+    margin-top: 50px;
+    margin-bottom: 100px;
+
+}
+
+.favorite-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
