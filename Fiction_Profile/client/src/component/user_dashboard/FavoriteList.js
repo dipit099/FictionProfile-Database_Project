@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts'; // Import necessary components
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, ResponsiveContainer } from 'recharts';
 import BASE_URL from '../../config/ApiConfig';
 import './FavoriteList.css'; // Import CSS file for styling
 
@@ -16,7 +15,7 @@ const FavoriteList = () => {
 
     const fetchFavoriteItems = async () => {
         try {
-            const response = await axios.get(`${BASE_URL}/dashboard/${localStorage.getItem('people_id')}/favorites`);
+            const response = await axios.get(`${BASE_URL}/dashboard/${localStorage.getItem('people_id')}/favorites/media_type`);
             setFavoriteItems(response.data);
         } catch (error) {
             console.error('Error fetching favorite items:', error);
@@ -27,6 +26,7 @@ const FavoriteList = () => {
         try {
             const response = await axios.get(`${BASE_URL}/dashboard/${localStorage.getItem('people_id')}/fav_genres`);
             setFavoriteGenresData(response.data);
+            console.log('Favorite genres:', response.data);
         } catch (error) {
             console.error('Error fetching favorite genres data:', error);
         }
@@ -46,6 +46,13 @@ const FavoriteList = () => {
                 return '';
         }
     };
+
+    const data = favoriteGenresData.map(item => ({
+        name: item.name,
+        count: item.count
+    }));
+
+    const customColors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF']; // Define custom colors
 
     return (
         <div className="favorite-list-container">
@@ -67,17 +74,33 @@ const FavoriteList = () => {
                         <Bar dataKey="count" fill="#8884d8" /> {/* Customize bar color */}
                     </BarChart>
                 </div>
-                {/* Radar Chart for Favorite Genres */}
+                {/* Pie Chart for Favorite Genres */}
                 <div className="chart-container">
                     <h2>Favorite Genres</h2>
-                    <RadarChart outerRadius={150} width={600} height={400} data={favoriteGenresData}>
-                        <PolarGrid />
-                        <PolarAngleAxis dataKey="genre_name" stroke="#fff" />
-                        <PolarRadiusAxis stroke="#fff" />
-                        <Radar name="Count" dataKey="count" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                        <Tooltip />
-                        <Legend />
-                    </RadarChart>
+                    <ResponsiveContainer width={800} height={800}>
+                        <PieChart>
+                            <Pie
+                                data={data}
+                                cx="50%"
+                                cy="50%"
+                                labelLine={false}
+                                label={({ name, count }) => `${name}: ${count}`}
+                                outerRadius={300} // Increase the outer radius for a bigger circle
+                                fill="#8884d8"
+                                dataKey="count"
+                            >
+                                {
+                                    data.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#4287f5' : '#63a9cf'} />
+                                    ))
+            }
+                            </Pie>
+                            <Tooltip />
+                            <Legend />
+                        </PieChart>
+                    </ResponsiveContainer>
+
+
                 </div>
             </div>
         </div>
