@@ -6,16 +6,18 @@ import './Dashboard.css';
 import BASE_URL from "../../config/ApiConfig";
 import FavoriteList from "./FavoriteList";
 import UserPosts from "./UserPosts";
+import Affinity from "./Affinity";
 
 const Dashboard = () => {
     const [userData, setUserData] = useState([]);
     const [activeSection, setActiveSection] = useState('profile'); // Initially set to 'profile'
-    const people_id = localStorage.getItem('people_id');
+    const [peopleId, setPeopleId] = useState(''); // Initially set to 1
+    const [userProfileId, setUserProfileId] = useState(''); // Initially set to 1
 
     // Function to fetch user data using Axios
     const fetchUserData = async () => {
         try {
-            const response = await axios.get(`${BASE_URL}/dashboard/${people_id}`);
+            const response = await axios.get(`${BASE_URL}/dashboard/${peopleId}`);
             setUserData(response.data[0]);
         } catch (error) {
             console.error('Error fetching user data:', error);
@@ -23,7 +25,22 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        fetchUserData();
+        // Extracting peopleId from URL
+        const urlParts = window.location.pathname.split('/');
+        const lastPart = urlParts[urlParts.length - 1];
+        setPeopleId(lastPart);
+    }, []);
+
+    useEffect(() => {
+        if (peopleId) {
+            fetchUserData();
+        }
+    }, [peopleId]);
+
+    useEffect(() => {
+        // Fetch user's own profile ID from localStorage or wherever you store it
+        const userProfileId = localStorage.getItem('people_id');
+        setUserProfileId(userProfileId);
     }, []);
 
     const handleSectionClick = (section) => {
@@ -32,11 +49,23 @@ const Dashboard = () => {
 
     let sectionContent;
     switch (activeSection) {
+        case 'profile':
+            sectionContent = (
+                <div>
+                    {/* Your profile content */}
+                </div>
+            );
+            break;
         case 'favorite':
             sectionContent = <FavoriteList />;
             break;
         case 'posts':
             sectionContent = <UserPosts />;
+            break;
+        case 'affinity':
+            sectionContent = (
+               <Affinity people_id={peopleId} />
+            );
             break;
         default:
             sectionContent = <div>Select a section from the navigation</div>;
@@ -71,6 +100,11 @@ const Dashboard = () => {
                         <li className={activeSection === 'posts' ? 'active' : ''} onClick={() => handleSectionClick('posts')}>
                             Posts
                         </li>
+                        {peopleId !== userProfileId && ( // Only show "Affinity" when visiting another profile
+                            <li className={activeSection === 'affinity' ? 'active' : ''} onClick={() => handleSectionClick('affinity')}>
+                                Affinity
+                            </li>
+                        )}
                         <li className={activeSection === 'activity' ? 'active' : ''} onClick={() => handleSectionClick('activity')}>
                             Activity
                         </li>

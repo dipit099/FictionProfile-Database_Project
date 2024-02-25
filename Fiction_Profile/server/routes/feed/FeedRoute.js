@@ -4,7 +4,7 @@ const pool = require('../../db'); // Assuming you have your PostgreSQL pool conf
 
 router.get('/', async (req, res) => {
     try {
-        console.log('Fetching feed data...');        
+        console.log('Fetching feed data...');
 
         // Retrieve data from the database
         const result = await pool.query(`
@@ -59,7 +59,7 @@ router.get('/', async (req, res) => {
                 // Initialize the post if it doesn't exist in the feed data
                 feedData[row.post_id] = {
                     post_id: row.post_id,
-                    user_id: row.post_user_id,
+                    user_id: row.my_id,
                     title: row.title,
                     content: row.post_content,
                     last_edit: row.last_edit,
@@ -82,7 +82,7 @@ router.get('/', async (req, res) => {
 
         // Convert the feed data object into an array
         const feed = Object.values(feedData);
-        console.log('Feed data:', feed);
+        // console.log('Feed data:', feed);
 
         res.json({ feed });
     } catch (error) {
@@ -160,7 +160,7 @@ router.get('/followed', async (req, res) => {
             username: row.username
         }));
 
-        // console.log('Followed users:', followedUsers);
+        console.log('Followed users:', followedUsers);
 
         res.json({ followedUsers });
     } catch (error) {

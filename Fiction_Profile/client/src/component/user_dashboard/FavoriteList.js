@@ -7,15 +7,25 @@ import './FavoriteList.css'; // Import CSS file for styling
 const FavoriteList = () => {
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [favoriteGenresData, setFavoriteGenresData] = useState([]);
+    const [people_id, setPeople_id] = useState(''); // Initially set to 1
+    useEffect(() => {
+        // Extracting peopleId from URL
+        const urlParts = window.location.pathname.split('/');
+        const lastPart = urlParts[urlParts.length - 1];
+        setPeople_id(lastPart);
+    }, []);
+
 
     useEffect(() => {
-        fetchFavoriteItems();
-        fetchFavoriteGenresData();
-    }, []);
+        if (people_id) {
+            fetchFavoriteItems();
+            fetchFavoriteGenresData();
+        }
+    }, [people_id]);
 
     const fetchFavoriteItems = async () => {
         try {
-            const response = await axios.get(`${BASE_URL}/dashboard/${localStorage.getItem('people_id')}/favorites/media_type`);
+            const response = await axios.get(`${BASE_URL}/dashboard/${people_id}/favorites/media_type`);
             setFavoriteItems(response.data);
         } catch (error) {
             console.error('Error fetching favorite items:', error);
@@ -24,7 +34,7 @@ const FavoriteList = () => {
 
     const fetchFavoriteGenresData = async () => {
         try {
-            const response = await axios.get(`${BASE_URL}/dashboard/${localStorage.getItem('people_id')}/fav_genres`);
+            const response = await axios.get(`${BASE_URL}/dashboard/${people_id}/fav_genres`);
             setFavoriteGenresData(response.data);
             console.log('Favorite genres:', response.data);
         } catch (error) {
@@ -52,8 +62,7 @@ const FavoriteList = () => {
         count: item.count
     }));
 
-    const customColors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF']; // Define custom colors
-
+    const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF5733', '#33FF57'];
     return (
         <div className="favorite-list-container">
             <div className="favorite-list">
@@ -91,14 +100,15 @@ const FavoriteList = () => {
                             >
                                 {
                                     data.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#4287f5' : '#63a9cf'} />
+                                        <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                                     ))
-            }
+                                }
                             </Pie>
                             <Tooltip />
                             <Legend />
                         </PieChart>
                     </ResponsiveContainer>
+
 
 
                 </div>

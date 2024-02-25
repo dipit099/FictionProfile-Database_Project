@@ -11,6 +11,7 @@ import BASE_URL from '../../config/ApiConfig';
 import { BiSolidUpvote, BiSolidDownvote } from 'react-icons/bi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Feed = () => {
     const [feed, setFeed] = useState([]);
@@ -321,14 +322,15 @@ const Feed = () => {
                 <div className='followed-users-container'>
                     <div className="followed-users-list">
                         <h2>Followed Users</h2>
-                        {followedUsers.map(following => (
+                        {followedUsers.map(followedUsers => (
                             <div className="user-info">
-                                <li key={following.follow_id}>
+                                <li key={followedUsers.follow_id}>
+                                    <Link to={`/dashboard/${followedUsers.followed_id}`}>
+                                        <img src={followedUsers.profile_pic_path} alt={followedUsers.full_name} />
+                                        <span>{followedUsers.username}</span>
+                                    </Link>
 
-                                    <img src={following.profile_pic_path} alt={following.full_name} />
-                                    <span>{following.username}</span>
-
-                                    <button className="unfollow-button" onClick={() => handleUnfollow(following.followed_id)}>Unfollow</button>
+                                    <button className="unfollow-button" onClick={() => handleUnfollow(followedUsers.followed_id)}>Unfollow</button>
                                 </li>
                             </div>
                         ))}
@@ -336,14 +338,15 @@ const Feed = () => {
                     <div className="people-you-may-know">
                         <h2>People You May Know</h2>
 
-                        {peopleYouMayKnow.map(person => (
+                        {peopleYouMayKnow.map(peopleYouMayKnow => (
                             < div className="user-info">
-                                <li key={person.people_id}>
+                                <li key={peopleYouMayKnow.people_id}>
+                                    <Link to={`/dashboard/${peopleYouMayKnow.people_id}`}>
+                                        <img src={peopleYouMayKnow.profile_pic_path} alt={`${peopleYouMayKnow.first_name} ${peopleYouMayKnow.last_name}`} />
+                                        <span>{`${peopleYouMayKnow.username}`}</span>
+                                    </Link>
 
-                                    <img src={person.profile_pic_path} alt={`${person.first_name} ${person.last_name}`} />
-                                    <span>{`${person.username}`}</span>
-
-                                    <button className="follow-button" onClick={() => handleFollow(person.people_id)}>Follow</button>
+                                    <button className="follow-button" onClick={() => handleFollow(peopleYouMayKnow.people_id)}>Follow</button>
                                 </li>
                             </div>
                         ))}

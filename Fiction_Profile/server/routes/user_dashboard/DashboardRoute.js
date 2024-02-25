@@ -63,7 +63,7 @@ router.get('/:people_id/fav_genres', async (req, res) => {
         }));
 
         // Send the mapped data as JSON in the response
-        console.log('Favorite genres:', data);     
+        console.log('Favorite genres:', data);
         res.status(200).json(data);
     } catch (error) {
         console.error('Error fetching favorite genres:', error);
@@ -134,5 +134,36 @@ router.get('/:people_id/posts', async (req, res) => {
         res.status(400).json({ error: 'Error fetching user posts' });
     }
 });
+
+
+
+router.get('/:people_id/affinity/favorite_count', async (req, res) => {
+    try {
+        const { my_id, people_id } = req.query;
+        console.log('Fetching affinity data');
+
+        const result = await pool.query(`
+        		
+            WITH T AS (
+                SELECT user_id, M.type_id, COUNT(*) AS count
+                FROM "Fiction Profile"."FAVORITE" F
+                JOIN "Fiction Profile"."MEDIA" M ON F.media_id = M.media_id
+                WHERE user_id IN ($1, $2) -- Specify the user IDs here
+                GROUP BY user_id, M.type_id
+                ORDER BY user_id, M.type_id
+            )
+            SELECT *
+            FROM T
+        `, [my_id, people_id]);
+
+        console.log('Affinity data:', result.rows);
+
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error fetching affinity data:', error);
+        res.status(400).json({ error: 'Error fetching affinity data' });
+    }
+}
+);
 
 module.exports = router;
