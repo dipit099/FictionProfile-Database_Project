@@ -7,11 +7,20 @@ const UserPosts = () => {
     const [userPosts, setUserPosts] = useState([]);
     const [showComments, setShowComments] = useState({}); // State to track visibility of comments
 
-    const people_id = localStorage.getItem('people_id');
+    const [people_id, setPeople_id] = useState(''); // Initially set to 1
+    useEffect(() => {
+        // Extracting peopleId from URL
+        const urlParts = window.location.pathname.split('/');
+        const lastPart = urlParts[urlParts.length - 1];
+        setPeople_id(lastPart);
+    }, []);
 
     useEffect(() => {
-        fetchUserPosts();
-    }, []);
+        if (people_id) {
+            fetchUserPosts();
+        }
+    }, [people_id]);
+
 
     const fetchUserPosts = async () => {
         try {
