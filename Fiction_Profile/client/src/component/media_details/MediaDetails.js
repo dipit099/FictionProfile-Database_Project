@@ -22,9 +22,12 @@ const MediaDetails = ({ mediaType }) => {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMediaItem, setSelectedMediaItem] = useState(null);
-    const [selectedStatus, setSelectedStatus] = useState('0');
+    const [selectedStatus, setSelectedStatus] = useState(0);
     const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
+
     const [selectedRating, setSelectedRating] = useState(0);
+    const [hoverRating, setHoverRating] = useState(0);
+
     const role = localStorage.getItem('role');
     const people_id = localStorage.getItem('people_id');
     const type = mediaType;
@@ -34,6 +37,14 @@ const MediaDetails = ({ mediaType }) => {
 
     const [showInputFields, setShowInputFields] = useState(false);
     const [ratingsData, setRatingsData] = useState([]);
+
+    const handleHoverRating = (rating) => {
+        setHoverRating(rating);
+    };
+
+    const handleMouseLeave = () => {
+        setHoverRating(0);
+    };
 
     const handleUpvote = (index) => {
         const updatedReviews = [...reviews];
@@ -186,9 +197,27 @@ const MediaDetails = ({ mediaType }) => {
         return null;
     };
 
-    const openModal = (mediaItem) => {
+    const openModal = async (mediaItem) => {
         setSelectedMediaItem(mediaItem);
         setIsModalOpen(true);
+        try {
+            const response = await axios.get(`${BASE_URL}/user_media_add/get_added_option`, {
+                params: {
+                    user_id: localStorage.getItem('people_id'),
+                    media_type: type,
+                    title_id: mediaItem.id,
+                }
+            });
+            if (response.data.status_id !== 0) {
+                setSelectedStatus(response.data.status_id);
+            }
+
+        }
+        catch (error) {
+            console.error('Error fetching added option:', error.message);
+        }
+
+
     };
 
     const handleCloseModal = () => {
@@ -458,7 +487,7 @@ const MediaDetails = ({ mediaType }) => {
                         </>
                     )}
                     <label htmlFor='dropdown'>Status:</label>
-                    <select id='dropdown' name='dropdown' onChange={(e) => setSelectedStatus(e.target.value)}>
+                    <select id='dropdown' name='dropdown' value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
                         <option value='0'>Select Status</option>
                         <option value='1'>Read/Watched</option>
                         <option value='2'>Plan to Read/Watch</option>
@@ -491,27 +520,27 @@ const MediaDetails = ({ mediaType }) => {
                             <input type='hidden' id='selected_rating' name='selected_rating' value='' required='required' />
                         </label>
                         <h2 className='bold rating-header'>
-                            <span className='selected-rating'>{selectedRating}</span><small> / 10</small>
+                            <span className='selected-rating'>{hoverRating || selectedRating}</span><small> / 10</small>
                         </h2>
                         <div className='rating-options'>
                             {[...Array(10)].map((_, index) => (
                                 <button
                                     key={index + 1}
                                     type='button'
-                                    className={`btnrating btn btn-default btn-lg ${index + 1 <= selectedRating ? 'selected' : ''}`}
+                                    className={`btnrating btn btn-default btn-lg ${index + 1 <= (hoverRating || selectedRating) ? 'selected' : ''}`}
                                     data-attr={index + 1}
+                                    onMouseEnter={() => handleHoverRating(index + 1)}
+                                    onMouseLeave={handleMouseLeave}
                                     onClick={() => handleRatingSelect(index + 1)}
                                 >
-                                    <FaStar className={`fa-star ${index + 1 <= selectedRating ? 'gold' : ''}`} />
+                                    <FaStar className={`fa-star ${index + 1 <= (hoverRating || selectedRating) ? 'gold' : ''}`} />
                                 </button>
                             ))}
-
                         </div>
                     </div>
                     <div className='rating-button-container'>
                         <button className='rating-submit-button' onClick={handleRatingSubmit}>Submit</button>
                         <button className='rating-close-button' onClick={handleCloseRatingModal}>Close</button>
-
                     </div>
                 </div>
 

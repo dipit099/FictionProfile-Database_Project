@@ -5,7 +5,7 @@ const pool = require('../../db'); // Assuming you have your PostgreSQL pool conf
 
 router.get('/', async (req, res) => {
     try {
-        console.log('Fetching all ratings');
+        // console.log('Fetching all ratings');
         const { media_id, media_type } = req.query;
         const extractId = await pool.query(
             `
@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
 
 router.post('/add', async (req, res) => {
     try {
-        console.log('add rating:', req.body);
+        // console.log('add rating:', req.body);
         const { user_id, selectedRating, media_id, media_type } = req.body;
 
         // Check if user_id and selectedRating are provided
@@ -109,7 +109,7 @@ router.post('/add', async (req, res) => {
 
 router.get('/getmyrating', async (req, res) => {
     try {
-        console.log('Fetching my rating');
+        // console.log('Fetching my rating');
         const { user_id, media_id, media_type } = req.query;
 
         const extractId = await pool.query(

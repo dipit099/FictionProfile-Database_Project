@@ -4,6 +4,7 @@
     margin-top: 100px;
     margin-left: 150px;
     color: #fff;
+   
 }
 
 .discover-container {
@@ -11,6 +12,7 @@
     justify-content: space-between;
     /* Ensure filter container and media items are spaced */
     width: 100%;
+    
 }
 
 .search-container {
@@ -337,4 +339,31 @@ output {
     width: 20px;
     height: 20px;
     border-radius: 3px;
+}
+
+.rating-range-container {
+    margin-top: 20px;
+
+}
+
+.rating-input-div {
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    /* White text color */
+    width: 400px;
+    /* Adjust width as needed */
+}
+
+.rating-input-div p {
+    margin-bottom: 20px;
+    font-size: 25px;
+    text-align: center;
+}
+
+.filter-button-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 80%;
 }
