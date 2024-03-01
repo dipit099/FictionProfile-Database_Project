@@ -229,7 +229,7 @@
 
 .fa-star {
     color: #000000;
-    font-size: 30px;
+    font-size: 35px;
     cursor: pointer;
     width: 100%;
 
@@ -242,8 +242,15 @@
 
 .gold {
     color: #ffcc00;
+    font-size: 45px;
+
 }
 
+.selected-rating {
+    color: #3f1577;
+    font-size: 45px;
+
+}
 
 .review-box {
     margin: 20px;

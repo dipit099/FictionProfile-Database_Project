@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Discover.css';
 
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -31,8 +34,8 @@ const Discover = () => {
     const [genres, setGenres] = useState([]);
     const [yearStart, setYearStart] = useState(null);
     const [yearEnd, setYearEnd] = useState(null);
-    const [ratingStart, setRatingStart] = useState(null);
-    const [ratingEnd, setRatingEnd] = useState(null);
+    const [ratingStart, setRatingStart] = useState(1);
+    const [ratingEnd, setRatingEnd] = useState(10);
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
 
@@ -44,34 +47,9 @@ const Discover = () => {
         setSortOrder(event.target.value);
     };
 
-    const handleRatingStartChange = (event) => {
-        setRatingStart(parseInt(event.target.value));
-        if (ratingStart > ratingEnd) {
-            setRatingEnd(parseInt(event.target.value));
-        }
-    };
-
-    const handleRatingEndChange = (event) => {
-        setRatingEnd(parseInt(event.target.value));
-        if (ratingEnd < ratingStart) {
-            setRatingStart(parseInt(event.target.value));
-        }
-    };
-
-    const calculateTrackWidth = () => {
-        const range = ratingEnd - ratingStart;
-        const width = (range / 10) * 100; // Assuming a range of 1 to 10
-        return width + '%';
-    };
-
-    const calculateLeftPosition = () => {
-        const left = ((ratingStart - 1) / 9) * 100; // Assuming a range of 1 to 10
-        return left + '%';
-    };
-
-    const calculateRightPosition = () => {
-        const right = ((10 - ratingEnd) / 9) * 100; // Assuming a range of 1 to 10
-        return right + '%';
+    const handleRatingChange = (value) => {
+        setRatingStart(value[0]);
+        setRatingEnd(value[1]);
     };
 
     /*genre and , genre or, genre exclude*/
@@ -298,9 +276,25 @@ const Discover = () => {
         return null;
     };
 
-    const openModal = (mediaItem) => {
+    const openModal = async (mediaItem) => {
         setSelectedMediaItem(mediaItem);
         setIsModalOpen(true);
+        try {
+            const response = await axios.get(`${BASE_URL}/user_media_add/get_added_option`, {
+                params: {
+                    user_id: localStorage.getItem('people_id'),
+                    media_type: mediaItem.type,
+                    title_id: mediaItem.id,
+                }
+            });
+            if (response.data.status_id !== 0) {
+                setSelectedStatus(response.data.status_id);
+            }
+
+        }
+        catch (error) {
+            console.error('Error fetching added option:', error.message);
+        }
     };
 
     const handleCloseModal = () => {
@@ -557,30 +551,29 @@ const Discover = () => {
 
 
                         <div className="rating-range-container">
-                            <label htmlFor="rating"><h4>Rating Range: <span className="min-val">{ratingStart}</span> - <span className="max-val">{ratingEnd}</span></h4></label>
-                            <div className="rating-range-slider">
-                                <input
-                                    type="range"
-                                    className="min-input"
-                                    min="1"
-                                    max="10"
-                                    value={ratingStart}
-                                    onChange={handleRatingStartChange}
-                                />
-                                <input
-                                    type="range"
-                                    className="max-input"
-                                    min="1"
-                                    max="10"
-                                    value={ratingEnd}
-                                    onChange={handleRatingEndChange}
-                                />
-                                <div className="slider-track" style={{ width: calculateTrackWidth(), left: calculateLeftPosition(), right: calculateRightPosition() }}></div>
+                            <div className='rating-input-div'>
+                                <p >Choose Rating: {ratingStart} to {ratingEnd}</p>
+                                <Slider
+                                    min={1}
+                                    max={10}
+                                    range
+                                    defaultValue={[ratingStart, ratingEnd]}
+                                    onChange={handleRatingChange}
+                                    handleStyle={{
+                                        backgroundColor: '#007bff', // Blue handle color
+                                        borderColor: '#007bff', // Blue handle border color
+                                        width: '25px', // Adjust handle width
+                                        height: '25px', // Adjust handle height
+                                        marginTop: '-10px' // Adjust handle vertical position
+                                    }}
+                                    trackStyle={{ backgroundColor: '#007bff' }} // Blue track color                                 
 
+
+                                />
                             </div>
                         </div>
 
-                        <div>
+                        <div className='filter-button-div'>
                             <button type="submit" className="filter-button" onClick={() => handleFilter()}>Filter Results</button>
                         </div>
                     </div>
@@ -618,7 +611,7 @@ const Discover = () => {
                         </>
                     )}
                     <label htmlFor='dropdown'>Status:</label>
-                    <select id='dropdown' name='dropdown' onChange={(e) => setSelectedStatus(e.target.value)}>
+                    <select id='dropdown' name='dropdown' value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
                         <option value='0'>Select Status</option>
                         <option value='1'>Read/Watched</option>
                         <option value='2'>Plan to Read/Watch</option>

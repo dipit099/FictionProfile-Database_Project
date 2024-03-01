@@ -103,4 +103,48 @@ router.post('/', async (req, res) => {
 }
 );
 
+
+router.get('/get_added_option', async (req, res) => {
+    try {
+        const { user_id, media_type, title_id } = req.query; // Extract parameters from query string
+        // console.log(req.query);
+        const extractId = await pool.query(
+            `
+            SELECT
+                media_id
+            FROM
+                "Fiction Profile"."MEDIA"
+            WHERE
+                ${media_type}_id = $1           
+            `,
+            [title_id]
+        );
+        const mediaId = extractId.rows[0].media_id;
+        const result = await pool.query(
+            `
+            SELECT
+                status_id
+            FROM
+                "Fiction Profile"."USER_MEDIA_LIST"
+            WHERE
+                user_id = $1
+            AND
+                media_id = $2
+            `,
+            [user_id, mediaId]
+        );
+        console.log(result.rows);
+        if (result.rows.length === 0) {
+            res.json({ success: true, status_id: 0 });
+        }
+        else {
+            res.json({ success: true, status_id: result.rows[0].status_id });
+        }
+
+    } catch (error) {
+        console.error('Error executing query:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+);
 module.exports = router;
