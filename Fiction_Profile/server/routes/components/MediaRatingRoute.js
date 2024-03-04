@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
         );       
        
         res.json(result.rows);
-        console.log('Ratings:', result.rows);
+        // console.log('Ratings:', result.rows);
     } catch (error) {
         console.error('Error fetching ratings:', error);
         res.status(500).json({ error: 'Internal server error' });

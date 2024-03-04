@@ -46,20 +46,59 @@ const MediaDetails = ({ mediaType }) => {
         setHoverRating(0);
     };
 
-    const handleUpvote = (index) => {
-        const updatedReviews = [...reviews];
-        updatedReviews[index].upvoted = !updatedReviews[index].upvoted;
-        updatedReviews[index].downvoted = false;
-        setReviews(updatedReviews);
-        console.log('review:', reviews);
-    };
+    // const handleUpvote = (index) => {
+    //     const updatedReviews = [...reviews];
+    //     updatedReviews[index].upvoted = !updatedReviews[index].upvoted;
+    //     updatedReviews[index].downvoted = false;
+    //     setReviews(updatedReviews);
+    //     console.log('review:', reviews);
+    // };
 
-    const handleDownvote = (index) => {
-        const updatedReviews = [...reviews];
-        updatedReviews[index].downvoted = !updatedReviews[index].downvoted;
-        updatedReviews[index].upvoted = false;
-        setReviews(updatedReviews);
-        console.log('review:', reviews);
+    // const handleDownvote = (index) => {
+    //     const updatedReviews = [...reviews];
+    //     updatedReviews[index].downvoted = !updatedReviews[index].downvoted;
+    //     updatedReviews[index].upvoted = false;
+    //     setReviews(updatedReviews);
+    //     console.log('review:', reviews);
+    // };
+
+    const handleReviewvote = async (index, voteValue) => {
+        try {
+            const updatedReviews = [...reviews];
+            const reviewId = updatedReviews[index].review_id; // Assuming there's a unique identifier for each review, like review_id
+            const user_id = localStorage.getItem('people_id'); // Get the user ID from localStorage or wherever it's stored
+
+            // Update the UI instantly to reflect the vote
+            if (voteValue === 1) {
+                updatedReviews[index].upvoted = !updatedReviews[index].upvoted;
+                updatedReviews[index].downvoted = false;
+            } else if (voteValue === -1) {
+                updatedReviews[index].downvoted = !updatedReviews[index].downvoted;
+                updatedReviews[index].upvoted = false;
+            }
+
+            // Update the state to reflect the UI changes
+            setReviews(updatedReviews);
+
+            // Send the vote to the server
+            const response = await axios.post(`${BASE_URL}/review/addvote`, {
+                user_id: user_id,
+                review_id: reviewId,
+                vote: voteValue
+            });
+
+
+            if (response.data.success) {
+                // Optionally, you can display a success message or perform any other action upon successful vote submission
+                console.log('Vote submitted successfully');
+            } else {
+                // Handle the case where the vote submission fails
+                console.error('Failed to submit vote');
+            }
+        } catch (error) {
+            // Handle any errors that occur during the vote submission process
+            console.error('Error submitting vote:', error);
+        }
     };
 
 
@@ -79,7 +118,8 @@ const MediaDetails = ({ mediaType }) => {
                 const result = await axios.get(`${BASE_URL}/review`, {
                     params: {
                         media_id: id,
-                        media_type: mediaType
+                        media_type: mediaType,
+                        user_id: people_id,
                     }
                 });
 
@@ -445,13 +485,22 @@ const MediaDetails = ({ mediaType }) => {
                                         <p className="review-title" style={{ fontSize: '24px' }}>Title : {review.title}</p>
                                         <p className="review-content" style={{ fontSize: '18px' }}>{review.review}</p>
                                         <div className='upvote-downvote-div'>
-                                            <FontAwesomeIcon icon={faThumbsUp} onClick={() => handleUpvote(index)} style={{ color: review.upvoted ? 'green' : 'white', cursor: 'pointer', marginRight: '15px', fontSize: '30px' }} />
-                                            <FontAwesomeIcon icon={faThumbsDown} onClick={() => handleDownvote(index)} style={{ color: review.downvoted ? 'red' : 'white', cursor: 'pointer', fontSize: '30px' }} />
+                                            <FontAwesomeIcon
+                                                icon={faThumbsUp}
+                                                onClick={() => handleReviewvote(index, 1)}
+                                                style={{ color: review.vote_value === 1 ? 'green' : 'white', cursor: 'pointer', marginRight: '15px', fontSize: '30px' }}
+                                            />
+                                            <FontAwesomeIcon
+                                                icon={faThumbsDown}
+                                                onClick={() => handleReviewvote(index, -1)}
+                                                style={{ color: review.vote_value === -1 ? 'red' : 'white', cursor: 'pointer', fontSize: '30px' }}
+                                            />
                                         </div>
                                     </li>
                                 ))}
                             </ul>
                         </div>
+
 
                     </div>
                 </div>
