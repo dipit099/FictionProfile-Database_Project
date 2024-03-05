@@ -8,9 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import SideBar from '../../config/navbar/SideBar';
 import Navbar from '../../config/navbar/Navbar';
 import BASE_URL from '../../config/ApiConfig';
-import { BiSolidUpvote, BiSolidDownvote } from 'react-icons/bi';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+
+import UpvoteIcon from '../../assets/UpvoteIcon';
+import DownvoteIcon from '../../assets/DownvoteIcon';
+import CommentIcon from '../../assets/CommentIcon';
+
 import { Link } from 'react-router-dom';
 
 const Feed = () => {
@@ -276,18 +278,26 @@ const Feed = () => {
                                 <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button>
                             </div>
                             <div className='post-description'>Content: {post.content}</div>
-                            <div className='upvote-container'>
-                                <div onClick={() => handleUpvote(post.post_id)} className="vote-icon">
-                                    <FontAwesomeIcon icon={faThumbsUp} style={{ cursor: 'pointer', marginRight: '15px', fontSize: '30px', color: post.upvoted ? 'green' : 'white' }} />
+                            <div className='vote-container' >
+                                <div className='feedvote-container'>
+                                    <div onClick={() => handleUpvote(post.post_id)} >
+                                        <UpvoteIcon filled={post.upvoted} />
+                                    </div>
+                                    <div>120</div>
+
+                                    <div onClick={() => handleDownvote(post.post_id)} >
+                                        <DownvoteIcon filled={post.downvoted} />
+                                    </div>
                                 </div>
-                                <div onClick={() => handleDownvote(post.post_id)} className="vote-icon">
-                                    <FontAwesomeIcon icon={faThumbsDown} style={{ cursor: 'pointer', marginRight: '15px', fontSize: '30px', color: post.downvoted ? 'red' : 'white' }} />
+
+                                <div onClick={() => toggleComments(post.post_id)} className='feedcommenttoggle-div'>
+                                    <CommentIcon >Show/Hide Comments</CommentIcon>
+                                    <div style={{ marginLeft: '10px', fontSize: '20px' }}>20</div>
                                 </div>
-                            </div>
-                            <div>
-                                <button className='publish-button' onClick={() => toggleComments(post.post_id)}>Show/Hide Comments</button>
+
 
                             </div>
+
                             {showComments[post.post_id] && (
                                 <>
                                     <form onSubmit={(event) => handleCommentSubmit(post.post_id, event)}>

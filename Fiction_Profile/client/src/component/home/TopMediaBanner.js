@@ -10,7 +10,9 @@ function TopMediaBanner() {
     const [currentMediaIndex, setCurrentMediaIndex] = useState(1);
     const navigate = useNavigate(); // Initialize the useNavigate hook
     const intervalRef = useRef(null);
-    const timelimit = 4000;
+    const timelimit = 10000;
+    const [isActive, setIsActive] = useState(false); // State to control animation
+
     useEffect(() => {
         // Fetch top media details from your server
         const fetchTopMedia = async () => {
@@ -20,7 +22,7 @@ function TopMediaBanner() {
                 const data = await response.json();
                 setTopMedia(data.topMedia); // Set the top media details received from the server
                 console.log(data.topMedia);
-
+                setIsActive(true); // Activate animation
             } catch (error) {
                 console.error('Error fetching top media details:', error);
             }
@@ -68,13 +70,13 @@ function TopMediaBanner() {
     };
 
     return (
-       
-        <div className="banner-container">
+
+        <div className={`banner-container ${isActive ? 'active' : ''}`}>
             {topMedia.length > 0 && (
                 <>
                     <img src={topMedia[currentMediaIndex].backdrop_path} alt="Backdrop Image" onClick={handleClick} />
-                    
-                    
+
+
                     <div className="media-banner">
 
 
@@ -83,7 +85,7 @@ function TopMediaBanner() {
                             <GrPrevious onClick={goToPreviousMedia} className="nav-button prev-button" />
                             <GrNext onClick={goToNextMedia} className="nav-button next-button" />
                         </div>
-                        
+
                         <div className="media-details-box">
                             <p className="media-details">{topMedia[currentMediaIndex].title}</p>
                         </div>
