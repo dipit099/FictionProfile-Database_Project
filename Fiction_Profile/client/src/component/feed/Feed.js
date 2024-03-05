@@ -268,31 +268,38 @@ const Feed = () => {
                             required
                         ></textarea>
 
-                        <button type="submit" className='publish-button'>Publish Post</button>
+
                     </form>
+                    <button type="submit" className='publish-button'>Publish Post</button>
 
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>
                             <p><img src={post.profile_pic_path} alt={post.post_id} />{post.username}</p>
-                            <div className='post-title'>Title:  {post.title} ---------- {new Date(post.last_edit).toLocaleString()}
-                                <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button>
+                            <div className='post-title-div'>
+                                <div className='post-title'>{post.title} </div>
+                                <div className='feed-date'> {new Date(post.last_edit).toLocaleDateString()} </div>
+
+
                             </div>
-                            <div className='post-description'>Content: {post.content}</div>
+                            <div className='post-description'>{post.content}</div>
                             <div className='vote-container' >
-                                <div className='feedvote-container'>
-                                    <div onClick={() => handleUpvote(post.post_id)} >
+                                <div className={`feedvote-container ${post.upvoted ? 'upvoted' : post.downvoted ? 'downvoted' : ''}`}>
+                                    <div onClick={() => handleUpvote(post.post_id)}>
                                         <UpvoteIcon filled={post.upvoted} />
                                     </div>
                                     <div>120</div>
-
-                                    <div onClick={() => handleDownvote(post.post_id)} >
+                                    <div onClick={() => handleDownvote(post.post_id)}>
                                         <DownvoteIcon filled={post.downvoted} />
                                     </div>
                                 </div>
 
+
                                 <div onClick={() => toggleComments(post.post_id)} className='feedcommenttoggle-div'>
                                     <CommentIcon >Show/Hide Comments</CommentIcon>
                                     <div style={{ marginLeft: '10px', fontSize: '20px' }}>20</div>
+                                </div>
+                                <div >
+                                    <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button>
                                 </div>
 
 
@@ -311,7 +318,7 @@ const Feed = () => {
                                         <button type="submit" className='publish-button'>Comment</button>
                                     </form>
                                     <p>Comments:</p>
-                                    <div className='comments'>
+                                    <div className='comment-div'>
                                         {post.comments.length > 0 ? (
                                             post.comments.map(comment => (
                                                 <div key={comment.comment_id} className='comment'>

@@ -2,15 +2,42 @@
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #222;
+    background-color: #101320;
     color: #fff;
-    margin-top: 120px;
-    margin-left: 150px;
-    margin-right: 100px;
+
+
 }
 
 .feedWrapper {
-    width: 60%;
+    width: 55%;
+    margin-right: 20px;
+    margin-left: 150px;
+    margin-top: 100px;
+    max-height: 100vh;
+    /* Set the maximum height of the container */
+    overflow-y: auto;
+    /* Enable vertical scrolling when content exceeds the height */
+    padding-right: 20px;
+}
+
+/* Customize the scrollbar */
+.feedWrapper::-webkit-scrollbar {
+    width: 6px;
+    /* Set the width of the scrollbar */
+}
+
+/* Customize the thumb of the scrollbar */
+.feedWrapper::-webkit-scrollbar-thumb {
+    background-color: #888;
+    /* Set the background color of the thumb */
+    border-radius: 4px;
+    /* Set the border radius of the thumb */
+}
+
+/* Change scrollbar color on hover */
+.feedWrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+    /* Set the hover color of the thumb */
 }
 
 .post {
@@ -18,7 +45,7 @@
     padding: 10px;
     border: 1px solid #444;
     border-radius: 8px;
-    background-color: #333;
+    background-color: #1a2032;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 1);
 
 }
@@ -30,34 +57,65 @@
     margin-right: 10px;
 }
 
-.post-title {
-    font-size: 24px;
+
+.post-title-div {
     margin-top: 10px;
     margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+
+
+}
+
+.post-title {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 26px;
+}
+
+
+.feed-date {
+    font-size: 18px;
+    color: #ccc;
+    margin-left: 30px;
 
 }
 
 .post-description {
     font-size: 16px;
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 20px;
+    color: #cacbe6;
+    /* White text */
+    padding: 10px;
+    /* Add padding for spacing inside the box */
+    border-radius: 5px;
+    /* Add border-radius for rounded corners */
 }
 
 .comment {
-    padding: 10px;
     border-radius: 4px;
-    margin-bottom: 10px;
     font-size: 18px;
+    
 }
 
-.comments .comment:nth-child(odd) {
-    background-color: #1a1818;
-    color: #fff;
+.comment-div {
+    margin-top: 10px;
+
 }
 
-.comments .comment:nth-child(even) {
-    background-color: #222;
-    color: #fff;
+.comment-div .comment:nth-child(odd) {
+    background-color: #262d44;
+    color: #ccc;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.comment-div .comment:nth-child(even) {
+    background-color: #1d253f;
+    color: #ccc;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .feed-container textarea,
@@ -72,17 +130,18 @@
 .feed-container input[type="text"] {
     width: 40%;
     height: 70px;
-    background-color: #32333f;
+    background-color: #23242c;
     border: none;
     outline: none;
     color: #fff;
     font-size: 25px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .feed-container textarea {
     width: 80%;
     height: 100px;
-    background-color: #444;
+    background-color: #23242c;
     border: none;
     outline: none;
     color: #fff;
@@ -118,29 +177,41 @@
 
 }
 
+.upvoted {
+    background-color: rgb(8, 69, 8);
+}
+
+.downvoted {
+    background-color: rgb(98, 8, 8);
+}
+
 .feedcommenttoggle-div {
     display: flex;
-    align-items: center;   
+    align-items: center;
+    justify-content: center;
     width: fit-content;
     margin-bottom: 20px;
-    margin-right: 50px;
     border: 1px solid #ccc;
     /* Border color */
     padding: 10px;
     /* Padding around the container */
     border-radius: 15px;
     cursor: pointer;
+    width: 100px;
 
 }
 
 .publish-button {
-    background-color: #007bff;
+    background-color: #6012a8;
     color: #fff;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 20px;
 }
 
 .publish-button:hover {
@@ -148,47 +219,43 @@
 }
 
 .report-button {
-    background-color: #dc3545;
-    /* Red */
-    color: #fff;
+    color: #ffffff;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    font-size: 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-left: 10px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    border: 1px solid #ccc;
+    /* Border color */
+    padding: 10px;
+    /* Padding around the container */
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: transparent;
+
+
+
 }
 
 .report-button:hover {
-    background-color: #c82333;
+    background-color: #5a181f;
     /* Darker shade of red */
 }
 
-.comments {
-    margin-top: 10px;
-}
 
-.comment {
-    margin-bottom: 5px;
-}
 
 .followed-users-container {
     width: 35%;
-    background-color: #222;
+
     color: #fff;
     padding: 20px;
     display: flex;
     justify-content: space-between;
+
+    margin-top: 100px;
 }
 
-.followed-users-list h2,
-.people-you-may-know h2 {
-    margin-bottom: 10px;
-}
 
-.user-info {
-    margin-bottom: 10px;
-}
 
 .user-info img {
     width: 40px;
@@ -230,6 +297,5 @@
 
 .followed-users-container li {
     list-style-type: none;
-    margin-bottom: 10px;
     font-size: 18px;
 }
