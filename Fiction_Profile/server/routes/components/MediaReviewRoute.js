@@ -10,8 +10,8 @@ router.use(express.json());
 router.get('/', async (req, res) => {
     try {
         // Extract media_id and media_type from the request query parameters
-        const { media_id, media_type } = req.query;
-        // console.log(req.query); // Log the query parameters to verify
+        const { media_id, media_type, userId } = req.query;
+        console.log('media_id:', media_id);
 
         // Perform a database query to fetch reviews based on media_id and media_type
         const extractId = await pool.query(
@@ -31,21 +31,26 @@ router.get('/', async (req, res) => {
         const result = await pool.query(
             `
             SELECT 
-                review_id, 
-                title,                 
-                review   ,
-                added_date,
-                (Select username from "Fiction Profile"."PEOPLE" where people_id = user_id) as username             
-            FROM 
-                "Fiction Profile"."REVIEW"
-            WHERE 
-                media_id = $1 AND review IS NOT NULL
+            r.review_id, 
+            r.title,                 
+            r.review   ,
+            r.added_date,
+            r.user_id,
+            (Select username from "Fiction Profile"."PEOPLE" where people_id = r.user_id) as username,
+            (SELECT rv.vote_value FROM "Fiction Profile"."REVIEW_VOTE" rv WHERE user_id =  $2 AND review_id= r.review_id) as vote_value
+        FROM 
+            "Fiction Profile"."REVIEW" r
+                        LEFT JOIN "Fiction Profile"."REVIEW_VOTE" rv
+                        ON r.review_id= rv.review_id
+        WHERE 
+            media_id = $1 AND review IS NOT NULL	                        
+
             `,
-            [mediaId]
+            [mediaId, userId]
         );
 
         const reviews = result.rows;
-         console.log('reviews:', reviews);
+        console.log('reviews:', reviews);
 
         // Send the reviews data in the response
         res.json({ reviews });
@@ -103,9 +108,7 @@ router.post('/add', async (req, res) => {
 router.post('/addvote', async (req, res) => {
     try {
 
-        const { user_id, review_id, vote } = req.body;
-        console.log('add upvote:', req.body);
-        console.log('user_id:', user_id);
+        let { user_id, review_id, vote } = req.body;
 
         // Check if user_id and review are provided
         // if (!user_id || !review_id) {
@@ -126,15 +129,25 @@ router.post('/addvote', async (req, res) => {
             [user_id, review_id]
         );
         if (isExisting.rows.length > 0) {
+            if (isExisting.rows[0].vote_value === vote) {
 
-            const result = await pool.query(
-                `
-                UPDATE "Fiction Profile"."REVIEW_VOTE"
+                const result = await pool.query(
+                    ` DELETE FROM "Fiction Profile"."REVIEW_VOTE"
+                WHERE user_id = $1 AND review_id = $2
+                `,
+                    [user_id, review_id]
+                );
+
+            }
+            else {
+                const result = await pool.query(
+                    `UPDATE "Fiction Profile"."REVIEW_VOTE"
                 SET vote_value = $3
                 WHERE user_id = $1 AND review_id = $2
                 `,
-                [user_id, review_id, vote]
-            );
+                    [user_id, review_id, vote]
+                );
+            }
 
         }
         else {
@@ -147,7 +160,7 @@ router.post('/addvote', async (req, res) => {
                 `,
                 [user_id, review_id, vote]
             );
-            console.log('result:', result.rows);
+
         }
 
         res.json({ success: true, message: 'Upvote added successfully' });

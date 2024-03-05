@@ -46,21 +46,7 @@ const MediaDetails = ({ mediaType }) => {
         setHoverRating(0);
     };
 
-    // const handleUpvote = (index) => {
-    //     const updatedReviews = [...reviews];
-    //     updatedReviews[index].upvoted = !updatedReviews[index].upvoted;
-    //     updatedReviews[index].downvoted = false;
-    //     setReviews(updatedReviews);
-    //     console.log('review:', reviews);
-    // };
 
-    // const handleDownvote = (index) => {
-    //     const updatedReviews = [...reviews];
-    //     updatedReviews[index].downvoted = !updatedReviews[index].downvoted;
-    //     updatedReviews[index].upvoted = false;
-    //     setReviews(updatedReviews);
-    //     console.log('review:', reviews);
-    // };
 
     const handleReviewvote = async (index, voteValue) => {
         try {
@@ -69,13 +55,13 @@ const MediaDetails = ({ mediaType }) => {
             const user_id = localStorage.getItem('people_id'); // Get the user ID from localStorage or wherever it's stored
 
             // Update the UI instantly to reflect the vote
+            // Update the UI instantly to reflect the vote
             if (voteValue === 1) {
-                updatedReviews[index].upvoted = !updatedReviews[index].upvoted;
-                updatedReviews[index].downvoted = false;
+                updatedReviews[index].vote_value = updatedReviews[index].vote_value === 1 ? 0 : 1;
             } else if (voteValue === -1) {
-                updatedReviews[index].downvoted = !updatedReviews[index].downvoted;
-                updatedReviews[index].upvoted = false;
+                updatedReviews[index].vote_value = updatedReviews[index].vote_value === -1 ? 0 : -1;
             }
+
 
             // Update the state to reflect the UI changes
             setReviews(updatedReviews);
@@ -87,20 +73,17 @@ const MediaDetails = ({ mediaType }) => {
                 vote: voteValue
             });
 
-
-            if (response.data.success) {
-                // Optionally, you can display a success message or perform any other action upon successful vote submission
-                console.log('Vote submitted successfully');
+            if (response.data.success) {              
+               
+                toast.success('Vote submitted successfully');
             } else {
-                // Handle the case where the vote submission fails
-                console.error('Failed to submit vote');
+             toast.error('Vote submission failed');
             }
         } catch (error) {
             // Handle any errors that occur during the vote submission process
             console.error('Error submitting vote:', error);
         }
     };
-
 
     useEffect(() => {
         const fetchMediaDetails = async () => {
@@ -119,7 +102,7 @@ const MediaDetails = ({ mediaType }) => {
                     params: {
                         media_id: id,
                         media_type: mediaType,
-                        user_id: people_id,
+                        userId: people_id,
                     }
                 });
 

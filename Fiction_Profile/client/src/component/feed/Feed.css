@@ -95,14 +95,42 @@
     border: 2px solid #007bff;
 }
 
-.upvote-container {
+.vote-container {
     display: flex;
     align-items: center;
+    padding: 8px;
+    width: fit-content;
 }
 
-.vote-icon {
-    margin-right: 10px;
+.feedvote-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    /* Border color */
+    padding: 8px;
+    /* Padding around the container */
+    border-radius: 25px;
+    /* Rounded corners */
+    width: fit-content;
+    /* Adjust the width based on content */
+    margin-bottom: 20px;
+    margin-right: 20px;
+
+}
+
+.feedcommenttoggle-div {
+    display: flex;
+    align-items: center;   
+    width: fit-content;
+    margin-bottom: 20px;
+    margin-right: 50px;
+    border: 1px solid #ccc;
+    /* Border color */
+    padding: 10px;
+    /* Padding around the container */
+    border-radius: 15px;
     cursor: pointer;
+
 }
 
 .publish-button {

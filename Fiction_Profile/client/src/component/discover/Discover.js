@@ -78,15 +78,6 @@ const Discover = () => {
     };
 
 
-    useEffect(() => {
-        console.log('Media Types updated:', mediaTypes);
-        // Perform any actions based on the updated mediaTypes state here
-    }, [mediaTypes]); // Dependency array ensures the effect runs when mediaTypes changes
-
-
-
-    // You won't log mediaTypes immediately after setMediaTypes, 
-    // as it will not reflect the updated state due to the asynchronous nature of state updates.
 
 
 
@@ -143,7 +134,8 @@ const Discover = () => {
 
 
     useEffect(() => {
-        console.log('Current Page:', currentPage);
+        console.log('Current Page:', currentPage);  
+        console.log("DIp");      
         const fetchMediaItems = async () => {
             try {
                 const response = await axios.get(`${BASE_URL}/discover`, {
@@ -407,7 +399,7 @@ const Discover = () => {
                         <div className="media-items">
                             {mediaItems && mediaItems.map(mediaItem => (
                                 <div key={mediaItem.key_id} className="media-card">
-                                    <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`}>
+                                    <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`}  target="_blank">
 
                                         <div className='media-poster-badge'>
                                             <div className='media-poster'>
