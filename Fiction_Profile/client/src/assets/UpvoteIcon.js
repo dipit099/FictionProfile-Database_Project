@@ -2,12 +2,13 @@
 import React from 'react';
 
 const UpvoteIcon = ({ filled }) => {
+    // console.log("filled "+filled);
     return (
         <svg
             style={{ cursor: 'pointer', width: '30px', height: '30px' }}
             fill={filled ? 'white' : 'none'}
             stroke={'white'}
-            strokeWidth="2"
+            strokeWidth="1"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
         >

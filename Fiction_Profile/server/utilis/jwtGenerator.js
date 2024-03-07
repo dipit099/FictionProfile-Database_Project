@@ -10,7 +10,7 @@ function jwtGenerator(people_id) {
   // console.log("jwtGenerator: " + people_id)
   // console.log("jwtGenerator: " + process.env.jwtSecret);
 
-  return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "1h" });
+  return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "4h" });
 }
 
 module.exports = jwtGenerator;

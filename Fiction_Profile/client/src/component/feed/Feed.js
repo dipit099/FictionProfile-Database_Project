@@ -35,7 +35,7 @@ const Feed = () => {
                 });
 
                 setFeed(response.data.feed);
-                console.log('Feed data:', response.data.feed);
+
                 const followedResponse = await axios.get(`${BASE_URL}/feed/followed`, {
                     params: {
                         user_id: people_id
@@ -194,33 +194,84 @@ const Feed = () => {
     //         console.error('Error downvoting:', error);
     //     }
     // };
-    const handleUpvote = (postId) => {
-        const updatedFeed = feed.map(post => {
-            if (post.post_id === postId) {
-                return {
-                    ...post,
-                    upvoted: !post.upvoted, // Toggle the upvoted state
-                    downvoted: false // Ensure downvote state is false when upvoting
-                };
+    // const handleVote = async (postId, voteValue) => {
+    //     // const updatedFeed = feed.map(post => {
+    //     //     if (post.post_id === postId) {
+    //     //         // Toggle the vote state based on voteValue
+    //     //         const isUpvote = voteValue === 1;
+    //     //         const isDownvote = voteValue === -1;
+
+    //     //         // Toggle the upvoted state
+    //     //         const updatedUpvoteState = isUpvote ? !post.upvoted : false;
+
+    //     //         // Toggle the downvoted state
+    //     //         const updatedDownvoteState = isDownvote ? !post.downvoted : false;
+
+    //     //         return {
+    //     //             ...post,
+    //     //             upvoted: updatedUpvoteState,
+    //     //             downvoted: updatedDownvoteState,
+    //     //         };
+    //     //     }
+    //     //     return post;
+    //     // });
+
+    //     const response = await axios.post(`${BASE_URL}/feed/add_post_vote`, {
+    //         user_id: people_id,
+    //         post_id: postId,
+    //         vote_value: voteValue
+    //     });
+
+    //     if (response.data.success) {
+    //         // Proceed with the action since the response was successful
+    //         toast.success('Voting successful!');
+    //         const result = await axios.get(`${BASE_URL}/feed`, {
+    //             params: {
+    //                 user_id: people_id
+    //             }
+    //         });
+
+    //         setFeed(result.data.feed);
+    //     } else {
+    //         // Handle the case where the response was not successful
+    //         toast.error('Voting failed!');
+    //     }
+
+
+
+    //     // setFeed(updatedFeed);
+
+    // };
+    const handleVote = async (postId, voteValue) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/feed/add_post_vote`, {
+                user_id: people_id,
+                post_id: postId,
+                vote_value: voteValue
+            });
+
+            if (response.data.success) {
+                // Proceed with the action since the response was successful
+                toast.success('Voting successful!');
+                const result = await axios.get(`${BASE_URL}/feed`, {
+                    params: {
+                        user_id: people_id
+                    }
+                });
+
+                setFeed(result.data.feed); // Update the feed state with new data
+            } else {
+                // Handle the case where the response was not successful
+                toast.error('Voting failed!');
             }
-            return post;
-        });
-        setFeed(updatedFeed);
+        } catch (error) {
+            // Handle errors that occur during the HTTP request
+            console.error('Error voting:', error);
+            toast.error('An error occurred while voting');
+        }
     };
 
-    const handleDownvote = (postId) => {
-        const updatedFeed = feed.map(post => {
-            if (post.post_id === postId) {
-                return {
-                    ...post,
-                    downvoted: !post.downvoted, // Toggle the downvoted state
-                    upvoted: false // Ensure upvote state is false when downvoting
-                };
-            }
-            return post;
-        });
-        setFeed(updatedFeed);
-    };
+
 
     const [showComments, setShowComments] = useState({});
 
@@ -277,26 +328,29 @@ const Feed = () => {
                             <p><img src={post.profile_pic_path} alt={post.post_id} />{post.username}</p>
                             <div className='post-title-div'>
                                 <div className='post-title'>{post.title} </div>
-                                <div className='feed-date'> {new Date(post.last_edit).toLocaleDateString()} </div>
+                                <div className='feed-date'> {new Date(post.last_edit).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })} </div>
+
 
 
                             </div>
                             <div className='post-description'>{post.content}</div>
                             <div className='vote-container' >
-                                <div className={`feedvote-container ${post.upvoted ? 'upvoted' : post.downvoted ? 'downvoted' : ''}`}>
-                                    <div onClick={() => handleUpvote(post.post_id)}>
-                                        <UpvoteIcon filled={post.upvoted} />
+                                <div className={`feedvote-container ${post.user_vote === 1 ? 'upvoted' : post.user_vote === -1 ? 'downvoted' : ''}`}>
+                                    <div onClick={() => handleVote(post.post_id, 1)}>
+                                        <UpvoteIcon filled={post.user_vote === 1} />
                                     </div>
-                                    <div>120</div>
-                                    <div onClick={() => handleDownvote(post.post_id)}>
-                                        <DownvoteIcon filled={post.downvoted} />
+                                    <div style={{ fontSize: '22px', marginLeft: '5px', marginRight: '5px' }}>{post.total_vote}</div>
+
+                                    <div onClick={() => handleVote(post.post_id, -1)}>
+                                        <DownvoteIcon filled={post.user_vote === -1} />
                                     </div>
                                 </div>
 
 
+
                                 <div onClick={() => toggleComments(post.post_id)} className='feedcommenttoggle-div'>
-                                    <CommentIcon >Show/Hide Comments</CommentIcon>
-                                    <div style={{ marginLeft: '10px', fontSize: '20px' }}>20</div>
+                                    <CommentIcon ></CommentIcon>
+                                    <div style={{ marginLeft: '10px', fontSize: '20px' }}> {post.comments_count}  </div>
                                 </div>
                                 <div >
                                     <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button>
@@ -336,37 +390,45 @@ const Feed = () => {
 
 
                 </div>
-                <div className='followed-users-container'>
-                    <div className="followed-users-list">
-                        <h2>Followed Users</h2>
-                        {followedUsers.map(followedUsers => (
-                            <div className="user-info">
-                                <li key={followedUsers.follow_id}>
-                                    <Link to={`/dashboard/${followedUsers.followed_id}`}>
-                                        <img src={followedUsers.profile_pic_path} alt={followedUsers.full_name} />
-                                        <span>{followedUsers.username}</span>
-                                    </Link>
+                <div className='trending-container'>
+                    <div>
 
-                                    <button className="unfollow-button" onClick={() => handleUnfollow(followedUsers.followed_id)}>Unfollow</button>
-                                </li>
-                            </div>
-                        ))}
+                        Trending
+
                     </div>
-                    <div className="people-you-may-know">
-                        <h2>People You May Know</h2>
+                    <div className='followed-users-container'>
+                        {/* <div className="followed-users-list">
+                            <h2>Followed Users</h2>
+                            {followedUsers.map(followedUsers => (
+                                <div className="user-info">
+                                    <li key={followedUsers.follow_id}>
+                                        <Link to={`/dashboard/${followedUsers.followed_id}`}>
+                                            <img src={followedUsers.profile_pic_path} alt={followedUsers.full_name} />
+                                            <span>{followedUsers.username}</span>
+                                        </Link>
 
-                        {peopleYouMayKnow.map(peopleYouMayKnow => (
-                            < div className="user-info">
-                                <li key={peopleYouMayKnow.people_id}>
-                                    <Link to={`/dashboard/${peopleYouMayKnow.people_id}`}>
-                                        <img src={peopleYouMayKnow.profile_pic_path} alt={`${peopleYouMayKnow.first_name} ${peopleYouMayKnow.last_name}`} />
-                                        <span>{`${peopleYouMayKnow.username}`}</span>
-                                    </Link>
+                                        <button className="unfollow-button" onClick={() => handleUnfollow(followedUsers.followed_id)}>Unfollow</button>
+                                    </li>
+                                </div>
+                            ))}
+                        </div> */}
+                        <h2>Same Minds</h2>
+                        <div className="people-you-may-know">
 
-                                    <button className="follow-button" onClick={() => handleFollow(peopleYouMayKnow.people_id)}>Follow</button>
-                                </li>
-                            </div>
-                        ))}
+
+                            {peopleYouMayKnow.map(peopleYouMayKnow => (
+                                < div className="user-info">
+                                    <li key={peopleYouMayKnow.people_id}>
+                                        <Link to={`/dashboard/${peopleYouMayKnow.people_id}`}>
+                                            <img src={peopleYouMayKnow.profile_pic_path} alt={`${peopleYouMayKnow.first_name} ${peopleYouMayKnow.last_name}`} />
+                                            <span>{`${peopleYouMayKnow.username}`}</span>
+                                        </Link>
+
+                                        <button className="follow-button" onClick={() => handleFollow(peopleYouMayKnow.people_id)}>Follow</button>
+                                    </li>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div >

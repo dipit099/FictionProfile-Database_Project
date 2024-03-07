@@ -1,0 +1,93 @@
+.dashboardprofile-div {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+}
+
+
+.dashboardprofile-user-info {
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.dashboardprofile-user-info-left {
+    font-size: 20px;
+    border: 1px solid rgb(255, 255, 255);
+    padding: 10px;
+}
+
+.dashboardprofile-generalcount-list {
+    font-size: 20px;
+    border: 1px solid rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+
+
+.bar-container {
+    display: flex;
+    height: 37px;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+
+
+
+}
+
+.counts {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+
+.bar-green {
+    background-color: green;
+    height: 35px;
+}
+
+.bar-yellow {
+    background-color: yellow;
+    height: 35px;
+}
+
+.bar-red {
+    background-color: red;
+    height: 35px;
+}
+
+.green-dot {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: green;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.yellow-dot {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: yellow;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.red-dot {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50%;
+    margin-right: 5px;
+}

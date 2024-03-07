@@ -7,6 +7,7 @@ import BASE_URL from "../../config/ApiConfig";
 import FavoriteList from "./FavoriteList";
 import UserPosts from "./UserPosts";
 import Affinity from "./Affinity";
+import DashboardProfile from "./DashboardProfile";
 
 const Dashboard = () => {
     const [userData, setUserData] = useState([]);
@@ -50,10 +51,8 @@ const Dashboard = () => {
     let sectionContent;
     switch (activeSection) {
         case 'profile':
-            sectionContent = (
-                <div>
-                    {/* Your profile content */}
-                </div>
+            sectionContent = (<DashboardProfile userData={userData} />
+               
             );
             break;
         case 'favorite':
@@ -62,9 +61,38 @@ const Dashboard = () => {
         case 'posts':
             sectionContent = <UserPosts />;
             break;
+        case 'activity':
+            sectionContent = (
+                <div>
+                    {/* Your activity content */}
+                </div>
+            );
+            break;
+        case 'media_list':
+            sectionContent = (
+                <div>
+                    {/* Your media list content */}
+                </div>
+            );
+            break;
+
         case 'affinity':
             sectionContent = (
-               <Affinity people_id={peopleId} />
+                <Affinity people_id={peopleId} />
+            );
+            break;
+        case 'suggestions':
+            sectionContent = (
+                <div>
+                    {/* Your suggestions content */}
+                </div>
+            );
+            break;
+        case 'follow':
+            sectionContent = (
+                <div>
+                    {/* Your follow content */}
+                </div>
             );
             break;
         default:
@@ -75,17 +103,13 @@ const Dashboard = () => {
         <div>
             <SideBar />
             <div className="dashboard-container">
-                <h1>Dashboard</h1>
                 {userData && (
                     <div className="user-profile">
                         <img src={userData.profile_pic_path} alt="Profile" />
-                        <div className="user-info">
-                            <h2>Username: {userData.username}</h2>
-                            <p>Name: {userData.first_name} {userData.last_name}</p>
-                            <p>Email: {userData.email}</p>
-                            <p>Gender: {userData.gender}</p>
-                            <p>Birthdate: {userData.birthdate ? new Date(userData.birthdate).toLocaleDateString() : 'N/A'}</p>
-                            <p>Joined Date: {userData.joined_date ? new Date(userData.joined_date).toLocaleDateString() : 'N/A'}</p>
+
+                        <div className="dashboard-user-info">
+                            <div>Username: {userData.username}</div>
+                            
                         </div>
                     </div>
                 )}
@@ -100,16 +124,27 @@ const Dashboard = () => {
                         <li className={activeSection === 'posts' ? 'active' : ''} onClick={() => handleSectionClick('posts')}>
                             Posts
                         </li>
+                        <li className={activeSection === 'activity' ? 'active' : ''} onClick={() => handleSectionClick('activity')}>
+                            Activity
+                        </li>
+
+                        <li className={activeSection === 'media_list' ? 'active' : ''} onClick={() => handleSectionClick('media_list')}>
+                            Media List
+                        </li>
+
                         {peopleId !== userProfileId && ( // Only show "Affinity" when visiting another profile
                             <li className={activeSection === 'affinity' ? 'active' : ''} onClick={() => handleSectionClick('affinity')}>
                                 Affinity
                             </li>
                         )}
-                        <li className={activeSection === 'activity' ? 'active' : ''} onClick={() => handleSectionClick('activity')}>
-                            Activity
-                        </li>
-                        <li className={activeSection === 'choice' ? 'active' : ''} onClick={() => handleSectionClick('choice')}>
-                            Choice
+                        {peopleId === userProfileId && ( // Only show "Affinity" when visiting another profile
+                            <li className={activeSection === 'suggestions' ? 'active' : ''} onClick={() => handleSectionClick('suggestions')}>
+                                Suggestions
+                            </li>
+                        )}
+
+                        <li className={activeSection === 'follow' ? 'active' : ''} onClick={() => handleSectionClick('follow')}>
+                            Follow
                         </li>
                     </ul>
                 </div>

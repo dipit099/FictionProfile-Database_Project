@@ -166,4 +166,55 @@ router.get('/:people_id/affinity/favorite_count', async (req, res) => {
 }
 );
 
+router.get('/general_counts/:people_id', async (req, res) => {
+    try {
+        const { people_id } = req.params;
+        // console.log('Fetching general counts' + people_id);
+
+        const result = await pool.query(`
+        SELECT
+            (SELECT COUNT(*) FROM "Fiction Profile"."POST"
+                    WHERE user_id = $1) AS posts,
+            (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" 
+                    WHERE user_id = $1) AS favorites,
+            (SELECT COUNT(*) FROM "Fiction Profile"."FOLLOW"
+                      WHERE user_id =$1) AS followers,
+            (SELECT COUNT(*) FROM "Fiction Profile"."FOLLOW" 
+                     WHERE followed_id=$1) AS following
+	
+        `, [people_id]);
+
+        // console.log('General counts:', result.rows);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error fetching general counts:', error);
+        res.status(400).json({ error: 'Error fetching general counts' });
+    }
+});
+
+router.get('/media_list_count/:people_id', async (req, res) => {
+    try {
+        const { people_id } = req.params;
+        console.log('Fetching media list count' + people_id);
+
+        const result = await pool.query(`
+        SELECT 
+            SUM(CASE WHEN status_id = 1 THEN 1 ELSE 0 END) AS read,
+            SUM(CASE WHEN status_id = 2 THEN 1 ELSE 0 END) AS plan,
+            SUM(CASE WHEN status_id = 3 THEN 1 ELSE 0 END) AS currently
+        FROM 
+            "Fiction Profile"."USER_MEDIA_LIST"
+        WHERE 
+            user_id = $1;
+        `, [people_id]);
+
+        console.log('Media list count: ', result.rows);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error fetching media list count:', error);
+        res.status(400).json({ error: 'Error fetching media list count' });
+    }
+}
+);
+
 module.exports = router;
