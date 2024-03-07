@@ -438,3 +438,73 @@
     font-family: Arial, sans-serif;
     /* Set font family */
 }
+
+.edit-modal-content {
+
+    color: #FFF;
+    padding: 20px;
+
+    width: 100%;
+    width: 700px;
+    margin: auto;
+}
+
+.edit-close {
+    float: right;
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.edit-title {
+    text-align: center;
+}
+
+.edit-form-group {
+    margin-bottom: 20px;
+}
+
+.edit-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.edit-textarea {
+    height: 200px;
+}
+
+.edit-input,
+.edit-textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #FFF;
+    background-color: #0f1a2f;
+    color: #FFF;
+    font-size: 18px;
+}
+
+.edit-publish-button {
+    background-color: #6200ff;
+    color: #FFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.edit-publish-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-button {
+    background-color: #6200ff;
+    color: #FFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 50px;
+
+}

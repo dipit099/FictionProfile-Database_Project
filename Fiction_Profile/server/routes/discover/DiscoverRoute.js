@@ -75,6 +75,7 @@ router.get('/mediaType', async (req, res) => {
 router.get('/', async (req, res) => {
 
     console.log(req.query);
+   
 
     let { userId, page, pageSize, search, genres, mediaTypes, yearStart, yearEnd, ratingStart, ratingEnd, sortBy, sortSequence } = req.query;
 
@@ -144,6 +145,7 @@ router.get('/', async (req, res) => {
     try {
         // Calculate the offset based on the page number and page size
         const offset = (pageNumber - 1) * limit;
+        console.log("Loading............");
 
         // Build the SQL query dynamically based on the provided parameters
         let discoverQuery = `
