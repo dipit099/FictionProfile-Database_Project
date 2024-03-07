@@ -27,6 +27,14 @@ Login/Account(when logged in) , Notification
             c. Manage and Create announcements for new addition or deletion to database
             d. Add, Delete, Update Media info
             e.
+            (
+                okay so now i have to build the moderator site for my website
+                moderator will login as moderator in login page then they will be redirected to their site where they can : 
+                1. Add, remove or modify movies, TV, manga, or books
+                2. Remove comment, post or review according to report (users can report post, review, comments if they contain profanity or inappropriate language)
+                3. Make announcements that will reach to all users
+                4. Also a dashboard page where he can see all of his past works in brief details like how many movies he added or deleted ...info like that
+            )
 
         ** For Admin ** 
         Display and Feature:
@@ -66,3 +74,12 @@ Login/Account(when logged in) , Notification
 
 
 
+TODOs: (Mahdi)
+1. Finish up the realtions between user and mod and add necessary columns where needed.
+2. Create log tables for the major queries and trigger to track and keep record of the interactions.
+3. Create all the triggers.
+4. Create moderator site and test all the triggers. (Also decide on media deletion logic : should it be a soft delete or reinsertion in some new table and handle the processs accordingly)
+5. Check all the queries and match up to the project rubric.
+6. Reduce table sizes accordingly such that a faster searching can be performed regularly. 
+7. Check up on all bugs and try fixing them.
+8. 

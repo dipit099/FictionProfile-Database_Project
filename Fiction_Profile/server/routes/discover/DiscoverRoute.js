@@ -92,7 +92,7 @@ router.get('/', async (req, res) => {
     userId = parseInt(userId) || 4;
 
     // Set default value for sortBy and sortSequence if not provided
-    sortBy = sortBy || 'title';
+    sortBy = sortBy || 'distance';
     sortSequence = sortSequence || 'ASC';
 
 
@@ -162,12 +162,15 @@ router.get('/', async (req, res) => {
                 END AS id,
                 (SELECT type_name FROM "Fiction Profile"."MEDIA_TYPE" WHERE type_id = m.type_id) AS media_type,
                 (SELECT COUNT(*) FROM "Fiction Profile"."FAVORITE" WHERE user_id = $1 AND media_id = m.media_id) AS is_favorite,
-                (SELECT array_agg(g.name) FROM "Fiction Profile"."GENRE" g WHERE g.id = ANY(SELECT mg.genre_id FROM "Fiction Profile"."MEDIA_GENRE" mg WHERE mg.media_id=m.media_id)) AS genres
-
+                (SELECT array_agg(g.name) FROM "Fiction Profile"."GENRE" g WHERE g.id = ANY(SELECT mg.genre_id FROM "Fiction Profile"."MEDIA_GENRE" mg WHERE mg.media_id=m.media_id)) AS genres,
+                CASE
+                    WHEN "Fiction Profile".lcs_search(LOWER(m.title), $2::text) THEN 0
+                    ELSE "Fiction Profile".levenshtein(LOWER(m.title), $2::text)
+                END AS distance
             FROM 
                 "Fiction Profile"."MEDIA" m
             WHERE
-                (LOWER(m.title) ILIKE $2 OR $2 IS NULL)
+                ("Fiction Profile".lcs_search(LOWER(m.title), $2::text) OR "Fiction Profile".levenshtein(LOWER(m.title), $2::text) <= 5 OR $2 IS NULL)
                 AND
                 (m.year >= $3 OR $3 IS NULL)
                 AND
@@ -185,12 +188,12 @@ router.get('/', async (req, res) => {
                 AND
                 (m.type_id != ALL($8) OR $8 IS NULL)
                 AND
-                ("Fiction Profile"."check_genre_criteria"(m.media_id, $9::int[], $10::int[], $11::int[]) )
-            ORDER BY m.${sortBy} ${sortSequence}
+                ("Fiction Profile"."check_genre_criteria"(m.media_id, $9::int[], $10::int[], $11::int[]) ) 
+            ORDER BY ${sortBy} ${sortSequence}, distance ASC
             LIMIT $12 OFFSET $13`;
 
         // Execute the query
-        const discoverResult = await pool.query(discoverQuery, [userId, `%${search}%`, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreOrInclude, genreAndInclude, genreExclude, limit, offset]);
+        const discoverResult = await pool.query(discoverQuery, [userId, search, yearStart, yearEnd, ratingStart, ratingEnd, mediaTypeInclude, mediaTypeExclude, genreOrInclude, genreAndInclude, genreExclude, limit, offset]);
 
 
         console.log(discoverResult.rows);

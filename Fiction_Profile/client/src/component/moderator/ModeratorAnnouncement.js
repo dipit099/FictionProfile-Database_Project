@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Moderator.css'; // Import your CSS file for styling
+import './ModeratorAnnouncement.css'; // Import your CSS file for styling
 import BASE_URL from "../../config/ApiConfig";
 import SideBar from '../../config/navbar/SideBar';
 
