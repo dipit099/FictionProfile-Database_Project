@@ -38,6 +38,30 @@ const MediaDetails = ({ mediaType }) => {
     const [showInputFields, setShowInputFields] = useState(false);
     const [ratingsData, setRatingsData] = useState([]);
 
+
+
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editedMediaDetails, setEditedMediaDetails] = useState({
+        title: '',
+        description: '',
+        release_date: '',
+        language: '',
+        runtime: ''
+    });
+
+
+
+    const handlePublish = () => {
+        setIsEditModalOpen(false);
+
+        // Send the updated media details to the server
+        const result = axios.post(`${BASE_URL}/media/edit`, {
+            media_id: id,
+            ...editedMediaDetails
+        });
+
+    };
+
     const handleHoverRating = (rating) => {
         setHoverRating(rating);
     };
@@ -73,11 +97,11 @@ const MediaDetails = ({ mediaType }) => {
                 vote: voteValue
             });
 
-            if (response.data.success) {              
-               
+            if (response.data.success) {
+
                 toast.success('Vote submitted successfully');
             } else {
-             toast.error('Vote submission failed');
+                toast.error('Vote submission failed');
             }
         } catch (error) {
             // Handle any errors that occur during the vote submission process
@@ -97,6 +121,13 @@ const MediaDetails = ({ mediaType }) => {
                 });
 
                 setMedia(response.data.media);
+                setEditedMediaDetails({
+                    title: response.data.media.title,
+                    description: response.data.media.overview,
+                    release_date: response.data.media.release_date,
+                    language: response.data.media.original_language,
+                    runtime: response.data.media.runtime
+                });
 
                 const result = await axios.get(`${BASE_URL}/review`, {
                     params: {
@@ -248,6 +279,10 @@ const MediaDetails = ({ mediaType }) => {
         setIsModalOpen(false);
     };
 
+    const handleEditCloseModal = () => {
+        setIsEditModalOpen(false);
+    };
+
     const handlePopupSubmit = async () => {
         try {
             const response = await axios.post(`${BASE_URL}/user_media_add`, {
@@ -350,7 +385,15 @@ const MediaDetails = ({ mediaType }) => {
 
     };
 
-    // Apply the backdropStyle within the JSX
+
+    // Function to handle changes in media details
+    const handleMediaDetailsChange = (e) => {
+        const { name, value } = e.target;
+        setEditedMediaDetails((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
 
 
@@ -367,6 +410,15 @@ const MediaDetails = ({ mediaType }) => {
                             <div className="media-info">
                                 <div className='media-title'>
                                     {media.title} {media.release_date ? (new Date(media.release_date).getFullYear()) : ''}
+
+                                    {role === 'moderator' && (
+                                        <button className='edit-button' onClick={() => setIsEditModalOpen(true)}>Edit</button>
+
+                                    )}
+                                    {role === 'moderator' && (
+                                        <button className='edit-button' onClick={() => setIsEditModalOpen(true)}>Delete</button>
+
+                                    )}
                                 </div>
 
                                 <div className='media-genres'>
@@ -375,15 +427,20 @@ const MediaDetails = ({ mediaType }) => {
 
 
                                 <div className='button-container'>
-                                    <div className='circle'>{renderMediaAddButton(media)}</div>
-                                    <div className='circle'>{renderFavoriteButton(media)}</div>
+                                    {role === 'user' && (
+                                        <div className='circle'>{renderMediaAddButton(media)}</div>)}
+                                    {role === 'user' && (
+                                        <div className='circle'>{renderFavoriteButton(media)}</div>)}
+
                                     <div className='rating-star'>
                                         {/* <FaStar style={{ color: 'gold' }} /> {(Math.floor(media.vote_average * 10) / 10).toFixed(1)}/10 */}
                                         <FontAwesomeIcon icon={faStarHalfAlt} style={{ color: 'gold', fontSize: '32px' }} /> {(Math.floor(media.vote_average * 10) / 10).toFixed(1)}/10
                                     </div>
-                                    <div className="add-rating-button" onClick={openRatingModal}>Your Rating </div>
-
+                                    {role === 'user' && (
+                                        <div className="add-rating-button" onClick={openRatingModal}>Your Rating </div>
+                                    )}
                                 </div>
+
 
 
                                 <div className='media-overview'><h2>Overview</h2>{media.overview}</div>
@@ -394,99 +451,101 @@ const MediaDetails = ({ mediaType }) => {
 
 
                 </div>
-
-                <div className="rating-review-div">
-                    <div className="rating-box">
-                        <h2 className="rating-title">Your Rating</h2>
-                        <div className="rating-value">{media.user_rating ? media.user_rating : 'Not rated yet'}</div>
-                        <div>
-                            <h2>Ratings Distribution</h2>
-                            <table className="ratings-table">
-                                <thead>
-                                    <tr>
-                                        <th>Rating</th>
-                                        <th>Count</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {ratingsData.map((rating, index) => (
-                                        <tr key={index} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
-                                            <td>{rating.rating}</td>
-                                            <td>{rating.count}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div>
-                            <RatingsChart ratingsData={ratingsData} />
-                        </div>
-
-
-
-                    </div>
-
-                    <div className="review-box">
-                        <div className="reviews-header">
-                            <h2 className="reviews-title">Top Reviews</h2>
-                            {!showInputFields && (
-                                <button className="add-review-button" onClick={() => setShowInputFields(true)}>Add your review</button>
-                            )}
-                        </div>
-
-
-                        {showInputFields && (
+                {role === 'user' && (
+                    <div className="rating-review-div">
+                        <div className="rating-box">
+                            <h2 className="rating-title">Your Rating</h2>
+                            <div className="rating-value">{media.user_rating ? media.user_rating : 'Not rated yet'}</div>
                             <div>
-                                <textarea
-                                    className="review-textbox"
-                                    type="text"
-                                    value={reviewCaption}
-                                    onChange={(e) => setReviewCaption(e.target.value)}
-                                    placeholder="Enter review caption"
-                                />
-                                <textarea
-                                    className="review-textbox"
-                                    value={reviewContent}
-                                    onChange={(e) => setReviewContent(e.target.value)}
-                                    placeholder="Write your review here..."
-                                    rows="4"
-                                    cols="50"
-                                ></textarea>
-                                <div className='reviews-header'>
-                                    <button className="add-review-button" onClick={handleReviewSubmit}>Submit</button>
-                                    <button className="add-review-button" onClick={() => setShowInputFields(false)}>Cancel</button>
-                                </div>
+                                <h2>Ratings Distribution</h2>
+                                <table className="ratings-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Rating</th>
+                                            <th>Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {ratingsData.map((rating, index) => (
+                                            <tr key={index} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
+                                                <td>{rating.rating}</td>
+                                                <td>{rating.count}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
-                        )}
 
-                        <div className="reviews-container">
-                            <ul className="reviews-list">
-                                {reviews.map((review, index) => (
-                                    <li key={index} className="review-item">
-                                        <p className="review-user" style={{ fontSize: '20px' }}>User : {review.username} -- {new Date(review.added_date).toLocaleDateString()}</p>
-                                        <p className="review-title" style={{ fontSize: '24px' }}>Title : {review.title}</p>
-                                        <p className="review-content" style={{ fontSize: '18px' }}>{review.review}</p>
-                                        <div className='upvote-downvote-div'>
-                                            <FontAwesomeIcon
-                                                icon={faThumbsUp}
-                                                onClick={() => handleReviewvote(index, 1)}
-                                                style={{ color: review.vote_value === 1 ? 'green' : 'white', cursor: 'pointer', marginRight: '15px', fontSize: '30px' }}
-                                            />
-                                            <FontAwesomeIcon
-                                                icon={faThumbsDown}
-                                                onClick={() => handleReviewvote(index, -1)}
-                                                style={{ color: review.vote_value === -1 ? 'red' : 'white', cursor: 'pointer', fontSize: '30px' }}
-                                            />
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                            <div>
+                                <RatingsChart ratingsData={ratingsData} />
+                            </div>
+
+
+
                         </div>
 
+                        <div className="review-box">
+                            <div className="reviews-header">
+                                <h2 className="reviews-title">Top Reviews</h2>
+                                {!showInputFields && (
+                                    <button className="add-review-button" onClick={() => setShowInputFields(true)}>Add your review</button>
+                                )}
+                            </div>
+
+
+                            {showInputFields && (
+                                <div>
+                                    <textarea
+                                        className="review-textbox"
+                                        type="text"
+                                        value={reviewCaption}
+                                        onChange={(e) => setReviewCaption(e.target.value)}
+                                        placeholder="Enter review caption"
+                                    />
+                                    <textarea
+                                        className="review-textbox"
+                                        value={reviewContent}
+                                        onChange={(e) => setReviewContent(e.target.value)}
+                                        placeholder="Write your review here..."
+                                        rows="4"
+                                        cols="50"
+                                    ></textarea>
+                                    <div className='reviews-header'>
+                                        <button className="add-review-button" onClick={handleReviewSubmit}>Submit</button>
+                                        <button className="add-review-button" onClick={() => setShowInputFields(false)}>Cancel</button>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="reviews-container">
+                                <ul className="reviews-list">
+                                    {reviews.map((review, index) => (
+                                        <li key={index} className="review-item">
+                                            <p className="review-user" style={{ fontSize: '20px' }}>User : {review.username} -- {new Date(review.added_date).toLocaleDateString()}</p>
+                                            <p className="review-title" style={{ fontSize: '24px' }}>Title : {review.title}</p>
+                                            <p className="review-content" style={{ fontSize: '18px' }}>{review.review}</p>
+                                            <div className='upvote-downvote-div'>
+                                                <FontAwesomeIcon
+                                                    icon={faThumbsUp}
+                                                    onClick={() => handleReviewvote(index, 1)}
+                                                    style={{ color: review.vote_value === 1 ? 'green' : 'white', cursor: 'pointer', marginRight: '15px', fontSize: '30px' }}
+                                                />
+                                                <FontAwesomeIcon
+                                                    icon={faThumbsDown}
+                                                    onClick={() => handleReviewvote(index, -1)}
+                                                    style={{ color: review.vote_value === -1 ? 'red' : 'white', cursor: 'pointer', fontSize: '30px' }}
+                                                />
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+
+                        </div>
 
                     </div>
-                </div>
+                )}
             </div>
             <Modal
                 isOpen={isModalOpen}
@@ -577,6 +636,88 @@ const MediaDetails = ({ mediaType }) => {
                 </div>
 
             </Modal>
+            <Modal
+                isOpen={isEditModalOpen}
+                onRequestClose={handleEditCloseModal}
+                contentLabel='Popup Modal'
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+                        backdropFilter: 'blur(2px)',
+                    },
+                    content: {
+                        width: '800px',
+                        height: '800px',
+                        margin: 'auto',
+                        backgroundColor: '#032641', // Transparent background for the modal content
+                        border: 'none', // Remove border if needed
+                        boxShadow: 'none', // Remove box shadow if needed
+                    },
+                }}
+            >
+                <div className="edit-modal-content">
+                    <span className="edit-close" onClick={handleEditCloseModal}>&times;</span>
+                    <h2 className="edit-title">Edit Media</h2>
+                    <div className="edit-form-group">
+                        <label htmlFor="edit-title" className="edit-label">Title:</label>
+                        <input
+                            type="text"
+                            id="edit-title"
+                            name="edit-title"
+                            value={editedMediaDetails.title}
+                            onChange={(e) => setEditedMediaDetails({ ...editedMediaDetails, title: e.target.value })}
+                            className="edit-input"
+                        />
+                    </div>
+                    <div className="edit-form-group">
+                        <label htmlFor="edit-description" className="edit-label">Description:</label>
+                        <textarea
+                            id="edit-description"
+                            name="edit-description"
+                            value={editedMediaDetails.description}
+                            onChange={(e) => setEditedMediaDetails({ ...editedMediaDetails, description: e.target.value })}
+                            className="edit-textarea"
+                        ></textarea>
+                    </div>
+                    <div className="edit-form-group">
+                        <label htmlFor="edit-release_date" className="edit-label">Release Date:</label>
+                        <input
+                            type="text"
+                            id="edit-release_date"
+                            name="edit-release_date"
+                            value={editedMediaDetails.release_date}
+                            onChange={(e) => setEditedMediaDetails({ ...editedMediaDetails, release_date: e.target.value })}
+                            className="edit-input"
+                        />
+                    </div>
+                    <div className="edit-form-group">
+                        <label htmlFor="edit-language" className="edit-label">Language:</label>
+                        <input
+                            type="text"
+                            id="edit-language"
+                            name="edit-language"
+                            value={editedMediaDetails.language}
+                            onChange={(e) => setEditedMediaDetails({ ...editedMediaDetails, language: e.target.value })}
+                            className="edit-input"
+                        />
+                    </div>
+                    <div className="edit-form-group">
+                        <label htmlFor="edit-runtime" className="edit-label">Runtime(min):</label>
+                        <input
+                            type="text"
+                            id="edit-runtime"
+                            name="edit-runtime"
+                            value={editedMediaDetails.runtime}
+                            onChange={(e) => setEditedMediaDetails({ ...editedMediaDetails, runtime: e.target.value })}
+                            className="edit-input"
+                        />
+                    </div>
+                    <button onClick={handlePublish} className="edit-publish-button">Update</button>
+                </div>
+
+
+            </Modal>
+
             <Navbar />
         </div>
     );

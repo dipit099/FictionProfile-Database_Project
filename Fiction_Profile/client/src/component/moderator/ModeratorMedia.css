@@ -1,32 +1,24 @@
 .moderator-container {
     margin-top: 100px;
     margin-left: 150px;
-    color: #fff;
+    color: white;
     display: flex;
-    justify-content: flex-end;
 }
 
-.add-media-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 20px;
-}
+
 
 .add-media-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
     background-color: whitesmoke;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 8px 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+
 }
 
 .add-media-button:hover {
-    background-color: greenyellow;
+    background-color: rgb(127, 47, 255);
 }
 
 .plus-icon {
@@ -42,77 +34,124 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-.label {
-    font-size: 12px;
-    color: #666;
-    margin-top: 8px;
-    text-align: center;
-}
 
+/* ModeratorMedia.css */
 
-.button-group {
+.add-media-form {
+    color: white;
+    font-size: 16px;
+    padding: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+    flex-direction: column;
 }
 
-.submit-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: whitesmoke;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-.submit-button:hover {
-    background-color: greenyellow;
-}
-
-.cancel-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: whitesmoke;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-.cancel-button:hover {
-    background-color: red;
-}
-
-.modal-title {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #fff;
-}
-
-
-.form-text{
-    color: #fff;
+.add-media-form label{
     font-size: 16px;
     margin-bottom: 10px;
 
 }
+.add-media-form input{
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #222;
+    color: #ffffff;
+    width: 100%;
 
-.form-group {
-    color: #fff;
+}
+.add-media-form select {
+    /* Your select element styles */
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #222;
+    color: #ffffff;
+    /* Set the text color of the select options */
+}
+
+.add-media-form option {
+    background-color: #222;
+    color: #ffffff; /* Text color of the options */
+    font-size: 16px; /* Font size of the options */
+    padding: 8px; /* Padding of the options */
 }
 
 
 
+.modal-title {
+    font-size: 24px;
+    color: #FFFFFF;   
+}
 
-/* Path: Fiction_Profile/client/src/component/moderator/ModeratorMediaList.css */
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #222;
+    color: #FFFFFF;
+}
+
+.selected-genres {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.selected-genre {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #666;
+    color: #FFFFFF;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.selected-genre button {
+    margin-left: 5px;
+    background-color: transparent;
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.selected-genre button:hover {
+    color: #FF0000;
+}
+
+.file-input {
+    display: block;
+    margin-top: 10px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cancel-button,
+.submit-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: #007BFF;
+    color: #FFFFFF;
+    transition: background-color 0.3s;
+}
+
+.cancel-button:hover,
+.submit-button:hover {
+    background-color: #0056b3;
+}
