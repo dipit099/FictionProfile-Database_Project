@@ -20,25 +20,7 @@
     padding-right: 20px;
 }
 
-/* Customize the scrollbar */
-.feedWrapper::-webkit-scrollbar {
-    width: 6px;
-    /* Set the width of the scrollbar */
-}
 
-/* Customize the thumb of the scrollbar */
-.feedWrapper::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* Set the background color of the thumb */
-    border-radius: 4px;
-    /* Set the border radius of the thumb */
-}
-
-/* Change scrollbar color on hover */
-.feedWrapper::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-    /* Set the hover color of the thumb */
-}
 
 .post {
     margin-bottom: 20px;
@@ -96,7 +78,7 @@
 .comment {
     border-radius: 4px;
     font-size: 18px;
-    
+
 }
 
 .comment-div {
@@ -243,29 +225,34 @@
 }
 
 
+.trending-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    width: 35%;
+}
+
 
 .followed-users-container {
-    width: 35%;
 
     color: #fff;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
+    padding: 20px;   
+    width: 100%;
 
-    margin-top: 100px;
+
 }
 
 
 
 .user-info img {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
 .followed-users-container .unfollow-button {
-    background-color: rgb(137, 47, 47);
+    background-color: #6012a8;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -275,7 +262,7 @@
 }
 
 .followed-users-container .follow-button {
-    background-color: rgb(26, 102, 26);
+    background-color: #6012a8;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -287,15 +274,65 @@
 
 
 .followed-users-container .unfollow-button:hover {
-    background-color: rgb(26, 102, 26);
+    background-color: rgb(137, 47, 47);
 }
 
 .followed-users-container .follow-button:hover {
-    background-color: rgb(137, 47, 47);
+
+    background-color: rgb(26, 102, 26);
 }
 
 
 .followed-users-container li {
     list-style-type: none;
     font-size: 18px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+
+.people-you-may-know {
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    max-height: 400px;
+    /* Set a maximum height to enable scrolling */
+}
+
+.user-info {
+    margin-bottom: 20px;
+    border: 1px solid #424f64;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 1);
+    padding: 10px;
+    border-radius: 5px;
+
+}
+
+
+
+.user-info li a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+
+/* Customize the scrollbar */
+.feedWrapper::-webkit-scrollbar,.people-you-may-know::-webkit-scrollbar {
+    width: 6px;
+    /* Set the width of the scrollbar */
+}
+
+/* Customize the thumb of the scrollbar */
+.people-you-may-know::-webkit-scrollbar-thumb,.feedWrapper::-webkit-scrollbar-thumb {
+    background-color: #888;
+    /* Set the background color of the thumb */
+    border-radius: 4px;
+    /* Set the border radius of the thumb */
+}
+
+/* Change scrollbar color on hover */
+.people-you-may-know::-webkit-scrollbar-thumb:hover,.feedWrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+    /* Set the hover color of the thumb */
+}
+

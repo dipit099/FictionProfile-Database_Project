@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../../db'); // Assuming you have your PostgreSQL pool configured
-
 router.get('/', async (req, res) => {
     try {
         console.log('Fetching feed data...');
@@ -26,6 +25,26 @@ router.get('/', async (req, res) => {
                     "Fiction Profile"."COMMENT" AS comments ON posts.post_id = comments.post_id
                 ORDER BY 
                     posts.post_id DESC, comments.comment_id DESC
+            ),
+            VoteCounts AS (
+                SELECT 
+                P2.post_id,
+                SUM(P2.vote_value) AS total_vote,                   
+                 (SELECT vote_value FROM "Fiction Profile"."POST_VOTE" P1 
+                 WHERE P1.post_id=P2.post_id AND user_id=$1 ) AS user_vote
+            FROM 
+                "Fiction Profile"."POST_VOTE" P2
+            GROUP BY 
+                post_id   
+            ) ,
+            CommentCounts AS (
+                SELECT 
+                    post_id,
+                    COUNT(comment_id) AS total_comments
+                FROM 
+                    "Fiction Profile"."COMMENT"
+                GROUP BY 
+                    post_id
             ) 
             SELECT                
                 F.user_id AS my_id,
@@ -40,13 +59,20 @@ router.get('/', async (req, res) => {
                 T.parent_comment_id,
                 T.comment_content,
                 P.username,
-                P.profile_pic_path
+                P.profile_pic_path,
+                VC.total_vote,
+                VC.user_vote,
+                CC.total_comments
             FROM 
                 "Fiction Profile"."FOLLOW" F 
             LEFT JOIN 
                 T ON F.followed_id = T.post_user_id
             LEFT JOIN
                 "Fiction Profile"."PEOPLE" P ON F.followed_id = P.people_id
+            LEFT JOIN
+                VoteCounts VC ON T.post_id = VC.post_id
+            LEFT JOIN
+                 CommentCounts CC ON T.post_id = CC.post_id
             WHERE 
                 F.user_id = $1 AND T.post_content IS NOT NULL
             `, [req.query.user_id]);
@@ -65,7 +91,10 @@ router.get('/', async (req, res) => {
                     last_edit: row.last_edit,
                     username: row.username,
                     profile_pic_path: row.profile_pic_path,
-                    comments: [] // Initialize comments as an empty array
+                    comments: [], // Initialize comments as an empty array
+                    total_vote: row.total_vote || 0, // Set total_vote to 0 if it's null
+                    user_vote: row.user_vote || 0, // Set user_vote to 0 if it's null,
+                    comments_count: row.total_comments || 0
                 };
             }
 
@@ -82,7 +111,7 @@ router.get('/', async (req, res) => {
 
         // Convert the feed data object into an array
         const feed = Object.values(feedData);
-        // console.log('Feed data:', feed);
+        console.log('Feed data:', feed);
 
         res.json({ feed });
     } catch (error) {
@@ -160,7 +189,7 @@ router.get('/followed', async (req, res) => {
             username: row.username
         }));
 
-        console.log('Followed users:', followedUsers);
+        // console.log('Followed users:', followedUsers);
 
         res.json({ followedUsers });
     } catch (error) {
@@ -231,6 +260,47 @@ router.post('/unfollow', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
+router.post('/add_post_vote', async (req, res) => {
+    try {
+        const { user_id, post_id, vote_value } = req.body;
+        console.log(user_id, post_id, vote_value);
+
+        const isAvailable = await pool.query(`
+            SELECT * FROM "Fiction Profile"."POST_VOTE"
+            WHERE user_id = $1 AND post_id = $2
+        `, [user_id, post_id]);
+
+        if (isAvailable.rows.length > 0) {
+            if (isAvailable.rows[0].vote_value == vote_value) {
+                await pool.query(`
+                DELETE FROM "Fiction Profile"."POST_VOTE"
+                WHERE user_id = $1 AND post_id = $2
+            `, [user_id, post_id]);
+            }
+            else {
+                await pool.query(`UPDATE "Fiction Profile"."POST_VOTE"
+                SET vote_value = $1
+                WHERE user_id = $2 AND post_id = $3
+            `, [vote_value, user_id, post_id]);
+            }
+
+
+        } else {
+            await pool.query(`
+                INSERT INTO "Fiction Profile"."POST_VOTE" (user_id, post_id, vote_value)
+                VALUES ($1, $2, $3)
+            `, [user_id, post_id, vote_value]);
+        }
+
+        res.status(200).json({ success: true, message: 'Post voted successfully' });
+    } catch (error) {
+        console.error('Error voting post:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+}
+);
 
 
 module.exports = router;
