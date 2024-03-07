@@ -10,6 +10,10 @@ import ModeratorHome from './component/home/ModeratorHome';
 import { Navigate } from "react-router-dom";
 
 import Moderator from "./component/moderator/Moderator";
+import ModeratorMedia from "./component/moderator/ModeratorMedia";
+import ModeratorAnnouncement from "./component/moderator/ModeratorAnnouncement";
+import ModeratorReport from "./component/moderator/ModeratorReport";
+
 import Dashboard from "./component/user_dashboard/Dashboard";
 
 import { MovieDetails, TvshowDetails, BookDetails, MangaDetails } from "./component/media_details/MediaDetails";
@@ -73,7 +77,6 @@ function App() {
         />
 
         <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/" />} />
-        <Route path="/moderator" element={isAuthenticated && authRole === 'moderator' ? <Moderator /> : <Navigate to="/" />} />
         <Route path="/movie" element={isAuthenticated ? <Movie /> : <Navigate to="/" />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
 
@@ -88,6 +91,12 @@ function App() {
         <Route path="/feed" element={< Feed />} />
         {/* <Route path="/discover" element={isAuthenticated ? <Discover /> : <Navigate to="/" />} /> */}
         <Route path="/discover" element={<Discover />} />
+
+        <Route path="/moderator" element={isAuthenticated && authRole === 'moderator' ? <Moderator /> : <Navigate to="/" />} />
+        <Route path="/media" element={<ModeratorMedia />} />
+        <Route path="/announcement" element={<ModeratorAnnouncement />} />
+        <Route path="/report" element={<ModeratorReport />} />
+        
 
 
 

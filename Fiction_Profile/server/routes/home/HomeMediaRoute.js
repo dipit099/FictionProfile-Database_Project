@@ -150,7 +150,7 @@ router.get('/manga', async (req, res) => {
                 WHERE
                     media.manga_id IS NOT NULL
                 ORDER BY
-                    media.vote_count DESC
+                    media.popularity DESC, media.rating DESC, media.vote_count DESC
                 LIMIT 20
             `
             ,[people_id]

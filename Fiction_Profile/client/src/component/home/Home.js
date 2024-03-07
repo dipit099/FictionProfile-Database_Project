@@ -5,6 +5,7 @@ import { Movie, TvShow, Book, Manga } from './Media';
 import './Home.css'; // Import your CSS file for styling
 import { useLocation } from 'react-router-dom';
 import SideBar from '../../config/navbar/SideBar';
+import Moderator from '../moderator/Moderator';
 
 const Home = () => {
     const [role, setRole] = useState(null);
@@ -21,9 +22,13 @@ const Home = () => {
         <div className="home-container">
 
             {role === 'moderator' ?
-                <h1>Welcome Moderator {email}</h1> :
-
+                <div>
+                    <Moderator />
+                    <h1>Welcome Moderator {email}</h1>
+                </div> 
+                :
                 <div className="home-content">
+
                     <SideBar />
                     <TopMediaBanner className="top-media-banner" />
                     <div className="home-trending-content">

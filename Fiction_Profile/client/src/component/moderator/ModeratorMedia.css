@@ -1,0 +1,118 @@
+.moderator-container {
+    margin-top: 100px;
+    margin-left: 150px;
+    color: #fff;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-media-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.add-media-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: whitesmoke;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-media-button:hover {
+    background-color: greenyellow;
+}
+
+.plus-icon {
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.button-text {
+    color: #000;
+    font-size: 20px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.label {
+    font-size: 12px;
+    color: #666;
+    margin-top: 8px;
+    text-align: center;
+}
+
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: whitesmoke;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background-color: greenyellow;
+}
+
+.cancel-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: whitesmoke;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.cancel-button:hover {
+    background-color: red;
+}
+
+.modal-title {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+
+.form-text{
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 10px;
+
+}
+
+.form-group {
+    color: #fff;
+}
+
+
+
+
+/* Path: Fiction_Profile/client/src/component/moderator/ModeratorMediaList.css */
