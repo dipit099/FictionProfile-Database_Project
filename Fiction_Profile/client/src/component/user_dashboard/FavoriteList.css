@@ -11,8 +11,8 @@
 
 .favorite-list {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
+
 }
 
 .recharts-legend-item {

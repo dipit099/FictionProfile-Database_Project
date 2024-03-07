@@ -2,7 +2,7 @@
 import React from 'react';
 
 const UpvoteIcon = ({ filled }) => {
-    // console.log("filled "+filled);
+   
     return (
         <svg
             style={{ cursor: 'pointer', width: '30px', height: '30px' }}

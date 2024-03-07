@@ -8,6 +8,7 @@ import FavoriteList from "./FavoriteList";
 import UserPosts from "./UserPosts";
 import Affinity from "./Affinity";
 import DashboardProfile from "./DashboardProfile";
+import Follow from "./Follow";
 
 const Dashboard = () => {
     const [userData, setUserData] = useState([]);
@@ -52,7 +53,7 @@ const Dashboard = () => {
     switch (activeSection) {
         case 'profile':
             sectionContent = (<DashboardProfile userData={userData} />
-               
+
             );
             break;
         case 'favorite':
@@ -90,9 +91,7 @@ const Dashboard = () => {
             break;
         case 'follow':
             sectionContent = (
-                <div>
-                    {/* Your follow content */}
-                </div>
+                <Follow />
             );
             break;
         default:
@@ -109,7 +108,7 @@ const Dashboard = () => {
 
                         <div className="dashboard-user-info">
                             <div>Username: {userData.username}</div>
-                            
+
                         </div>
                     </div>
                 )}

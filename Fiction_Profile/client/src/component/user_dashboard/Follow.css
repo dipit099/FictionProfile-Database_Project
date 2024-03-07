@@ -1,0 +1,27 @@
+.profile-follow-button {
+    background-color: #6012a8;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 15px;
+    border-radius: 10%;
+
+}
+
+.follow-network {
+    display: flex;
+    justify-content: space-around;
+}
+
+.follow-network .followed {
+    width: 600px;
+}
+
+.follow-network .followers {
+    width: 600px;
+}
+
+.follow-network .people-you-may-know {
+    width: 600px;
+}
