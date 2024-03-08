@@ -16,6 +16,8 @@ router.get('/', async (req, res) => {
                 posts.last_edit AS last_edit,
                 comments.comment_id,
                 comments.user_id AS comment_user_id,
+                (SELECT username FROM "Fiction Profile"."PEOPLE" 
+                    WHERE people_id= comments.user_id) AS comment_username,
                 comments.post_id AS comment_post_id,
                 comments.parent_comment_id,
                 comments.content AS comment_content
@@ -111,7 +113,6 @@ router.get('/', async (req, res) => {
 
         // Convert the feed data object into an array
         const feed = Object.values(feedData);
-        console.log('Feed data:', feed);
 
         res.json({ feed });
     } catch (error) {
@@ -199,6 +200,43 @@ router.get('/followed', async (req, res) => {
 });
 
 
+// Endpoint to fetch users followed by the current user
+router.get('/follower', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+
+        const result = await pool.query(`
+       SELECT     
+             DISTINCT    
+            f.user_id,
+            p.first_name || ' ' || p.last_name AS full_name,
+            p.profile_pic_path,
+            p.username
+            FROM 
+            "Fiction Profile"."FOLLOW" AS f
+            JOIN 
+            "Fiction Profile"."PEOPLE" AS p ON f.user_id = p.people_id
+            WHERE 
+            f.followed_id = $1
+        `, [user_id]);
+
+        const followerUsers = result.rows.map(row => ({
+            follower_id: row.user_id,
+            full_name: row.full_name,
+            profile_pic_path: row.profile_pic_path,
+            username: row.username
+        }));
+       
+
+        res.json({ followerUsers });
+
+
+    } catch (error) {
+        console.error('Error fetching followed users:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 // Backend code - Express Router
 
@@ -211,11 +249,26 @@ router.get('/people-you-may-know', async (req, res) => {
         const result = await pool.query(`          
         SELECT people_id, first_name, last_name, profile_pic_path, username
         FROM "Fiction Profile"."PEOPLE"
-        WHERE people_id !=  $1 AND role='user' AND people_id NOT IN ( SELECT followed_id FROM "Fiction Profile"."FOLLOW" WHERE user_id = $1)           
+        WHERE people_id = (                
+            SELECT DISTINCT F2.followed_id
+            FROM "Fiction Profile"."FOLLOW" F1
+            JOIN "Fiction Profile"."FOLLOW" F2 ON F1.followed_id = F2.user_id
+            WHERE F2.followed_id != $1 AND F1.user_id = $1
+            EXCEPT
+            SELECT F3.followed_id
+            FROM "Fiction Profile"."FOLLOW" F3
+            WHERE F3.user_id = $1
+        )
+                      
         `, [user_id]);
 
-        const peopleYouMayKnow = result.rows;
-        // console.log('People you may know:', peopleYouMayKnow);
+        const peopleYouMayKnow = result.rows.map(row => ({
+            people_id: row.people_id,
+            full_name: `${row.first_name} ${row.last_name}`,
+            profile_pic_path: row.profile_pic_path,
+            username: row.username
+        }));
+        
 
         res.json({ peopleYouMayKnow });
     } catch (error) {
@@ -302,5 +355,70 @@ router.post('/add_post_vote', async (req, res) => {
 }
 );
 
+
+router.get('/trending_posts', async (req, res) => {
+    try {
+        console.log('Fetching trending feed data...');
+        const result = await pool.query(`
+        WITH T AS (
+            SELECT post_id, SUM(vote_value) AS sum
+            FROM "Fiction Profile"."POST_VOTE"
+            GROUP BY post_id
+        )
+        SELECT P.*, 
+        (SELECT username FROM "Fiction Profile"."PEOPLE" WHERE people_id = P.user_id) AS post_username,
+         (DATE_PART('day', CURRENT_DATE - last_edit)) AS  days_before, 
+        C.comment_id,C.user_id as comment_user_id,
+         (SELECT username FROM "Fiction Profile"."PEOPLE" WHERE people_id= C.user_id) AS comment_username,
+        C.content as comment_content 
+        FROM "Fiction Profile"."POST" P
+        LEFT JOIN T ON P.post_id = T.post_id
+            LEFT JOIN
+                "Fiction Profile"."COMMENT" C
+                ON P.post_id= C.post_id
+                
+        WHERE DATE_PART('day', CURRENT_DATE - last_edit) <= 7 AND T.sum is not NULL
+        ORDER BY COALESCE(T.sum, 0) DESC, last_edit DESC
+            
+            
+        `);
+        const feedData = {};
+
+        result.rows.forEach(row => {
+            if (!feedData[row.post_id]) {
+                // Initialize the post if it doesn't exist in the feed data
+                feedData[row.post_id] = {
+                    post_id: row.post_id,
+                    user_id: row.user_id,
+                    post_username: row.post_username,
+                    title: row.title,
+                    content: row.content,
+                    last_edit: row.last_edit,
+                    profile_pic_path: row.profile_pic_path,
+                    comments: [], // Initialize comments as an empty array
+                    days_before: row.days_before,
+                };
+            }
+
+            if (row.comment_id) {
+                // Add comments to the respective post
+                feedData[row.post_id].comments.push({
+                    comment_id: row.comment_id,
+                    user_id: row.comment_user_id,
+                    comment_username: row.comment_username,
+                    content: row.comment_content
+                });
+            }
+        }
+        );
+
+        const feed = Object.values(feedData);
+        // console.log(feed);
+        res.json({ feed });
+    } catch (error) {
+        console.error('Error fetching feed data:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 module.exports = router;

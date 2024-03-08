@@ -133,9 +133,7 @@ const Discover = () => {
 
 
 
-    useEffect(() => {
-        console.log('Current Page:', currentPage);  
-        console.log("DIp");      
+    useEffect(() => {          
         const fetchMediaItems = async () => {
             try {
                 const response = await axios.get(`${BASE_URL}/discover`, {

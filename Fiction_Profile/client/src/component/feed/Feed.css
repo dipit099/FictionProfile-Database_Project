@@ -236,7 +236,7 @@
 .followed-users-container {
 
     color: #fff;
-    padding: 20px;   
+    padding: 20px;
     width: 100%;
 
 
@@ -272,6 +272,16 @@
 
 }
 
+.trending-button {
+    background-color: #6012a8;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 15px;
+    border-radius: 10%;
+
+}
 
 .followed-users-container .unfollow-button:hover {
     background-color: rgb(137, 47, 47);
@@ -292,12 +302,6 @@
     justify-content: space-between;
 }
 
-.people-you-may-know {
-    overflow-y: auto;
-    /* Enable vertical scrolling */
-    max-height: 400px;
-    /* Set a maximum height to enable scrolling */
-}
 
 .user-info {
     margin-bottom: 20px;
@@ -317,13 +321,15 @@
 
 
 /* Customize the scrollbar */
-.feedWrapper::-webkit-scrollbar,.people-you-may-know::-webkit-scrollbar {
+.feedWrapper::-webkit-scrollbar,
+.people-you-may-know::-webkit-scrollbar {
     width: 6px;
     /* Set the width of the scrollbar */
 }
 
 /* Customize the thumb of the scrollbar */
-.people-you-may-know::-webkit-scrollbar-thumb,.feedWrapper::-webkit-scrollbar-thumb {
+.people-you-may-know::-webkit-scrollbar-thumb,
+.feedWrapper::-webkit-scrollbar-thumb {
     background-color: #888;
     /* Set the background color of the thumb */
     border-radius: 4px;
@@ -331,8 +337,37 @@
 }
 
 /* Change scrollbar color on hover */
-.people-you-may-know::-webkit-scrollbar-thumb:hover,.feedWrapper::-webkit-scrollbar-thumb:hover {
+.people-you-may-know::-webkit-scrollbar-thumb:hover,
+.feedWrapper::-webkit-scrollbar-thumb:hover {
     background-color: #555;
     /* Set the hover color of the thumb */
 }
 
+.trending-modal-div {
+    color: white;
+}
+
+.trending-modal-content {
+
+    font-size: 18px;
+}
+
+.post-title-div {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    align-items: center;
+    margin-left: 10px;
+
+}
+
+.post-td-div {
+    display: flex;
+    align-items: center;
+}
+
+.post-username {
+    font-size: 20px;
+    color: #ccc;
+    margin-right: 30px;
+}

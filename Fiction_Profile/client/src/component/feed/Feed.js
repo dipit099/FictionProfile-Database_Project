@@ -4,6 +4,7 @@ import './Feed.css'; // Import your CSS file for styling
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Modal from 'react-modal';
 
 import SideBar from '../../config/navbar/SideBar';
 import Navbar from '../../config/navbar/Navbar';
@@ -23,39 +24,72 @@ const Feed = () => {
     const [followedUsers, setFollowedUsers] = useState([]);
     const [peopleYouMayKnow, setPeopleYouMayKnow] = useState([]);
 
+    const [trendingPosts, setTrendingPosts] = useState([]);
+    const [isTrendingModalOpen, setIsTrendingModalOpen] = useState(false);
+    const [selectedPost, setSelectedPost] = useState([]);
+
+    // Function to open the modal and set the selected post
+    const openTrendingModal = (post) => {
+        setSelectedPost(post);
+        console.log(post);
+        setIsTrendingModalOpen(true);
+    };
+
+    // Function to close the modal
+    const closeTrendingModal = () => {
+        setIsTrendingModalOpen(false);
+    };
+
     const people_id = localStorage.getItem('people_id');
+    const fetchFeedData = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL}/feed`, {
+                params: {
+                    user_id: people_id
+                }
+            });
+
+            setFeed(response.data.feed);
+
+            const followedResponse = await axios.get(`${BASE_URL}/feed/followed`, {
+                params: {
+                    user_id: people_id
+                }
+            });
+            setFollowedUsers(followedResponse.data.followedUsers);
+
+            const peopleYouMayKnowResponse = await axios.get(`${BASE_URL}/feed/people-you-may-know`, {
+                params: {
+                    user_id: people_id
+                }
+            });
+            setPeopleYouMayKnow(peopleYouMayKnowResponse.data.peopleYouMayKnow);
+
+        } catch (error) {
+            console.error('Error fetching feed data:', error);
+        }
+    };
+
+
+
+    const fetchTrendingPosts = async () => {
+        try {
+            // Make an HTTP POST request to your server endpoint
+            const response = await axios.get(`${BASE_URL}/feed/trending_posts`);
+            setTrendingPosts(response.data.feed);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching trending posts:', error);
+            // Handle errors if needed
+        }
+    };
+
 
     useEffect(() => {
-        const fetchFeedData = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL}/feed`, {
-                    params: {
-                        user_id: people_id
-                    }
-                });
-
-                setFeed(response.data.feed);
-
-                const followedResponse = await axios.get(`${BASE_URL}/feed/followed`, {
-                    params: {
-                        user_id: people_id
-                    }
-                });
-                setFollowedUsers(followedResponse.data.followedUsers);
-
-                const peopleYouMayKnowResponse = await axios.get(`${BASE_URL}/feed/people-you-may-know`, {
-                    params: {
-                        user_id: people_id
-                    }
-                });
-                setPeopleYouMayKnow(peopleYouMayKnowResponse.data.peopleYouMayKnow);
-
-            } catch (error) {
-                console.error('Error fetching feed data:', error);
-            }
-        };
 
         fetchFeedData();
+        fetchTrendingPosts();
+
     }, [people_id]);
 
     const handleFollow = async (followedUserId) => {
@@ -392,9 +426,23 @@ const Feed = () => {
                 </div>
                 <div className='trending-container'>
                     <div>
+                        <h2>Trending Posts</h2>
+                        <div className='trending-posts'>
+                            {trendingPosts.map(post => (
+                                <div key={post.post_id} className='post'>
 
-                        Trending
+                                    <div className='post-title-div'>
+                                        <div className='post-username'>Username: {post.post_username}</div>
+                                        <div className='post-td-div'>
+                                            <div className='post-title'>Caption: {post.title}</div>
+                                            <div className='feed-date'>{post.days_before}Days ago</div>
+                                        </div>
+                                    </div>
+                                    <button className='trending-button' onClick={() => openTrendingModal(post)}>View Details</button>
+                                </div>
+                            ))}
 
+                        </div>
                     </div>
                     <div className='followed-users-container'>
                         {/* <div className="followed-users-list">
@@ -432,7 +480,52 @@ const Feed = () => {
                     </div>
                 </div>
             </div >
+
+
             <Navbar />
+
+            <Modal
+                isOpen={isTrendingModalOpen}
+                onRequestClose={closeTrendingModal}
+                contentLabel='Popup Modal'
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+                        backdropFilter: 'blur(2px)',
+
+                    },
+                    content: {
+                        width: '800px',
+                        height: '700px',
+                        margin: 'auto',
+                        backgroundColor: '#032641', // Transparent background for the modal content
+                        border: 'none', // Remove border if needed
+                        boxShadow: 'none', // Remove box shadow if needed
+
+                    },
+                }}
+            >
+                <div className="trending-modal-div">
+                    <div className="trending-modal-content">
+                        <h2>Post Details</h2>
+                        <div className="close-icon" onClick={closeTrendingModal}>X</div>
+                        <div>Username: {selectedPost.post_username}</div>
+                        <div>Title: {selectedPost.title} </div>
+                        <div>Days Before: {selectedPost.days_before}</div>
+                        <div>Content: {selectedPost.content}</div>
+
+                        <h3>Comments:</h3>
+                        {selectedPost.comments && selectedPost.comments.map(comment => (
+                            <div key={comment.comment_id}>
+                                <div><strong>Username:</strong> {comment.comment_username}</div>
+                                <div><strong>Comment:</strong> {comment.content}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+
+            </Modal>
         </>
     );
 };
