@@ -8,11 +8,19 @@ import './Follow.css';
 
 const Follow = () => {
 
-    const people_id = localStorage.getItem('people_id');
+    const [people_id, setPeople_id] = useState(''); // Initially set to 1
 
     const [followed, setFollowed] = useState([]);
     const [follower, setFollower] = useState([]);
     const [peopleYouMayKnow, setPeopleYouMayKnow] = useState([]);
+
+    useEffect(() => {
+        // Extracting peopleId from URL
+        const urlParts = window.location.pathname.split('/');
+        const lastPart = urlParts[urlParts.length - 1];
+        setPeople_id(lastPart);
+    }, []);
+
 
     const fetchFollowing = async () => {
         try {
@@ -71,13 +79,19 @@ const Follow = () => {
 
     const handleFollow = async (followedUserId) => {
         try {
-            await axios.post(`${BASE_URL}/feed/follow`, {
+            const response = await axios.post(`${BASE_URL}/feed/follow`, {
                 user_id: people_id,
                 followed_id: followedUserId
             });
+            if (response.data.success) {
+                toast.success('Followed successfully');
+                fetchFollowing();
+                fetchPeopleYouMayKnow();
 
-            fetchFollowers();
-            fetchFollowing();
+            }
+
+
+
 
 
         } catch (error) {
@@ -87,13 +101,15 @@ const Follow = () => {
 
     const handleUnFollow = async (followedUserId) => {
         try {
-            await axios.post(`${BASE_URL}/feed/unfollow`, {
+            const response = await axios.post(`${BASE_URL}/feed/unfollow`, {
                 user_id: people_id,
                 followed_id: followedUserId
             });
-
-            fetchFollowers();
-            fetchFollowing();
+            if (response.data.success) {
+                toast.success('Unfollowed successfully');
+                fetchFollowing();
+                fetchPeopleYouMayKnow();
+            }
 
         } catch (error) {
             console.error('Error unfollowing user:', error);
@@ -111,6 +127,7 @@ const Follow = () => {
                             <Link to={`/dashboard/${followed.followed_id}`} target="_blank">
                                 <img src={followed.profile_pic_path} alt={`${followed.first_name} ${followed.last_name}`} />
                                 <span>{`${followed.username}`}</span>
+
                             </Link>
 
                             <button className="profile-follow-button" onClick={() => handleUnFollow(followed.followed_id)}>Unfollow</button>
@@ -142,6 +159,8 @@ const Follow = () => {
                             <Link to={`/dashboard/${peopleYouMayKnow.people_id}`} target="_blank">
                                 <img src={peopleYouMayKnow.profile_pic_path} alt={`${peopleYouMayKnow.first_name} ${peopleYouMayKnow.last_name}`} />
                                 <span>{`${peopleYouMayKnow.username}`}</span>
+                                <span style={{ marginLeft: '10px', fontSize: '20px', fontWeight: 'bold', color: '#928686' }}>{`(Mutual : ${peopleYouMayKnow.mutual_followers_count})`}</span>
+
                             </Link>
 
 
