@@ -128,9 +128,9 @@ const FavoriteList = () => {
                 return 'Movie';
             case 2:
                 return 'TV';
-            case 3:
-                return 'Manga';
             case 4:
+                return 'Manga';
+            case 3:
                 return 'Book';
             default:
                 return '';
