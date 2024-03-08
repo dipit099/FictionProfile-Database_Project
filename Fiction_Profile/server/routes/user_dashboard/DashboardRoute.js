@@ -1,52 +1,52 @@
 const express = require('express');
 const router = express.Router();
 const pool = require("../../db");
-
-
 router.get('/get_fav', async (req, res) => {
     try {
         console.log('Fetching favorite media');
         const { user_id, mediaTypes, pageNumber } = req.query;
         // console.log(req.query);
 
+        // Check if user_id is not an empty string
+        if (!user_id || user_id.trim() === '') {
+            return res.status(400).json({ success: false, message: 'Invalid user_id' });
+        }
 
-        let mediaTypeInclude = mediaTypes ? mediaTypes.include : [];
-        mediaTypeInclude = mediaTypeInclude ? mediaTypeInclude.map(type => parseInt(type)) : [];
-
+        let mediaTypeInclude = mediaTypes ? [...mediaTypes.include].map(type => parseInt(type)) : [];
+        
+        
         const result = await pool.query(`
         SELECT
         F.media_id AS key_id,
         M.type_id,
         M.title,
         CASE
-        WHEN M.type_id IN (1, 2) THEN CONCAT('https://image.tmdb.org/t/p/original/', M.poster_path)
-        ELSE M.poster_path
-        END AS poster_path,
-        CASE
-            WHEN M.type_id = 1 THEN 'MOVIE'
-            WHEN M.type_id = 2 THEN 'TV'
-            WHEN M.type_id = 3 THEN 'BOOK'
-            ELSE 'MANGA'
-        END AS type,
-        CASE
-            WHEN M.type_id = 1 THEN M.movie_id
-            WHEN M.type_id = 2 THEN M.tv_id
-            WHEN M.type_id = 3 THEN M.book_id
-            ELSE M.manga_id
-        END AS id
-            FROM "Fiction Profile"."FAVORITE" F
-            JOIN "Fiction Profile"."MEDIA" M ON F.media_id = M.media_id
-            WHERE F.user_id = $1 AND M.type_id = ANY($2::int[])
-            ORDER BY F.media_id
-            LIMIT 15
-            OFFSET (($3 - 1) * 16)
-            `, [user_id, mediaTypeInclude, pageNumber]);
+                   WHEN M.type_id IN (1, 2) THEN CONCAT('https://image.tmdb.org/t/p/original/', M.poster_path)
+                      ELSE M.poster_path 
+                  END AS poster_path,
+        CASE 
+                  WHEN M.type_id = 1 THEN 'MOVIE' 
+                  WHEN M.type_id = 2 THEN 'TV' WHEN M.type_id = 3 THEN 'BOOK'
+                   ELSE 'MANGA' 
+                   END AS type,
+        CASE 
+                  WHEN M.type_id = 1 	THEN M.movie_id
+                   WHEN M.type_id = 2 THEN M.tv_id 
+                  WHEN M.type_id = 3 THEN M.book_id 
+                  ELSE M.manga_id 
+                  END AS id
+      FROM "Fiction Profile"."FAVORITE" F
+      JOIN "Fiction Profile"."MEDIA" M ON F.media_id = M.media_id
+      WHERE F.user_id = $1 AND (M.type_id = ANY($2::int[]) OR $2 = '{}')
+      ORDER BY F.media_id
+      LIMIT 15 
+              OFFSET (($3 - 1) * 15)
+      `, [user_id, mediaTypeInclude, pageNumber]);
 
 
         return res.status(200).json(result.rows);
     } catch (error) {
         console.error('Error fetching favorite media:', error);
-        // Handle errors and send an appropriate response
         res.status(500).json({ success: false, message: 'Error fetching favorite media' });
     }
 });
