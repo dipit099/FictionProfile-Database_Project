@@ -136,6 +136,8 @@ router.get('/manga', async (req, res) => {
         
         const people_id = req.query.people_id;
 
+        
+
         const result = await pool.query(
             `   
                 SELECT
