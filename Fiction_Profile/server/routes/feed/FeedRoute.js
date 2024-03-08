@@ -137,12 +137,24 @@ router.post('/post', async (req, res) => {
             [user_id, content]
         );
         console.log("post submitted");
-        res.status(201).json({ message: 'Post submitted successfully' });
+        res.status(200).json({ message: 'Post submitted successfully' });
     } catch (error) {
         console.error('Error submitting post:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.post('/delete_post', async (req, res) => {
+    try {
+        const { post_id } = req.body;
+        const result = await pool.query(`DELETE FROM "Fiction Profile"."POST" WHERE post_id = $1`, [post_id]);
+        res.status(200).json({ message: 'Post deleted successfully', success: true });
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 
 // Endpoint to handle comment submission
@@ -156,7 +168,8 @@ router.post('/comment', async (req, res) => {
             [user_id, post_id, content]
         );
         console.log("comment submitted");
-        res.status(201).json({ message: 'Comment submitted successfully' });
+        res.status(200).json({ message: 'Comment submitted successfully', success: true });
+
     } catch (error) {
         console.error('Error submitting comment:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -217,7 +230,7 @@ router.get('/follower', async (req, res) => {
             JOIN 
             "Fiction Profile"."PEOPLE" AS p ON f.user_id = p.people_id
             WHERE 
-            f.followed_id = $1
+            f.followed_id = $1 and f.user_id!=$1
         `, [user_id]);
 
         const followerUsers = result.rows.map(row => ({
@@ -226,7 +239,7 @@ router.get('/follower', async (req, res) => {
             profile_pic_path: row.profile_pic_path,
             username: row.username
         }));
-       
+
 
         res.json({ followerUsers });
 
@@ -247,28 +260,35 @@ router.get('/people-you-may-know', async (req, res) => {
 
         // Fetch people you may know from the database
         const result = await pool.query(`          
-        SELECT people_id, first_name, last_name, profile_pic_path, username
-        FROM "Fiction Profile"."PEOPLE"
-        WHERE people_id = (                
-            SELECT DISTINCT F2.followed_id
-            FROM "Fiction Profile"."FOLLOW" F1
-            JOIN "Fiction Profile"."FOLLOW" F2 ON F1.followed_id = F2.user_id
-            WHERE F2.followed_id != $1 AND F1.user_id = $1
-            EXCEPT
-            SELECT F3.followed_id
-            FROM "Fiction Profile"."FOLLOW" F3
-            WHERE F3.user_id = $1
-        )
-                      
+        SELECT DISTINCT P1.people_id,P1.username, P1.first_name, P1.last_name, P1.profile_pic_path,
+            (
+                SELECT COUNT(DISTINCT followed_id)
+                FROM "Fiction Profile"."FOLLOW" F
+                WHERE F.user_id = $1 AND F.followed_id IN (
+                    SELECT followed_id
+                    FROM "Fiction Profile"."FOLLOW"
+                    WHERE user_id = P1.people_id          )
+         ) AS mutual_followers_count
+        FROM "Fiction Profile"."PEOPLE" P1
+        WHERE P1.people_id IN (                
+            SELECT people_id
+            FROM "Fiction Profile"."PEOPLE"
+            WHERE people_id NOT IN (
+                SELECT F1.followed_id
+                FROM "Fiction Profile"."FOLLOW" F1
+                WHERE F1.user_id=$1 )
+        )  
+        ORDER BY mutual_followers_count DESC                     
         `, [user_id]);
 
         const peopleYouMayKnow = result.rows.map(row => ({
             people_id: row.people_id,
             full_name: `${row.first_name} ${row.last_name}`,
             profile_pic_path: row.profile_pic_path,
-            username: row.username
+            username: row.username,
+            mutual_followers_count: row.mutual_followers_count
         }));
-        
+        console.log(peopleYouMayKnow);
 
         res.json({ peopleYouMayKnow });
     } catch (error) {
@@ -288,7 +308,7 @@ router.post('/follow', async (req, res) => {
             VALUES ($1, $2)
         `, [user_id, followed_id]);
 
-        res.status(200).json({ message: 'User followed successfully' });
+        res.status(200).json({ message: 'User followed successfully', success: true });
     } catch (error) {
         console.error('Error following user:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -307,7 +327,7 @@ router.post('/unfollow', async (req, res) => {
             WHERE user_id = $1 AND followed_id = $2
         `, [user_id, followed_id]);
 
-        res.status(200).json({ message: 'User unfollowed successfully' });
+        res.status(200).json({ message: 'User unfollowed successfully', success: true });
     } catch (error) {
         console.error('Error unfollowing user:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -379,7 +399,7 @@ router.get('/trending_posts', async (req, res) => {
                 
         WHERE DATE_PART('day', CURRENT_DATE - last_edit) <= 7 AND T.sum is not NULL
         ORDER BY COALESCE(T.sum, 0) DESC, last_edit DESC
-            
+        LIMIT 3;
             
         `);
         const feedData = {};
