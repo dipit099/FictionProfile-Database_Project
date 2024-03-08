@@ -20,19 +20,19 @@ const Home = () => {
 
     return (
         <div className="home-container">
-
+            <SideBar />
             {role === 'moderator' ?
                 <div>
                     <Moderator />
                     <h1>Welcome Moderator {email}</h1>
-                </div> 
+                </div>
                 :
                 <div className="home-content">
 
-                    <SideBar />
+
                     <TopMediaBanner className="top-media-banner" />
                     <div className="home-trending-content">
-                       
+
                         <h1 style={{ paddingTop: '40px' }}>Trending List:</h1>
                         <h1>Movie</h1>
                         <Movie className="media" />

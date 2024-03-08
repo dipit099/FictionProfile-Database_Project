@@ -9,6 +9,7 @@ import UserPosts from "./UserPosts";
 import Affinity from "./Affinity";
 import DashboardProfile from "./DashboardProfile";
 import Follow from "./Follow";
+import MediaList from "./MediaList";
 
 const Dashboard = () => {
     const [userData, setUserData] = useState([]);
@@ -71,9 +72,7 @@ const Dashboard = () => {
             break;
         case 'media_list':
             sectionContent = (
-                <div>
-                    {/* Your media list content */}
-                </div>
+                <MediaList />
             );
             break;
 

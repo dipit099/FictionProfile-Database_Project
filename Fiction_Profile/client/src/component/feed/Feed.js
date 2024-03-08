@@ -63,7 +63,12 @@ const Feed = () => {
                     user_id: people_id
                 }
             });
-            setPeopleYouMayKnow(peopleYouMayKnowResponse.data.peopleYouMayKnow);
+
+            // Extract the first 4 entries from the response data
+            const firstFourPeople = peopleYouMayKnowResponse.data.peopleYouMayKnow.slice(0, 4);
+
+            // Set the state with the first four entries
+            setPeopleYouMayKnow(firstFourPeople);
 
         } catch (error) {
             console.error('Error fetching feed data:', error);
@@ -104,7 +109,8 @@ const Feed = () => {
                     user_id: people_id
                 }
             });
-            setFollowedUsers(followedResponse.data.followedUsers);
+            if (followedResponse.data.followedUsers.length > 0)
+                setFollowedUsers(followedResponse.data.followedUsers);
             toast.success('You are now following this user!');
 
             const peopleYouMayKnowResponse = await axios.get(`${BASE_URL}/feed/people-you-may-know`, {
@@ -112,38 +118,43 @@ const Feed = () => {
                     user_id: people_id
                 }
             });
-            setPeopleYouMayKnow(peopleYouMayKnowResponse.data.peopleYouMayKnow);
+            if (peopleYouMayKnowResponse.data.peopleYouMayKnow.length > 0) {
+                const firstFourPeople = peopleYouMayKnowResponse.data.peopleYouMayKnow.slice(0, 4);
+
+                // Set the state with the first four entries
+                setPeopleYouMayKnow(firstFourPeople);
+            }
         } catch (error) {
             console.error('Error following user:', error);
         }
     };
 
-    const handleUnfollow = async (followedId) => {
-        try {
-            await axios.post(`${BASE_URL}/feed/unfollow`, {
-                user_id: people_id,
-                followed_id: followedId
-            });
+    // const handleUnfollow = async (followedId) => {
+    //     try {
+    //         await axios.post(`${BASE_URL}/feed/unfollow`, {
+    //             user_id: people_id,
+    //             followed_id: followedId
+    //         });
 
-            const followedResponse = await axios.get(`${BASE_URL}/feed/followed`, {
-                params: {
-                    user_id: people_id
-                }
-            });
-            setFollowedUsers(followedResponse.data.followedUsers);
+    //         const followedResponse = await axios.get(`${BASE_URL}/feed/followed`, {
+    //             params: {
+    //                 user_id: people_id
+    //             }
+    //         });
+    //         setFollowedUsers(followedResponse.data.followedUsers);
 
-            const peopleYouMayKnowResponse = await axios.get(`${BASE_URL}/feed/people-you-may-know`, {
-                params: {
-                    user_id: people_id
-                }
-            });
-            setPeopleYouMayKnow(peopleYouMayKnowResponse.data.peopleYouMayKnow);
+    //         const peopleYouMayKnowResponse = await axios.get(`${BASE_URL}/feed/people-you-may-know`, {
+    //             params: {
+    //                 user_id: people_id
+    //             }
+    //         });
+    //         setPeopleYouMayKnow(peopleYouMayKnowResponse.data.peopleYouMayKnow);
 
-            toast.success('You have unfollowed this user!');
-        } catch (error) {
-            console.error('Error unfollowing user:', error);
-        }
-    };
+    //         toast.success('You have unfollowed this user!');
+    //     } catch (error) {
+    //         console.error('Error unfollowing user:', error);
+    //     }
+    // };
 
 
     const handlePostSubmit = async (event) => {
@@ -156,12 +167,6 @@ const Feed = () => {
                 caption: newPostCaption
             });
 
-            const response = await axios.get(`${BASE_URL}/feed`, {
-                params: {
-                    user_id: people_id
-                }
-            });
-            setFeed(response.data.feed);
             toast.success('Post published successfully!');
             setNewPostContent('');
             setNewPostCaption('');
@@ -185,7 +190,8 @@ const Feed = () => {
                     user_id: people_id
                 }
             });
-            setFeed(response.data.feed);
+            if (response.data.success)
+                setFeed(response.data.feed);
             toast.success('Comment published successfully!');
             setNewCommentContent('');
         } catch (error) {
@@ -470,6 +476,7 @@ const Feed = () => {
                                         <Link to={`/dashboard/${peopleYouMayKnow.people_id}`}>
                                             <img src={peopleYouMayKnow.profile_pic_path} alt={`${peopleYouMayKnow.first_name} ${peopleYouMayKnow.last_name}`} />
                                             <span>{`${peopleYouMayKnow.username}`}</span>
+                                            <span style={{ marginLeft: '10px', fontSize: '20px', fontWeight: 'bold', color: '#928686' }}>{`(Mutual : ${peopleYouMayKnow.mutual_followers_count})`}</span>
                                         </Link>
 
                                         <button className="follow-button" onClick={() => handleFollow(peopleYouMayKnow.people_id)}>Follow</button>
