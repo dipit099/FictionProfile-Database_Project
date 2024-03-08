@@ -10,12 +10,14 @@
 }
 
 .post-title {
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 5px;
 }
 
 .post-content {
     margin-bottom: 10px;
+    font-size: 20px;
+    color: #8e9daf;
 }
 
 .comments-list {
@@ -42,4 +44,68 @@
 
 .user-posts-container button:hover {
     background-color: #0056b3;
+}
+
+
+
+.editpost-modal {    
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.editpost-modal .label {
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+    display: block;
+    font-size: 20px; /* Increase font size */
+}
+
+.editpost-modal .input,
+.editpost-modal .textarea {
+    width: 100%;
+    padding: 15px; /* Increase padding */
+    margin-bottom: 20px;
+    background-color: #17212b;
+    color: #ffffff;
+    border: 1px solid #25404b;
+    border-radius: 5px;
+    resize: none;
+    font-size: 16px; /* Increase font size */
+}
+
+.editpost-modal .input{
+    font-size: 18px;
+}
+
+.editpost-modal .textarea {
+    height: 300px;
+    font-size: 18px;
+}
+
+.editpost-modal .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px; /* Add margin top */
+}
+
+.editpost-modal .save-button,
+.editpost-modal .cancel-button {
+    padding: 12px 25px; /* Adjust padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Increase font size */
+}
+
+.editpost-modal .save-button {
+    background-color: #0f7c8e;
+    color: #ffffff;
+}
+
+.editpost-modal .cancel-button {
+    background-color: #536872;
+    color: #ffffff;
 }

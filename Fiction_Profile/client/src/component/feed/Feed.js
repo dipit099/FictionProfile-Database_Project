@@ -30,6 +30,11 @@ const Feed = () => {
     const [selectedPost, setSelectedPost] = useState([]);
     const people_id = localStorage.getItem('people_id');
     // Function to open the modal and set the selected post
+
+    const [reporting, setReporting] = useState(false);
+    const [reportReason, setReportReason] = useState('');
+    const [reportingPostId, setReportingPostId] = useState('');
+
     const openTrendingModal = (post) => {
         setSelectedPost(post);
         console.log(post);
@@ -176,13 +181,13 @@ const Feed = () => {
         }
     };
 
-    const handleCommentSubmit = async (postId, event) => {
+    const handleCommentSubmit = async (post_id, event) => {
         event.preventDefault();
 
         try {
             await axios.post(`${BASE_URL}/feed/comment`, {
                 user_id: people_id,
-                post_id: postId,
+                post_id: post_id,
                 content: newCommentContent
             });
 
@@ -191,10 +196,31 @@ const Feed = () => {
                     user_id: people_id
                 }
             });
-            if (response.data.success)
-                setFeed(response.data.feed);
-            toast.success('Comment published successfully!');
+
+            setFeed(response.data.feed);
+
+
             setNewCommentContent('');
+            setFeed(prevFeed => {
+                return prevFeed.map(post => {
+                    if (post.post_id === post_id) {
+                        return { ...post, newCommentContent: '' };
+                    }
+                    return post;
+                });
+            });
+
+            // if (isTrendingModalOpen) {
+            //     const trendingPostResponse = await axios.get(`${BASE_URL}/feed/get_post`, {
+            //         params: {
+            //             post_id: post_id
+            //         }
+            //     });
+            //     setSelectedPost(trendingPostResponse.data.feedData);
+            // }
+
+            toast.success('Comment published successfully!');
+
         } catch (error) {
             console.error('Error commenting:', error);
         }
@@ -323,19 +349,57 @@ const Feed = () => {
         }));
     };
 
+    const handleReportClick = (post_id) => {
+        // setReporting(true);
+        setReportingPostId(post_id);
+        setFeed(prevFeed => {
+            return prevFeed.map(post => {
+                if (post.post_id === post_id) {
+                    return { ...post, reporting: true };
+                }
+                return post;
+            });
+        });
+    };
+
+    const handleInputChange = (e, post_id) => {
+        const { value } = e.target;
+        setReportReason(value);
+        setFeed(prevFeed => {
+            return prevFeed.map(post => {
+                if (post.post_id === post_id) {
+                    return { ...post, reportReason: value };
+                }
+                return post;
+            });
+        });
+    };
 
 
-    const handleReport = async (postId) => {
+
+    const handleSubmitReport = async (post_id) => {
         try {
             // Send a report request to the backend
             await axios.post(`${BASE_URL}/feed/report`, {
                 user_id: people_id,
-                post_id: postId
+                post_id: post_id,
+                report_reason: reportReason,
             });
             // Optionally, you can display a toast message or handle the UI accordingly
             toast.success('Post reported successfully!');
-        } catch (error) {
+            setReportReason('');
+            setFeed(prevFeed => {
+                return prevFeed.map(post => {
+                    if (post.post_id === post_id) {
+                        return { ...post, reporting: false, reportReason: '' };
+                    }
+                    return post;
+                });
+            });
+        }
+        catch (error) {
             console.error('Error reporting post:', error);
+            toast.error('An error occurred while reporting the post');
         }
     };
 
@@ -404,20 +468,36 @@ const Feed = () => {
                                     <CommentIcon ></CommentIcon>
                                     <div style={{ marginLeft: '10px', fontSize: '20px' }}> {post.comments_count}  </div>
                                 </div>
-                                <div >
-                                    <button className="report-button" onClick={() => handleReport(post.post_id)}>Report</button>
-                                </div>
-
-
+                                {role === 'user' && (
+                                    <div>
+                                        {post.reporting ? (
+                                            <div>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Enter report reason"
+                                                    value={post.reportReason}
+                                                    onChange={(e) => handleInputChange(e, post.post_id)}
+                                                />
+                                                <button onClick={() => handleSubmitReport(post.post_id)}>Submit Report</button>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <button className="report-button" onClick={() => handleReportClick(post.post_id)}>Report</button>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
+
 
                             {showComments[post.post_id] && (
                                 <>
+
                                     {role === 'user' && (
                                         <form onSubmit={(event) => handleCommentSubmit(post.post_id, event)}>
                                             <input
                                                 type="text"
-                                                value={newCommentContent}
+                                                value={post.newCommentContent}
                                                 onChange={(e) => setNewCommentContent(e.target.value)}
                                                 placeholder="Write your comment here..."
                                                 required
@@ -425,6 +505,7 @@ const Feed = () => {
                                             <button type="submit" className='publish-button'>Comment</button>
                                         </form>
                                     )}
+
                                     <p>Comments:</p>
                                     <div className='comment-div'>
                                         {post.comments.length > 0 ? (

@@ -51,16 +51,7 @@ const MediaDetails = ({ mediaType }) => {
 
 
 
-    const handlePublish = () => {
-        setIsEditModalOpen(false);
 
-        // Send the updated media details to the server
-        const result = axios.post(`${BASE_URL}/media/edit`, {
-            media_id: id,
-            ...editedMediaDetails
-        });
-
-    };
 
     const handleHoverRating = (rating) => {
         setHoverRating(rating);
@@ -129,56 +120,59 @@ const MediaDetails = ({ mediaType }) => {
                     runtime: response.data.media.runtime
                 });
 
-                const result = await axios.get(`${BASE_URL}/review`, {
-                    params: {
-                        media_id: id,
-                        media_type: mediaType,
-                        userId: people_id,
+                if (role !== 'moderator') {
+
+                    const result = await axios.get(`${BASE_URL}/review`, {
+                        params: {
+                            media_id: id,
+                            media_type: mediaType,
+                            userId: people_id,
+                        }
+                    });
+
+
+                    setReviews(result.data.reviews);
+
+
+                    const ratingResponse = await axios.get(`${BASE_URL}/rating/getmyrating`, {
+                        params: {
+                            user_id: people_id,
+                            media_id: id,
+                            media_type: mediaType
+                        }
+                    });
+
+                    if (ratingResponse.data.rating) {
+                        setSelectedRating(ratingResponse.data.rating);
                     }
-                });
+
+                    const allRatingResponse = await axios.get(`${BASE_URL}/rating`, {
+                        params: {
+                            media_id: id,
+                            media_type: mediaType
+                        }
+                    });
+
+                    const receivedRatings = allRatingResponse.data;
+
+                    const initialRatingsData = Array.from({ length: 10 }, (_, index) => ({
+                        rating: 10 - index,
+                        count: 0
+                    }));
+
+                    // Update counts for ratings available in the received data
+                    receivedRatings.forEach(({ rating, count }) => {
+                        const index = 10 - rating; // Adjust the index calculation for the reversed order
+                        initialRatingsData[index].count = count;
+                    });
 
 
-                setReviews(result.data.reviews);
+                    // Set ratings data
+                    setRatingsData(initialRatingsData);
 
-
-                const ratingResponse = await axios.get(`${BASE_URL}/rating/getmyrating`, {
-                    params: {
-                        user_id: people_id,
-                        media_id: id,
-                        media_type: mediaType
-                    }
-                });
-
-                if (ratingResponse.data.rating) {
-                    setSelectedRating(ratingResponse.data.rating);
+                    // setRatingsData(allRatingResponse.data); // Assuming the response contains ratingCounts array
+                    // console.log('allRatingResponse:', allRatingResponse.data);
                 }
-
-                const allRatingResponse = await axios.get(`${BASE_URL}/rating`, {
-                    params: {
-                        media_id: id,
-                        media_type: mediaType
-                    }
-                });
-
-                const receivedRatings = allRatingResponse.data;
-
-                const initialRatingsData = Array.from({ length: 10 }, (_, index) => ({
-                    rating: 10 - index,
-                    count: 0
-                }));
-
-                // Update counts for ratings available in the received data
-                receivedRatings.forEach(({ rating, count }) => {
-                    const index = 10 - rating; // Adjust the index calculation for the reversed order
-                    initialRatingsData[index].count = count;
-                });
-
-
-                // Set ratings data
-                setRatingsData(initialRatingsData);
-
-                // setRatingsData(allRatingResponse.data); // Assuming the response contains ratingCounts array
-                // console.log('allRatingResponse:', allRatingResponse.data);
 
             } catch (error) {
                 console.error('Error fetching media details:', error);
@@ -396,6 +390,50 @@ const MediaDetails = ({ mediaType }) => {
     };
 
 
+    const handlEditMedia = async () => {
+
+        try {
+            const result = await axios.post(`${BASE_URL}/moderator/edit_media`, {
+                media_id: id,
+                mediaType: mediaType,
+                title: editedMediaDetails.title,
+                description: editedMediaDetails.description,
+                release_date: editedMediaDetails.release_date,
+                language: editedMediaDetails.language,
+                runtime: editedMediaDetails.runtime,
+                moderatorId: people_id
+
+            });
+            if (result.data.success) {
+                toast.success('Media updated successfully');
+                setIsEditModalOpen(false);
+            }
+        }
+        catch (error) {
+            console.error('Error updating media:', error);
+        }
+
+    }
+
+    const handleDeleteMedia = async () => {
+        try {
+            const result = await axios.post(`${BASE_URL}/moderator/remove_media`, {
+                media_id: id,
+                mediaType: mediaType,
+                moderatorId: people_id
+            });
+            if (result.data.success) {
+                toast.success('Media removed successfully');
+            }
+
+        }
+        catch (error) {
+            console.error('Error removing media:', error);
+        }
+    }
+
+
+
 
     return (
         <div className="MediaDetails">
@@ -416,7 +454,7 @@ const MediaDetails = ({ mediaType }) => {
 
                                     )}
                                     {role === 'moderator' && (
-                                        <button className='edit-button' onClick={() => setIsEditModalOpen(true)}>Delete</button>
+                                        <button className='edit-button' onClick={handleDeleteMedia}>Delete</button>
 
                                     )}
                                 </div>
@@ -712,7 +750,7 @@ const MediaDetails = ({ mediaType }) => {
                             className="edit-input"
                         />
                     </div>
-                    <button onClick={handlePublish} className="edit-publish-button">Update</button>
+                    <button onClick={handlEditMedia} className="edit-publish-button">Update</button>
                 </div>
 
 
