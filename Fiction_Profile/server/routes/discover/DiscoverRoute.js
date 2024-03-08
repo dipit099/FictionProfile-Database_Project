@@ -156,6 +156,7 @@ router.get('/', async (req, res) => {
                 m.rating, 
                 m.vote_count,
                 m,year,
+                m.popularity,
                 CASE
                     WHEN m.type_id = 1 THEN m.movie_id
                     WHEN m.type_id = 2 THEN m.tv_id

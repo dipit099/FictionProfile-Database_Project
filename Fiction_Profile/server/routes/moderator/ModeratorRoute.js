@@ -6,6 +6,8 @@ router.post("/add-media", async (req, res) => {
   try {
     const { mediaData, moderatorId, mediaType } = req.body;
 
+    console.log(mediaData, moderatorId, mediaType);
+
     // Check if mediaData, moderatorId, and mediaType are provided
     if (!mediaData || !moderatorId || !mediaType) {
       return res.status(400).json({ error: "Missing required fields" });
