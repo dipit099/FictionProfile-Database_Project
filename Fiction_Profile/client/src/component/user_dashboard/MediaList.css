@@ -1,0 +1,23 @@
+.media-list-container {
+    display: flex;
+
+    margin-top: 20px;
+}
+
+.media-list-container .media-items {
+    margin-left: 50px;
+}
+
+.add-mediaType-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+}
+
+
+.add-mediaType-container .checkboxes {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    margin-top: 100px;
+}

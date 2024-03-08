@@ -27,7 +27,7 @@ const Navbar = () => {
                 <div className="navbar-right">
                     {role === "user" ? (
                         <>
-                            <Link to={`/dashboard/${people_id}`}>
+                            <Link to={`/dashboard/${people_id}`} >
                                 <button>Dashboard</button>
                             </Link>
 

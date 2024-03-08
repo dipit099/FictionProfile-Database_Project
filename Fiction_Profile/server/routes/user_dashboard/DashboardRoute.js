@@ -1,6 +1,68 @@
 const express = require('express');
 const router = express.Router();
 const pool = require("../../db");
+
+
+router.get('/get_my_media', async (req, res) => {
+    try {
+        const { user_id, mediaTypes, pageNumber, statusTypes } = req.query; // Extract parameters from query string
+        if (!user_id || user_id.trim() === '') {
+            return res.status(400).json({ success: false, message: 'Invalid user_id' });
+        }
+
+
+        let mediaTypeInclude = mediaTypes ? [...mediaTypes.include].map(type => parseInt(type)) : [];
+        let statusTypeInclude = statusTypes ? [...statusTypes.include].map(type => parseInt(type)) : [];
+
+
+
+        console.log(req.query);
+        const result = await pool.query(
+            `
+            SELECT ML.media_id AS key_id, M.title,
+					CASE
+                    WHEN M.type_id IN (1, 2) THEN CONCAT('https://image.tmdb.org/t/p/original/', M.poster_path)
+                    ELSE M.poster_path
+                END AS poster_path,
+					CASE
+                        WHEN M.type_id = 1 THEN 'MOVIE'
+                        WHEN M.type_id = 2 THEN 'TV'
+                        WHEN M.type_id = 3 THEN 'BOOK'
+                        ELSE 'MANGA'
+                END AS type,
+					CASE
+                        WHEN M.type_id = 1 THEN M.movie_id
+                        WHEN M.type_id = 2 THEN M.tv_id
+                        WHEN M.type_id = 3 THEN M.book_id
+                    ELSE M.manga_id
+                END AS id,
+					CASE
+                        WHEN ML.status_id = 1 THEN 'READ/WATCHED'
+                        WHEN ML.status_id = 2 THEN 'Plan to Read/Watch'                    
+                        ELSE 'Currently Reading/Watching'
+                END AS status_type
+
+				FROM "Fiction Profile"."USER_MEDIA_LIST" ML
+                    JOIN "Fiction Profile"."MEDIA" M
+                    ON ML.media_id= M.media_id
+                    WHERE ML.user_id=$1 AND (M.type_id = ANY($2::int[]) OR $2 = '{}') AND (ML.status_id = ANY($4::int[]) OR $4 = '{}')
+                    LIMIT 14
+                    OFFSET (($3 - 1) * 14)
+            `,
+            [user_id, mediaTypeInclude, pageNumber, statusTypeInclude]
+        );
+
+
+        console.log("Succesfully fetched user's media list");
+        return res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error executing query:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+);
+
+
 router.get('/get_fav', async (req, res) => {
     try {
         console.log('Fetching favorite media');
@@ -13,8 +75,8 @@ router.get('/get_fav', async (req, res) => {
         }
 
         let mediaTypeInclude = mediaTypes ? [...mediaTypes.include].map(type => parseInt(type)) : [];
-        
-        
+
+
         const result = await pool.query(`
         SELECT
         F.media_id AS key_id,
