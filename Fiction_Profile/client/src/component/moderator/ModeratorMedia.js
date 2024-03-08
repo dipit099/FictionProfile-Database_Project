@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 
 
-const Moderator = () => {
+const ModeratorMedia = () => {
     // State variables
     const [modalOpen, setModalOpen] = useState(false);
     const [mediaType, setMediaType] = useState('');
@@ -21,7 +21,6 @@ const Moderator = () => {
         year: '',
         authorDirectorWriter: '',
         language: '',
-        genre: [],
         runtime: '', // Only for movie and TV
     });
     const [genres, setGenres] = useState([]);
@@ -47,10 +46,7 @@ const Moderator = () => {
 
     /*genre and , genre or, genre exclude*/
     const [genreTypes, setGenreTypes] = useState({ include: [], andInclude: [], exclude: [] });
-
-
-    const [mediaTypes, setMediaTypes] = useState({ include: [1, 2, 3, 4], exclude: [] });
-
+    const [mediaTypes, setMediaTypes] = useState({ include: [1, 3], exclude: [2, 4] });
     const [selectedGenres, setSelectedGenres] = useState([]);
 
     // Function to open the modal for adding media
@@ -95,48 +91,37 @@ const Moderator = () => {
         }
     };
 
-
-
-
-    // Function to add a new genre
-    const addNewGenre = () => {
-        // Add the new genre to the genre list
-        setGenres([...genres, newGenre]);
-        // Add the new genre to the selected genre list
-        setMediaDetails({ ...mediaDetails, genre: [...mediaDetails.genre, newGenre] });
-    };
-
-    // Function to submit media details to the backend
-    const handleSubmit = async () => {
+    const handlePublish = async () => {
         try {
-            const formData = new FormData();
-            formData.append('type', mediaType);
-            formData.append('title', mediaDetails.title);
-            formData.append('year', mediaDetails.year);
-            formData.append('authorDirectorWriter', mediaDetails.authorDirectorWriter);
-            formData.append('language', mediaDetails.language);
-            formData.append('genre', mediaDetails.genre);
-            if (posterImage) {
-                formData.append('posterImage', posterImage);
-            }
-            if (backdropImage) {
-                formData.append('backdropImage', backdropImage);
-            }
-            if (mediaType === 'movie' || mediaType === 'tv') {
-                formData.append('runtime', mediaDetails.runtime);
-            }
+            console.log('Publishing media:', mediaDetails);
 
-            const response = await axios.post(`${BASE_URL}/moderator/add-media`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            const response = await axios.post(`${BASE_URL}/moderator/add_media`, {
+                moderatorId: userId,
+                mediaType: mediaType,
+                title: mediaDetails.title,
+                year: mediaDetails.year,
+                authorDirectorWriter: mediaDetails.authorDirectorWriter,
+                language: mediaDetails.language,
+                runtime: mediaDetails.runtime,
+                genres: selectedGenres,
+                posterImage: posterImage,
+                backdropImage: backdropImage
             });
-            console.log('Media added successfully:', response.data);
-            closeModal();
+
+            const data = response.data;
+            console.log('Media added:', data);
+            toast.success('Media added successfully');
+
+            closeModal(); // Close the modal after adding media
         } catch (error) {
             console.error('Error adding media:', error);
+            toast.error('Error adding media');
         }
     };
+
+
+
+
 
 
     useEffect(() => {
@@ -150,24 +135,26 @@ const Moderator = () => {
                 console.error('Error fetching genre list:', error);
             }
         };
-
         fetchMediaGenres();
     }, []);
 
 
 
-
-
-
-    /**/
-
     const handleGenreChange = (selectedOptions) => {
-        const selected = Array.from(selectedOptions).map(option => ({
-            id: option.value,
-            name: option.text
-        }));
-        setSelectedGenres(prevGenres => [...prevGenres, ...selected]);
+        const selected = Array.from(selectedOptions).map(option => option.text);
+
+        setSelectedGenres(prevGenres => {
+            const newGenres = [];
+            for (const genre of selected) {
+                if (!prevGenres.includes(genre)) {
+                    newGenres.push(genre);
+                }
+            }
+            return [...prevGenres, ...newGenres];
+        });
     };
+
+
 
 
     const removeGenre = (genreIdToRemove) => {
@@ -211,43 +198,6 @@ const Moderator = () => {
         setSearchQuery(e.target.value);
     };
 
-
-
-
-
-
-
-
-
-    // useEffect(() => {
-    //     console.log('Current Page:', currentPage);       
-    //     const fetchMediaItems = async () => {
-    //         try {
-    //             const response = await axios.get(`${BASE_URL}/discover`, {
-    //                 params: {
-    //                     userId: userId,
-    //                     page: currentPage,
-    //                     pageSize: 20,
-    //                     search: searchQuery,
-    //                     yearStart: yearStart,
-    //                     yearEnd: yearEnd,
-    //                     ratingStart: ratingStart,
-    //                     ratingEnd: ratingEnd,
-    //                     mediaTypes: mediaTypes
-    //                 }
-    //             });
-
-    //             const data = response.data;
-    //             setMediaItems(data.media);
-    //             console.log('Media Items:', mediaItems);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
-    //     fetchMediaItems();
-    // }, [currentPage]);
-
-
     const handleFilter = async () => {
         try {
             setLoading(true); // Show loading window
@@ -277,6 +227,10 @@ const Moderator = () => {
         }
     }
 
+    useEffect(() => {
+        handleFilter();
+    }, [currentPage]);
+
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -302,10 +256,6 @@ const Moderator = () => {
 
         return pageNumbers;
     };
-
-
-
-
 
 
 
@@ -521,12 +471,11 @@ const Moderator = () => {
                                 <label>Selected Genres:</label>
                             )}
                             {selectedGenres.map(genre => (
-                                <span key={genre.id} className="selected-genre">
-                                    {genre.name} <button onClick={() => removeGenre(genre.id)}>X</button>
+                                <span key={genre} className="selected-genre">
+                                    {genre} <button onClick={() => removeGenre(genre)}>X</button>
                                 </span>
                             ))}
                         </div>
-
 
                         <div className="form-group">
                             <label htmlFor="posterImage">Poster Image:</label>
@@ -564,7 +513,7 @@ const Moderator = () => {
                             <button className="cancel-button" onClick={closeModal}>
                                 Cancel
                             </button>
-                            <button className="submit-button" onClick={handleSubmit}>
+                            <button className="submit-button" onClick={handlePublish}>
                                 Publish
                             </button>
                         </div>
@@ -576,4 +525,4 @@ const Moderator = () => {
     );
 };
 
-export default Moderator;
+export default ModeratorMedia;

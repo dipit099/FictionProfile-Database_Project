@@ -3,6 +3,36 @@ const router = express.Router();
 const pool = require("../../db");
 
 
+
+
+router.post('/edit_post', async (req, res) => {
+    try {
+        const { post_id, title, content, userId } = req.body;
+        console.log('Editing post with ID:', post_id);
+    }
+    catch (error) {
+        console.error('Error editing post:', error);
+        res.status(400).json({ error: 'Error editing post' });
+    }
+
+    return res.status(200).json({ success: true, message: 'Post edited successfully' });
+});
+
+
+router.post('/delete_post', async (req, res) => {
+    try {
+        const { post_id, userId } = req.body;
+        console.log('Deleting post with ID:', post_id);
+    }
+    catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(400).json({ error: 'Error deleting post' });
+    }
+
+    return res.status(200).json({ success: true, message: 'Post deleted successfully' });
+});
+
+
 router.get('/get_my_media', async (req, res) => {
     try {
         const { user_id, mediaTypes, pageNumber, statusTypes } = req.query; // Extract parameters from query string

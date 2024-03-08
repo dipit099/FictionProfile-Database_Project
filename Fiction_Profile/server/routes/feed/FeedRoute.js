@@ -1,6 +1,94 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../../db'); // Assuming you have your PostgreSQL pool configured
+
+
+
+router.post('/report', async (req, res) => {
+    try {
+        const { user_id, post_id, report_reason } = req.body;
+
+        console.log(user_id, post_id, report_reason);
+
+
+        res.status(200).json({ success: true, message: 'Post reported successfully' });
+    }
+
+    catch (error) {
+        console.error('Error reporting post:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+}
+);
+
+
+router.get('/get_post', async (req, res) => {
+    try {
+        const { post_id } = req.query;
+        const result = await pool.query(`
+           
+                SELECT
+                P.post_id,
+                P.user_id,
+                P.title,
+                P.content,
+                P.last_edit,
+                (SELECT username FROM "Fiction Profile"."PEOPLE" WHERE people_id= P.user_id) AS username,
+                (SELECT profile_pic_path FROM "Fiction Profile"."PEOPLE" WHERE people_id= P.user_id) AS profile_pic_path,
+                (SELECT COUNT(*) FROM "Fiction Profile"."POST_VOTE" WHERE post_id= P.post_id) AS total_votes,
+                (SELECT COUNT(*) FROM "Fiction Profile"."COMMENT" WHERE post_id= P.post_id) AS total_comments,
+                            C.comment_id,C.user_id as comment_user_id,
+                (SELECT username FROM "Fiction Profile"."PEOPLE"
+                    WHERE people_id= C.user_id) AS comment_username,
+                C.content as comment_content 
+                FROM "Fiction Profile"."POST" P
+                            LEFT JOIN "Fiction Profile"."COMMENT" C
+                            ON  P.post_id= C.post_id          
+                WHERE P.post_id = $1
+            `, [post_id]);
+
+
+        const row = result.rows[0];
+
+        const feedData = {};
+        result.rows.forEach(row => {
+            if (!feedData[row.post_id]) {
+                // Initialize the post if it doesn't exist in the feed data
+                feedData[row.post_id] = {
+                    post_id: row.post_id,
+                    user_id: row.user_id,
+                    title: row.title,
+                    content: row.content,
+                    last_edit: row.last_edit,
+                    username: row.username,
+                    profile_pic_path: row.profile_pic_path,
+                    comments: [], // Initialize comments as an empty array
+                    total_votes: row.total_votes,
+                    total_comments: row.total_comments
+                };
+            }
+            if (row.comment_id) {
+                // Add comments to the respective post
+                feedData[row.post_id].comments.push({
+                    comment_id: row.comment_id,
+                    user_id: row.comment_user_id,
+                    comment_username: row.comment_username,
+                    content: row.comment_content
+                });
+            }
+        }
+        );
+
+        console.log(feedData);
+        res.json({ feedData });
+    } catch (error) {
+        console.error('Error fetching post:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+
+});
+
+
 router.get('/', async (req, res) => {
     try {
         console.log('Fetching feed data...');
