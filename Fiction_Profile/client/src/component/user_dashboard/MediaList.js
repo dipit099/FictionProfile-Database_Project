@@ -4,6 +4,7 @@ import BASE_URL from "../../config/ApiConfig";
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './MediaList.css';
 
 const MediaList = () => {
 
@@ -30,20 +31,29 @@ const MediaList = () => {
 
     const fetchMediaList = async () => {
         try {
-            const response = await axios.get(`${BASE_URL}/user_media_add/get_added_media`, {
+
+            // const response = await axios.get(`${BASE_URL}/dashboard/get_my_media`, {
+            //     params: {
+            //         user_id: people_id,
+            //         mediaTypes: mediaTypes,
+            //         statusTypes: statusTypes,
+            //         pageNumber: currentPage,
+
+            //     }
+            // });
+            const response = await axios.get(`${BASE_URL}/dashboard/get_my_media`, {
                 params: {
                     user_id: people_id,
                     mediaTypes: mediaTypes,
-                    pageNumber: currentPage,
                     statusTypes: statusTypes,
-
+                    pageNumber: currentPage,
                 }
             });
-            console.log(response.data.mediaList);
-            setMediaList(response.data.mediaList);
+            setMediaList(response.data);
+            console.log(response.data);
         } catch (error) {
             console.error('Error fetching media list:', error);
-            toast.error('Error fetching media list');
+            // toast.error('Error fetching media list');
         }
     }
 
@@ -117,7 +127,43 @@ const MediaList = () => {
 
     return (
         <div className="media-list-container">
-            <div className="fav-mediaType-container">
+
+
+            <div className="media-items">
+                {mediaList && mediaList.map(mediaItem => (
+                    <div key={mediaItem.key_id} className="media-card">
+                        <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`} target="_blank">
+
+                            <div className='media-poster-badge'>
+                                <div className='media-poster'>
+                                    <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
+                                </div>
+                                <div className="badge">{mediaItem.type}</div>
+
+                            </div>
+                        </Link>
+                        <div className="status_badge" style={{ backgroundColor: '#892df1', color: 'white', textAlign: 'center', padding: '5px 10px', borderRadius: '5px' }}>
+                            {mediaItem.status_type}
+                        </div>
+
+
+                        <div className='discover-media-title' style={{ textAlign: 'center', fontFamily: 'cursive' }}>{mediaItem.title}</div>
+                    </div>
+                ))}
+                <div className="pagination">
+                    <ul className="pagination">
+                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                            <button className="page-link" onClick={() => handlePageClick(currentPage - 1)}>Previous</button>
+                        </li>
+                        {renderPageNumbers()}
+                        <li className="page-item">
+                            <button className="page-link" onClick={() => handlePageClick(currentPage + 1)}>Next</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div className="add-mediaType-container">
                 <div className="checkboxes">
                     <div className="checkbox-container">
                         <input
@@ -164,81 +210,47 @@ const MediaList = () => {
                         <label htmlFor="book">Book</label>
                     </div>
                 </div>
-                {/* <div className='filter-button-div'>
-                    <button type="submit" className="filter-button" onClick={() => handleFilter()}>Filter Results</button>
-                </div> */}
-            </div>
-            <div className="checkboxes">
-                <div className="checkbox-container">
-                    <input
-                        type="checkbox"
-                        id="read-watched"
-                        name="read-watched"
-                        value="read-watched"
-                        checked={statusTypes.include.includes(1)}
-                        onChange={() => handleStatusTypeToggle(1)}
-                    />
-                    <label htmlFor="read-watched">Read/Watched</label>
-                </div>
-                <div className="checkbox-container">
-                    <input
-                        type="checkbox"
-                        id="plan-to-read-watch"
-                        name="plan-to-read-watch"
-                        value="plan-to-read-watch"
-                        checked={statusTypes.include.includes(2)}
-                        onChange={() => handleStatusTypeToggle(2)}
-                    />
-                    <label htmlFor="plan-to-read-watch">Plan to Read/Watch</label>
-                </div>
-                <div className="checkbox-container">
-                    <input
-                        type="checkbox"
-                        id="currently-reading-watching"
-                        name="currently-reading-watching"
-                        value="currently-reading-watching"
-                        checked={statusTypes.include.includes(3)}
-                        onChange={() => handleStatusTypeToggle(3)}
-                    />
-                    <label htmlFor="currently-reading-watching">Currently Reading/Watching</label>
-                </div>
-            </div>
 
-
-            <div className="media-items">
-                {mediaList && mediaList.map(mediaItem => (
-                    <div key={mediaItem.key_id} className="media-card">
-                        <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`} target="_blank">
-
-                            <div className='media-poster-badge'>
-                                <div className='media-poster'>
-                                    <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
-                                </div>
-                                <div className="badge">{mediaItem.type}</div>
-
-                            </div>
-                        </Link>
-                        <div className="status_badge" style={{ backgroundColor: '#892df1', color: 'white', textAlign: 'center', padding: '5px 10px', borderRadius: '5px' }}>
-                            {mediaItem.status_type}
-                        </div>
-
-
-                        <div className='discover-media-title' style={{ textAlign: 'center', fontFamily: 'cursive' }}>{mediaItem.title}</div>
+                <div className="checkboxes">
+                    <div className="checkbox-container">
+                        <input
+                            type="checkbox"
+                            id="read-watched"
+                            name="read-watched"
+                            value="read-watched"
+                            checked={statusTypes.include.includes(1)}
+                            onChange={() => handleStatusTypeToggle(1)}
+                        />
+                        <label htmlFor="read-watched">Read/Watched</label>
                     </div>
-                ))}
+                    <div className="checkbox-container">
+                        <input
+                            type="checkbox"
+                            id="plan-to-read-watch"
+                            name="plan-to-read-watch"
+                            value="plan-to-read-watch"
+                            checked={statusTypes.include.includes(2)}
+                            onChange={() => handleStatusTypeToggle(2)}
+                        />
+                        <label htmlFor="plan-to-read-watch">Plan to Read/Watch</label>
+                    </div>
+                    <div className="checkbox-container">
+                        <input
+                            type="checkbox"
+                            id="currently-reading-watching"
+                            name="currently-reading-watching"
+                            value="currently-reading-watching"
+                            checked={statusTypes.include.includes(3)}
+                            onChange={() => handleStatusTypeToggle(3)}
+                        />
+                        <label htmlFor="currently-reading-watching">Currently Reading/Watching</label>
+                    </div>
+                </div>
+
             </div>
 
-            <div className="pagination">
-                <ul className="pagination">
-                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                        <button className="page-link" onClick={() => handlePageClick(currentPage - 1)}>Previous</button>
-                    </li>
-                    {renderPageNumbers()}
-                    <li className="page-item">
-                        <button className="page-link" onClick={() => handlePageClick(currentPage + 1)}>Next</button>
-                    </li>
-                </ul>
-            </div>
+
+
 
 
         </div >

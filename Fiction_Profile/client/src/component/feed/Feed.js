@@ -23,11 +23,12 @@ const Feed = () => {
     const [newCommentContent, setNewCommentContent] = useState('');
     const [followedUsers, setFollowedUsers] = useState([]);
     const [peopleYouMayKnow, setPeopleYouMayKnow] = useState([]);
+    const role = localStorage.getItem('role');
 
     const [trendingPosts, setTrendingPosts] = useState([]);
     const [isTrendingModalOpen, setIsTrendingModalOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState([]);
-
+    const people_id = localStorage.getItem('people_id');
     // Function to open the modal and set the selected post
     const openTrendingModal = (post) => {
         setSelectedPost(post);
@@ -40,7 +41,7 @@ const Feed = () => {
         setIsTrendingModalOpen(false);
     };
 
-    const people_id = localStorage.getItem('people_id');
+
     const fetchFeedData = async () => {
         try {
             const response = await axios.get(`${BASE_URL}/feed`, {
@@ -365,7 +366,13 @@ const Feed = () => {
 
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>
-                            <p><img src={post.profile_pic_path} alt={post.post_id} />{post.username}</p>
+                            <Link to={`/dashboard/${post.post_user_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <p>
+                                    <img src={post.profile_pic_path} alt={post.post_id} />
+                                    <span style={{ fontSize: '18px' }}>{post.username}</span>
+                                </p>
+
+                            </Link>
                             <div className='post-title-div'>
                                 <div className='post-title'>{post.title} </div>
                                 <div className='feed-date'> {new Date(post.last_edit).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })} </div>
@@ -374,17 +381,22 @@ const Feed = () => {
 
                             </div>
                             <div className='post-description'>{post.content}</div>
-                            <div className='vote-container' >
-                                <div className={`feedvote-container ${post.user_vote === 1 ? 'upvoted' : post.user_vote === -1 ? 'downvoted' : ''}`}>
-                                    <div onClick={() => handleVote(post.post_id, 1)}>
-                                        <UpvoteIcon filled={post.user_vote === 1} />
-                                    </div>
-                                    <div style={{ fontSize: '22px', marginLeft: '5px', marginRight: '5px' }}>{post.total_vote}</div>
 
-                                    <div onClick={() => handleVote(post.post_id, -1)}>
-                                        <DownvoteIcon filled={post.user_vote === -1} />
+
+                            <div className='vote-container' >
+                                {role === 'user' && (
+                                    <div className={`feedvote-container ${post.user_vote === 1 ? 'upvoted' : post.user_vote === -1 ? 'downvoted' : ''}`}>
+
+                                        <div onClick={() => handleVote(post.post_id, 1)}>
+                                            <UpvoteIcon filled={post.user_vote === 1} />
+                                        </div>
+                                        <div style={{ fontSize: '22px', marginLeft: '5px', marginRight: '5px' }}>{post.total_vote}</div>
+
+                                        <div onClick={() => handleVote(post.post_id, -1)}>
+                                            <DownvoteIcon filled={post.user_vote === -1} />
+                                        </div>
                                     </div>
-                                </div>
+                                )}
 
 
 
@@ -401,16 +413,18 @@ const Feed = () => {
 
                             {showComments[post.post_id] && (
                                 <>
-                                    <form onSubmit={(event) => handleCommentSubmit(post.post_id, event)}>
-                                        <input
-                                            type="text"
-                                            value={newCommentContent}
-                                            onChange={(e) => setNewCommentContent(e.target.value)}
-                                            placeholder="Write your comment here..."
-                                            required
-                                        />
-                                        <button type="submit" className='publish-button'>Comment</button>
-                                    </form>
+                                    {role === 'user' && (
+                                        <form onSubmit={(event) => handleCommentSubmit(post.post_id, event)}>
+                                            <input
+                                                type="text"
+                                                value={newCommentContent}
+                                                onChange={(e) => setNewCommentContent(e.target.value)}
+                                                placeholder="Write your comment here..."
+                                                required
+                                            />
+                                            <button type="submit" className='publish-button'>Comment</button>
+                                        </form>
+                                    )}
                                     <p>Comments:</p>
                                     <div className='comment-div'>
                                         {post.comments.length > 0 ? (
@@ -466,24 +480,25 @@ const Feed = () => {
                                 </div>
                             ))}
                         </div> */}
-                        <h2>Same Minds</h2>
-                        <div className="people-you-may-know">
+                        {role === 'user' && (
+                            <div className="people-you-may-know">
+                                <h2>Same Minds</h2>
 
+                                {peopleYouMayKnow.map(peopleYouMayKnow => (
+                                    < div className="user-info">
+                                        <li key={peopleYouMayKnow.people_id}>
+                                            <Link to={`/dashboard/${peopleYouMayKnow.people_id}`}>
+                                                <img src={peopleYouMayKnow.profile_pic_path} alt={`${peopleYouMayKnow.first_name} ${peopleYouMayKnow.last_name}`} />
+                                                <span>{`${peopleYouMayKnow.username}`}</span>
+                                                <span style={{ marginLeft: '10px', fontSize: '20px', fontWeight: 'bold', color: '#928686' }}>{`(Mutual : ${peopleYouMayKnow.mutual_followers_count})`}</span>
+                                            </Link>
 
-                            {peopleYouMayKnow.map(peopleYouMayKnow => (
-                                < div className="user-info">
-                                    <li key={peopleYouMayKnow.people_id}>
-                                        <Link to={`/dashboard/${peopleYouMayKnow.people_id}`}>
-                                            <img src={peopleYouMayKnow.profile_pic_path} alt={`${peopleYouMayKnow.first_name} ${peopleYouMayKnow.last_name}`} />
-                                            <span>{`${peopleYouMayKnow.username}`}</span>
-                                            <span style={{ marginLeft: '10px', fontSize: '20px', fontWeight: 'bold', color: '#928686' }}>{`(Mutual : ${peopleYouMayKnow.mutual_followers_count})`}</span>
-                                        </Link>
-
-                                        <button className="follow-button" onClick={() => handleFollow(peopleYouMayKnow.people_id)}>Follow</button>
-                                    </li>
-                                </div>
-                            ))}
-                        </div>
+                                            <button className="follow-button" onClick={() => handleFollow(peopleYouMayKnow.people_id)}>Follow</button>
+                                        </li>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div >
@@ -502,10 +517,10 @@ const Feed = () => {
 
                     },
                     content: {
-                        width: '800px',
-                        height: '700px',
+                        width: '900px',
+                        height: '800px',
                         margin: 'auto',
-                        backgroundColor: '#032641', // Transparent background for the modal content
+                        backgroundColor: '#1a2032', // Transparent background for the modal content
                         border: 'none', // Remove border if needed
                         boxShadow: 'none', // Remove box shadow if needed
 
@@ -513,26 +528,55 @@ const Feed = () => {
                 }}
             >
                 <div className="trending-modal-div">
-                    <div className="trending-modal-content">
-                        <h2>Post Details</h2>
-                        <div className="close-icon" onClick={closeTrendingModal}>X</div>
-                        <div>Username: {selectedPost.post_username}</div>
-                        <div>Title: {selectedPost.title} </div>
-                        <div>Days Before: {selectedPost.days_before}</div>
-                        <div>Content: {selectedPost.content}</div>
+                    <div className='trending-modal-post'>
+                        <div className='trending-post-title-div'>
+                            <div className="close-icon" onClick={closeTrendingModal}>X</div>
+                            <div className='trending-title-date'>
+                                <div >
+                                    <Link to={`/dashboard/${selectedPost.user_id}`} >
+                                        <img src={selectedPost.profile_pic_path} alt={selectedPost.post_id} />
+                                        Username: {selectedPost.post_username}
+                                    </Link>
+
+                                </div>
+                                <div className='trending-feed-date'>Days Before: {selectedPost.days_before}</div>
+                            </div>
+                            <div>
+                                <div className='trending-post-title'>Title: {selectedPost.title} </div>
+
+                            </div>
+
+                        </div>
+                        <div className='trending-post-description'>Content: {selectedPost.content}</div>
 
                         <h3>Comments:</h3>
-                        {selectedPost.comments && selectedPost.comments.map(comment => (
-                            <div key={comment.comment_id}>
-                                <div><strong>Username:</strong> {comment.comment_username}</div>
-                                <div><strong>Comment:</strong> {comment.content}</div>
-                            </div>
-                        ))}
+                        {role === 'user' && (
+                            <form onSubmit={(event) => handleCommentSubmit(selectedPost.post_id, event)}>
+                                <input
+                                    type="text"
+                                    value={newCommentContent}
+                                    onChange={(e) => setNewCommentContent(e.target.value)}
+                                    placeholder="Write your comment here..."
+                                    required
+                                />
+                                <button type="submit" className='trending-publish-button'>Comment</button>
+                            </form>
+                        )}
+                        <div className='trending-comment-div'>
+                            {selectedPost.comments && selectedPost.comments.map((comment, index) => (
+                                <div key={comment.comment_id} className='trending-comment'>
+                                    <div>Username: {comment.comment_username}</div>
+                                    <div>Comment: {comment.content}</div>
+                                </div>
+                            ))}
+                        </div>
+
                     </div>
                 </div>
 
 
-            </Modal>
+
+            </Modal >
         </>
     );
 };

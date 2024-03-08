@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../../config/navbar/Navbar";
 import SideBar from "../../config/navbar/SideBar";
 import axios from 'axios';
@@ -12,6 +13,7 @@ import Follow from "./Follow";
 import MediaList from "./MediaList";
 
 const Dashboard = () => {
+    const location = useLocation();
     const [userData, setUserData] = useState([]);
     const [activeSection, setActiveSection] = useState('profile'); // Initially set to 'profile'
     const [peopleId, setPeopleId] = useState(''); // Initially set to 1
@@ -29,10 +31,10 @@ const Dashboard = () => {
 
     useEffect(() => {
         // Extracting peopleId from URL
-        const urlParts = window.location.pathname.split('/');
+        const urlParts = location.pathname.split('/');
         const lastPart = urlParts[urlParts.length - 1];
         setPeopleId(lastPart);
-    }, []);
+    }, [location]);
 
     useEffect(() => {
         if (peopleId) {
@@ -44,7 +46,7 @@ const Dashboard = () => {
         // Fetch user's own profile ID from localStorage or wherever you store it
         const userProfileId = localStorage.getItem('people_id');
         setUserProfileId(userProfileId);
-    }, []);
+    }, [localStorage.getItem('people_id')]);
 
     const handleSectionClick = (section) => {
         setActiveSection(section);
@@ -53,9 +55,7 @@ const Dashboard = () => {
     let sectionContent;
     switch (activeSection) {
         case 'profile':
-            sectionContent = (<DashboardProfile userData={userData} />
-
-            );
+            sectionContent = (<DashboardProfile userData={userData} />);
             break;
         case 'favorite':
             sectionContent = <FavoriteList />;
@@ -107,7 +107,6 @@ const Dashboard = () => {
 
                         <div className="dashboard-user-info">
                             <div>Username: {userData.username}</div>
-
                         </div>
                     </div>
                 )}
@@ -130,12 +129,12 @@ const Dashboard = () => {
                             Media List
                         </li>
 
-                        {peopleId !== userProfileId && ( // Only show "Affinity" when visiting another profile
+                        {peopleId !== userProfileId && (
                             <li className={activeSection === 'affinity' ? 'active' : ''} onClick={() => handleSectionClick('affinity')}>
                                 Affinity
                             </li>
                         )}
-                        {peopleId === userProfileId && ( // Only show "Affinity" when visiting another profile
+                        {peopleId === userProfileId && (
                             <li className={activeSection === 'suggestions' ? 'active' : ''} onClick={() => handleSectionClick('suggestions')}>
                                 Suggestions
                             </li>

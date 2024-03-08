@@ -4,6 +4,9 @@ const pool = require('../../db'); // Assuming you have your PostgreSQL pool conf
 router.get('/', async (req, res) => {
     try {
         console.log('Fetching feed data...');
+        const { user_id } = req.query;
+        const userIdParameter = user_id !== undefined ? user_id.trim() : null;
+        // console.log(userIdParameter + "feed data...");
 
         // Retrieve data from the database
         const result = await pool.query(`
@@ -76,8 +79,8 @@ router.get('/', async (req, res) => {
             LEFT JOIN
                  CommentCounts CC ON T.post_id = CC.post_id
             WHERE 
-                F.user_id = $1 AND T.post_content IS NOT NULL
-            `, [req.query.user_id]);
+                ($1 IS NULL OR F.user_id = $1)            
+             `, [userIdParameter]);
 
         // Organize the data into a suitable format
         const feedData = {};
@@ -88,6 +91,7 @@ router.get('/', async (req, res) => {
                 feedData[row.post_id] = {
                     post_id: row.post_id,
                     user_id: row.my_id,
+                    post_user_id: row.followed_id,
                     title: row.title,
                     content: row.post_content,
                     last_edit: row.last_edit,
@@ -288,7 +292,7 @@ router.get('/people-you-may-know', async (req, res) => {
             username: row.username,
             mutual_followers_count: row.mutual_followers_count
         }));
-        console.log(peopleYouMayKnow);
+        // console.log(peopleYouMayKnow);
 
         res.json({ peopleYouMayKnow });
     } catch (error) {
@@ -380,27 +384,33 @@ router.get('/trending_posts', async (req, res) => {
     try {
         console.log('Fetching trending feed data...');
         const result = await pool.query(`
-        WITH T AS (
-            SELECT post_id, SUM(vote_value) AS sum
-            FROM "Fiction Profile"."POST_VOTE"
-            GROUP BY post_id
+        WITH T AS(
+            SELECT P1.post_id,P1.user_id,P1.title, P1.content,P1.last_edit,
+            (SELECT profile_pic_path FROM "Fiction Profile"."PEOPLE" WHERE people_id= P1.user_id) 
+                     AS profile_pic_path,
+            (SELECT COUNT(*)
+                FROM "Fiction Profile"."POST_VOTE" P2
+                WHERE P1.post_id= P2.post_id
+                ) + (SELECT COUNT(*)
+                FROM "Fiction Profile"."COMMENT" C1
+                WHERE P1.post_id= C1.post_id)						
+                AS total_votes							
+            FROM "Fiction Profile"."POST" P1 
+            WHERE DATE_PART('day', CURRENT_DATE - P1.last_edit) <= 7
+            ORDER BY total_votes DESC
+             LIMIT 3	 
         )
-        SELECT P.*, 
-        (SELECT username FROM "Fiction Profile"."PEOPLE" WHERE people_id = P.user_id) AS post_username,
-         (DATE_PART('day', CURRENT_DATE - last_edit)) AS  days_before, 
+        SELECT T.*, 
+        (SELECT username FROM "Fiction Profile"."PEOPLE" 
+                WHERE people_id = T.user_id) AS post_username,
+        (DATE_PART('day', CURRENT_DATE - last_edit)) AS  days_before, 
         C.comment_id,C.user_id as comment_user_id,
-         (SELECT username FROM "Fiction Profile"."PEOPLE" WHERE people_id= C.user_id) AS comment_username,
+        (SELECT username FROM "Fiction Profile"."PEOPLE"
+                 WHERE people_id= C.user_id) AS comment_username,
         C.content as comment_content 
-        FROM "Fiction Profile"."POST" P
-        LEFT JOIN T ON P.post_id = T.post_id
-            LEFT JOIN
-                "Fiction Profile"."COMMENT" C
-                ON P.post_id= C.post_id
-                
-        WHERE DATE_PART('day', CURRENT_DATE - last_edit) <= 7 AND T.sum is not NULL
-        ORDER BY COALESCE(T.sum, 0) DESC, last_edit DESC
-        LIMIT 3;
-            
+        FROM T JOIN "Fiction Profile"."COMMENT" C
+        ON T.post_id = C.post_id
+        ORDER BY  T.post_id DESC
         `);
         const feedData = {};
 

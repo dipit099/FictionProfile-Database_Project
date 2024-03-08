@@ -343,19 +343,10 @@
     /* Set the hover color of the thumb */
 }
 
-.trending-modal-div {
-    color: white;
-}
-
-.trending-modal-content {
-
-    font-size: 18px;
-}
 
 .post-title-div {
     margin-top: 10px;
     margin-bottom: 5px;
-    display: block;
     align-items: center;
     margin-left: 10px;
 
@@ -370,4 +361,122 @@
     font-size: 20px;
     color: #ccc;
     margin-right: 30px;
+}
+
+.trending-modal-div {
+    background-color: #1a2032;
+    color: #d1d5db;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.trending-title-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+}
+
+.trending-post-title-div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+
+.trending-modal-div .close-icon {
+    cursor: pointer;
+    font-size: 22px;
+    color: #d1d5db;
+    font-weight: bold;
+}
+
+.trending-post-title {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.trending-feed-date {
+    font-size: 20px;
+    color: #ccc;
+
+    padding: 8px;
+}
+
+.trending-post-description {
+    font-size: 20px;
+    margin-bottom: 20px;
+    background-color: #282f46;
+    padding: 8px;
+
+}
+
+.trending-modal-div h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.trending-modal-div form {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.trending-modal-div input[type="text"] {
+    flex-grow: 1;
+    padding: 8px;
+    font-size: 20px;
+    border: 1px solid #4b5563;
+    border-radius: 4px;
+    margin-right: 10px;
+    background-color: #1e293b;
+    color: #d1d5db;
+}
+
+.trending-publish-button {
+    background-color: #6012a8;
+    color: #d1d5db;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.trending-comment-div {
+    margin-top: 20px;
+}
+
+.trending-comment {
+
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.trending-comment>div {
+    font-size: 18px;
+}
+
+.trending-comment:nth-child(even) {
+    background-color: #343355;
+    /* Set the background color for even comments */
+}
+
+.trending-comment:nth-child(odd) {
+    background-color: rgb(49, 51, 71);
+}
+
+.trending-modal-post img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
 }

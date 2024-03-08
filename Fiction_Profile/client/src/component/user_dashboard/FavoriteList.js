@@ -72,9 +72,9 @@ const FavoriteList = () => {
     }, []);
 
 
-    const handleFilter = async () => {
-        fetchMediaItems();
-    };
+    // const handleFilter = async () => {
+    //     fetchMediaItems();
+    // };
 
     const fetchMediaItems = async () => {
         try {
@@ -101,7 +101,7 @@ const FavoriteList = () => {
             fetchFavoriteGenresData();
             fetchMediaItems();
         }
-    }, [people_id]);
+    }, [people_id, currentPage, mediaTypes]);
 
     const fetchFavoriteItems = async () => {
         try {
@@ -242,9 +242,9 @@ const FavoriteList = () => {
                                     <label htmlFor="book">Book</label>
                                 </div>
                             </div>
-                            <div className='filter-button-div'>
+                            {/* <div className='filter-button-div'>
                                 <button type="submit" className="filter-button" onClick={() => handleFilter()}>Filter Results</button>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="media-items">

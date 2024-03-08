@@ -56,8 +56,8 @@ function SideBar() {
 
   return (
     <div className='sidebar-container'>
-        {role === ('user') && (
-          <div className='side-menu-items'>
+      {role !== ('moderator') && (
+        <div className='side-menu-items'>
           <div
             className={`home-bar ${selectedItem === 0 ? 'selected' : ''}`}
             onClick={() => handleItemClick(0)}
@@ -85,27 +85,30 @@ function SideBar() {
               <p className='side-bar-title'>Feed</p>
             </Link>
           </div>
-  
-          <div
-            className={`account-bar ${selectedItem === 3 ? 'selected' : ''}`}
-            onClick={() => handleItemClick(3)}
-          >
-            <Link to='/account'>
-              <MdAccountCircle className='side-bar-icon' />
-              <p className='side-bar-title'>Account</p>
-            </Link>
-          </div>
+          {role === ('user') && (
+            <div
+              className={`account-bar ${selectedItem === 3 ? 'selected' : ''}`}
+              onClick={() => handleItemClick(3)}
+            >
+              <Link to='/account'>
+                <MdAccountCircle className='side-bar-icon' />
+                <p className='side-bar-title'>Account</p>
+              </Link>
+            </div>
+          )
+          }
           <div className='logout-bar' onClick={handleLogout}>
             <Link to='/'>
               <MirroredLogoutIcon className={`side-bar-icon ${selectedItem === 4 ? 'selected' : ''}`} />
               <p className={`side-bar-title ${selectedItem === 4 ? 'selected' : ''}`}>Logout</p>
             </Link>
-          </div> 
-        </div>
-        )}
+          </div>
 
-        {role === ('moderator') && (
-          <div className='side-menu-items'>
+        </div>
+      )}
+
+      {role === ('moderator') && (
+        <div className='side-menu-items'>
           <div
             className={`home-bar ${selectedItem === 0 ? 'selected' : ''}`}
             onClick={() => handleItemClick(0)}
@@ -121,8 +124,8 @@ function SideBar() {
             onClick={() => handleItemClick(1)}
           >
             <Link to='/media'>
-                <IoIcons.IoIosPaper className='side-bar-icon' />
-                <p className='side-bar-title'>Media</p>
+              <IoIcons.IoIosPaper className='side-bar-icon' />
+              <p className='side-bar-title'>Media</p>
             </Link>
           </div>
 
@@ -145,7 +148,7 @@ function SideBar() {
               <p className='side-bar-title'>Report</p>
             </Link>
           </div>
-  
+
           <div
             className={`account-bar ${selectedItem === 3 ? 'selected' : ''}`}
             onClick={() => handleItemClick(3)}
@@ -160,10 +163,10 @@ function SideBar() {
               <MirroredLogoutIcon className={`side-bar-icon ${selectedItem === 4 ? 'selected' : ''}`} />
               <p className={`side-bar-title ${selectedItem === 4 ? 'selected' : ''}`}>Logout</p>
             </Link>
-          </div> 
+          </div>
         </div>
-        )}
-      </div>
+      )}
+    </div>
   );
 }
 
