@@ -55,6 +55,10 @@ router.post('/update', upload.single('profilePicture'), async (req, res) => {
         console.log('Received profile picture:', req.file);
         console.log('Received update request:', req.body);
 
+        // Convert birthdate to a valid date or set it to null if it's null or empty
+        const formattedBirthdate = birthdate ? new Date(birthdate) : null;
+
+
         const ppid = people_id;
         const currentDate = new Date().toISOString().split('T')[0];
         let profilePicturePath = null;
@@ -81,14 +85,13 @@ router.post('/update', upload.single('profilePicture'), async (req, res) => {
         }
 
         const updateUserQuery =
-            'UPDATE "Fiction Profile"."PEOPLE" SET first_name = $1, last_name = $2, birthdate = $3, gender = $4, joined_date = $5, profile_pic_path = $6 WHERE people_id = $7 RETURNING *';
+            'UPDATE "Fiction Profile"."PEOPLE" SET first_name = $1, last_name = $2, birthdate = $3, gender = $4, profile_pic_path = $5 WHERE people_id = $6 RETURNING *';
 
         const updateUser = await pool.query(updateUserQuery, [
             firstName,
             lastName,
             birthdate,
             gender,
-            currentDate,
             profilePicturePath || '',
             people_id, // assuming people_id is the user's unique identifier
         ]);
