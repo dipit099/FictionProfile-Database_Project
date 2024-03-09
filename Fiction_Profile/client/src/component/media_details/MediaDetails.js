@@ -407,6 +407,7 @@ const MediaDetails = ({ mediaType }) => {
             if (result.data.success) {
                 toast.success('Media updated successfully');
                 setIsEditModalOpen(false);
+                
             }
         }
         catch (error) {

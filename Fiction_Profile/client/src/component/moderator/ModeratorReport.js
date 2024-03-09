@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Moderator.css'; // Import your CSS file for styling
 import BASE_URL from "../../config/ApiConfig";
 import SideBar from '../../config/navbar/SideBar';
+import Navbar from '../../config/navbar/Navbar';
 
 const Moderator = () => {
     // State variables
@@ -22,11 +23,14 @@ const Moderator = () => {
         fetchReports();
     }, []); // Empty dependency array means this effect runs only once after the component mounts
 
-    
+
 
     return (
         <div className="moderator-container">
-           <SideBar />
+            <SideBar />
+
+
+            <Navbar />
         </div>
     );
 };

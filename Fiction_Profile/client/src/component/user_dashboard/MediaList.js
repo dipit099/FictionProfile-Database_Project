@@ -127,33 +127,30 @@ const MediaList = () => {
 
     return (
         <div className="media-list-container">
-
-
             <div className="media-items">
-                <div className='media-item-div'>
-                    {mediaList && mediaList.map(mediaItem => (
-                        <div key={mediaItem.key_id} className="media-card">
-                            <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`} target="_blank">
+                {mediaList && mediaList.map(mediaItem => (
+                    <div key={mediaItem.key_id} className="media-card">
+                        <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`} target="_blank">
 
-                                <div className='media-poster-badge'>
-                                    <div className='media-poster'>
-                                        <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
-                                    </div>
-                                    <div className="badge">{mediaItem.type}</div>
-
+                            <div className='media-poster-badge'>
+                                <div className='media-poster'>
+                                    <img src={mediaItem.poster_path} alt={`${mediaItem.title} Poster`} />
                                 </div>
-                            </Link>
-                            
+                                <div className="badge">{mediaItem.type}</div>
 
-
-                            <div className='discover-media-title' style={{ textAlign: 'center', fontFamily: 'cursive' }}>{mediaItem.title}</div>
-                        
-                            <div className="status_badge" style={{ backgroundColor: '#892df1', color: 'white', textAlign: 'center', padding: '5px 10px', borderRadius: '5px' }}>
-                                {mediaItem.status_type}
                             </div>
+                        </Link>
+
+
+
+                        <div className='discover-media-title' style={{ textAlign: 'center', fontFamily: 'cursive' }}>{mediaItem.title}</div>
+
+                        <div className="status_badge" style={{ backgroundColor: '#892df1', color: 'white', textAlign: 'center', padding: '5px 10px', borderRadius: '5px' }}>
+                            {mediaItem.status_type}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
+
                 <div className="pagination">
                     <ul className="pagination">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
