@@ -8,28 +8,43 @@ const pool = require("../../db");
 router.post('/edit_post', async (req, res) => {
     try {
         const { post_id, title, content, userId } = req.body;
-        console.log('Editing post with ID:', post_id);
+        console.log(req.body);
+
+        // update with the new content
+        const result = await pool.query(`
+            UPDATE "Fiction Profile"."POST"
+            SET title = $1, content = $2
+            WHERE post_id = $3 AND user_id = $4
+            `, [title, content, post_id, userId]);
+        console.log('Post edited successfully');
+
+        res.status(200).json({ success: true, message: 'Post edited successfully' });
     }
     catch (error) {
         console.error('Error editing post:', error);
         res.status(400).json({ error: 'Error editing post' });
     }
-
-    return res.status(200).json({ success: true, message: 'Post edited successfully' });
 });
 
 
 router.post('/delete_post', async (req, res) => {
     try {
         const { post_id, userId } = req.body;
-        console.log('Deleting post with ID:', post_id);
+        console.log(req.body);
+
+        // delete the post
+        const result = await pool.query(`
+            DELETE FROM "Fiction Profile"."POST"
+            WHERE post_id = $1 AND user_id = $2
+            `, [post_id, userId]);
+        console.log('Post deleted successfully');
+
+        res.status(200).json({ success: true, message: 'Post deleted successfully' });
     }
     catch (error) {
         console.error('Error deleting post:', error);
         res.status(400).json({ error: 'Error deleting post' });
     }
-
-    return res.status(200).json({ success: true, message: 'Post deleted successfully' });
 });
 
 
