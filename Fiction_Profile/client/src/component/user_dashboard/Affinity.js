@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import BASE_URL from '../../config/ApiConfig';
+import './Affinity.css';
 
 const Affinity = ({ people_id }) => {
-    const [favorite_count, setFavoriteCount] = useState([]);
+    const [favoriteCountData, setFavoriteCountData] = useState([]);
 
     useEffect(() => {
         const fetchFavoriteCount = async () => {
@@ -15,7 +16,9 @@ const Affinity = ({ people_id }) => {
                         people_id: people_id,
                     }
                 });
-                setFavoriteCount(response.data);
+                const affinityData = response.data;
+                const transformedData = transformAffinityData(affinityData);
+                setFavoriteCountData(transformedData);
             } catch (error) {
                 console.error('Error fetching favorite count:', error);
             }
@@ -23,54 +26,82 @@ const Affinity = ({ people_id }) => {
         fetchFavoriteCount();
     }, [people_id]);
 
-    // Combine the affinity data of both users
-    const combinedData = favorite_count.reduce((acc, curr) => {
-        const existingData = acc.find(item => item.type_id === curr.type_id);
-        if (existingData) {
-            existingData[`user_${curr.user_id}`] = parseInt(curr.count);
-        } else {
-            acc.push({
-                type_id: curr.type_id,
-                [`user_${curr.user_id}`]: parseInt(curr.count),
-            });
-        }
-        return acc;
-    }, []);
+    const transformAffinityData = (affinityData) => {
+        const userData1 = affinityData.filter((item) => item.user_id === 4);
+        const userData2 = affinityData.filter((item) => item.user_id === 5);
 
-    const formatMediaType = (typeId) => {
-        switch (typeId) {
-            case 1:
-                return 'Movie';
-            case 2:
-                return 'TV';
-            case 3:
-                return 'Manga';
-            case 4:
-                return 'Book';
-            default:
-                return '';
-        }
+        const transformedData = [];
+
+        userData1.forEach((item) => {
+            const existingData = transformedData.find((data) => data.typeId === item.type_id);
+            if (existingData) {
+                existingData.user1Count = item.count;
+                existingData.user1Username = item.username;
+            } else {
+                transformedData.push({
+                    typeId: item.type_id,
+                    user1Count: item.count,
+                    user1Username: item.username,
+                    user2Count: 0,
+                    user2Username: '',
+                });
+            }
+        });
+
+        userData2.forEach((item) => {
+            const existingData = transformedData.find((data) => data.typeId === item.type_id);
+            if (existingData) {
+                existingData.user2Count = item.count;
+                existingData.user2Username = item.username;
+            } else {
+                transformedData.push({
+                    typeId: item.type_id,
+                    user1Count: 0,
+                    user1Username: '',
+                    user2Count: item.count,
+                    user2Username: item.username,
+                });
+            }
+        });
+
+        return transformedData;
     };
 
-
     return (
-        <div className='affinity-container'>
-            <h2>Affinity</h2>
-            <BarChart
-                width={800}
-                height={400}
-                data={combinedData}
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="type_id" tickFormatter={formatMediaType} stroke="#fff" tick={{ fill: '#fff', fontSize: 20 }} />
-                <YAxis stroke="#fff" tick={{ fill: '#fff', fontSize: 20 }} />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="user_4" fill="#8884d8" name={`Mine`} />
-                <Bar dataKey="user_14" fill="#82ca9d" name={`Others`} />
-            </BarChart>
+        <div className='affinity-container' >
+            <div>
+                <BarChart
+                    width={1200}
+                    height={600}
+                    data={favoriteCountData}
+                    margin={{
+                        top: 20,
+                        right: 50,
+                        left: 50,
+                        bottom: 20,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis
+                        dataKey="typeId"
+                        tickFormatter={(typeId) =>
+                            `${favoriteCountData.find((data) => data.typeId === typeId)?.user1Username || ''} vs ${favoriteCountData.find((data) => data.typeId === typeId)?.user2Username || ''
+                            }`
+                        }
+                        style={{
+                            fontSize: '20px',
+                            fill: 'white',
+                        }}
+                    />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="user1Count" fill="#8884d8" />
+                    <Bar dataKey="user2Count" fill="#82ca9d" />
+                </BarChart>
+            </div>
         </div>
+
     );
 };
 

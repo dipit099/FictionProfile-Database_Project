@@ -3,9 +3,12 @@ import axios from 'axios';
 import './Dashboard.css';
 import BASE_URL from "../../config/ApiConfig";
 import './DashboardProfile.css';
+import { useLocation } from "react-router-dom";
 
 const DashboardProfile = ({ userData }) => {
-    const people_id = localStorage.getItem('people_id');
+    // const people_id = localStorage.getItem('people_id');
+    const location = useLocation();
+    const people_id = location.pathname.split('/')[2];
 
     const [generalCounts, setGeneralCounts] = useState({
         posts: 0,

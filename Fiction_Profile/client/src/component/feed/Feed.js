@@ -410,24 +410,28 @@ const Feed = () => {
             <SideBar />
             <div className='feed-container'>
                 <div className='feedWrapper'>
-                    <form onSubmit={handlePostSubmit}>
-                        <input
-                            type="text"
-                            value={newPostCaption}
-                            onChange={(e) => setNewPostCaption(e.target.value)}
-                            placeholder="Write your caption here..."
-                        ></input>
-                        <br />
-                        <textarea
-                            value={newPostContent}
-                            onChange={(e) => setNewPostContent(e.target.value)}
-                            placeholder="Write your post here..."
-                            required
-                        ></textarea>
 
+                    {role === 'user' && (
+                        <form onSubmit={handlePostSubmit}>
+                            <input
+                                type="text"
+                                value={newPostCaption}
+                                onChange={(e) => setNewPostCaption(e.target.value)}
+                                placeholder="Write your caption here..."
+                            ></input>
+                            <br />
+                            <textarea
+                                value={newPostContent}
+                                onChange={(e) => setNewPostContent(e.target.value)}
+                                placeholder="Write your post here..."
+                                required
+                            ></textarea>
+                            <button type="submit" className='publish-button'>Publish Post</button>
 
-                    </form>
-                    <button type="submit" className='publish-button' onClick={handlePostSubmit}>Publish Post</button>
+                        </form>
+
+                    )}
+
 
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>

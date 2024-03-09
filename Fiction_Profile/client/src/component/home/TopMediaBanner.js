@@ -10,7 +10,7 @@ function TopMediaBanner() {
     const [currentMediaIndex, setCurrentMediaIndex] = useState(1);
     const navigate = useNavigate(); // Initialize the useNavigate hook
     const intervalRef = useRef(null);
-    const timelimit = 10000;
+    const timelimit = 3000;
     const [isActive, setIsActive] = useState(false); // State to control animation
     const role = localStorage.getItem('role');
 
