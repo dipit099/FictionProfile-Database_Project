@@ -7,19 +7,18 @@ import Navbar from '../../config/navbar/Navbar'; // Import statements...
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const ModeratorAnnouncement = () => {
-  const [moderatorId, setModeratorId] = useState(localStorage.getItem('people_id')); // Add this line
+  const [moderatorId, setModeratorId] = useState(localStorage.getItem('people_id'));
   const [announcement, setAnnouncement] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const fetchAnnouncements = async () => {
     try {
-        const response = await axios.get(`${BASE_URL}/moderator/announcement`, {
-            params: { moderatorId: moderatorId }
-        });
-        setAnnouncement(response.data);
+      const response = await axios.get(`${BASE_URL}/moderator/announcement`, {
+        params: { moderatorId: moderatorId }
+      });
+      setAnnouncement(response.data);
     } catch (error) {
       console.error('Error fetching announcements:', error);
     }
@@ -36,12 +35,11 @@ const ModeratorAnnouncement = () => {
         moderatorId: moderatorId, 
         title : title, 
         description : description
-    });
-        toast.success('Announcement added successfully');
+      });
+      toast.success('Announcement added successfully');
       fetchAnnouncements();
       setTitle('');
       setDescription('');
-      console.log('Announcement added successfully');
     } catch (error) {
       console.error('Error adding announcement:', error);
     }
@@ -58,6 +56,7 @@ const ModeratorAnnouncement = () => {
             <div key={announce.id} className="announcement-item">
               <h3>{announce.title}</h3>
               <p>{announce.description}</p>
+              <p>Created Date: {announce.created_at}</p>
             </div>
           ))}
         </div>
