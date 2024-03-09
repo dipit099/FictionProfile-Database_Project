@@ -9,6 +9,12 @@ import * as RiIcons from "react-icons/ri";
 import { MdAccountCircle } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 import { toast } from 'react-toastify';
+import { MdOutlineReport } from "react-icons/md";
+import { GrAnnounce } from "react-icons/gr";
+import MediaIcon from '../../assets/MediaIcon';
+import HomeIcon from '../../assets/HomeIcon';
+
+
 function SideBar() {
   const [selectedItem, setSelectedItem] = useState(0);
   const navigate = useNavigate();
@@ -63,7 +69,7 @@ function SideBar() {
             onClick={() => handleItemClick(0)}
           >
             <Link to='/'>
-              <AiIcons.AiFillHome className='side-bar-icon' />
+              <HomeIcon className='side-bar-icon' />
               <p className='side-bar-title'>Home</p>
             </Link>
           </div>
@@ -72,7 +78,7 @@ function SideBar() {
             onClick={() => handleItemClick(1)}
           >
             <Link to='/discover'>
-              <IoIcons.IoIosPaper className='side-bar-icon' />
+              <MediaIcon className='side-bar-icon' />
               <p className='side-bar-title'>Discover</p>
             </Link>
           </div>
@@ -114,7 +120,7 @@ function SideBar() {
             onClick={() => handleItemClick(0)}
           >
             <Link to='/'>
-              <AiIcons.AiFillHome className='side-bar-icon' />
+              <HomeIcon className='side-bar-icon' />
               <p className='side-bar-title'>Home</p>
             </Link>
           </div>
@@ -124,7 +130,7 @@ function SideBar() {
             onClick={() => handleItemClick(1)}
           >
             <Link to='/media'>
-              <IoIcons.IoIosPaper className='side-bar-icon' />
+              <MediaIcon className='side-bar-icon' />
               <p className='side-bar-title'>Media</p>
             </Link>
           </div>
@@ -134,7 +140,7 @@ function SideBar() {
             onClick={() => handleItemClick(2)}
           >
             <Link to='/announcement'>
-              <RiIcons.RiCompassDiscoverFill className='side-bar-icon' />
+              <GrAnnounce className='side-bar-icon' />
               <p className='side-bar-title'>Announce</p>
             </Link>
           </div>
@@ -144,7 +150,7 @@ function SideBar() {
             onClick={() => handleItemClick(2)}
           >
             <Link to='/report'>
-              <RiIcons.RiCompassDiscoverFill className='side-bar-icon' />
+              <MdOutlineReport className='side-bar-icon' />
               <p className='side-bar-title'>Report</p>
             </Link>
           </div>

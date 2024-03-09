@@ -1,32 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Moderator.css'; // Import your CSS file for styling
+import './Moderator.css';
 import BASE_URL from "../../config/ApiConfig";
 import SideBar from '../../config/navbar/SideBar';
+import BarChartComponent from './BarChartComponent'; // Import the BarChartComponent component
 
 const Moderator = () => {
-    // State variables
-    const [reports, setReports] = useState([]);
+    const [barReports, setBarReports] = useState({});
+    const people_id = localStorage.getItem("people_id");
 
-    // Fetch reports from the backend API
+    const getReports = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/moderator/get_mod_stats`, {
+                moderatorId: people_id
+            });
+
+            const data = response.data;
+            const groupedData = data.reduce((acc, item) => {
+                const { type_id, insert_count, update_count, delete_count } = item;
+                if (!acc[type_id]) {
+                    acc[type_id] = {
+                        insertCount: 0,
+                        updateCount: 0,
+                        deleteCount: 0
+                    };
+                }
+                acc[type_id].insertCount += insert_count;
+                acc[type_id].updateCount += update_count;
+                acc[type_id].deleteCount += delete_count;
+                return acc;
+            }, {});
+
+            setBarReports(groupedData);
+        } catch (error) {
+            console.error("Error getting moderator stats:", error);
+        }
+    }
+
     useEffect(() => {
-        const fetchReports = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL}/moderator/`);
-                setReports(response.data.reports);
-            } catch (error) {
-                console.error('Error fetching reports:', error);
-            }
-        };
-
-        fetchReports();
-    }, []); // Empty dependency array means this effect runs only once after the component mounts
-
-    
+        getReports();
+    }, []);
 
     return (
         <div className="moderator-container">
-           <SideBar />
+            <SideBar />
+            <div className="bar-charts">
+                {Object.entries(barReports).map(([type_id, barData]) => (
+                    <BarChartComponent
+                        key={type_id}
+                        type_id={type_id}
+                        insertCount={barData.insertCount}
+                        updateCount={barData.updateCount}
+                        deleteCount={barData.deleteCount}
+                    />
+                ))}
+            </div>
         </div>
     );
 };

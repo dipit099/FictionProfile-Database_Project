@@ -26,14 +26,16 @@ const Media = ({ type }) => {
     const fetchMediaItems = async () => {
       try {
         // send people_id to the server
-        const response = await axios.get(`${BASE_URL}/trending/${type}`, {
-          params: {
-            people_id: localStorage.getItem('people_id')
-          }
-        });
-        const data = response.data;
-        setMediaItems(data.media);
-        console.log(data);
+        if (role !== 'moderator') {
+          const response = await axios.get(`${BASE_URL}/trending/${type}`, {
+            params: {
+              people_id: localStorage.getItem('people_id')
+            }
+          });
+          const data = response.data;
+          setMediaItems(data.media);
+          console.log(data);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -136,7 +138,7 @@ const Media = ({ type }) => {
               {/* <p>{mediaItem.vote_average.toFixed(1)}</p> */}
               <div className='media-button-container' >
                 <div className='fa-star-div'><FaStar style={{ color: 'gold' }} /> {Number(mediaItem.rating).toFixed(1)}/10</div>
-                
+
                 <div>{renderFavoriteButton(mediaItem)}</div>
               </div>
 

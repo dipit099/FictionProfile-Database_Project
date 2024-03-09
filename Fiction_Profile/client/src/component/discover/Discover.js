@@ -133,32 +133,32 @@ const Discover = () => {
 
 
 
-    useEffect(() => {          
-        const fetchMediaItems = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL}/discover`, {
-                    params: {
-                        userId: userId,
-                        page: currentPage,
-                        pageSize: 20,
-                        search: searchQuery,
-                        yearStart: yearStart,
-                        yearEnd: yearEnd,
-                        ratingStart: ratingStart,
-                        ratingEnd: ratingEnd,
-                        mediaTypes: mediaTypes
-                    }
-                });
+    // useEffect(() => {          
+    //     const fetchMediaItems = async () => {
+    //         try {
+    //             const response = await axios.get(`${BASE_URL}/discover`, {
+    //                 params: {
+    //                     userId: userId,
+    //                     page: currentPage,
+    //                     pageSize: 20,
+    //                     search: searchQuery,
+    //                     yearStart: yearStart,
+    //                     yearEnd: yearEnd,
+    //                     ratingStart: ratingStart,
+    //                     ratingEnd: ratingEnd,
+    //                     mediaTypes: mediaTypes
+    //                 }
+    //             });
 
-                const data = response.data;
-                setMediaItems(data.media);
-                console.log('Media Items:', mediaItems);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchMediaItems();
-    }, [currentPage]);
+    //             const data = response.data;
+    //             setMediaItems(data.media);
+    //             console.log('Media Items:', mediaItems);
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+    //     fetchMediaItems();
+    // }, [currentPage]);
 
 
     const handleFilter = async () => {

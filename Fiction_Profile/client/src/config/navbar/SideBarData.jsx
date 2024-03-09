@@ -5,6 +5,7 @@ import * as IoIcons from 'react-icons/io';
 import * as RiIcons from "react-icons/ri";
 import { MdAccountCircle } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
+import { MdOutlineReport } from "react-icons/md";
 
 const MirroredLogoutIcon = () => {
   return (

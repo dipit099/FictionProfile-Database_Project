@@ -12,17 +12,20 @@ function TopMediaBanner() {
     const intervalRef = useRef(null);
     const timelimit = 10000;
     const [isActive, setIsActive] = useState(false); // State to control animation
+    const role = localStorage.getItem('role');
 
     useEffect(() => {
         // Fetch top media details from your server
         const fetchTopMedia = async () => {
             try {
                 // const response=  await axios.post(`${BASE_URL}/top_media`);
-                const response = await fetch(`${BASE_URL}/top_media`);
-                const data = await response.json();
-                setTopMedia(data.topMedia); // Set the top media details received from the server
-                console.log(data.topMedia);
-                setIsActive(true); // Activate animation
+                if (role !== 'moderator') {
+                    const response = await fetch(`${BASE_URL}/top_media`);
+                    const data = await response.json();
+                    setTopMedia(data.topMedia); // Set the top media details received from the server
+                    console.log(data.topMedia);
+                    setIsActive(true); // Activate animation
+                }
             } catch (error) {
                 console.error('Error fetching top media details:', error);
             }

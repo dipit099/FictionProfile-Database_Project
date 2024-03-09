@@ -34,7 +34,7 @@ const Navbar = () => {
                         </>
                     ) : role === "moderator" ? (
                         <>
-                            <button>Dashboard</button>
+
                         </>
                     ) : (
                         <>
