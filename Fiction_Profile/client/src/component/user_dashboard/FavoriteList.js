@@ -153,8 +153,7 @@ const FavoriteList = () => {
                         <BarChart
                             width={600}
                             height={400}
-                            data={favoriteItems}
-                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                            data={favoriteItems}                           
                         >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="type_id" tickFormatter={formatMediaType} stroke="#fff" tick={{ fill: '#fff', fontSize: 18 }} />

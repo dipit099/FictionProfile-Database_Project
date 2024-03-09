@@ -24,7 +24,7 @@ const Home = () => {
             {role === 'moderator' ?
                 <div>
                     <Moderator />
-                    <h1>Welcome Moderator {email}</h1>
+                    {/* <h1>Welcome Moderator {email}</h1> */}
                 </div>
                 :
                 <div className="home-content">
