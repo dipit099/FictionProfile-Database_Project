@@ -1,0 +1,2 @@
+const BackdropUrl = 'https://firebasestorage.googleapis.com/v0/b/fiction-profile-ec84d.appspot.com/o/uploads%2Fbackdrop.jpg?alt=media&token=adc37f1b-4eb6-44b4-ae0f-6b8e5cdd3ef0';
+export default BackdropUrl;

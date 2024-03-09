@@ -398,7 +398,7 @@ const MediaDetails = ({ mediaType }) => {
                 mediaType: mediaType,
                 title: editedMediaDetails.title,
                 description: editedMediaDetails.description,
-                release_date: editedMediaDetails.release_date,
+                release_date: editedMediaDetails.release_date ? editedMediaDetails.release_date.split('-')[0] : '',
                 language: editedMediaDetails.language,
                 runtime: editedMediaDetails.runtime,
                 moderatorId: people_id
@@ -708,7 +708,7 @@ const MediaDetails = ({ mediaType }) => {
                         />
                     </div>
                     <div className="edit-form-group">
-                        <label htmlFor="edit-description" className="edit-label">Description:</label>
+                        <label htmlFor="edit-description" className="edit-label">Overview:</label>
                         <textarea
                             id="edit-description"
                             name="edit-description"
@@ -718,16 +718,21 @@ const MediaDetails = ({ mediaType }) => {
                         ></textarea>
                     </div>
                     <div className="edit-form-group">
-                        <label htmlFor="edit-release_date" className="edit-label">Release Date:</label>
+                        <label htmlFor="edit-release_date" className="edit-label">Release Year(yyyy):</label>
                         <input
-                            type="text"
+                            type="number" // Use type="number" to ensure only numeric input
                             id="edit-release_date"
                             name="edit-release_date"
-                            value={editedMediaDetails.release_date}
+                            value={editedMediaDetails.release_date ? editedMediaDetails.release_date.split('-')[0] : ''} // Extracting the year part
                             onChange={(e) => setEditedMediaDetails({ ...editedMediaDetails, release_date: e.target.value })}
                             className="edit-input"
+                            placeholder="Enter year (yyyy)"
+                            min="1900" // Set a minimum year as per your requirements
+                            max="2100" // Set a maximum year as per your requirements
                         />
                     </div>
+
+
                     <div className="edit-form-group">
                         <label htmlFor="edit-language" className="edit-label">Language:</label>
                         <input
