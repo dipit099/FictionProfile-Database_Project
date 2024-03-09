@@ -21,6 +21,12 @@ const MediaDetails = ({ mediaType }) => {
     const [media, setMedia] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [selectedReview, setSelectedReview] = useState(null);
+    const [isReviewModal, setIsReviewModal] = useState(false);
+
+
+
     const [selectedMediaItem, setSelectedMediaItem] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState(0);
     const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
@@ -50,6 +56,15 @@ const MediaDetails = ({ mediaType }) => {
     });
 
 
+    const openReviewModal = (review) => {
+        setSelectedReview(review);
+        setIsReviewModal(true);
+    };
+
+    const closeReviewModal = () => {
+        setSelectedReview(null);
+        setIsReviewModal(false);
+    };
 
 
 
@@ -402,12 +417,12 @@ const MediaDetails = ({ mediaType }) => {
                 language: editedMediaDetails.language,
                 runtime: editedMediaDetails.runtime,
                 moderatorId: people_id,
-                genre : null
+                genre: null
             });
             if (result.data.success) {
                 toast.success('Media updated successfully');
                 setIsEditModalOpen(false);
-                
+
             }
         }
         catch (error) {
@@ -432,6 +447,39 @@ const MediaDetails = ({ mediaType }) => {
             console.error('Error removing media:', error);
         }
     }
+
+    const handleEditReview = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/review/edit_review`, {
+                review_id: selectedReview.review_id,
+                title: selectedReview.title,
+                review: selectedReview.review
+            });
+            closeReviewModal();
+            if (response.data.success) {
+                toast.success('Review updated successfully');
+
+            }
+        } catch (error) {
+            console.error('Error updating review:', error);
+        }
+    }
+    const handleDeleteReview = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/review/delete_review`, {
+                review_id: selectedReview.review_id
+            });
+            closeReviewModal();
+            if (response.data.success) {
+                toast.success('Review deleted successfully');
+
+            }
+        } catch (error) {
+            console.error('Error deleting review:', error);
+        }
+    }
+
+
 
 
 
@@ -563,7 +611,7 @@ const MediaDetails = ({ mediaType }) => {
                                             <p className="review-user" style={{ fontSize: '20px' }}>User : {review.username} -- {new Date(review.added_date).toLocaleDateString()}</p>
                                             <p className="review-title" style={{ fontSize: '24px' }}>Title : {review.title}</p>
                                             <p className="review-content" style={{ fontSize: '18px' }}>{review.review}</p>
-                                            <div className='upvote-downvote-div'>
+                                            {/* <div className='upvote-downvote-div'>
                                                 <FontAwesomeIcon
                                                     icon={faThumbsUp}
                                                     onClick={() => handleReviewvote(index, 1)}
@@ -574,6 +622,13 @@ const MediaDetails = ({ mediaType }) => {
                                                     onClick={() => handleReviewvote(index, -1)}
                                                     style={{ color: review.vote_value === -1 ? 'red' : 'white', cursor: 'pointer', fontSize: '30px' }}
                                                 />
+                                            </div> */}
+                                            <div>
+                                                {review.user_id === people_id && (
+                                                    <div className='reviews-header'>
+                                                        <button className="add-review-button" onClick={() => openReviewModal(review)}>Edit</button>
+                                                    </div>
+                                                )}
                                             </div>
                                         </li>
                                     ))}
@@ -761,6 +816,61 @@ const MediaDetails = ({ mediaType }) => {
 
 
             </Modal>
+            <Modal
+                isOpen={isReviewModal}
+                onRequestClose={closeReviewModal}
+                contentLabel='Popup Modal'
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+                        backdropFilter: 'blur(2px)',
+                    },
+                    content: {
+                        width: '600px',
+                        height: '600px',
+                        margin: 'auto',
+                        backgroundColor: '#032641', // Transparent background for the modal content
+                        border: 'none', // Remove border if needed
+                        boxShadow: 'none', // Remove box shadow if needed
+                    },
+                }}
+            >
+
+                <div className="editpost-modal">
+                    <div className="review-modal-content">
+                        <span className="close-icon" onClick={closeReviewModal}>X</span>
+                        <div className="form-group">
+                            <label htmlFor="review-title">Title:</label>
+                            <input
+                                type="text"
+                                id="review-title"
+                                name="review-title"
+                                value={selectedReview ? selectedReview.title : ''}
+                                className="review-input"
+                                onChange={(e) => setSelectedReview({ ...selectedReview, title: e.target.value })}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="review-content">Review:</label>
+                            <textarea
+                                id="review-content"
+                                name="review-content"
+                                value={selectedReview ? selectedReview.review : ''}
+                                className="review-textarea"
+                                onChange={(e) => setSelectedReview({ ...selectedReview, review: e.target.value })}
+                            ></textarea>
+                            <button className="save-button" onClick={handleEditReview}>Submit</button>
+                            <button className='save-button' onClick={closeReviewModal}>Cancel</button>
+                            <button className='save-button' onClick={handleDeleteReview}>Delete</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </Modal>
+
+
+
 
             <Navbar />
         </div>

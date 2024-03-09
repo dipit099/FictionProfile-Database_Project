@@ -145,7 +145,7 @@ function SideBar() {
             </Link>
           </div>
 
-          <div
+          {/* <div
             className={`feed-bar ${selectedItem === 2 ? 'selected' : ''}`}
             onClick={() => handleItemClick(2)}
           >
@@ -153,7 +153,7 @@ function SideBar() {
               <MdOutlineReport className='side-bar-icon' />
               <p className='side-bar-title'>Report</p>
             </Link>
-          </div>
+          </div> */}
 
           <div
             className={`account-bar ${selectedItem === 3 ? 'selected' : ''}`}

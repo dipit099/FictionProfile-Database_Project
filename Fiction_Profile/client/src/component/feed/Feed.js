@@ -468,7 +468,7 @@ const Feed = () => {
                                     <CommentIcon ></CommentIcon>
                                     <div style={{ marginLeft: '10px', fontSize: '20px' }}> {post.comments_count}  </div>
                                 </div>
-                                {role === 'user' && (
+                                {/* {role === 'user' && (
                                     <div>
                                         {post.reporting ? (
                                             <div>
@@ -486,7 +486,7 @@ const Feed = () => {
                                             </div>
                                         )}
                                     </div>
-                                )}
+                                )} */}
                             </div>
 
 
@@ -563,7 +563,7 @@ const Feed = () => {
                         </div> */}
                         {role === 'user' && (
                             <div className="people-you-may-know">
-                                <h2>Same Minds</h2>
+                                <h2>Suggested People</h2>
 
                                 {peopleYouMayKnow.map(peopleYouMayKnow => (
                                     < div className="user-info">

@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require("../../db");
 // Endpoint to get movie details by ID
 
+
 router.get('/movie', async (req, res) => {
     try {
         const people_id = req.query.people_id;

@@ -4,7 +4,45 @@ const pool = require("../../db");
 // Endpoint to get media reviews by ID
 router.use(express.json());
 
+router.post('/edit_review', async (req, res) => {
+    try {
+         console.log('edit review:');
+        // Extract media_id and media_type from the request query parameters
+        const { review_id, title, review } = req.body;
+        // console.log('review_id:', review_id);
+        console.log(req.body);
+        const result = await pool.query(
+            `
+            UPDATE "Fiction Profile"."REVIEW"
+                SET title =$2  , review = $3
+                WHERE review_id = $1
+            `,
+            [review_id, title, review]
+        );
+        res.json({ success: true, message: 'Review updated successfully' });
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+router.post('/delete_review', async (req, res) => {
+    try {        
+        console.log('delete review:');
+        const { review_id } = req.body;       
 
+        console.log(req.body);
+        const   result = await pool.query(
+                ` DELETE FROM "Fiction Profile"."REVIEW"                
+                WHERE review_id = $1
+            `,               
+                [review_id]
+            );
+        res.json({ success: true, message: 'Review deleted successfully' });
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 
 router.get('/', async (req, res) => {
