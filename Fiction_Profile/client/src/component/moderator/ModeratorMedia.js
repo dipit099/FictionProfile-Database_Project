@@ -105,7 +105,10 @@ const ModeratorMedia = () => {
                 mediaType: mediaType,
                 title: mediaDetails.title,
                 year: mediaDetails.year,
-                authorDirectorWriter: mediaDetails.authorDirectorWriter,
+                language: mediaDetails.language,
+                runtime: mediaDetails.runtime,
+                genre: selectedGenres,
+                posterImage: posterImage
                 isbn: mediaDetails.isbn,
                 language: mediaDetails.language,
                 runtime: mediaDetails.runtime,

@@ -175,9 +175,14 @@ router.get('/', async (req, res) => {
             WHERE
                 ("Fiction Profile".lcs_search(LOWER(m.title), $2::text) OR "Fiction Profile".levenshtein(LOWER(m.title), $2::text) <= 5 OR $2 IS NULL)
                 AND
-                (m.year >= $3 OR $3 IS NULL)
-                AND
-                (m.year <= $4 OR $4 IS NULL)
+                (
+                    m.year IS NULL OR
+                    (
+                        (m.year >= $3 OR $3 IS NULL)
+                        AND 
+                        (m.year <= $4 OR $4 IS NULL)
+                    )
+                )
                 AND
                 (   
                     m.rating = 0 OR (
