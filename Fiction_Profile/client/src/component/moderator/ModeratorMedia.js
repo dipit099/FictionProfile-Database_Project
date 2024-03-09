@@ -5,6 +5,8 @@ import './ModeratorMedia.css'; // Import your CSS file for styling
 import BASE_URL from "../../config/ApiConfig";
 import SideBar from '../../config/navbar/SideBar';
 import Navbar from '../../config/navbar/Navbar';
+import PosterUrl from '../../assets/PosterUrl';
+import BackdropUrl from '../../assets/BackdropUrl';
 
 
 import { toast } from 'react-toastify';
@@ -44,6 +46,7 @@ const ModeratorMedia = () => {
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
 
+
     /*genre and , genre or, genre exclude*/
     const [genreTypes, setGenreTypes] = useState({ include: [], andInclude: [], exclude: [] });
     const [mediaTypes, setMediaTypes] = useState({ include: [1, 3], exclude: [2, 4] });
@@ -64,7 +67,8 @@ const ModeratorMedia = () => {
             authorDirectorWriter: '',
             language: '',
             genre: [],
-            runtime: ''
+            runtime: '',
+            isbn: '',
         });
 
         setSelectedGenres([]);
@@ -95,6 +99,7 @@ const ModeratorMedia = () => {
         try {
             console.log('Publishing media:', mediaDetails);
 
+
             const response = await axios.post(`${BASE_URL}/moderator/add_media`, {
                 moderatorId: userId,
                 mediaType: mediaType,
@@ -104,6 +109,12 @@ const ModeratorMedia = () => {
                 runtime: mediaDetails.runtime,
                 genre: selectedGenres,
                 posterImage: posterImage
+                isbn: mediaDetails.isbn,
+                language: mediaDetails.language,
+                runtime: mediaDetails.runtime,
+                genres: selectedGenres,
+                posterImage: PosterUrl,
+                // backdropImage: backdropImage ? backdropImage : BackdropUrl,
             });
 
             const data = response.data;
@@ -475,7 +486,7 @@ const ModeratorMedia = () => {
                             ))}
                         </div>
 
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <label htmlFor="posterImage">Poster Image:</label>
                             <input
                                 type="file"
@@ -484,7 +495,7 @@ const ModeratorMedia = () => {
                                 accept="image/*"
                                 onChange={handleFileChange}
                             />
-                        </div>
+                        </div> */}
                         {/* <div className="form-group">
                     <label htmlFor="backdropImage">Backdrop Image:</label>
                     <input
@@ -495,7 +506,7 @@ const ModeratorMedia = () => {
                         onChange={handleFileChange}
                     />
                 </div> */}
-                        {(mediaType === 'movie' || mediaType === 'tv') && (
+                        {(mediaType === 'movie') && (
                             <div className="form-group">
                                 <label htmlFor="runtime">Runtime:</label>
                                 <input
@@ -503,6 +514,18 @@ const ModeratorMedia = () => {
                                     id="runtime"
                                     name="runtime"
                                     value={mediaDetails.runtime}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                        )}
+                        {(mediaType === 'book') && (
+                            <div className="form-group">
+                                <label htmlFor="ISBN">ISBN for Book:</label>
+                                <input
+                                    type="text"
+                                    id="isbn"
+                                    name="isbn"
+                                    value={mediaDetails.isbn}
                                     onChange={handleInputChange}
                                 />
                             </div>
