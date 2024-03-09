@@ -58,7 +58,7 @@ const Navbar = () => {
                                 onMouseEnter={() => setShowAnnouncement(true)}
                                 onMouseLeave={() => setShowAnnouncement(false)}
                             >
-                                <MdNotificationAdd style={{ fontSize: '50px', color: 'white' }} />
+                                <MdNotificationAdd style={{ fontSize: '45px', color: '#007bff' }} />
                                 {showAnnouncement && (
                                     <div className="notification-box">
                                         <ul>

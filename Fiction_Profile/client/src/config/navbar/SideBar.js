@@ -101,14 +101,17 @@ function SideBar() {
                 <p className='side-bar-title'>Account</p>
               </Link>
             </div>
-          )
-          }
-          <div className='logout-bar' onClick={handleLogout}>
-            <Link to='/'>
-              <MirroredLogoutIcon className={`side-bar-icon ${selectedItem === 4 ? 'selected' : ''}`} />
-              <p className={`side-bar-title ${selectedItem === 4 ? 'selected' : ''}`}>Logout</p>
-            </Link>
-          </div>
+          )}
+
+          {role === 'user' && (
+            // Render content for user or moderator
+            <div className='logout-bar' onClick={handleLogout}>
+              <Link to='/'>
+                <MirroredLogoutIcon className={`side-bar-icon ${selectedItem === 4 ? 'selected' : ''}`} />
+                <p className={`side-bar-title ${selectedItem === 4 ? 'selected' : ''}`}>Logout</p>
+              </Link>
+            </div>
+          )}
 
         </div>
       )}

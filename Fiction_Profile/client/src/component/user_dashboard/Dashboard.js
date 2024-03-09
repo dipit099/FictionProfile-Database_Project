@@ -121,9 +121,9 @@ const Dashboard = () => {
                         <li className={activeSection === 'posts' ? 'active' : ''} onClick={() => handleSectionClick('posts')}>
                             Posts
                         </li>
-                        <li className={activeSection === 'activity' ? 'active' : ''} onClick={() => handleSectionClick('activity')}>
+                        {/* <li className={activeSection === 'activity' ? 'active' : ''} onClick={() => handleSectionClick('activity')}>
                             Activity
-                        </li>
+                        </li> */}
 
                         <li className={activeSection === 'media_list' ? 'active' : ''} onClick={() => handleSectionClick('media_list')}>
                             Media List
@@ -134,11 +134,11 @@ const Dashboard = () => {
                                 Affinity
                             </li>
                         )}
-                        {peopleId === userProfileId && (
+                        {/* {peopleId === userProfileId && (
                             <li className={activeSection === 'suggestions' ? 'active' : ''} onClick={() => handleSectionClick('suggestions')}>
                                 Suggestions
                             </li>
-                        )}
+                        )} */}
 
                         <li className={activeSection === 'follow' ? 'active' : ''} onClick={() => handleSectionClick('follow')}>
                             Follow
