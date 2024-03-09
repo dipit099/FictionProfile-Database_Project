@@ -1,0 +1,69 @@
+.moderatorannounce-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: wheat;
+  }
+  
+  .moderatorannounce-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
+  }
+  
+  .announcements,
+  .add-announcement {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Align items in the center */
+  }
+  
+  .announcements {
+    border-right: 1px solid #ccc;
+    padding-right: 20px;
+    
+  }
+  
+  .announcements h1,
+  .add-announcement h1 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .announcement-item {
+    height: 100px; /* Fixed height for each announcement item */
+    overflow: hidden; /* Hide overflow content */
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-announcement form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-announcement input,
+  .add-announcement textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-announcement button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-announcement button:hover {
+    background-color: #0056b3;
+  }
+  

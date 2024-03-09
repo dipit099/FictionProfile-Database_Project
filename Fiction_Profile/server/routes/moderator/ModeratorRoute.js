@@ -3,18 +3,28 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../../db');
 
-// router.post('/add_media', async (req, res) => {
-//     try {
-//         console.log("Adding media:", req.body);
 
-//         // Here, you can process the data received from the client and perform necessary actions.
 
-//         res.status(200).json({ message: "Media added successfully" });
-//     } catch (error) {
-//         console.error("Error adding media:", error);
-//         res.status(500).json({ error: "Internal server error" });
-//     }
-// });
+async function addAnnouncement(moderatorId, title, description) {
+  try {
+    // Insert the announcement into the database
+    const query = {
+      text: `INSERT INTO "Fiction Profile"."ANNOUNCEMENT" (moderator_id, title, description) VALUES ($1, $2, $3) RETURNING *`,
+      values: [moderatorId, title, description],
+    };
+
+    const result = await pool.query(query);
+    const newAnnouncement = result.rows[0];
+
+    console.log("Announcement added successfully:", newAnnouncement);
+    return newAnnouncement;
+  } catch (error) {
+    console.error("Error adding announcement:", error.message);
+    throw error;
+  }
+}
+
+
 
 function getTypeName(type_id) {
   switch (type_id) {
@@ -295,8 +305,6 @@ router.post('/edit_media', async (req, res) => {
 );
 
 
-
-
 router.post('/remove_media', async (req, res) => {
   try {
     console.log("Removing media:", req.body);
@@ -329,6 +337,38 @@ router.post('/remove_media', async (req, res) => {
     }
 });
 
+
+router.get('/announcement', async (req, res) => {
+  try {
+    // use moderator 
+    const moderatorId = req.query.moderatorId;
+    const result = await pool.query(
+      `SELECT * FROM "Fiction Profile"."ANNOUNCEMENT" WHERE moderator_id = $1 ORDER BY created_at DESC`,
+      [moderatorId]
+    );
+    const announcements = result.rows;
+    console.log("Announcements:", announcements);
+    res.json(announcements);
+  } catch (error) {
+    console.error("Error getting moderator announcement:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+);
+
+
+router.post('/announcement', async (req, res) => {
+  try {
+    // use the addAnnouncement function to add an announcement
+    const { moderatorId, title, description } = req.body;
+    addAnnouncement(moderatorId, title, description);
+    res.json({success:true, message: "Announcement added successfully" });
+  } catch (error) {
+    console.error("Error getting moderator announcement:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+);
 
 
 module.exports = router;
