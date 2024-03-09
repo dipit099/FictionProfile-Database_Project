@@ -88,17 +88,24 @@ const ModeratorMedia = () => {
 
     const handleFileChange = (e) => {
         const { name, files } = e.target;
-        if (name === 'posterImage') {
-            setPosterImage(files[0]);
-        } else if (name === 'backdropImage') {
-            setBackdropImage(files[0]);
+
+        // Check if files exist
+        if (files.length > 0) {
+            if (name === 'posterImage') {
+                setPosterImage(files[0]);
+                console.log('Poster Image:', files[0]);
+            } else if (name === 'backdropImage') {
+                setBackdropImage(files[0]);
+                console.log('Backdrop Image:', files[0]);
+            }
         }
     };
+
 
     const handlePublish = async () => {
         try {
             console.log('Publishing media:', mediaDetails);
-
+            
 
             const response = await axios.post(`${BASE_URL}/moderator/add_media`, {
                 moderatorId: userId,
@@ -112,6 +119,7 @@ const ModeratorMedia = () => {
                 language: mediaDetails.language,
                 runtime: mediaDetails.runtime,
                 genre: selectedGenres,
+                posterImage: posterImage,
             });
 
             const data = response.data;
@@ -483,7 +491,7 @@ const ModeratorMedia = () => {
                             ))}
                         </div>
 
-                        {/* <div className="form-group">
+                        <div className="form-group">
                             <label htmlFor="posterImage">Poster Image:</label>
                             <input
                                 type="file"
@@ -492,7 +500,7 @@ const ModeratorMedia = () => {
                                 accept="image/*"
                                 onChange={handleFileChange}
                             />
-                        </div> */}
+                        </div>
                         {/* <div className="form-group">
                     <label htmlFor="backdropImage">Backdrop Image:</label>
                     <input

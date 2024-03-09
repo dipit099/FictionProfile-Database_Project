@@ -96,7 +96,7 @@ function Login({ setAuth }) {
                     </label>
 
                     {/* Checkbox for "As Moderator" */}
-                    <label>
+                    {/* <label>
                         <input
                             type="checkbox"
                             value="moderator"
@@ -104,7 +104,7 @@ function Login({ setAuth }) {
                             onChange={() => handleSetRoleChange('moderator')}
                         />
                         As Moderator
-                    </label>
+                    </label> */}
                 </div>
 
                 <button type="submit" className="sign-inup-button" onClick={handleSubmit} >

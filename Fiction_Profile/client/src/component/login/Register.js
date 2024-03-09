@@ -185,7 +185,7 @@ function Register(props) {
 
                     {/* Checkbox for "As Moderator" */}
 
-                    <label>
+                    {/* <label>
                         <input
                             type="checkbox"
                             value="moderator"
@@ -193,7 +193,7 @@ function Register(props) {
                             onChange={() => handlePeopleTypeChange('moderator')}
                         />
                         As Moderator
-                    </label>
+                    </label> */}
                 </div>
                 {/* <button type="submit" onClick={() => props.onFormSwitch('done')}><Link to='/movie'>Sign Up</Link></button> */}
 
