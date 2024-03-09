@@ -108,13 +108,10 @@ const ModeratorMedia = () => {
                 language: mediaDetails.language,
                 runtime: mediaDetails.runtime,
                 genre: selectedGenres,
-                posterImage: posterImage
                 isbn: mediaDetails.isbn,
                 language: mediaDetails.language,
                 runtime: mediaDetails.runtime,
-                genres: selectedGenres,
-                posterImage: PosterUrl,
-                // backdropImage: backdropImage ? backdropImage : BackdropUrl,
+                genre: selectedGenres,
             });
 
             const data = response.data;
