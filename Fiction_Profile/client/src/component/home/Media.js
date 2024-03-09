@@ -135,7 +135,7 @@ const Media = ({ type }) => {
               </Link>
               {/* <p>{mediaItem.vote_average.toFixed(1)}</p> */}
               <div className='media-button-container' >
-                <div className='fa-star-div'><FaStar style={{ color: 'gold' }} /> {Math.floor(mediaItem.vote_average)}/10</div>
+                <div className='fa-star-div'><FaStar style={{ color: 'gold' }} /> {Number(mediaItem.rating).toFixed(1)}/10</div>
                 
                 <div>{renderFavoriteButton(mediaItem)}</div>
               </div>

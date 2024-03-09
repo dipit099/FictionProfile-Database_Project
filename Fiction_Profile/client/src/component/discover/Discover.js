@@ -407,7 +407,7 @@ const Discover = () => {
                                         </div>
                                     </Link>
                                     <div className='discover-media-title'>{mediaItem.title}</div>
-                                    <div className='fa-star-div'><FaStar style={{ color: 'gold' }} /> {Math.floor(mediaItem.vote_average)}/10</div>
+                                    <div className='fa-star-div'><FaStar style={{ color: 'gold' }} /> {Number(mediaItem.rating).toFixed(1)}/10</div>
                                     <div className='discover-button-container'>
                                         <p>{renderMediaAddButton(mediaItem)}</p>
                                         <p>{renderFavoriteButton(mediaItem)}</p>

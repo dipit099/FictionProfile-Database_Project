@@ -21,7 +21,7 @@ router.get('/movie', async (req, res) => {
                 WHERE
                     media.movie_id IS NOT NULL
                 ORDER BY
-                    media.vote_count DESC
+                    media.popularity DESC, media.rating DESC, media.vote_count DESC
                 LIMIT 20
             `
             ,[people_id]
@@ -66,7 +66,7 @@ router.get('/tv', async (req, res) => {
                 WHERE
                     media.tv_id IS NOT NULL
                 ORDER BY
-                    media.vote_count DESC
+                    media.popularity DESC, media.rating DESC, media.vote_count DESC
                 LIMIT 20
             `
             ,[people_id]
@@ -108,7 +108,7 @@ router.get('/book', async (req, res) => {
                 WHERE
                     media.book_id IS NOT NULL
                 ORDER BY
-                    media.vote_count DESC
+                    media.popularity DESC, media.rating DESC, media.vote_count DESC
                 LIMIT 20
             `
             ,[people_id]
@@ -135,6 +135,8 @@ router.get('/manga', async (req, res) => {
     try {
         
         const people_id = req.query.people_id;
+
+        
 
         const result = await pool.query(
             `   
