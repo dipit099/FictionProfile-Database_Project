@@ -100,12 +100,10 @@ const ModeratorMedia = () => {
                 mediaType: mediaType,
                 title: mediaDetails.title,
                 year: mediaDetails.year,
-                authorDirectorWriter: mediaDetails.authorDirectorWriter,
                 language: mediaDetails.language,
                 runtime: mediaDetails.runtime,
-                genres: selectedGenres,
-                posterImage: posterImage,
-                backdropImage: backdropImage
+                genre: selectedGenres,
+                posterImage: posterImage
             });
 
             const data = response.data;
@@ -227,9 +225,9 @@ const ModeratorMedia = () => {
         }
     }
 
-    useEffect(() => {
-        handleFilter();
-    }, [currentPage]);
+    // useEffect(() => {
+    //     handleFilter();
+    // }, [currentPage]);
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
