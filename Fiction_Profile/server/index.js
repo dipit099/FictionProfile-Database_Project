@@ -8,6 +8,8 @@ const UserMediaRoute = require('./routes/components/UserMediaAdd');
 const UserFavoriteRoute = require('./routes/components/UserFavorite');
 
 
+
+
 app.use(cors());
 app.use(express.json());
 
@@ -31,6 +33,31 @@ app.use('/dashboard', require('./routes/user_dashboard/DashboardRoute'));
 app.use('/user_announcement', require('./routes/components/UserAnnouncementRoute'));
 
 
+
+
+// Define the function to call the procedure
+const callProcedure = async () => {
+    try {
+        // Call the stored procedure to assign popularity index
+        await pool.query('CALL "Fiction Profile"."assign_popularity_index"();');
+        console.log('Procedure called successfully');
+    } catch (error) {
+        console.error('Error calling procedure:', error);
+    }
+};
+
+// Call the procedure initially when the server starts
+callProcedure();
+
+// Call the procedure every 10 minutes (600,000 milliseconds)
+setInterval(async () => {
+    try {
+        // Call the function
+        await callProcedure();
+    } catch (error) {
+        console.error('Error in scheduled task:', error);
+    }
+}, 10 * 60 * 1000); // 10 minutes in milliseconds
 
 
 
