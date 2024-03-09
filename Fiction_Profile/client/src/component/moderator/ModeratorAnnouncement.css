@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
     color: wheat;
   }
   
@@ -10,6 +9,7 @@
     display: flex;
     justify-content: space-between;
     max-width: 900px;
+
   }
   
   .announcements,
@@ -17,24 +17,17 @@
     width: 48%;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Align items in the center */
+    align-items: center;
   }
   
   .announcements {
-    border-right: 1px solid #ccc;
     padding-right: 20px;
-    
-  }
-  
-  .announcements h1,
-  .add-announcement h1 {
-    margin-bottom: 20px;
-    text-align: center;
+    border-right: 1px solid #ccc; /* Add partition between segments */
   }
   
   .announcement-item {
-    height: 100px; /* Fixed height for each announcement item */
-    overflow: hidden; /* Hide overflow content */
+    width: 100%;
+    overflow: hidden;
     margin-bottom: 20px;
     padding: 10px;
     border: 1px solid #ccc;
