@@ -369,6 +369,7 @@ router.get('/people-you-may-know', async (req, res) => {
                 SELECT F1.followed_id
                 FROM "Fiction Profile"."FOLLOW" F1
                 WHERE F1.user_id=$1 )
+                AND people_id!= $1
         )  
         ORDER BY mutual_followers_count DESC                     
         `, [user_id]);

@@ -45,7 +45,7 @@ function Login({ setAuth }) {
                 // alert("Login successful");
                 toast.success("Login successful");
                 navigate('/');
-               
+
 
 
                 // Optionally, you can redirect the user to a different page or perform other actions upon successful registration
@@ -110,7 +110,7 @@ function Login({ setAuth }) {
                 <button type="submit" className="sign-inup-button" onClick={handleSubmit} >
                     Sign In
                 </button>
-                <button className="link-btn">Forget Password</button>
+                {/* <button className="link-btn">Forget Password</button> */}
 
                 {/* <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button> */}
                 <Link to='/register'><button className="link-btn" >Don't have an account? Register here.</button></Link>

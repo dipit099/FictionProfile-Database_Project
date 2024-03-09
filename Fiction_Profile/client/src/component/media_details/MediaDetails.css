@@ -508,3 +508,49 @@
     margin-left: 50px;
 
 }
+
+
+
+.review-input,
+.review-textarea {
+    width: 100%;
+    /* Make inputs and textareas full width */
+    padding: 12px;
+    /* Increase padding */
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #000000;
+    color: #fff;
+
+    /* Increase font size */
+}
+
+.review-textarea {
+    height: 200px;
+    /* Increase height */
+}
+
+.save-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    /* Increase padding */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 16px;
+    /* Increase font size */
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+.save-button:last-child {
+    margin-right: 0;
+}

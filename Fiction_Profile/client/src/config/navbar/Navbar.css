@@ -83,3 +83,80 @@ a:hover {
 
 
 }
+
+/* Navbar CSS */
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-box {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #2c3e50;
+  /* Dark blue background */
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: none;
+  width: 700px;
+  max-height: 500px;
+  /* Example maximum height */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+}
+
+.notification-icon:hover .notification-box {
+  display: block;
+}
+
+
+.notification-box li:hover {
+  background-color: #1a2032;
+  border-radius: 3px;
+}
+
+
+.notification-box ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-box li {
+  font-size: 20px;
+  /* Increase font size */
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  /* Add a bottom border with semi-transparent white color */
+}
+
+.notification-box li:last-child {
+  border-bottom: none;
+  /* Remove the bottom border for the last list item */
+}
+
+.notification-box .title-description {
+  display: flex;
+  /* Use flexbox for title and description */
+  align-items: center;
+  /* Vertically center the title and description */
+  margin-bottom: 5px;
+  /* Add some space below the title and description */
+}
+
+.notification-box .title {
+  font-size: 22px;
+  margin-right: 10px;
+  /* Add some space between the title and description */
+}
+
+.notification-box .days-ago {
+  font-size: 18px;
+  /* Smaller font size for days ago */
+  color: rgba(255, 255, 255, 0.7);
+  /* Semi-transparent white color for days ago */
+}

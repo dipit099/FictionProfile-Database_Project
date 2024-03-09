@@ -4,7 +4,7 @@ import './ModeratorAnnouncement.css'; // Import your CSS file for styling
 import BASE_URL from "../../config/ApiConfig";
 import SideBar from '../../config/navbar/SideBar';
 import Navbar from '../../config/navbar/Navbar'; // Import statements...
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ModeratorAnnouncement = () => {
@@ -31,10 +31,10 @@ const ModeratorAnnouncement = () => {
   const addAnnouncement = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${BASE_URL}/moderator/announcement`, { 
-        moderatorId: moderatorId, 
-        title : title, 
-        description : description
+      await axios.post(`${BASE_URL}/moderator/announcement`, {
+        moderatorId: moderatorId,
+        title: title,
+        description: description
       });
       toast.success('Announcement added successfully');
       fetchAnnouncements();
@@ -49,19 +49,20 @@ const ModeratorAnnouncement = () => {
     <div className="moderatorannounce-container">
       <SideBar />
       <Navbar />
-      <div className="moderatorannounce-content">
-        <div className="announcements">
-          <h1>Past Announcements</h1>
+      <div className="moderatorannounce-content" style={{ marginTop: '100px' }}>
+        <div className="announcements" >
+          <h1><u>Past Announcements</u></h1>
           {announcement.map((announce) => (
             <div key={announce.id} className="announcement-item">
-              <h3>{announce.title}</h3>
-              <p>{announce.description}</p>
+              <h3 style={{ color: 'white' }}>{announce.title}</h3>
+              <p style={{ fontSize: '20px' }}>{announce.description}</p>
               <p>Created Date: {announce.created_at}</p>
             </div>
           ))}
         </div>
+
         <div className="add-announcement">
-          <h1>Create New Announcement</h1>
+          <h1><u>Create New Announcement</u></h1>
           <form onSubmit={addAnnouncement}>
             <input
               type="text"
