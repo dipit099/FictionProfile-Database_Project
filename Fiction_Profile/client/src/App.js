@@ -22,6 +22,8 @@ import Account from "./component/account/Account"
 import Feed from "./component/feed/Feed";
 import BASE_URL from "./config/ApiConfig";
 
+import Admin from "./component/admin/Admin";
+
 
 
 function App() {
@@ -96,8 +98,7 @@ function App() {
         <Route path="/media" element={<ModeratorMedia />} />
         <Route path="/announcement" element={<ModeratorAnnouncement />} />
         <Route path="/report" element={<ModeratorReport />} />
-        
-
+        <Route path="/admin" element={<Admin/>} />
 
 
       </Routes>

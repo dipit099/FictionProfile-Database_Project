@@ -141,6 +141,37 @@ router.get('/', async (req, res) => {
     console.log("mediaTypeExclude: ");
     console.log(mediaTypeExclude);
 
+    let searchParameters;
+
+    // fill up search parameters with the query infos
+    searchParameters = {
+        userId,
+        page: pageNumber,
+        pageSize: limit,
+        search,
+        genres,
+        mediaTypes,
+        yearStart,
+        yearEnd,
+        ratingStart,
+        ratingEnd,
+        sortBy,
+        sortSequence
+    };
+    
+
+    const query = `
+        INSERT INTO "Fiction Profile"."SEARCH_LOG" (user_id, search_parameters)
+        VALUES ($1, $2);
+    `;
+
+    try {
+        await pool.query(query, [userId, searchParameters]);
+        console.log('Search log inserted successfully');
+    } catch (error) {
+        console.error('Error inserting search log:', error);
+    }
+
 
     try {
         // Calculate the offset based on the page number and page size

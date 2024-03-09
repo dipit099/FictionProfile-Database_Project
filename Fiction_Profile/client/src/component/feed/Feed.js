@@ -165,6 +165,7 @@ const Feed = () => {
 
     const handlePostSubmit = async (event) => {
         event.preventDefault();
+        console.log(newPostContent);
 
         try {
             await axios.post(`${BASE_URL}/feed/post`, {
@@ -426,7 +427,7 @@ const Feed = () => {
 
 
                     </form>
-                    <button type="submit" className='publish-button'>Publish Post</button>
+                    <button type="submit" className='publish-button' onClick={handlePostSubmit}>Publish Post</button>
 
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>
