@@ -105,13 +105,13 @@ const ModeratorMedia = () => {
                 mediaType: mediaType,
                 title: mediaDetails.title,
                 year: mediaDetails.year,
-                authorDirectorWriter: mediaDetails.authorDirectorWriter,
+                language: mediaDetails.language,
+                runtime: mediaDetails.runtime,
+                genre: selectedGenres,
                 isbn: mediaDetails.isbn,
                 language: mediaDetails.language,
                 runtime: mediaDetails.runtime,
-                genres: selectedGenres,
-                posterImage: PosterUrl,
-                // backdropImage: backdropImage ? backdropImage : BackdropUrl,
+                genre: selectedGenres,
             });
 
             const data = response.data;

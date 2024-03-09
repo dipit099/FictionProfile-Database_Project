@@ -394,15 +394,15 @@ const MediaDetails = ({ mediaType }) => {
 
         try {
             const result = await axios.post(`${BASE_URL}/moderator/edit_media`, {
-                media_id: id,
+                mediaId: id,
                 mediaType: mediaType,
                 title: editedMediaDetails.title,
-                description: editedMediaDetails.description,
-                release_date: editedMediaDetails.release_date ? editedMediaDetails.release_date.split('-')[0] : '',
+                overview: editedMediaDetails.description,
+                year: editedMediaDetails.release_date ? editedMediaDetails.release_date.split('-')[0] : '',
                 language: editedMediaDetails.language,
                 runtime: editedMediaDetails.runtime,
-                moderatorId: people_id
-
+                moderatorId: people_id,
+                genre : null
             });
             if (result.data.success) {
                 toast.success('Media updated successfully');
