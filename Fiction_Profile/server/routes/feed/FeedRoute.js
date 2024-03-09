@@ -220,13 +220,13 @@ router.get('/', async (req, res) => {
 // Endpoint to handle post submission
 router.post('/post', async (req, res) => {
     try {
-        const { user_id, content } = req.body;
+        const { user_id, content, caption } = req.body;
         console.log(req.body);
 
         // Insert the new post into the database
         await pool.query(
-            `INSERT INTO "Fiction Profile"."POST" (user_id, content) VALUES ($1, $2)`,
-            [user_id, content]
+            `INSERT INTO "Fiction Profile"."POST" (user_id, content, title) VALUES ($1, $2, $3)`,
+            [user_id, content, caption]
         );
         console.log("post submitted");
         res.status(200).json({ message: 'Post submitted successfully' });

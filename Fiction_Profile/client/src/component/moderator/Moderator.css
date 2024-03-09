@@ -64,7 +64,6 @@
 /* Increase font size */
 .action-list li {
     font-size: 22px;
-    font-family:cursive;
 }
 
 /* Add space between label and value */
@@ -72,7 +71,6 @@
     margin-right: 5px;
     font-size: 25px;
     margin-left: 20px;
-    font-family:cursive;
 }
 
 .action-list-container::-webkit-scrollbar {

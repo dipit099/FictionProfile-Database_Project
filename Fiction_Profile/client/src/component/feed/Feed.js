@@ -165,6 +165,7 @@ const Feed = () => {
 
     const handlePostSubmit = async (event) => {
         event.preventDefault();
+        console.log(newPostContent);
 
         try {
             await axios.post(`${BASE_URL}/feed/post`, {
@@ -409,6 +410,7 @@ const Feed = () => {
             <SideBar />
             <div className='feed-container'>
                 <div className='feedWrapper'>
+
                     {role === 'user' && (
                         <form onSubmit={handlePostSubmit}>
                             <input
@@ -429,6 +431,7 @@ const Feed = () => {
                         </form>
 
                     )}
+
 
                     {feed.map(post => (
                         <div key={post.post_id} className='post'>
