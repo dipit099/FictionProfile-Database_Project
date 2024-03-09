@@ -1,0 +1,96 @@
+.moderatorhome-container {
+    color: white;
+    margin-top: 120px;
+    margin-left: 120px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.bar-charts {
+    display: flex;
+}
+
+.moderatorhome-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.mod-action-list {
+    width: 40%;
+    /* Adjust width as needed */
+}
+
+
+.action-list-container {
+    max-height: 600px;
+    /* Set max height for scrolling */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    padding: 10px;
+    /* Add padding for better spacing */
+}
+
+.action-list {
+    list-style-type: none;
+    /* Remove bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.action-list li {
+    padding: 20px;
+    /* Add padding to top and bottom */
+    border-bottom: 1px solid #ccc;
+    /* Add border bottom to separate items */
+    color: black;
+
+
+}
+
+/* Apply alternate coloring */
+.action-list li:nth-child(even) {
+    background-color: #8671d7;
+    /* Light gray background for even items */
+}
+
+.action-list li:nth-child(odd) {
+    background-color: #6f8ac4;
+    /* Light gray background for even items */
+}
+
+/* Increase font size */
+.action-list li {
+    font-size: 22px;
+    font-family:cursive;
+}
+
+/* Add space between label and value */
+.action-list li strong {
+    margin-right: 5px;
+    font-size: 25px;
+    margin-left: 20px;
+    font-family:cursive;
+}
+
+.action-list-container::-webkit-scrollbar {
+    width: 12px; /* Set the width of the scrollbar */
+}
+
+/* Track styles */
+.action-list-container::-webkit-scrollbar-track {
+    background: #591296; /* Set the background color of the track */
+}
+
+/* Handle styles */
+.action-list-container::-webkit-scrollbar-thumb {
+    background: #888; /* Set the color of the scrollbar handle */
+    border-radius: 6px; /* Set border radius to make it round */
+}
+
+/* Handle on hover */
+.action-list-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Change color on hover */
+}

@@ -6,7 +6,8 @@ import SideBar from '../../config/navbar/SideBar';
 import BarChartComponent from './BarChartComponent'; // Import the BarChartComponent component
 
 const Moderator = () => {
-    const [barReports, setBarReports] = useState({});
+    const [barReports, setBarReports] = useState([]);
+    const [actionList, setActionList] = useState([]);
     const people_id = localStorage.getItem("people_id");
 
     const getReports = async () => {
@@ -16,44 +17,83 @@ const Moderator = () => {
             });
 
             const data = response.data;
-            const groupedData = data.reduce((acc, item) => {
-                const { type_id, insert_count, update_count, delete_count } = item;
-                if (!acc[type_id]) {
-                    acc[type_id] = {
-                        insertCount: 0,
-                        updateCount: 0,
-                        deleteCount: 0
-                    };
-                }
-                acc[type_id].insertCount += insert_count;
-                acc[type_id].updateCount += update_count;
-                acc[type_id].deleteCount += delete_count;
-                return acc;
-            }, {});
-
-            setBarReports(groupedData);
+            setBarReports(data);
         } catch (error) {
             console.error("Error getting moderator stats:", error);
         }
     }
 
+    const getActionList = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL}/moderator/get_action_list`, {
+                moderatorId: people_id
+            });
+
+            const data = response.data;
+            setActionList(data);
+        } catch (error) {
+            console.error("Error getting action list:", error);
+        }
+    }
+
     useEffect(() => {
         getReports();
+        getActionList();
     }, []);
 
+
+    const getTypeName = (typeId) => {
+        switch (typeId) {
+            case 1:
+                return 'Movie';
+            case 2:
+                return 'TV';
+            case 3:
+                return 'Book';
+            case 4:
+                return 'Manga';
+            default:
+                return 'Unknown';
+        }
+    }
+
     return (
-        <div className="moderator-container">
+        <div className="moderatorhome-container">
             <SideBar />
             <div className="bar-charts">
-                {Object.entries(barReports).map(([type_id, barData]) => (
+                {barReports.map((report, index) => (
                     <BarChartComponent
-                        key={type_id}
-                        type_id={type_id}
-                        insertCount={barData.insertCount}
-                        updateCount={barData.updateCount}
-                        deleteCount={barData.deleteCount}
+                        key={index}
+                        type_id={report.type}
+                        insertCount={report.insert_count}
+                        updateCount={report.update_count}
+                        deleteCount={report.delete_count}
                     />
                 ))}
+            </div>
+            <div className="moderatorhome-footer">
+                <div className='mod-action-list'>
+                    <h2>Action List</h2>
+                    <div className='action-list-container'>
+                        <ul className='action-list'>
+                            {actionList.map((action, index) => (
+                                <li key={index}>
+                                    <strong>Action:</strong> {action.log_id}
+                                    <strong>Type:</strong> {getTypeName(action.type_id)}<br />
+                                    <strong>MedaId:</strong> {action.media_id}
+                                    <strong>Title:</strong> {action.title}<br />
+                                    <strong>Status:</strong> {action.operation_type}<br />
+                                    <strong>Date:</strong> {new Date(action.created_at).toLocaleDateString()}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
+                <div className='mod-report'>
+
+
+                </div>
             </div>
         </div>
     );
