@@ -315,7 +315,7 @@ router.get('/:people_id/affinity/favorite_count', async (req, res) => {
             FROM T
         `, [my_id, people_id]);
 
-         console.log('Affinity data:', result.rows);
+        console.log('Affinity data:', result.rows);
 
         res.status(200).json(result.rows);
     } catch (error) {

@@ -31,7 +31,9 @@ const Navbar = () => {
 
 
     useEffect(() => {
-        fetchAnnouncement();
+        if (role === "user") {
+            fetchAnnouncement();
+        }
     }, []);
 
 

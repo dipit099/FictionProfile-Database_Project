@@ -197,8 +197,8 @@ ngrok config add-authtoken 2bSOHgZRuwquRRBBIxnAzv5w5Fe_33MyZPt7PLYLdd7Eh9Een
 ngrok http 3000
 
 **deploy**
-change BASE_URL
 
+change BASE_URL
 npm run build
 firebase deploy
 

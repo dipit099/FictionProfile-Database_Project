@@ -19,7 +19,7 @@
 }
 
 .mod-action-list {
-    width: 40%;
+    width: 90%;
     /* Adjust width as needed */
 }
 
@@ -64,6 +64,7 @@
 /* Increase font size */
 .action-list li {
     font-size: 22px;
+    font-family: cursive;
 }
 
 /* Add space between label and value */
@@ -71,24 +72,30 @@
     margin-right: 5px;
     font-size: 25px;
     margin-left: 20px;
+    font-family: cursive;
 }
 
 .action-list-container::-webkit-scrollbar {
-    width: 12px; /* Set the width of the scrollbar */
+    width: 12px;
+    /* Set the width of the scrollbar */
 }
 
 /* Track styles */
 .action-list-container::-webkit-scrollbar-track {
-    background: #591296; /* Set the background color of the track */
+    background: #591296;
+    /* Set the background color of the track */
 }
 
 /* Handle styles */
 .action-list-container::-webkit-scrollbar-thumb {
-    background: #888; /* Set the color of the scrollbar handle */
-    border-radius: 6px; /* Set border radius to make it round */
+    background: #888;
+    /* Set the color of the scrollbar handle */
+    border-radius: 6px;
+    /* Set border radius to make it round */
 }
 
 /* Handle on hover */
 .action-list-container::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Change color on hover */
+    background: #555;
+    /* Change color on hover */
 }

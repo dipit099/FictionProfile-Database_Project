@@ -568,7 +568,7 @@ const Feed = () => {
                         </div> */}
                         {role === 'user' && (
                             <div className="people-you-may-know">
-                                <h2>Suggested People</h2>
+                                <h2>Likely Minds</h2>
 
                                 {peopleYouMayKnow.map(peopleYouMayKnow => (
                                     < div className="user-info">

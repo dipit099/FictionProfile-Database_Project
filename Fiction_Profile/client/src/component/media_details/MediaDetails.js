@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import './MediaDetails.css';
 import BASE_URL from "../../config/ApiConfig";
 
@@ -24,6 +25,7 @@ const MediaDetails = ({ mediaType }) => {
 
     const [selectedReview, setSelectedReview] = useState(null);
     const [isReviewModal, setIsReviewModal] = useState(false);
+    const navigate = useNavigate();
 
 
 
@@ -438,15 +440,19 @@ const MediaDetails = ({ mediaType }) => {
                 mediaType: mediaType,
                 moderatorId: people_id
             });
+
             if (result.data.success) {
                 toast.success('Media removed successfully');
+                navigate('/');            
+
+               
             }
 
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error removing media:', error);
         }
     }
+
 
     const handleEditReview = async () => {
         try {

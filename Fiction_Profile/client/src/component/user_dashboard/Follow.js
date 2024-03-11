@@ -152,7 +152,7 @@ const Follow = () => {
 
 
             <div className="people-you-may-know">
-                <h3>Same Minds</h3>
+                <h3>Likely Minds</h3>
                 {peopleYouMayKnow.map(peopleYouMayKnow => (
                     < div className="user-info">
                         <li key={peopleYouMayKnow.people_id}>
