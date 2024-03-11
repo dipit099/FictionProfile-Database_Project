@@ -1,5 +1,5 @@
 # FictionProfile-Database_Project
-CSE 215 Level 2 Term 1 Project
+BUET CSE 215 Level 2 Term 1 Project
 
 # Overview
 Our project, titled "Fiction Profile," is a dynamic platform designed for users to engage with diverse media content including books, fiction, series, comics and movies. It offers a multifaceted user experience allowing interaction based on preferences in Cast, Rating, Language, and Genre. Users can access content through a versatile system using Favorite Content ID, Language, and Title parameters, ensuring seamless content exploration.
@@ -140,13 +140,15 @@ Contact `sdipit099@gmail.com` for the file if needed!
     git pull origin main
     ```
 
-Hosting Details:
+## Hosting Details:
 1. Client hosted on Firebase
 2. Server hosted on Render
 3. Database hosted on Supabase
 
 
 This README.md file provides users with clear instructions on how to set up, run, and contribute to the Fiction Profile project.
-Contributors:
+# Contributors:
+
 Dipit Saha
+
 Shah Mohammad Abdul Mannan
