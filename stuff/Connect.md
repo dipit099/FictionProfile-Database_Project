@@ -4,32 +4,6 @@
 3. Download PgAdmin4 .
 4. Make sure you have Node.js installed.
 
-## PostgreSQL Remote Connection Credentials
-
-### Supabase:
-Hosted on Supabase:
-
-- **Name:** postgres
-- **Host:** aws-0-ap-south-1.pooler.supabase.com
-- **Port:** 6543
-- **Database Name:** postgres
-- **User:** postgres.eocmqhvplptwmzerrcng
-- **Password:** dx$Q6*vWTnu!45j
-- 
-### Render:
-
-Hosted on Render:
-
-- **Name:** Fiction Profile
-- **Host:** dpg-cm4p2dq1hbls73af6t9g-a.singapore-postgres.render.com
-- **Port:** 5432
-- **Database Name:** fictprofile
-- **User:** fictp
-- **Password:** gt5fhRprywckeSWOOpPv51FtLo8EwqgR
-- **Internal Database URL:**   postgres://fictp:gt5fhRprywckeSWOOpPv51FtLo8EwqgR@dpg-cm4p2dq1hbls73af6t9g-a/fictprofile
-- **External Database URL:**   postgres://fictp:gt5fhRprywckeSWOOpPv51FtLo8EwqgR@dpg-cm4p2dq1hbls73af6t9g-a.singapore-postgres.render.com/fictprofile
-- **PSQL COMMAND:** PGPASSWORD=gt5fhRprywckeSWOOpPv51FtLo8EwqgR psql -h dpg-cm4p2dq1hbls73af6t9g-a.singapore-postgres.render.com -U fictp fictprofile
-
 # Connect with Backend
 ### Nodemon Installation (Backend)
 ```bash
@@ -191,15 +165,29 @@ ctrl+shft+v  to preview md files
 
 
 
-**ngrok**
-run in cmd
-ngrok config add-authtoken 2bSOHgZRuwquRRBBIxnAzv5w5Fe_33MyZPt7PLYLdd7Eh9Een
-ngrok http 3000
+# Ngrok Run
+1. Open cmd
+2. Run
+   `ngrok config add-authtoken 2bSOHgZRuwquRRBBIxnAzv5w5Fe_33MyZPt7PLYLdd7Eh9Een`
 
-**deploy**
+   
+3. Run
+   `ngrok http 3000`
 
-change BASE_URL
+# Server Deploy
+Checking db credentials
+Go to Render.com
+
+# Client
+ Go to Firebase
+ 
+ change BASE_URL
+ 
 npm run build
+
 firebase deploy
+
+
+
 
 
