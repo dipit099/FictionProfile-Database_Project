@@ -21,6 +21,7 @@ router.get('/movie', async (req, res) => {
                     "Fiction Profile"."MEDIA" media
                 WHERE
                     media.movie_id IS NOT NULL
+                    AND media.poster_path IS NOT NULL
                 ORDER BY
                     media.popularity DESC, media.rating DESC, media.vote_count DESC
                 LIMIT 20
@@ -152,6 +153,7 @@ router.get('/manga', async (req, res) => {
                     "Fiction Profile"."MEDIA" media
                 WHERE
                     media.manga_id IS NOT NULL
+                    AND media.poster_path IS NOT NULL
                 ORDER BY
                     media.popularity DESC, media.rating DESC, media.vote_count DESC
                 LIMIT 20

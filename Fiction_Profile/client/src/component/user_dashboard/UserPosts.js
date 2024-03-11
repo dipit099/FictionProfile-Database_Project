@@ -3,6 +3,8 @@ import axios from 'axios';
 import BASE_URL from '../../config/ApiConfig';
 import './UserPosts.css'; // Import CSS file for styling
 import Modal from 'react-modal';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserPosts = () => {
     const [userPosts, setUserPosts] = useState([]);
@@ -91,6 +93,7 @@ const UserPosts = () => {
             });
 
             closeModal();
+            toast ('Post Edited Successfully');
         }
         catch (error) {
             console.error('Error editing post:', error);
@@ -106,7 +109,9 @@ const UserPosts = () => {
                 post_id: postIdBeingEdited,
                 userId: people_id
             });
+
             closeModal();
+            toast ('Post Deleted Successfully');
         }
         catch (error) {
             console.error('Error deleting post:', error);
