@@ -152,3 +152,29 @@ This README.md file provides users with clear instructions on how to set up, run
 Dipit Saha
 
 Shah Mohammad Abdul Mannan
+
+
+# Take a Tour
+## USER
+![Screenshot_10](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/9cc5c987-db3e-4aec-8e96-1edc92e85b6e)
+
+![Screenshot_12](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/8f9a0393-c4f4-4d30-b8da-e319638b4b61)
+
+
+![Screenshot_17](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/d9e9ec3e-d7ec-4cd7-a165-b41e88b9b242)
+
+
+![Screenshot_13](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/332a5044-2e35-4b4c-8970-b0a755dce8c6)
+
+
+![Screenshot_14](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/995a0645-fffd-4c4b-8b78-2bd4ef54dcf2)
+
+
+![Screenshot_15](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/602621c8-bc93-4202-a523-fd8adc219ebb)
+
+
+## Moderator
+
+![Screenshot_16](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/df154d99-02fa-467d-ad82-facc6196bc90)
+
+)
