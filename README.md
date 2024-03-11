@@ -8,6 +8,9 @@ Not only does "Fiction Profile" cater to individual content discovery, but it al
 # Project Website Url :  
 https://fiction-profile-client.web.app/
 
+or try this
+https://fiction-profile-client.firebaseapp.com/
+
 ( Might be slow in loading since hosting is in free mode , limited resource )
 
 # Setting Up PostgreSQL
