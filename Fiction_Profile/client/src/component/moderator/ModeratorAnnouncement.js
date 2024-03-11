@@ -50,17 +50,6 @@ const ModeratorAnnouncement = () => {
       <SideBar />
       <Navbar />
       <div className="moderatorannounce-content" style={{ marginTop: '100px' }}>
-        <div className="announcements" >
-          <h1><u>Past Announcements</u></h1>
-          {announcement.map((announce) => (
-            <div key={announce.id} className="announcement-item">
-              <h3 style={{ color: 'white' }}>{announce.title}</h3>
-              <p style={{ fontSize: '20px' }}>{announce.description}</p>
-              <p>Created Date: {announce.created_at}</p>
-            </div>
-          ))}
-        </div>
-
         <div className="add-announcement">
           <h1><u>Create New Announcement</u></h1>
           <form onSubmit={addAnnouncement}>
@@ -78,6 +67,18 @@ const ModeratorAnnouncement = () => {
             <button type="submit">Add Announcement</button>
           </form>
         </div>
+        <div className="announcements" >
+          <h1><u>Past Announcements</u></h1>
+          {announcement.map((announce) => (
+            <div key={announce.id} className="announcement-item">
+              <h3 style={{ color: 'white' }}>{announce.title}</h3>
+              <p style={{ fontSize: '20px' }}>{announce.description}</p>
+              <p>Created Date: {announce.created_at}</p>
+            </div>
+          ))}
+        </div>
+
+
       </div>
     </div>
   );

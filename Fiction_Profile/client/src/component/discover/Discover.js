@@ -19,7 +19,7 @@ import BASE_URL from '../../config/ApiConfig';
 import axios from 'axios';
 
 const Discover = () => {
-    const [loading, setLoading] = useState(false); // Loading state
+    // const [loading, setLoading] = useState(false); // Loading state
     const [searchQuery, setSearchQuery] = useState('');
     const [mediaItems, setMediaItems] = useState([]);
 
@@ -38,6 +38,9 @@ const Discover = () => {
     const [ratingEnd, setRatingEnd] = useState(10);
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
+
+    const [isloadingModal, setIsLoadingModal] = useState(false);
+
 
     const handleSortChange = (event) => {
         setSortBy(event.target.value);
@@ -84,10 +87,13 @@ const Discover = () => {
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
+    // const hand
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoadingModal(true);
+        console.log(isloadingModal + 'isloadingmodal');
         console.log('Performing search for:', searchQuery);
         // Fetch media items based on the search query
         try {
@@ -101,13 +107,20 @@ const Discover = () => {
                     yearEnd: yearEnd,
                     ratingStart: ratingStart,
                     ratingEnd: ratingEnd,
-                    mediaTypes: mediaTypes
+                    mediaTypes: mediaTypes,
+                    genres: genreTypes,
+                    sortBy: sortBy,
+                    sortSequence: sortOrder
                 }
             });
 
             const data = response.data;
             setMediaItems(data.media);
-            console.log('Media Items:', mediaItems);
+            toast.success('Search results fetched!');
+            console.log(isloadingModal + 'isloadingmodal');
+            setIsLoadingModal(false);
+
+            // console.log('Media Items:', mediaItems);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -163,7 +176,8 @@ const Discover = () => {
 
     const handleFilter = async () => {
         try {
-            setLoading(true); // Show loading window
+            // setLoading(true); // Show loading window
+            setIsLoadingModal(true);
             const response = await axios.get(`${BASE_URL}/discover`, {
                 params: {
                     userId: userId,
@@ -183,8 +197,10 @@ const Discover = () => {
 
             const data = response.data;
             setMediaItems(data.media);
-            console.log('Media Items:', mediaItems);
-            setLoading(false); // Hide loading window after data is fetched
+            toast.success('Search results fetched!');
+            setIsLoadingModal(false);
+            // console.log('Media Items:', mediaItems);
+            // setLoading(false); // Hide loading window after data is fetched
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -269,6 +285,7 @@ const Discover = () => {
     const openModal = async (mediaItem) => {
         setSelectedMediaItem(mediaItem);
         setIsModalOpen(true);
+
         try {
             const response = await axios.get(`${BASE_URL}/user_media_add/get_added_option`, {
                 params: {
@@ -397,7 +414,7 @@ const Discover = () => {
                         <div className="media-items">
                             {mediaItems && mediaItems.map(mediaItem => (
                                 <div key={mediaItem.key_id} className="media-card">
-                                    <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`}  target="_blank">
+                                    <Link to={`/${mediaItem.type.toLowerCase()}/${mediaItem.id}`} target="_blank">
 
                                         <div className='media-poster-badge'>
                                             <div className='media-poster'>
@@ -566,6 +583,8 @@ const Discover = () => {
                         <div className='filter-button-div'>
                             <button type="submit" className="filter-button" onClick={() => handleFilter()}>Filter Results</button>
                         </div>
+
+
                     </div>
 
                 </div>
@@ -610,6 +629,28 @@ const Discover = () => {
                     <button onClick={() => handlePopupSubmit(selectedMediaItem)}>Submit</button>
 
                 </div>
+            </Modal>
+
+            <Modal
+                isOpen={isloadingModal}
+                style={{
+                    overlay: {
+                        backgroundColor: 'transparent', // Semi-transparent black overlay
+                        backdropFilter: 'blur(2px)',
+
+                    },
+                    content: {
+                        width: '400px',
+                        height: '400px',
+                        margin: 'auto',
+                        backgroundColor: 'transparent', // Transparent background for the modal content
+                        border: 'none', // Remove border if needed
+                        boxShadow: 'none', // Remove box shadow if needed
+
+                    },
+                }}
+            >
+                <div class="spinner"></div>
             </Modal>
         </>
     );

@@ -79,7 +79,7 @@ function Register(props) {
             } else {
                 console.error('Error during registration:', data.error);
                 // alert(data.error);
-                toast.error(data.error);
+               toast.error("Registration failed. Use different email or username.");
             }
         } catch (error) {
             toast.error("Registration failed");

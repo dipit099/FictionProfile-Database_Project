@@ -1,62 +1,78 @@
 .moderatorannounce-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: wheat;
-  }
-  
-  .moderatorannounce-content {
-    display: flex;
-    justify-content: space-between;
-    max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: wheat;
+}
 
-  }
-  
-  .announcements,
-  .add-announcement {
-    width: 48%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .announcements {
-    padding-right: 20px;
-    border-right: 1px solid #ccc; /* Add partition between segments */
-  }
-  
-  .announcement-item {
-    width: 100%;
-    overflow: hidden;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .add-announcement form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .add-announcement input,
-  .add-announcement textarea {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .add-announcement button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .add-announcement button:hover {
-    background-color: #0056b3;
-  }
-  
+.moderatorannounce-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.announcements {
+  width: 800px;
+
+  height: 1000px;
+  /* Adjust height as needed */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  padding: 20px;
+  border: 6px solid #235689;
+}
+
+.announcement-item {
+  margin-bottom: 20px;
+}
+
+.add-announcement {
+  width: 45%;
+  padding: 20px;
+  border: 6px solid #235689;
+
+}
+
+.add-announcement input[type="text"],
+.add-announcement textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 22px;
+}
+
+.add-announcement button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-announcement button:hover {
+  background-color: #0056b3;
+}
+
+
+.announcements::-webkit-scrollbar {
+  width: 10px;
+  /* Set the width of the scrollbar */
+}
+
+/* Styling for the scrollbar thumb (the draggable scrolling handle) */
+.announcements::-webkit-scrollbar-thumb {
+  background-color: #5f90b7;
+  /* Set the color of the scrollbar thumb */
+  border-radius: 5px;
+  /* Set border radius to round the edges */
+}
+
+/* Styling for the scrollbar track on hover */
+.announcements:hover::-webkit-scrollbar-track {
+
+  background-color: #888;
+  /* Change background color on hover */
+}
