@@ -11,7 +11,7 @@ https://fiction-profile-client.web.app/
 or try this
 https://fiction-profile-client.firebaseapp.com/
 
-( Might be slow in loading since hosting is in free mode , limited resource )
+(Zoom out to 75% for better view..PC friendly.. Might be slow in loading since hosting is in free mode , limited resource )
 
 # Setting Up PostgreSQL
 1. Download PostgreSQL.
