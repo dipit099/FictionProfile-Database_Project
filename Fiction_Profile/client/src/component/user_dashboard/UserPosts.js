@@ -5,6 +5,7 @@ import './UserPosts.css'; // Import CSS file for styling
 import Modal from 'react-modal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useLocation } from "react-router-dom";
 
 const UserPosts = () => {
     const [userPosts, setUserPosts] = useState([]);
@@ -14,6 +15,10 @@ const UserPosts = () => {
     const [editedContent, setEditedContent] = useState('');
     const [editedTitle, setEditedTitle] = useState('');
     const [postIdBeingEdited, setPostIdBeingEdited] = useState(null);
+
+    const user_id = localStorage.getItem('people_id');
+    const location = useLocation();
+    const people_id = location.pathname.split('/')[2];
 
     const openModal = (postId, content, title) => {
         setPostIdBeingEdited(postId);
@@ -39,13 +44,6 @@ const UserPosts = () => {
         setEditedTitle(e.target.value);
     };
 
-    const [people_id, setPeople_id] = useState(''); // Initially set to 1
-    useEffect(() => {
-        // Extracting peopleId from URL
-        const urlParts = window.location.pathname.split('/');
-        const lastPart = urlParts[urlParts.length - 1];
-        setPeople_id(lastPart);
-    }, []);
 
     useEffect(() => {
         if (people_id) {
@@ -93,7 +91,7 @@ const UserPosts = () => {
             });
 
             closeModal();
-            toast ('Post Edited Successfully');
+            toast('Post Edited Successfully');
         }
         catch (error) {
             console.error('Error editing post:', error);
@@ -111,7 +109,7 @@ const UserPosts = () => {
             });
 
             closeModal();
-            toast ('Post Deleted Successfully');
+            toast('Post Deleted Successfully');
         }
         catch (error) {
             console.error('Error deleting post:', error);
@@ -127,11 +125,12 @@ const UserPosts = () => {
             {userPosts.map(post => (
                 <div className="post" key={post.post_id}>
                     <h2 className="post-title">
-                        Title: {post.title} --- 
+                        Title: {post.title} ---
                         {formatDate(post.last_edit)}
-                        <span><button onClick={() => openModal(post.post_id, post.content, post.title)}>Edit</button>
-
-                        </span>
+                        {people_id == user_id && (
+                            <span>
+                                <button onClick={() => openModal(post.post_id, post.content, post.title)}>Edit</button>
+                            </span>)}
                     </h2>
 
 

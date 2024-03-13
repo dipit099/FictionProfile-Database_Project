@@ -485,7 +485,7 @@ router.get('/trending_posts', async (req, res) => {
                 WHERE P1.post_id= C1.post_id)						
                 AS total_votes							
             FROM "Fiction Profile"."POST" P1 
-            WHERE DATE_PART('day', CURRENT_DATE - P1.last_edit) <= 10
+            WHERE DATE_PART('day', CURRENT_DATE - P1.last_edit) <= 30
             ORDER BY total_votes DESC
              LIMIT 3	 
         )

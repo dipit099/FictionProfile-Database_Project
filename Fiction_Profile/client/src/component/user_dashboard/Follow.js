@@ -5,21 +5,18 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Follow.css';
-
+import { useLocation } from "react-router-dom";
 const Follow = () => {
 
-    const [people_id, setPeople_id] = useState(''); // Initially set to 1
+    const location = useLocation();
+    const people_id = location.pathname.split('/')[2];    
+    const user_id = localStorage.getItem('people_id');
 
     const [followed, setFollowed] = useState([]);
     const [follower, setFollower] = useState([]);
     const [peopleYouMayKnow, setPeopleYouMayKnow] = useState([]);
 
-    useEffect(() => {
-        // Extracting peopleId from URL
-        const urlParts = window.location.pathname.split('/');
-        const lastPart = urlParts[urlParts.length - 1];
-        setPeople_id(lastPart);
-    }, []);
+   
 
 
     const fetchFollowing = async () => {
@@ -129,8 +126,9 @@ const Follow = () => {
                                 <span>{`${followed.username}`}</span>
 
                             </Link>
-
-                            <button className="profile-follow-button" onClick={() => handleUnFollow(followed.followed_id)}>Unfollow</button>
+                            {people_id === user_id && (
+                                <button className="profile-follow-button" onClick={() => handleUnFollow(followed.followed_id)}>Unfollow</button>
+                            )}
                         </li>
 
                     </div>
@@ -162,9 +160,9 @@ const Follow = () => {
                                 <span style={{ marginLeft: '10px', fontSize: '20px', fontWeight: 'bold', color: '#928686' }}>{`(Mutual : ${peopleYouMayKnow.mutual_followers_count})`}</span>
 
                             </Link>
-
-
-                            <button className="profile-follow-button" onClick={() => handleFollow(peopleYouMayKnow.people_id)}>Follow</button>
+                            {people_id === user_id && (
+                                <button className="profile-follow-button" onClick={() => handleFollow(peopleYouMayKnow.people_id)}>Follow</button>
+                            )}
                         </li>
                     </div>
                 ))}
