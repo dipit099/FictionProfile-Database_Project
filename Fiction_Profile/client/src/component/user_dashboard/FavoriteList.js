@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, ResponsiveContainer } from 'recharts';
 import BASE_URL from '../../config/ApiConfig';
 import './FavoriteList.css'; // Import CSS file for styling
-
+import { useLocation } from "react-router-dom";
 const FavoriteList = () => {
     const [favoriteItems, setFavoriteItems] = useState([]);
-    const [favoriteGenresData, setFavoriteGenresData] = useState([]);
-    const [people_id, setPeople_id] = useState(''); // Initially set to 1
+    const [favoriteGenresData, setFavoriteGenresData] = useState([]);    
     const [currentPage, setCurrentPage] = useState(1);
     const [mediaTypes, setMediaTypes] = useState({ include: [1, 2, 3, 4], exclude: [] });
     const [mediaItems, setMediaItems] = useState([]);
-
+    const location = useLocation();
+    const people_id = location.pathname.split('/')[2];
 
 
     const handleMediaTypeToggle = (id) => {
@@ -63,13 +63,7 @@ const FavoriteList = () => {
         return pageNumbers;
     };
 
-
-    useEffect(() => {
-        // Extracting peopleId from URL
-        const urlParts = window.location.pathname.split('/');
-        const lastPart = urlParts[urlParts.length - 1];
-        setPeople_id(lastPart);
-    }, []);
+    
 
 
     // const handleFilter = async () => {

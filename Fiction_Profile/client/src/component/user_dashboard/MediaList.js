@@ -5,29 +5,23 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './MediaList.css';
-
+import { useLocation } from "react-router-dom";
 const MediaList = () => {
 
 
     const [mediaList, setMediaList] = useState([]);
-    const [people_id, setPeople_id] = useState(''); // Initially set to 1
+   
     const [currentPage, setCurrentPage] = useState(1);
     const [mediaTypes, setMediaTypes] = useState({ include: [1, 2, 3, 4], exclude: [] });
     const [statusTypes, setStatusTypes] = useState({ include: [1, 2, 3], exclude: [] });
+    const location = useLocation();
+    const people_id = location.pathname.split('/')[2];
 
-
-    useEffect(() => {
-        // Extracting peopleId from URL
-        const urlParts = window.location.pathname.split('/');
-        const lastPart = urlParts[urlParts.length - 1];
-        setPeople_id(lastPart);
-    }, []);
-
+    
 
     useEffect(() => {
         fetchMediaList();
-    }
-        , [people_id, currentPage, mediaTypes, statusTypes]);
+    } , [people_id, currentPage, mediaTypes, statusTypes]);
 
     const fetchMediaList = async () => {
         try {
