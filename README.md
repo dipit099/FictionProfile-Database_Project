@@ -7,11 +7,12 @@ Not only does "Fiction Profile" cater to individual content discovery, but it al
 
 # Project Website Url :  
 https://fiction-profile-client.web.app/
+(Zoom out to 75% for better view..PC friendly.. Might be slow in loading since hosting is in free mode , limited resource )
 
 or try this
 https://fiction-profile-client.firebaseapp.com/
 
-(Zoom out to 75% for better view..PC friendly.. Might be slow in loading since hosting is in free mode , limited resource )
+Demo video Link : https://youtu.be/Ahhur8AO3_Q
 
 # Setting Up PostgreSQL
 1. Download PostgreSQL.
