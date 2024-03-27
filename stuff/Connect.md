@@ -1,11 +1,12 @@
-**git-push-pull**
+**git-pull**
 
 git fetch origin
 
 git pull origin main
 
 
-**new**
+**git push**
+
 git add .
 
 git commit -m "Check"
