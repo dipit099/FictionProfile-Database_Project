@@ -1,15 +1,16 @@
-// firebaseConfig.js
+// firebaseConfig.
+require ('dotenv').config();
 const firebase = require('firebase/app');
 const { getStorage } = require('firebase/storage');
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAtnG5wlmolpTxWvhWlt39K8_ZbSkrBPAs",
+    apiKey: process.env.FIREBASE_API_KEY,
     authDomain: "fiction-profile-ec84d.firebaseapp.com",
     projectId: "fiction-profile-ec84d",
     storageBucket: "fiction-profile-ec84d.appspot.com",
-    messagingSenderId: "806361300468",
-    appId: "1:806361300468:web:e09850c1ae05096b384da1",
-    measurementId: "G-BPKCBNVQ67"
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID
 };
 firebase.initializeApp(firebaseConfig);
 const storage = getStorage();
