@@ -63,9 +63,20 @@ To start the server, follow these steps:
     ```bash
     npm install
     ``` 
-        
+2. Create a .env file and paste the following code:
 
-2. Run the server using nodemon:
+    ```bash
+    jwtSecret = 
+    DB_PASSWORD = 
+    DB_USER = 
+    FIREBASE_API_KEY= 
+    FIREBASE_MESSAGING_SENDER_ID=
+    FIREBASE_APP_ID=
+    FIREBASE_MEASUREMENT_ID=
+    ``` 
+    Contact please for the values of the above keys.
+
+3. Run the server using nodemon:
 
     ```bash
     nodemon index
@@ -99,7 +110,8 @@ To set up the frontend, follow these steps:
     ```bash
     npm install 
     ```
-    
+
+2. Checkout the ApiConfig file in "config" folder under "src" folder and change the "BASE_URL" to your choice.
     
 2. Start the development server:
 

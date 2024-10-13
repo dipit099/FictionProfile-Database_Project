@@ -1,16 +1,11 @@
+require("dotenv").config();
 const Pool = require("pg").Pool;
-const pool = new Pool({
-    // user: "postgres",
-    // password: "alliswell",
-    // host: "localhost",
-    // port: 5432,
-    // database: "db"
-
-    user: "postgres.eocmqhvplptwmzerrcng",
-    password: "dx$Q6*vWTnu!45j",
+const pool = new Pool({   
     host: "aws-0-ap-south-1.pooler.supabase.com",
     port: 6543,
-    database: "postgres"
+    database: "postgres",
+    user: process.env.DB_USER,   
+    password: process.env.DB_PASSWORD,
 
 
 
