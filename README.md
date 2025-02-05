@@ -1,5 +1,5 @@
 # FictionProfile-Database_Project
-BUET CSE 215 Level 2 Term 1 Project
+BUET CSE-215 Level 2 Term 1 Project
 
 # Overview
 Our project, titled "Fiction Profile," is a dynamic platform designed for users to engage with diverse media content including books, fiction, series, comics and movies. It offers a multifaceted user experience allowing interaction based on preferences in Cast, Rating, Language, and Genre. Users can access content through a versatile system using Favorite Content ID, Language, and Title parameters, ensuring seamless content exploration.
