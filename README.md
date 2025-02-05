@@ -1,5 +1,5 @@
 # FictionProfile-Database_Project
-BUET CSE 215 Level 2 Term 1 Project
+BUET CSE-215 Level 2 Term 1 Project
 
 # Overview
 Our project, titled "Fiction Profile," is a dynamic platform designed for users to engage with diverse media content including books, fiction, series, comics and movies. It offers a multifaceted user experience allowing interaction based on preferences in Cast, Rating, Language, and Genre. Users can access content through a versatile system using Favorite Content ID, Language, and Title parameters, ensuring seamless content exploration.
@@ -13,16 +13,10 @@ Demo video Link : https://youtu.be/Ahhur8AO3_Q
 
 # Setting Up PostgreSQL
 1. Download PostgreSQL.
-2. Set PostgreSQL path in environment variables.
+2. Set PostgreSQL path in environment variables of your pc.
 3. Download PgAdmin4 .
 4. Make sure you have Node.js installed.
 
-
-# Connect with Backend
-### Nodemon Installation (Backend)
-```bash
-npm install -g nodemon
-```
 
 ## Troubleshooting Script Execution in PowerShell
 
@@ -115,21 +109,7 @@ To set up the frontend, follow these steps:
     ```bash
     npm start
     ```
-
    This command will launch your React app, and you can view it in your web browser.
-
-3. If you encounter an issue where "react-scripts" is not found, you can install it using the following command:
-    ```bash
-    npm install react-scripts --save
-    ```
-    
-4. If you encounter an issue that react-router-dom is not found, then paste this command in terminal:
-
-    ```bash
-    npm i react-router-dom
-    ```
-   This will add the necessary scripts for running and building your React app.
-
 
 # Database Setup 
 
