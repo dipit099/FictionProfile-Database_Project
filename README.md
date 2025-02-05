@@ -6,11 +6,8 @@ Our project, titled "Fiction Profile," is a dynamic platform designed for users 
 Not only does "Fiction Profile" cater to individual content discovery, but it also fosters a vibrant community by enabling user interactions. Users can engage with one another through the ability to follow, comment, and participate in dynamic discussions.
 
 # Project Website Url :  
-https://fiction-profile-client.web.app/
+[https://fiction-profile-client.web.app/](https://fiction-profile-client.firebaseapp.com/)
 (Zoom out to 75% for better view..PC friendly.. Might be slow in loading since hosting is in free mode , limited resource )
-
-or try this
-https://fiction-profile-client.firebaseapp.com/
 
 Demo video Link : https://youtu.be/Ahhur8AO3_Q
 
