@@ -4,11 +4,11 @@ BUET CSE-215 Level 2 Term 1 Project
 # Overview
 Our project, titled "Fiction Profile," is a dynamic platform designed for users to engage with diverse media content including books, fiction, series, comics and movies. It offers a multifaceted user experience allowing interaction based on preferences in Cast, Rating, Language, and Genre. Users can access content through a versatile system using Favorite Content ID, Language, and Title parameters, ensuring seamless content exploration.
 Not only does "Fiction Profile" cater to individual content discovery, but it also fosters a vibrant community by enabling user interactions. Users can engage with one another through the ability to follow, comment, and participate in dynamic discussions.
-
+<!---
 # Project Website Url :  
 [https://fiction-profile-client.web.app/](https://fiction-profile-client.firebaseapp.com/)
 (Zoom out to 75% for better view..PC friendly.. Might be slow in loading since hosting is in free mode , limited resource )
-
+--->
 Demo video Link : https://youtu.be/Ahhur8AO3_Q
 
 # Setting Up PostgreSQL
