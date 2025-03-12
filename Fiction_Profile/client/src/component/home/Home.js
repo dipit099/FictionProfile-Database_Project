@@ -34,14 +34,12 @@ const Home = () => {
                     <div className="home-trending-content">
 
                         <h1 style={{ paddingTop: '40px' }}>Trending List:</h1>
-                        // <h1>Movie</h1>
-                        // <Movie className="media" />
+                      
                         <h1>TV</h1>
                         <TvShow className="media" />
                         <h1>Manga</h1>
                         <Manga className="media" />
-                        // <h1>Book</h1>
-                        // <Book className="media" />
+                        
                     </div>
 
                 </div>
