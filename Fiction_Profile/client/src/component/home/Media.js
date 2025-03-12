@@ -196,9 +196,9 @@ const Media = ({ type }) => {
 };
 
 
-const Movie = () => {
-  return <Media type="movie" />;
-};
+// const Movie = () => {
+//   return <Media type="movie" />;
+// };
 
 const TvShow = () => {
   return <Media type="tv" />;
@@ -208,9 +208,9 @@ const Manga = () => {
   return <Media type="manga" />;
 };
 
-const Book = () => {
-  return <Media type="book" />;
-};
+// const Book = () => {
+//   return <Media type="book" />;
+// };
 
-export { Movie, TvShow, Manga, Book };
+export { TvShow, Manga };
 
