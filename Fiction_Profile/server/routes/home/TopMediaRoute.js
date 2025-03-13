@@ -8,8 +8,7 @@ router.get('/', async (req, res) => {
         const result = await pool.query(`
         
             SELECT   id, title, backdrop_path, vote_average           
-                FROM "Fiction Profile"."MOVIE"            
-             WHERE id IN (299536,10195,293660,429617,673)			
+                FROM "Fiction Profile"."TOP MOVIES"           			
                         ORDER BY id DESC	
 
         	
