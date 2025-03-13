@@ -24,7 +24,7 @@ router.get('/movie', async (req, res) => {
                     AND media.poster_path IS NOT NULL
                 ORDER BY
                     media.popularity DESC, media.rating DESC, media.vote_count DESC
-                LIMIT 10
+                LIMIT 8
             `
             ,[people_id]
         ); 
@@ -69,7 +69,7 @@ router.get('/tv', async (req, res) => {
                     media.tv_id IS NOT NULL
                 ORDER BY
                     media.popularity DESC, media.rating DESC, media.vote_count DESC
-                LIMIT 10
+                LIMIT 8
             `
             ,[people_id]
         );
@@ -111,7 +111,7 @@ router.get('/book', async (req, res) => {
                     media.book_id IS NOT NULL
                 ORDER BY
                     media.popularity DESC, media.rating DESC, media.vote_count DESC
-                LIMIT 10
+                LIMIT 8
             `
             ,[people_id]
         );
@@ -156,7 +156,7 @@ router.get('/manga', async (req, res) => {
                     AND media.poster_path IS NOT NULL
                 ORDER BY
                     media.popularity DESC, media.rating DESC, media.vote_count DESC
-                LIMIT 10
+                LIMIT 8
             `
             ,[people_id]
         );
