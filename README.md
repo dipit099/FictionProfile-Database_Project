@@ -9,6 +9,10 @@ Not only does "Fiction Profile" cater to individual content discovery, but it al
 [https://fictionprofile.netlify.app//](https://fictionprofile.netlify.app/)
 (Please wait inititaly. Might be slow in starting server since free mode , limited resource )
 
+```
+EMAIL : test@gmail.com, PASSWORD : 123
+```
+
 Demo video Link : https://youtu.be/Ahhur8AO3_Q
 
 # Setting Up PostgreSQL
