@@ -155,6 +155,8 @@ Shah Mohammad Abdul Mannan
 ## USER
 ![Screenshot_10](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/9cc5c987-db3e-4aec-8e96-1edc92e85b6e)
 
+![Screenshot_2](https://github.com/user-attachments/assets/268f341a-1f3f-43b0-8d67-3f72934ae3c8)
+
 ![Screenshot_12](https://github.com/dipit099/FictionProfile-Database_Project/assets/112118531/8f9a0393-c4f4-4d30-b8da-e319638b4b61)
 
 
